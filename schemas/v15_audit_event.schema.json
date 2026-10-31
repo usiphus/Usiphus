@@ -1,0 +1,15 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"Usiphus V15 hash-chained audit event",
+  "type":"object",
+  "required":["previous_hash","actor","action","timestamp","details","event_hash"],
+  "properties":{
+    "previous_hash":{"type":"string","pattern":"^[a-f0-9]{64}$"},
+    "actor":{"type":"string","minLength":1},
+    "action":{"type":"string","minLength":1},
+    "timestamp":{"type":"string","format":"date-time"},
+    "details":{"type":"object"},
+    "event_hash":{"type":"string","pattern":"^[a-f0-9]{64}$"}
+  },
+  "additionalProperties":false
+}
