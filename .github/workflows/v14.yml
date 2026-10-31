@@ -1,0 +1,38 @@
+name: Usiphus V14 checks
+
+on:
+  pull_request:
+    paths:
+      - "usiphus_v14.py"
+      - "tests/test_v14_e2e.py"
+      - "usiphus_v8.py"
+      - "usiphus_v9.py"
+      - "usiphus_v10.py"
+      - "usiphus_v11.py"
+      - "usiphus_v12.py"
+      - "usiphus_v13.py"
+      - "docs/V14_UNIFIED_RELEASE_PLATFORM.md"
+      - "README.md"
+      - ".github/workflows/v14.yml"
+  push:
+    branches: [main, "feature/usiphus-v14-unified-release-platform", "feature/usiphus-v14x-e2e-hardening"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m py_compile usiphus_v8.py usiphus_v9.py usiphus_v10.py usiphus_v11.py usiphus_v12.py usiphus_v13.py usiphus_v14.py
+      - run: |
+          python usiphus_v8.py --self-test
+          python usiphus_v9.py --self-test
+          python usiphus_v10.py --self-test
+          python usiphus_v11.py --self-test
+          python usiphus_v12.py --self-test
+          python usiphus_v13.py --self-test
+          python usiphus_v14.py --self-test
+      - name: V14 synthetic end-to-end tests
+        run: python -m unittest discover -s tests -p "test_v14_e2e.py" -v
