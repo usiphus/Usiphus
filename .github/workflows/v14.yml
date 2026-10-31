@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "usiphus_v14.py"
+      - "tests/test_v14_e2e.py"
       - "usiphus_v8.py"
       - "usiphus_v9.py"
       - "usiphus_v10.py"
@@ -33,3 +34,5 @@ jobs:
           python usiphus_v12.py --self-test
           python usiphus_v13.py --self-test
           python usiphus_v14.py --self-test
+      - name: V14 synthetic end-to-end tests
+        run: python -m unittest discover -s tests -p "test_v14_e2e.py" -v
