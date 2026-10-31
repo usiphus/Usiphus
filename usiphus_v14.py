@@ -51,7 +51,16 @@ def load_config(filename):
         inputs[key]=str(p)
     if not isinstance(cfg["output_dir"],str) or not cfg["output_dir"].strip(): raise ReleaseError("output_dir is required")
     output=(path.parent/cfg["output_dir"]).expanduser().resolve()
-    if output in {path.parent,ROOT}: raise ReleaseError("output_dir cannot be the project or config directory")
+    # Never publish over the repository/config directory, an input artifact,
+    # or any ancestor that contains one of those protected paths.
+    protected_files = [path, *(Path(value).resolve() for value in inputs.values())]
+    protected_dirs = [ROOT, path.parent]
+    for protected in protected_dirs:
+        if output == protected or output in protected.parents:
+            raise ReleaseError(f"output_dir cannot replace protected directory: {protected}")
+    for protected in protected_files:
+        if output == protected or protected in output.parents:
+            raise ReleaseError(f"output_dir cannot replace or contain protected file: {protected}")
     age=cfg.get("max_evidence_age_days",730)
     if type(age) is not int or age<1: raise ReleaseError("max_evidence_age_days must be positive")
     if cfg.get("as_of") is not None:
