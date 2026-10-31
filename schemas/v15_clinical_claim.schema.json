@@ -1,0 +1,22 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"Usiphus V15 clinical claim metadata",
+  "type":"object",
+  "required":["claim_id","card_id","claim","status"],
+  "properties":{
+    "claim_id":{"type":"string","minLength":1},
+    "card_id":{"type":"string","minLength":1},
+    "claim":{"type":"string","minLength":1},
+    "status":{"enum":["draft","in_review","approved","published"]},
+    "reviewed_on":{"type":"string","format":"date"},
+    "references":{"type":"array","items":{"type":"object","required":["source_id"],"properties":{
+      "source_id":{"type":"string","minLength":1},"version":{"type":"string"},"jurisdiction":{"type":"string"}
+    },"additionalProperties":true}},
+    "review_decisions":{"type":"array","items":{"type":"object","required":["reviewer_id","decision"],"properties":{
+      "reviewer_id":{"type":"string","minLength":1},"decision":{"enum":["approve","reject","request_changes"]},
+      "comment":{"type":"string"},"decided_at":{"type":"string","format":"date-time"}
+    },"additionalProperties":true}},
+    "audit_events":{"type":"array","items":{"type":"object"}}
+  },
+  "additionalProperties":true
+}

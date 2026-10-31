@@ -1,0 +1,12 @@
+{
+  "schema_version":1,
+  "claims":[{
+    "claim_id":"CLAIM-EXAMPLE-001",
+    "card_id":"CARD-EXAMPLE-001",
+    "claim":"Synthetic placeholder only; not a clinical statement.",
+    "references":[{"source_id":"SRC-EXAMPLE-001","version":"1.0","jurisdiction":"EXAMPLE"}],
+    "status":"draft",
+    "review_decisions":[],
+    "audit_events":[]
+  }]
+}

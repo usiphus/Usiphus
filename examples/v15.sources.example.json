@@ -1,0 +1,13 @@
+{
+  "schema_version":1,
+  "sources":[{
+    "source_id":"SRC-EXAMPLE-001",
+    "title":"Example guideline title — replace before use",
+    "source_type":"guideline",
+    "authority":"Example publisher",
+    "jurisdiction":"EXAMPLE",
+    "version":"1.0",
+    "published_on":"2026-01-01",
+    "status":"active"
+  }]
+}
