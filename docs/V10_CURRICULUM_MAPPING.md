@@ -11,7 +11,8 @@ explicit specialty curriculum and makes gaps visible by domain and competency.
 - JSON curriculum ingestion with stable competency IDs, domains, Bloom levels,
   required/optional status, learning objectives, tags, and configurable weights.
 - V9-compatible card ingestion (list or `{"cards": [...]} `).
-- Explicit card-to-competency IDs, treated as verified links.
+- Explicit card-to-competency IDs, treated as pending until backed by auditable faculty approval metadata.
+- Faculty approval records with required reviewer identity, approval status, and timezone-aware review timestamp.
 - Deterministic lexical candidate generation for unmapped pairs.
 - Strict separation of verified mappings, suggested mappings, and invalid IDs.
 - Weighted coverage and per-domain coverage summaries.
@@ -19,13 +20,20 @@ explicit specialty curriculum and makes gaps visible by domain and competency.
   candidate mapping.
 - JSON, Markdown, CSV mapping matrix, and build manifest outputs.
 - Built-in regression tests, atomic text output writes, and atomic CSV matrix export.
-- Strict validation for finite positive weights and boolean required flags.
+- Strict validation for finite positive weights, boolean required flags, specialty alignment, and finite match thresholds.
+- Auditable faculty approval provenance included in JSON and CSV reports.
 
 ## Important semantics
 
 A lexical suggestion is not a verified mapping. It never increases verified
-coverage. Add a competency ID to a card's `competency_ids` (or
-`curriculum_competencies`) only after faculty review.
+coverage. An ID in `competency_ids` (or `curriculum_competencies`) is pending,
+not verified. To count it as verified, the card must also include a matching
+`faculty_approvals` record with `status: "approved"`, a named `reviewer`,
+and a timezone-aware ISO-8601 `reviewed_at` timestamp. These fields provide
+audit metadata; they do not cryptographically authenticate the reviewer.
+
+Cards must have a specialty matching the curriculum specialty exactly. Missing
+or mismatched specialties are rejected instead of being mixed into coverage.
 
 The candidate weighted coverage figure includes suggestions and is displayed
 separately from verified weighted coverage. The tool does not claim to assess
@@ -67,7 +75,13 @@ Cards can explicitly link to one or more curriculum competency IDs:
   "specialty": "urology",
   "prompt": "How do you initially assess acute urinary retention?",
   "answer": "Assess stability, examine the patient, and relieve retention as indicated.",
-  "competency_ids": ["URO-01"]
+  "competency_ids": ["URO-01"],
+  "faculty_approvals": [{
+    "competency_id": "URO-01",
+    "status": "approved",
+    "reviewer": "Dr Faculty Reviewer",
+    "reviewed_at": "2026-10-31T12:00:00Z"
+  }]
 }
 ```
 
@@ -80,7 +94,7 @@ Cards can explicitly link to one or more curriculum competency IDs:
 
 ## Validation status
 
-The script includes thirteen deterministic self-tests. A GitHub Actions workflow
+The script includes nineteen deterministic self-tests. A GitHub Actions workflow
 now compiles the script and runs the self-tests on pushes to this feature branch
 and relevant pull requests. A green workflow run is required before describing
 the release as runtime-tested. Software tests do not establish clinical validity.
