@@ -446,7 +446,7 @@ def run_self_test() -> int:
                 Competency("U2","Renal colic","Recognize and assess ureteric stones","Stone disease","understand",True,1.0,(),("stone",)),
                 Competency("U3","Testicular torsion","Recognize time-critical torsion","Emergency","analyze",True,1.0),
             ]
-        def test_explicit_link_verified(self):
+        def test_explicit_link_pending_without_approval(self):
             row = next(x for x in build_candidates(self.cards,self.comps) if x.card_id=="c1" and x.competency_id=="U1")
             self.assertEqual((row.status,row.method),("pending","explicit"))
         def test_faculty_approval_is_verified_with_provenance(self):
@@ -480,12 +480,19 @@ def run_self_test() -> int:
             rows = build_candidates(self.cards,self.comps,0.01)
             row = next(x for x in rows if x.card_id=="c2" and x.competency_id=="U2")
             self.assertEqual(row.status,"suggested")
+        def approved_cards(self):
+            approved = Card("c1","urology","Assess acute urinary retention","Initial assessment and bladder drainage.",
+                "Recognize retention",("emergency",),("U1",),
+                (FacultyApproval("U1","Faculty Reviewer","2026-10-31T12:00:00Z"),))
+            return [approved, self.cards[1]]
         def test_uncovered_required_competency(self):
-            report = build_report(self.cards,self.comps,build_candidates(self.cards,self.comps),"urology")
+            cards = self.approved_cards()
+            report = build_report(cards,self.comps,build_candidates(cards,self.comps),"urology")
             self.assertIn("U3",report.uncovered_competency_ids)
             self.assertEqual(report.verified_covered_competencies,1)
         def test_weighted_coverage(self):
-            report = build_report(self.cards,self.comps,build_candidates(self.cards,self.comps),"urology")
+            cards = self.approved_cards()
+            report = build_report(cards,self.comps,build_candidates(cards,self.comps),"urology")
             self.assertEqual(report.verified_weighted_coverage,50.0)
         def test_unknown_explicit_id_invalid(self):
             card = Card("x","urology","Question","Answer",explicit_competency_ids=("MISSING",))
