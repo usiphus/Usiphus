@@ -1,9 +1,6 @@
 name: Usiphus V10 checks
 
 on:
-  push:
-    branches:
-      - feature/usiphus-v10-curriculum-mapping
   pull_request:
     paths:
       - "usiphus_v10.py"
