@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from types import SimpleNamespace
 
-VERSION = "14.0.0"
+VERSION = "14.1.0"
 ROOT = Path(__file__).resolve().parent
 LOG = logging.getLogger("usiphus.v14")
 FILES = {"cards":"cards.json","curriculum":"curriculum.json","mapping":"mapping.json",
