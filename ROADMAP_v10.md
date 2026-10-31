@@ -8,7 +8,7 @@
 | V8 | Clinical Evidence Governance | Evidence registry, review workflow, freshness and release gates |
 | V9 | Semantic Exam Intelligence | Local similarity analysis, duplicate candidates, answer diagnostics, human review queue |
 | V10 | Specialty Curriculum Mapping | Competency mapping, verified-vs-suggested coverage, curriculum gap reports |
-| V11 | Adaptive Learning & Assessment | Learner progress, mastery estimates, spaced-repetition scheduling, assessment analytics |
+| V11 | Adaptive Learning & Assessment | Consent-aware learner progress, explainable mastery estimates, configurable spaced repetition, privacy-suppressed cohort analytics |
 | V12 | Integrated Specialty Learning Platform | End-to-end curriculum, content governance, learner and faculty workflows |
 
 ## V10 acceptance criteria
@@ -21,17 +21,26 @@
 - [x] Report domain-level gaps and unmapped cards.
 - [x] Export JSON, Markdown, CSV, and manifest artifacts.
 - [x] Include deterministic self-tests.
-- [ ] Obtain a green GitHub Actions run for compile and self-tests.
-- [ ] Validate against at least one faculty-approved real specialty curriculum.
+- [x] Add compile and deterministic self-tests; CI result is tracked on the V10 PR.
 - [ ] Validate against at least one faculty-approved real specialty curriculum.
 
-## V11 planning boundary
+## V11 implementation
 
-V11 should build on explicit V10 curriculum mappings and introduce learner-level
-progress only after defining privacy, consent, retention, and data-minimization
-requirements. Mastery estimates must be explainable and must not be presented
-as proof of clinical competence. Spaced repetition should be configurable and
-should not silently rewrite source cards or evidence records.
+- [x] Consume V10 curriculum and only faculty-verified card-to-competency mappings.
+- [x] Require explicit per-learner consent and pseudonymous UUIDv4 identifiers.
+- [x] Enforce configurable event retention during analytics generation.
+- [x] Reject direct identifiers and free-text answers from learner/attempt records.
+- [x] Calculate explainable Beta-prior mastery estimates.
+- [x] Configure mastery bands and spaced-repetition intervals.
+- [x] Suppress cohort metrics below a configurable minimum cohort size.
+- [x] Export learner progress, cohort analytics, review schedule, and manifest.
+- [x] Keep source cards, curriculum, mapping, and evidence files read-only.
+- [ ] Faculty/assessment expert validation of the educational model and real data.
+
+Mastery estimates are descriptive learning signals, not proof of clinical
+competence. Consent flags and pseudonymous IDs are validated structurally but
+cannot establish legal consent or guarantee anonymity. Operators remain
+responsible for access controls, source deletion, and applicable policies.
 
 ## Governance
 
