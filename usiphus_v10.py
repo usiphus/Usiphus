@@ -29,6 +29,7 @@ import json
 import logging
 import math
 import re
+from datetime import datetime
 import tempfile
 from collections import defaultdict
 from dataclasses import asdict, dataclass, field
@@ -65,6 +66,14 @@ class Card:
     learning_objective: str = ""
     tags: tuple[str, ...] = ()
     explicit_competency_ids: tuple[str, ...] = ()
+    faculty_approvals: tuple[FacultyApproval, ...] = ()
+
+
+@dataclass(frozen=True)
+class FacultyApproval:
+    competency_id: str
+    reviewer: str
+    reviewed_at: str
 
 
 @dataclass(frozen=True)
@@ -75,6 +84,8 @@ class MappingCandidate:
     method: str
     status: str
     rationale: str
+    reviewer: str = ""
+    reviewed_at: str = ""
 
 
 @dataclass
@@ -137,6 +148,50 @@ def load_json(path: Path) -> Any:
         return json.load(handle)
 
 
+def load_faculty_approvals(raw: Any, card_id: str) -> tuple[FacultyApproval, ...]:
+    if raw is None:
+        return ()
+    if not isinstance(raw, list):
+        raise ValueError(f"faculty_approvals for card {card_id} must be a list")
+    approvals, seen = [], set()
+    for index, item in enumerate(raw):
+        if not isinstance(item, dict):
+            raise ValueError(f"Faculty approval {index} for card {card_id} must be an object")
+        competency_id = clean(item.get("competency_id"))
+        reviewer = clean(item.get("reviewer"))
+        reviewed_at = clean(item.get("reviewed_at"))
+        status = clean(item.get("status")).casefold()
+        if not competency_id or not reviewer or not reviewed_at or status != "approved":
+            raise ValueError(f"Faculty approval {index} for card {card_id} requires competency_id, status='approved', reviewer, and timezone-aware reviewed_at")
+        try:
+            parsed = datetime.fromisoformat(reviewed_at.replace("Z", "+00:00"))
+        except ValueError:
+            raise ValueError(f"Invalid reviewed_at timestamp for card {card_id}") from None
+        if parsed.tzinfo is None or parsed.utcoffset() is None:
+            raise ValueError(f"reviewed_at must include a timezone for card {card_id}")
+        key = competency_id.casefold()
+        if key in seen:
+            raise ValueError(f"Duplicate faculty approval for {competency_id} on card {card_id}")
+        seen.add(key)
+        approvals.append(FacultyApproval(competency_id, reviewer, reviewed_at))
+    return tuple(approvals)
+
+
+def validate_specialty_alignment(cards: Sequence[Card], specialty: str) -> None:
+    normalized = clean(specialty).casefold()
+    if not normalized:
+        raise ValueError("Curriculum specialty is required")
+    mismatches = [f"{card.card_id} ({card.specialty or 'missing'})" for card in cards
+                  if card.specialty.casefold() != normalized]
+    if mismatches:
+        raise ValueError(f"Card specialty must exactly match curriculum specialty '{normalized}'. Mismatched or missing cards: {', '.join(mismatches[:10])}")
+
+
+def validate_threshold(threshold: float) -> None:
+    if not math.isfinite(threshold) or not 0.0 <= threshold <= 1.0:
+        raise ValueError("min-match-score must be a finite number between 0 and 1")
+
+
 def load_cards(path: Path, default_specialty: str = "") -> list[Card]:
     payload = load_json(path)
     records = payload.get("cards") if isinstance(payload, dict) else payload
@@ -159,6 +214,7 @@ def load_cards(path: Path, default_specialty: str = "") -> list[Card]:
             clean(record.get("learning_objective") or record.get("objective")),
             string_tuple(record.get("tags")),
             string_tuple(record.get("competency_ids") or record.get("curriculum_competencies")),
+            load_faculty_approvals(record.get("faculty_approvals"), cid),
         ))
     return cards
 
@@ -168,6 +224,8 @@ def load_competencies(path: Path) -> tuple[str, list[Competency]]:
     if not isinstance(payload, dict) or not isinstance(payload.get("competencies"), list):
         raise ValueError("Curriculum JSON must be an object with a competencies list")
     specialty, result, seen = clean(payload.get("specialty")).casefold(), [], set()
+    if not specialty:
+        raise ValueError("Curriculum must declare a non-empty specialty")
     for index, item in enumerate(payload["competencies"]):
         if not isinstance(item, dict):
             raise ValueError(f"Competency record {index} must be an object")
@@ -209,40 +267,54 @@ def competency_text(item: Competency) -> str:
 
 
 def build_candidates(cards: Sequence[Card], competencies: Sequence[Competency], threshold: float = 0.12) -> list[MappingCandidate]:
-    """Explicit links are verified; lexical matches remain review suggestions."""
+    """Unreviewed explicit links are pending; only auditable approvals are verified."""
+    validate_threshold(threshold)
     by_id = {c.competency_id.casefold(): c for c in competencies}
     rows = []
     for card in cards:
-        explicit = set()
-        for raw_id in card.explicit_competency_ids:
-            key = raw_id.casefold()
+        explicit = {raw_id.casefold(): raw_id for raw_id in card.explicit_competency_ids}
+        approvals = {item.competency_id.casefold(): item for item in card.faculty_approvals}
+        for key, raw_id in explicit.items():
             if key not in by_id:
                 rows.append(MappingCandidate(card.card_id, raw_id, 1.0, "explicit", "invalid", "Referenced ID is absent from this curriculum"))
                 continue
-            if key not in explicit:
-                explicit.add(key)
-                rows.append(MappingCandidate(card.card_id, by_id[key].competency_id, 1.0, "explicit", "verified", "Explicit competency ID supplied in card data"))
+            approval = approvals.get(key)
+            if approval:
+                rows.append(MappingCandidate(card.card_id, by_id[key].competency_id, 1.0, "faculty-approved", "verified",
+                    "Explicit mapping approved by a named faculty reviewer", approval.reviewer, approval.reviewed_at))
+            else:
+                rows.append(MappingCandidate(card.card_id, by_id[key].competency_id, 1.0, "explicit", "pending",
+                    "Explicit mapping supplied without auditable faculty approval"))
+        for key, approval in approvals.items():
+            if key not in by_id:
+                rows.append(MappingCandidate(card.card_id, approval.competency_id, 1.0, "faculty-approved", "invalid",
+                    "Approved ID is absent from this curriculum", approval.reviewer, approval.reviewed_at))
+            elif key not in explicit:
+                rows.append(MappingCandidate(card.card_id, by_id[key].competency_id, 1.0, "faculty-approved", "verified",
+                    "Faculty-approved mapping", approval.reviewer, approval.reviewed_at))
+        excluded = set(explicit) | set(approvals)
         text = card_text(card)
         for competency in competencies:
             key = competency.competency_id.casefold()
-            if key in explicit:
+            if key in excluded:
                 continue
             score = similarity(text, competency_text(competency))
             shared = {x.casefold() for x in card.tags} & {x.casefold() for x in competency.tags}
             if shared:
                 score = max(score, min(0.99, 0.5 + 0.1 * len(shared)))
             if score >= threshold:
-                rows.append(MappingCandidate(card.card_id, competency.competency_id, round(score, 4), "lexical", "suggested", "Lexical candidate only; faculty confirmation required"))
+                rows.append(MappingCandidate(card.card_id, competency.competency_id, round(score, 4),
+                    "lexical", "suggested", "Lexical candidate only; faculty confirmation required"))
     return sorted(rows, key=lambda x: (x.status != "verified", -x.score, x.card_id, x.competency_id))
 
-
 def build_report(cards: Sequence[Card], competencies: Sequence[Competency], candidates: Sequence[MappingCandidate], specialty: str) -> CurriculumReport:
+    validate_specialty_alignment(cards, specialty)
     verified_comp, suggested_comp, verified_card, suggested_card = (defaultdict(set) for _ in range(4))
     for row in candidates:
         if row.status == "verified":
             verified_comp[row.competency_id].add(row.card_id)
             verified_card[row.card_id].add(row.competency_id)
-        elif row.status == "suggested":
+        elif row.status in {"suggested", "pending"}:
             suggested_comp[row.competency_id].add(row.card_id)
             suggested_card[row.card_id].add(row.competency_id)
     required = [c for c in competencies if c.required]
@@ -267,12 +339,9 @@ def build_report(cards: Sequence[Card], competencies: Sequence[Competency], cand
     mapped = sum(bool(verified_card[c.card_id] or suggested_card[c.card_id]) for c in cards)
     warnings = [
         "Coverage measures mapping metadata, not clinical accuracy or learner competence.",
-        "Lexical suggestions are not verified coverage; faculty approval is required.",
+        "Explicit competency_ids without a matching faculty_approvals record remain pending and do not count as verified.",
+        "Only faculty_approvals entries with reviewer, timezone-aware reviewed_at, and status=approved count as verified.",
     ]
-    if any(not c.specialty for c in cards):
-        warnings.append("Some cards have no specialty metadata.")
-    if specialty and any(c.specialty and c.specialty != specialty for c in cards):
-        warnings.append("Some card specialties differ from the curriculum specialty.")
     return CurriculumReport(
         specialty=specialty, cards_evaluated=len(cards), competencies_evaluated=len(competencies),
         required_competencies=len(required),
@@ -335,9 +404,9 @@ def write_outputs(report: CurriculumReport, output: Path) -> None:
     try:
         with open(fd, "w", encoding="utf-8-sig", newline="") as handle:
             writer = csv.writer(handle)
-            writer.writerow(["card_id", "competency_id", "score", "method", "status", "rationale"])
+            writer.writerow(["card_id", "competency_id", "score", "method", "status", "rationale", "reviewer", "reviewed_at"])
             for row in report.candidates:
-                writer.writerow([row["card_id"], row["competency_id"], row["score"], row["method"], row["status"], row["rationale"]])
+                writer.writerow([row["card_id"], row["competency_id"], row["score"], row["method"], row["status"], row["rationale"], row.get("reviewer", ""), row.get("reviewed_at", "")])
             handle.flush()
         Path(temp_name).replace(csv_path)
     finally:
@@ -352,6 +421,8 @@ def write_outputs(report: CurriculumReport, output: Path) -> None:
 def run(cards_path: Path, curriculum_path: Path, output: Path, threshold: float, default_specialty: str = "") -> int:
     cards = load_cards(cards_path, default_specialty=default_specialty)
     specialty, competencies = load_competencies(curriculum_path)
+    validate_specialty_alignment(cards, specialty)
+    validate_threshold(threshold)
     candidates = build_candidates(cards, competencies, threshold)
     report = build_report(cards, competencies, candidates, specialty)
     write_outputs(report, output)
@@ -375,7 +446,34 @@ def run_self_test() -> int:
             ]
         def test_explicit_link_verified(self):
             row = next(x for x in build_candidates(self.cards,self.comps) if x.card_id=="c1" and x.competency_id=="U1")
-            self.assertEqual((row.status,row.method),("verified","explicit"))
+            self.assertEqual((row.status,row.method),("pending","explicit"))
+        def test_faculty_approval_is_verified_with_provenance(self):
+            approved = Card("approved","urology","Assess retention","",explicit_competency_ids=("U1",),
+                faculty_approvals=(FacultyApproval("U1","Faculty Reviewer","2026-10-31T12:00:00Z"),))
+            row = next(x for x in build_candidates([approved],self.comps) if x.competency_id=="U1")
+            self.assertEqual(row.status,"verified")
+            self.assertEqual(row.reviewer,"Faculty Reviewer")
+            self.assertEqual(row.reviewed_at,"2026-10-31T12:00:00Z")
+        def test_unapproved_explicit_link_is_not_verified(self):
+            row = next(x for x in build_candidates(self.cards,self.comps) if x.card_id=="c1" and x.competency_id=="U1")
+            self.assertEqual(row.status,"pending")
+        def test_cross_specialty_rejected(self):
+            mixed = self.cards + [Card("wrong","ophthalmology","Assess retina","")]
+            with self.assertRaises(ValueError):
+                build_report(mixed,self.comps,build_candidates(mixed,self.comps),"urology")
+        def test_empty_curriculum_specialty_rejected(self):
+            with tempfile.TemporaryDirectory() as directory:
+                path=Path(directory)/"curriculum.json"
+                path.write_text(json.dumps({"competencies":[{"id":"X","title":"Example"}]}),encoding="utf-8")
+                with self.assertRaises(ValueError): load_competencies(path)
+        def test_invalid_threshold_rejected(self):
+            for value in (-0.1, 1.1, float("nan"), float("inf")):
+                with self.assertRaises(ValueError): build_candidates(self.cards,self.comps,value)
+        def test_approval_requires_reviewer_and_timezone(self):
+            with tempfile.TemporaryDirectory() as directory:
+                path=Path(directory)/"cards.json"
+                path.write_text(json.dumps([{"id":"x","specialty":"urology","prompt":"Q","competency_ids":["U1"],"faculty_approvals":[{"competency_id":"U1","status":"approved","reviewer":"Faculty","reviewed_at":"2026-10-31T12:00:00"}]}]),encoding="utf-8")
+                with self.assertRaises(ValueError): load_cards(path)
         def test_lexical_link_is_suggestion(self):
             rows = build_candidates(self.cards,self.comps,0.01)
             row = next(x for x in rows if x.card_id=="c2" and x.competency_id=="U2")
@@ -456,7 +554,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if not args.cards or not args.curriculum:
         LOG.error("--cards and --curriculum are required unless --self-test is used")
         return 2
-    if not 0 <= args.min_match_score <= 1:
+    if not math.isfinite(args.min_match_score) or not 0 <= args.min_match_score <= 1:
         LOG.error("--min-match-score must be between 0 and 1")
         return 2
     try:
