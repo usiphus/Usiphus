@@ -1,0 +1,761 @@
+#!/usr/bin/env python3
+"""
+cases2anki.py - turn case reports into high-quality, exam-styled Anki cards.
+"""
+import argparse
+import csv
+import hashlib
+import html
+import json
+import random
+import re
+import sys
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+XLINK_HREF = "{http://www.w3.org/1999/xlink}href"
+IMG_EXTS = (".jpg", ".jpeg", ".png", ".gif", ".webp")
+
+KNOWN_CASE_JOURNALS = {
+    "cureus", "world journal of clinical cases", "bmj case reports",
+    "journal of medical case reports", "sage open medical case reports",
+    "clinical case reports", "american journal of case reports",
+    "oxford medical case reports", "case reports in ophthalmology"
+}
+
+# ---------------------------------------------------------------- ophthalmology gate
+OPHTH_VERY_SPECIFIC = [
+    r"\bophthalmolog", r"\bophthalmic\b", r"\bophthalmoscopy\b", r"\bretinopathy\b", r"\bretinoblastoma\b",
+    r"\bretinoschisis\b", r"\bretinitis\b", r"\bretinal detachment\b", r"\bretinal vein occlusion\b",
+    r"\bretinal artery occlusion\b", r"\bvitrectomy\b", r"\bvitreous hemorrhage\b", r"\bvitreoretinal\b",
+    r"\bvitreoretinopathy\b", r"\bglaucoma\b", r"\buveitis\b", r"\buveal\b", r"\bcataract\b", r"\bphacoemulsification\b",
+    r"\bintraocular lens\b", r"\btrabeculectomy\b", r"\bendophthalmitis\b", r"\bkeratoconus\b", r"\bkeratoplasty\b",
+    r"\bkeratopathy\b", r"\bcorneal ulcer\b", r"\bmacular degeneration\b", r"\bmacular edema\b", r"\bmacular hole\b",
+    r"\bchorioretinopathy\b", r"\bcentral serous chorioretinopathy\b", r"\bpterygium\b", r"\bstrabismus\b",
+    r"\bamblyopia\b", r"\bintraocular pressure\b", r"\boptic neuritis\b", r"\boptic neuropathy\b", r"\boptic atrophy\b",
+    r"\bpapilledema\b", r"\bthyroid eye disease\b", r"\bthyroid-associated orbitopathy\b", r"\bocular hypertension\b",
+    r"\bangle[- ]closure\b", r"\bprimary open[- ]angle glaucoma\b", r"\bdacryocystitis\b", r"\bdacryoadenitis\b",
+    r"\bretinopathy of prematurity\b"
+]
+OPHTH_SPECIFIC = [
+    r"\beye\b", r"\beyes\b", r"\bocular\b", r"\beyelid\b", r"\bperiorbital\b", r"\bcornea\b", r"\bcorneal\b",
+    r"\bconjunctiva\b", r"\bconjunctival\b", r"\bconjunctivitis\b", r"\bsclera\b", r"\bscleral\b", r"\bscleritis\b",
+    r"\bkeratitis\b", r"\bchoroid\b", r"\bchoroidal\b", r"\bchoroiditis\b", r"\biris prolapse\b", r"\biritis\b",
+    r"\biridocyclitis\b", r"\boptic nerve\b", r"\boptic disc\b", r"\bvisual acuity\b", r"\bvisual field\b",
+    r"\bvisual loss\b", r"\bvision loss\b", r"\bblurred vision\b", r"\bfundus\b", r"\bfundoscopy\b", r"\bfovea\b",
+    r"\bfoveal\b", r"\bmacula\b", r"\bmacular\b", r"\bvitreous\b", r"\bintravitreal\b", r"\borbit\b", r"\borbital\b",
+    r"\borbitopathy\b", r"\bretrobulbar\b", r"\benucleation\b", r"\bevisceration\b", r"\bphotocoagulation\b",
+    r"\bpanretinal\b", r"\bperiocular\b", r"\bsubconjunctival\b", r"\bsubtenon\b", r"\bhyphema\b", r"\bhypopyon\b",
+    r"\bscotoma\b", r"\bhemianopia\b", r"\bptosis\b", r"\bexophthalmos\b", r"\bchalazion\b", r"\bhordeolum\b",
+    r"\bblepharitis\b", r"\bexotropia\b", r"\besotropia\b", r"\bslit.?lamp\b", r"\btonometry\b", r"\bgonioscopy\b",
+    r"\boptometry\b"
+]
+_OPHTH_VERY = [re.compile(p, re.I) for p in OPHTH_VERY_SPECIFIC]
+_OPHTH_SPEC = [re.compile(p, re.I) for p in OPHTH_SPECIFIC]
+
+# ---------------------------------------------------------------- helpers
+def local(tag): return tag.rsplit("}", 1)[-1] if isinstance(tag, str) else ""
+def norm(s): return re.sub(r"\s+", " ", s or "").strip()
+def clean_ws(s):
+    if not s: return ""
+    s = re.sub(r"\s+", " ", s); s = re.sub(r"\s+([,.;:!?])", r"\1", s)
+    return s.strip()
+def clip(s, n):
+    s = norm(s)
+    if len(s) <= n: return s
+    cut = s[:n]; k = max(cut.rfind(". "), cut.rfind("; "))
+    cut = cut[:k + 1] if k > n * 0.5 else cut.rsplit(" ", 1)[0]
+    return cut.rstrip(",;:") + " …"
+def esc(s): return html.escape(s or "", quote=True) # quote=True prevents attribute injection
+def cloze_safe(s): return (s or "").replace("}}", "} }").replace("{{", "{ {")
+def stable_id(s): return int(hashlib.sha1(s.encode()).hexdigest()[:8], 16)
+def sanitize_tag(s): return re.sub(r"[^\w\-]+", "_", s or "").strip("_").lower()
+def clip_for_front(text, n=500): return clip(text, n) if text else ""
+
+# ---------------------------------------------------------------- highlight patterns
+HIGHLIGHT_PATTERNS = [
+    ("hl-finding", re.compile(r"\b(?:cherry[- ]red spot|macular star|hypopyon|hyphema|papilledema|macular edema|cystoid macular edema|retinal whitening|retinal detachment|rhegmatogenous retinal detachment|tractional retinal detachment|serous retinal detachment|subretinal fluid|subretinal hemorrhage|vitreous hemorrhage|vitreous cells|vitritis|relative afferent pupillary defect|RAPD|rubeosis iridis|iris neovascularization|band keratopathy|sunset glow fundus|keratic precipitates|posterior synechiae|optic disc cupping|optic disc pallor|disc swelling|neovascularization of the disc|NVD|NVE|corneal edema|corneal opacity|corneal infiltrate|snowbanking|bone[- ]spicule pigmentation|chorioretinal atrophy|cotton[- ]wool spots|hard exudates|dot[- ]blot hemorrhages|flame[- ]shaped hemorrhages|lattice degeneration|epiretinal membrane|vitreomacular traction|macular hole|proptosis|enophthalmos|phacodonesis|lens subluxation|lens dislocation|seidel sign|tyndall effect|kayser[- ]fleischer ring|lisch nodules|argyll robertson pupil|marcus gunn pupil|altitudinal defect|arcuate scotoma|central scotoma|bitemporal hemianopia|homonymous hemianopia|enlarged blind spot|posterior capsular opacification|choroidal effusion|choroidal neovascular membrane|retinal artery occlusion|retinal vein occlusion|central retinal artery occlusion|central retinal vein occlusion|branch retinal artery occlusion|branch retinal vein occlusion|amaurosis fugax|ST elevation|ST depression|wellens|brugada|torsades|long QT|short QT|hyperacute T waves|pathological Q waves|ventricular fibrillation|ventricular tachycardia|atrial fibrillation|atrial flutter|left bundle branch block|right bundle branch block|complete heart block|wenckebach|mobitz|left ventricular hypertrophy|right ventricular hypertrophy|takotsubo|pericardial effusion|cardiac tamponade|aortic stenosis|mitral regurgitation|holosystolic murmur|opening snap|ejection click|paradoxical splitting|jugular venous distension|hepatojugular reflux|kussmaul sign|pulsus paradoxus|electrical alternans|S3 gallop|S4 gallop|pedal edema|pitting edema|bibasilar crackles|babinski sign|upgoing plantar|pronator drift|nuchal rigidity|meningismus|kernig sign|brudzinski sign|glasgow coma scale|nihss|anisocoria|horner syndrome|internuclear ophthalmoplegia|wallenberg|weber syndrome|dysmetria|dysdiadochokinesia|intention tremor|cogwheel rigidity|lead pipe rigidity|pill rolling tremor|resting tremor|asterixis|myoclonus|chorea|athetosis|fasciculations|spasticity|hypotonia|hemiparesis|hemiplegia|paraparesis|hemisensory loss|aphasia|dysarthria|dysphagia|gaze palsy|gaze deviation|hemispatial neglect|apraxia|agnosia|status epilepticus|lhermitte sign|tinel sign|phalen sign|hyperreflexia|hyporeflexia|areflexia|clonus|spastic gait|ataxic gait|festinating gait|murphy sign|mcburney point|rovsing sign|psoas sign|obturator sign|blumberg sign|rebound tenderness|guarding|board like abdomen|caput medusae|spider angiomata|palmar erythema|hepatomegaly|splenomegaly|ascites|shifting dullness|fluid wave|coffee ground emesis|hematemesis|melena|hematochezia|steatorrhea|acholic stools|absent bowel sounds|perianal fistula|lead pipe colon|thumbprinting|apple core lesion|bird beak sign|double bubble sign|courvoisier sign|charcot triad|reynolds pentad|peritonitis|pneumoperitoneum|exophthalmos|pretibial myxedema|goiter|pemberton sign|kussmaul breathing|fruity breath|moon facies|buffalo hump|violaceous striae|salt craving|orthostatic hypotension|acanthosis nigricans|central obesity|galactorrhea|gynecomastia|chvostek sign|trousseau sign|car popedal spasm|gottron papules|heliotrope rash|shawl sign|mechanic hands|raynaud phenomenon|sclerodactyly|digital ulcers|calcinosis cutis|malar rash|discoid rash|photosensitivity|oral ulcers|nonerosive arthritis|anti dsDNA|anti sm|anti ro|anti la|anti rnp|anti scl 70|anti jo 1|anti ccp|rheumatoid factor positive|synovitis|joint effusion|dactylitis|sausage digit|enthesitis|sacroiliitis|swan neck deformity|boutonniere deformity|ulnar deviation|morning stiffness|erythema nodosum|erythema marginatum|koebner phenomenon|auspitz sign|nikolsky sign|darier sign|wickham striae|livedo reticularis|nail fold telangiectasia|purpura|petechiae|ecchymoses|b symptoms|night sweats|drenching night sweats|unexplained weight loss|lymphadenopathy|hepatosplenomegaly|circulating blasts|blast cells|leukemic blasts|teardrop cells|schistocytes|spherocytes|bite cells|target cells|basophilic stippling|howell jolly bodies|heinz bodies|auer rods|hypercellular marrow|hypocellular marrow|myelofibrosis|ring sideroblasts|pelger huet anomaly|hypersegmented neutrophils|dohle bodies|toxic granulation|extramedullary hematopoiesis|smudge cells|sezary cells|monoclonal spike|M protein|lytic bone lesions|osteolytic lesion|osteoblastic lesion|otorrhea|bullous myringitis|hemotympanum|tympanic membrane perforation|tympanic membrane retraction|septal perforation|nasal polyp|CSF rhinorrhea|tonsillar exudate|uvular deviation|hot potato voice|halitosis|postnasal drip|blunted affect|flat affect|labile affect|psychomotor retardation|psychomotor agitation|pressured speech|clanging|word salad|neologisms|flight of ideas|tangentiality|circumstantiality|hallucinations|delusion|catatonia|waxy flexibility|akathisia|dystonia|pseudoparkinsonism|tardive dyskinesia|anhedonia|avolition|alogia|suicidal ideation|self harm|bulging fontanelle|sunken fontanelle|failure to thrive|poor feeding|neonatal jaundice|kernicterus|apgar score|developmental delay|hypotonia|hypertonia|small for gestational age|large for gestational age|fundal height|fetal heart tones|placenta previa|placental abruption|cord prolapse|shoulder dystocia|fetal bradycardia|fetal tachycardia|late decelerations|variable decelerations|hegar sign|chadwick sign|goodell sign|crepitus|joint locking|giving way|mcMurray sign|lachman test|drawer sign|apprehension test|ballottement|fat pad sign|joint line tenderness|compartment syndrome|pulse deficit|seat belt sign|grey turner sign|cullen sign|positive fast|open fracture|closed fracture|neurovascular compromise)\b", re.I)),
+    ("hl-measure", re.compile(r"\b\d+(?:[./-]\d+)?\s*(?:mm\s*Hg|mmHg|mg/dL|g/dL|mEq/L|mmol/L|(?:[uµ]mol|nmol|pmol)/L|IU/(?:mL|L)|U/(?:mL|L)|ng/(?:mL|dL|L)|pg/(?:mL|dL|L)|(?:[uµ]g|mcg|mg|ng|pg)/(?:mL|dL|L)|cells?/(?:[uµ]L|mm3)|mm/(?:h|hr)|mL|L|dL|mm|cm|bpm|/min|dB|logMAR|diopters?)\b", re.I)),
+    ("hl-measure", re.compile(r"\b(?:20/\d+|[0-6]/\d+|CF|HM|LP|NLP|count(?:ing)?\s+fingers|hand[\s-]?motion|light\s+perception|no\s+light\s+perception|logMAR\s*[-\d.]+|[-+]?\d+(?:\.\d+)?\s*D\b)\b", re.I)),
+    ("hl-eye", re.compile(r"\b(?:OD|OS|OU|o\.d\.|o\.s\.|o\.u\.|right\s+(?:eye|orbit|cornea|retina|optic\s+nerve|pupil|lens)|left\s+(?:eye|orbit|cornea|retina|optic\s+nerve|pupil|lens)|both\s+eyes|bilateral|unilateral)\b", re.I)),
+    ("hl-demo", re.compile(r"\b\d{1,3}[- ](?:year|yr|month|week|day)s?[- ]old\s+(?:male|female|man|woman|boy|girl|patient|infant|child|neonate|adult|elderly)\b", re.I)),
+    ("hl-time", re.compile(r"\b(?:for|over|during|after|before|within|at)\s+\d+\s+(?:second|minute|hour|day|week|month|year)s?\b", re.I)),
+    ("hl-time", re.compile(r"\b\d+\s+(?:second|minute|hour|day|week|month|year)s?\s+(?:ago|duration|previously|prior|later|earlier|history)\b", re.I)),
+    ("hl-status", re.compile(r"\b(?:mild|moderate|severe|marked|profound|acute|chronic|sudden|gradual|progressive|rapidly\s+progressive|exacerbation|deterioration|improvement|resolved|persistent|recurrent|worsening|improving|stable|elevated|increased|decreased|reduced|abnormal)\b", re.I)),
+    ("hl-drug", re.compile(r"\b(?:timolol|dorzolamide|brimonidine|latanoprost|bimatoprost|travoprost|pilocarpine|acetazolamide|mannitol|prednisolone|prednisone|dexamethasone|methylprednisolone|bevacizumab|ranibizumab|aflibercept|faricimab|pegaptanib|vancomycin|ceftazidime|amikacin|voriconazole|methotrexate|cyclophosphamide|rituximab|infliximab|tocilizumab|adalimumab|mycophenolate|azathioprine|tacrolimus|cyclosporine|aspirin|clopidogrel|warfarin|heparin|apixaban|rivaroxaban|insulin|metformin|atorvastatin|rosuvastatin)\b", re.I)),
+]
+
+def enrich(text):
+    text = text or ""
+    if not text: return ""
+    spans = []
+    for cls, pat in HIGHLIGHT_PATTERNS:
+        for m in pat.finditer(text):
+            if m.start() == m.end(): continue
+            spans.append((m.start(), m.end(), cls))
+    if not spans: return esc(text)
+    spans.sort(key=lambda t: (t[0], -(t[1] - t[0])))
+    resolved = []; last_end = -1
+    for s, e, cls in spans:
+        if s < last_end: continue
+        resolved.append((s, e, cls)); last_end = e
+    out = []; last = 0
+    for s, e, cls in resolved:
+        if s > last: out.append(esc(text[last:s]))
+        out.append('<span class="' + cls + '">' + esc(text[s:e]) + '</span>')
+        last = e
+    if last < len(text): out.append(esc(text[last:]))
+    return "".join(out)
+
+# ---------------------------------------------------------------- JATS parsing
+SECTION_PATTERNS = {
+    "presentation": r"presentation|clinical presentation|case presentation|case report|case summary|case description|initial presentation|^clinical case\b",
+    "history": r"history|medical history|past medical|previous history|patient history",
+    "exam": r"examination|physical exam|clinical exam|ocular exam|physical examination|ocular examination|clinical findings|physical findings|^exam\b",
+    "workup": r"investigation|work-?up|laborator|imaging|diagnostic test|ancillary test|ancillary testing|radiographic|^results|^findings\b",
+    "dx": r"diagnosis|final diagnosis|definitive diagnosis|histopatholog|impression|histological",
+    "discussion": r"discussion|comment|learning|key points|pearls|teaching|clinical discussion",
+    "tx": r"treatment|management|therapy|intervention|therapeutic",
+    "outcome": r"outcome|follow-?up|clinical course|prognosis",
+    "conclusion": r"conclusion|in conclusion|summary|take[- ]home|clinical significance|final remarks|final comments",
+    "chief": r"chief complaint", "hpi": r"present illness", "past": r"past (illness|medical|history)|personal and family|family history",
+    "lab": r"laborator", "imaging": r"imaging|further diagnostic|radiolog", "case": r"^case\b|^presentation\s+of\s+case",
+}
+SECTION_LABELS = {"presentation": "Clinical presentation", "history": "History", "exam": "Examination", "workup": "Investigations", "dx": "Diagnosis", "discussion": "Discussion", "tx": "Treatment", "outcome": "Outcome", "conclusion": "Conclusion", "chief": "Chief complaint", "hpi": "History of present illness", "past": "Past medical & family history", "lab": "Laboratory findings", "imaging": "Imaging & pathology", "case": "Case presentation"}
+
+EXAM_FRONT_ORDER = ("presentation", "history", "exam", "workup")
+EXAM_BACK_ORDER = ("discussion", "conclusion", "tx", "outcome")
+EXAM_FULL_ORDER = EXAM_FRONT_ORDER + ("dx",) + EXAM_BACK_ORDER
+JOURNAL_FRONT_ORDER = ("chief", "hpi", "past", "exam", "lab", "imaging")
+JOURNAL_FRONT_FALLBACK = ("presentation", "case", "history", "workup")
+JOURNAL_BACK_ORDER = ("tx", "outcome", "discussion", "conclusion")
+JOURNAL_FULL_ORDER = (JOURNAL_FRONT_ORDER + JOURNAL_FRONT_FALLBACK + ("dx",) + JOURNAL_BACK_ORDER)
+
+def flatten(sec, out):
+    t = child(sec, "title")
+    title = re.sub(r"^[\d.\s]+", "", text_of(t) if t is not None else "").strip(" :.-")
+    paras = [text_of(p) for p in sec if local(p.tag) == "p"]
+    paras = [p for p in paras if p]
+    if paras: out.append((title, " ".join(paras)))
+    for s in sec:
+        if local(s.tag) == "sec": flatten(s, out)
+
+def pick(secs, pattern):
+    got = [txt for title, txt in secs if re.search(pattern, title or "", re.I)]
+    return " ".join(got)
+
+def parse_jats(xml_path):
+    root = ET.parse(xml_path).getroot(); folder = xml_path.parent; pmcid = folder.name
+    meta = {}
+    meta_file = folder / "meta.json"
+    if meta_file.exists():
+        try: meta = json.loads(meta_file.read_text())
+        except Exception: pass
+    title = meta.get("title") or ""; doi = meta.get("doi") or ""; year = str(meta.get("year") or ""); journal = meta.get("journal") or ""
+    for el in root.iter():
+        n = local(el.tag)
+        if n == "article-title" and not title: title = text_of(el)
+        elif n == "article-id" and el.get("pub-id-type") == "doi" and not doi: doi = norm(el.text)
+        elif n == "journal-title" and not journal: journal = text_of(el)
+        elif n == "year" and not year: year = norm(el.text)
+    abs_secs = []
+    for ab in root.iter():
+        if local(ab.tag) == "abstract" and ab.get("abstract-type") not in ("teaser", "toc"): flatten(ab, abs_secs)
+    body = next((e for e in root.iter() if local(e.tag) == "body"), None); secs = []
+    if body is not None: flatten(body, secs)
+    sec = {k: clean_ws(clip(pick(secs, pat), 5000)) for k, pat in SECTION_PATTERNS.items()}
+    abstract_case = clean_ws(pick(abs_secs, r"case summary|case presentation") or " ".join(t for _, t in abs_secs))
+    case_text = clean_ws(" ".join(t for title_, t in secs if not re.search(r"introduc|background|discussion|conclusion|reference", title_, re.I)))
+    return {"id": pmcid, "title": title, "doi": doi, "year": year, "journal": journal or "", "sec": sec, "abstract_case": abstract_case, "case_text": case_text, "discovered_via": meta.get("discovered_via", ""), "jats_source": meta.get("jats_source", "")}
+
+# ---------------------------------------------------------------- diagnosis extraction
+DX_CUE = re.compile(r"(?:final|definitive|overall|confirmed|ultimate|postoperative|pathological|clinical|primary|secondary|presumptive|provisional|working|initial)?\s*diagnos(?:is|es)\s+(?:of|was|is|were)\s+(?:an?\s+|the\s+)?([A-Za-z][^.;:\n]{2,150})", re.I)
+DX_CUE_ALT = re.compile(r"(?:diagnosed\s+(?:with|as(?:\s+(?:having|being))?|to\s+have|to\s+be)|confirmed\s+(?:as|to\s+be|with)|presented\s+with)\s+(?:an?\s+|the\s+)?([A-Za-z][^.;:\n]{2,150})", re.I)
+DX_STOP = re.compile(r"\s+(?:was|were|is|are|has|had|have|based|according|by|through|using|after|following|because|due\s+to|which|that|who|on\s+the\s+basis|in\s+view|during|and|via|from|on|at|when|as\s+a\s+result|given|treated|managed|admitted|underwent)\b|[,;(]", re.I)
+_FILLER = {"the", "a", "an", "this", "that", "and", "or", "with", "without", "from", "patient", "man", "woman", "child", "infant", "neonate", "year", "month", "day", "week", "old", "case", "report", "presentation", "diagnosis", "made", "was", "were", "is", "are", "bilateral", "unilateral", "left", "right"}
+
+def _plausible(dx):
+    if not dx or not (3 <= len(dx) <= 120): return False
+    dx_l = dx.lower().strip()
+    for prefix in ("classic ", "typical ", "unusual ", "rare presentation", "features of ", "signs of ", "symptoms of ", "clinical features", "clinical signs", "clinical symptoms", "presentation of ", "manifestation of ", "complaints of ", "complaint of ", "history of ", "past history of ", "with complaints of ", "with a history of ", "in the setting of ", "in the context of ", "subsequent to ", "prior to ", "referral for "):
+        if dx_l.startswith(prefix): return False
+    if re.match(r"^(?:such|these|those|this|that|it|they|we|he|she|you|i)\b", dx_l): return False
+    if re.match(r"^(?:injury|trauma|pain|symptoms?|signs?|findings?|features?)\s+(?:to|in|of)\s+(?:her|his|their|the patient)\b", dx_l): return False
+    if re.search(r"\b(?:may be|can be|could be|might be|should be|is harmful|is safe|is important|is effective|is associated|can cause|may cause|could cause|should not be|must be|was successful|is controversial|not always|is never|is not always)\b", dx_l): return False
+    words = re.findall(r"[A-Za-z][A-Za-z\-]+", dx_l)
+    return any(len(w) >= 5 and w not in _FILLER for w in words)
+
+def tidy_dx(s):
+    s = norm(s)
+    s = re.sub(r"^(?:(?:the|a|an|final|definitive|confirmed|clinical|overall|provisional|presumptive|working|initial|primary|secondary)\s+)+", "", s, flags=re.I)
+    s = re.sub(r"^(?:diagnosis|diagnoses)\s*[:\-]?\s*", "", s, flags=re.I)
+    s = re.sub(r"^(?:was|were|is|are|of|made|established|confirmed|determined|reached|based\s+on)\s+", "", s, flags=re.I)
+    s = s.strip(" .;:-–—")
+    m = DX_STOP.search(s)
+    if m and m.start() >= 4: s = s[:m.start()].strip(" .;:-–—")
+    if s and s[0].islower(): s = s[0].upper() + s[1:]
+    return s
+
+def dx_from_text(text):
+    if not text: return ""
+    for m in DX_CUE.finditer(text):
+        d = tidy_dx(m.group(1))
+        if _plausible(d): return d
+    for m in DX_CUE_ALT.finditer(text):
+        d = tidy_dx(m.group(1))
+        if _plausible(d): return d
+    return ""
+
+def tidy_title_dx(title):
+    if not title: return ""
+    s = title.strip()
+    s = re.sub(r"^a?\s*(?:brief\s+)?case\s+(?:report|study|of)\s*[:\-]?\s*", "", s, flags=re.I)
+    s = re.sub(r":\s*.+$", "", s)
+    s = re.sub(r",?\s+in\s+(?:an?\s+)?\d+[- ](?:year|month|day|week)s?[- ]old\b.*$", "", s, flags=re.I)
+    s = re.sub(r"\s+in\s+(?:an?\s+)?(?:patient|man|woman|boy|girl|child|infant|neonate|adult|elderly)\b.*$", "", s, flags=re.I)
+    s = re.sub(r"\s+(?:presenting|manifesting|masquerading)\s+(?:as|with)\s+.*$", "", s, flags=re.I)
+    s = re.sub(r"\s+as\s+the\s+(?:initial|first|primary)\s+(?:presentation|manifestation)\s+of\s+.*$", "", s, flags=re.I)
+    s = re.sub(r"\s+secondary\s+to\s+.*$", "", s, flags=re.I)
+    s = re.sub(r"\s+following\s+.*$", "", s, flags=re.I)
+    s = s.strip(" .,;:")
+    if len(s) > 80:
+        m = re.search(r"\s+in\s+([A-Z][a-zA-Z]+(?:\s+[A-Za-z]+){0,5})$", s)
+        if m:
+            candidate = m.group(1).strip()
+            if 5 < len(candidate) < 80: return candidate
+        return ""
+    return s if 3 <= len(s) <= 100 else ""
+
+def find_dx(case):
+    for key in ("dx", "discussion", "presentation", "chief"):
+        d = dx_from_text(case["sec"].get(key, ""))
+        if d and not _is_comorbid_only(d, case): return d, key
+    for txt in (case.get("abstract_case"), case.get("case_text")):
+        d = dx_from_text(txt)
+        if d and not _is_comorbid_only(d, case): return d, "text"
+    title_clean = tidy_title_dx(case.get("title", ""))
+    if title_clean and 3 <= len(title_clean) <= 100: return title_clean, "title"
+    return "", "title"
+
+def _is_comorbid_only(d, case):
+    if not d or len(d.split()) > 1 or len(d) > 20: return False
+    d_l = d.lower()
+    comorbid = {"depression", "anxiety", "schizophrenia", "bipolar", "psychosis", "mania", "ptsd", "ocd", "dementia", "hypertension", "diabetes", "asthma", "copd", "cad", "chf", "af", "afib", "ckd", "cirrhosis", "hypothyroidism", "hyperlipidemia", "obesity", "smoking", "alcoholism", "stroke", "tia", "seizure", "epilepsy", "migraine", "osteoporosis", "tobacco", "alcohol", "sle", "lupus", "sjogren", "scleroderma", "ra", "anticoagulation", "chemotherapy", "radiation"}
+    if d_l not in comorbid: return False
+    return d_l not in (case.get("title", "") or "").lower()
+
+def mask(text, dx):
+    if not text or not dx: return text or ""
+    dx = dx.strip(" .,;:-–—()")
+    if not (4 <= len(dx) <= 100) or not _plausible(dx): return text
+    pat = r"(?<!\w)" + re.escape(dx) + r"(?!\w)"
+    return re.sub(pat, "[…]", text, flags=re.I)
+
+# ---------------------------------------------------------------- tags & topics
+SUBTOPICS = {
+    "retina": [r"\bretin", r"\bmacula", r"\bmacular", r"\bvitreous\b", r"\bchoroid", r"\bchorioretin"],
+    "glaucoma": [r"\bglaucoma\b", r"\bintraocular pressure\b", r"\btrabeculectomy\b", r"\boptic disc\b"],
+    "cornea": [r"\bcornea", r"\bcorneal\b", r"\bkerat", r"\bcorneal ulcer\b"],
+    "uveitis": [r"\buveitis\b", r"\buveal\b", r"\biritis\b", r"\biridocyclitis\b"],
+    "cataract": [r"\bcataract\b", r"\bphaco", r"\bintraocular lens\b"],
+    "oculoplastics": [r"\beyelid\b", r"\borbit\b", r"\borbital\b", r"\bptosis\b", r"\bchalazion\b", r"\bblephar"],
+    "strabismus": [r"\bstrabismus\b", r"\bamblyopia\b", r"\besotropia\b", r"\bexotropia\b"],
+    "neuro-ophthalmology": [r"\boptic neuritis\b", r"\boptic neuropathy\b", r"\boptic atrophy\b", r"\bpapilledema\b"],
+    "pediatric": [r"\bretinopathy of prematurity\b", r"\bamblyopia\b", r"\bretinoblastoma\b"],
+    "trauma": [r"\bocular trauma\b", r"\bopen globe\b", r"\bhyphema\b"],
+    "infection": [r"\bendophthalmitis\b", r"\bkeratitis\b", r"\bconjunctivitis\b", r"\bretinitis\b"],
+}
+_SUB = {k: [re.compile(p, re.I) for p in v] for k, v in SUBTOPICS.items()}
+
+def build_tags(case, dx, specialty, discovered_via="", card_type="diag", confidence=0.0):
+    tags = ["case-report", "card::" + card_type]
+    if discovered_via.startswith("exam:"):
+        tags.append("exam"); tags.append("source::" + sanitize_tag(discovered_via.split(":", 1)[1]))
+    else: tags.append("journal")
+    if specialty: tags.append(specialty)
+    if case.get("year"): tags.append("year::" + sanitize_tag(case["year"]))
+    if case.get("journal"): tags.append("journal::" + sanitize_tag(case["journal"]))
+    if confidence >= 0.7: tags.append("conf::high")
+    elif confidence < 0.4: tags.append("conf::low")
+    else: tags.append("conf::med")
+    if specialty == "ophthalmology":
+        blob = " ".join([case.get("title", ""), dx or "", case.get("abstract_case", "")[:600]])
+        for topic, pats in _SUB.items():
+            if any(p.search(blob) for p in pats): tags.append("topic::" + topic)
+    seen, out = set(), []
+    for t in tags:
+        if t not in seen: seen.add(t); out.append(t)
+    return out
+
+# ---------------------------------------------------------------- extraction (Pearls, Diff, Triggers)
+def extract_pearls(case):
+    discussion = case["sec"].get("discussion", "") or ""
+    pearls = []
+    if discussion:
+        m = re.search(r"(?:learning points?|key points?|pearls?|take[- ]home(?:\s+message)?s?|teaching points?|lessons?\s+learned|practice points?|clinical pearls?)\s*[:\-]\s*(.+?)(?:\n\n|\Z)", discussion, re.I | re.S)
+        if m:
+            bullets = re.split(r"(?:^|\n)\s*(?:[\u2022\u00b7\-\*]|\d+[\.\)])\s+", m.group(1))
+            pearls = [clean_ws(b) for b in bullets if 20 < len(clean_ws(b)) < 400]
+            if pearls: return pearls[:3]
+    if discussion:
+        for s in re.split(r"(?<=[.!?])\s+", discussion):
+            s = clean_ws(s)
+            if len(s) < 30 or len(s) > 300: continue
+            if re.search(r"\b(?:important|key|note that|remember|should|must|consider|typically|characteristic|hallmark|classic|pathognomonic|in summary|overall|rule out|workup|management)\b", s, re.I):
+                pearls.append(s)
+        if pearls: return pearls[:3]
+    conclusion = case["sec"].get("conclusion", "") or ""
+    if conclusion:
+        for s in re.split(r"(?<=[.!?])\s+", conclusion):
+            s = clean_ws(s)
+            if 40 < len(s) < 350: pearls.append(s)
+    return pearls[:3]
+
+DIFF_RE = re.compile(r"\b(?:differential(?: diagnosis)?|mimic(?:s|king)?|masquerad\w*|distinguish(?:ed|ing)? (?:from|between)|differentiat\w+ from|confused with|unlike|whereas|as opposed to|should be differentiated)\b", re.I)
+
+def extract_differential(case):
+    text = case["sec"].get("discussion", "") or ""
+    if not text: text = case.get("abstract_case") or ""
+    hits = []
+    for sent in re.split(r"(?<=[.!?])\s+", text):
+        sent = clean_ws(sent)
+        if 30 < len(sent) < 350 and DIFF_RE.search(sent): hits.append(sent)
+    return hits[:2]
+
+def _is_negated_finding(text, match_start, window=60):
+    prefix = text[max(0, match_start - window):match_start]
+    for boundary in (",", ";", " but ", " however ", " although ", " whereas ", " yet "):
+        idx = prefix.lower().rfind(boundary)
+        if idx >= 0: prefix = prefix[idx + len(boundary):]
+    return bool(re.search(r"\b(?:no|not|without|absent|denies|denied|negative|absence|ruled out|excluded)\b", prefix.lower()))
+
+def _is_followup_sentence(s):
+    return bool(re.search(r"\b(?:at the end of|following (?:treatment|surgery|laser|therapy|administration|initiation|completion)|\d+ (?:months?|weeks?|years?) (?:after|following|post)|postoperatively|post-treatment|post-?op|(?:improved|normalized|resolved|increased) to|returned to normal|recovery was|on follow-?up|during follow-?up)\b", s, re.I))
+
+def _partial_dx_leak(s, dx):
+    if not dx or not s: return False
+    dx_words = set(w for w in re.findall(r"[a-z]{5,}", dx.lower()) if w not in {"with", "without", "from", "after", "following", "patient", "bilateral", "unilateral", "subsequent", "secondary", "primary", "associated"})
+    if len(dx_words) < 2: return False
+    return len(dx_words & set(re.findall(r"[a-z]{5,}", s.lower()))) >= 2
+
+def _score_trigger_sentence(s, dx_l):
+    if not s or (dx_l and dx_l in s.lower()): return 0
+    if _is_followup_sentence(s) or _partial_dx_leak(s, dx_l): return 0
+    if re.search(r"\b(?:was administered|was prescribed|was treated|was given|was considered as|was diagnosed as|was admitted for|was referred to|had no explanation|no explanations for|was initiated on|had been taking|started on|treated with|managed with|underwent|referred for|evaluation of|workup for|assessment for|admitted for|history of|diagnosed with|treated for|referred to|presented for)\b", s, re.I): return 0
+    finding_count = sum(1 for cls, pat in HIGHLIGHT_PATTERNS if cls == "hl-finding" for m in pat.finditer(s) if not _is_negated_finding(s, m.start()))
+    return 5 if finding_count > 0 else 0
+
+def extract_trigger_sentence(case, dx):
+    dx_l = (dx or "").lower().strip()
+    best, best_score = "", 0
+    sources = [case["sec"].get(k) or "" for k in ("exam", "presentation", "workup", "lab", "imaging")]
+    sources.extend([case.get("abstract_case") or "", case.get("case_text") or ""])
+    for text in sources:
+        if not text: continue
+        for s in re.split(r"(?<=[.!?])\s+", text):
+            s = clean_ws(s)
+            if not (25 < len(s) < 240): continue
+            score = _score_trigger_sentence(s, dx_l)
+            if score > best_score: best_score, best = score, s
+    return best if best_score >= 3 else ""
+
+def extract_next_step(case, dx):
+    dx_l = (dx or "").lower().strip()
+    dx_words = set(w for w in re.findall(r"[a-z]{4,}", dx_l))
+    for source in ("tx", "outcome", "discussion", "conclusion"):
+        text = case["sec"].get(source) or ""
+        if not text: continue
+        candidates = []
+        for s in re.split(r"(?<=[.!?])\s+", text):
+            s = clean_ws(s)
+            if not (25 < len(s) < 300) or (dx_l and dx_l in s.lower()) or len(dx_words & set(re.findall(r"[a-z]{4,}", s.lower()))) >= 2: continue
+            if re.search(r"\b(?:treated with|management|initiated|started on|administered|underwent|performed|next step|immediate|urgent|emergency|referred|advised|recommended)\b", s, re.I): candidates.append((2, s))
+            else: candidates.append((1, s))
+        if candidates:
+            candidates.sort(key=lambda x: -x[0])
+            return candidates[0][1]
+    return ""
+
+def _diagnosis_confidence(case, dx, dx_source=""):
+    if not dx: return 0.0
+    dx_l = dx.lower().strip()
+    dx_words = set(w for w in re.findall(r"[a-z]{4,}", dx_l))
+    if not dx_words: return 0.0
+    score = 0.30 if dx_source in ("dx", "discussion", "presentation", "chief", "tx", "outcome", "conclusion", "section") else (0.15 if dx_source == "text" else 0.0)
+    title_l = (case.get("title", "") or "").lower()
+    if dx_l in title_l: score += 0.4
+    else:
+        overlap = len(dx_words & set(re.findall(r"[a-z]{4,}", title_l))) / max(1, len(dx_words))
+        if overlap >= 0.6: score += 0.3
+        elif overlap >= 0.3: score += 0.1
+    n_sections = sum(1 for k in ("dx", "discussion", "presentation", "tx", "outcome", "conclusion") if dx_l in (case["sec"].get(k, "") or "").lower())
+    if dx_l in (case.get("abstract_case", "") or "").lower(): n_sections += 1
+    score += min(0.3, n_sections * 0.1)
+    return min(1.0, score)
+
+# ---------------------------------------------------------------- rendering primitives
+def _section(key, body_html, variant="exam"):
+    if not body_html or not body_html.strip(): return ""
+    return '<div class="section-block sec-' + key + ' variant-' + variant + '"><div class="section-label">' + esc(SECTION_LABELS.get(key, key.capitalize())) + '</div><div class="section-body">' + body_html + '</div></div>'
+
+def build_header(case, dx, is_exam, mask_dx=""):
+    # Best Practice: Remove the title to prevent answer leaks. Only render chips.
+    chips = []
+    if is_exam:
+        src = case.get("discovered_via", "").replace("exam:", "").split(":", 1)[-1]
+        if src: chips.append(("exam", src.replace("_", " ").title()))
+    blob = (case.get("title", "") + " " + (dx or "")).lower()
+    for topic, pats in _SUB.items():
+        if len(chips) >= 3: break
+        for pat in pats:
+            if pat.search(blob): chips.append(("topic", topic.replace("-", " ").title())); break
+    if not chips: return ""
+    return '<div class="case-header"><div class="chips">' + "".join('<span class="chip chip-' + kind + '">' + esc(text) + '</span>' for kind, text in chips[:3]) + '</div></div>'
+
+PROMPT_VARIANTS = ["What is the most likely diagnosis?", "Which diagnosis best explains these findings?", "What is the single most likely diagnosis?"]
+def pick_prompt(case): return PROMPT_VARIANTS[stable_id(case["id"] + "prompt") % len(PROMPT_VARIANTS)]
+
+def build_diagnosis_front(case, mask_dx, dx, is_exam):
+    parts = [build_header(case, dx, is_exam, mask_dx)]
+    variant = "exam" if is_exam else "journal"
+    sections = []
+    used = set()
+    
+    # Best Practice: Limit to 3 sentences (~500 chars) to avoid overwhelming the user.
+    for k in ("chief", "hpi", "exam"):
+        if len(sections) >= 2: break
+        txt = case["sec"].get(k)
+        if txt and k not in used:
+            body = mask(txt, mask_dx) if mask_dx else txt
+            sections.append(_section(k, enrich(clip_for_front(body, 250)), variant))
+            used.add(k)
+            
+    if not sections:
+        # Fallback to presentation or abstract
+        raw = case["sec"].get("presentation") or case["sec"].get("case") or case.get("abstract_case") or ""
+        if raw:
+            body = mask(raw, mask_dx) if mask_dx else raw
+            sections.append(_section("presentation", enrich(clip_for_front(body, 500)), variant))
+            
+    parts.extend(sections)
+    prompt = pick_prompt(case)
+    # Best Practice: The cloze should be standard syntax. No green box needed later.
+    parts.append('<div class="question-box"><div class="question-label">' + esc(prompt) + '</div><div class="question-cloze">{{c1::' + esc(cloze_safe(dx)) + '}}</div></div>')
+    return "".join(parts)
+
+def build_trigger_front(case, trigger, dx, is_exam):
+    parts = [build_header(case, dx, is_exam)]
+    parts.append('<div class="trigger-card"><div class="trigger-label">Key finding</div><div class="trigger-body">' + enrich(trigger) + '</div></div>')
+    parts.append('<div class="question-box"><div class="question-label">Which diagnosis does this finding suggest?</div><div class="question-cloze">{{c1::' + esc(cloze_safe(dx)) + '}}</div></div>')
+    return "".join(parts)
+
+def build_next_step_front(case, mask_dx, dx, next_step, is_exam):
+    raw = (case["sec"].get("presentation") or case["sec"].get("chief") or case.get("abstract_case") or case.get("case_text") or "")
+    if mask_dx: raw = mask(raw, mask_dx)
+    parts = [build_header(case, dx, is_exam)]
+    if raw: parts.append(_section("presentation", enrich(clip_for_front(raw, 500)), "exam" if is_exam else "journal"))
+    parts.append('<div class="question-box"><div class="question-label">What is the best immediate next step?</div><div class="question-cloze">{{c1::' + esc(cloze_safe(next_step)) + '}}</div></div>')
+    return "".join(parts)
+
+def build_source_block(case):
+    lines = []
+    if case.get("title"): lines.append('<div class="src-title">' + esc(case["title"]) + '</div>')
+    meta = []
+    if case.get("journal"): meta.append(esc(case["journal"]))
+    if case.get("year"): meta.append(esc(case["year"]))
+    if meta: lines.append('<div class="src-meta">' + " · ".join(meta) + '</div>')
+    if case.get("doi"):
+        url = case["doi"] if case["doi"].startswith("http") else "https://doi.org/" + case["doi"]
+        lines.append('<div class="src-link"><a href="' + esc(url) + '">' + esc(case["doi"]) + '</a></div>')
+    if case.get("id") and str(case["id"]).upper().startswith("PMC"):
+        lines.append('<div class="src-link"><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/' + esc(case["id"]) + '/">' + esc(case["id"]) + '</a></div>')
+    return '<div class="source">' + "".join(lines) + '</div>'
+
+def build_back(case, dx, dx_source, is_exam):
+    # Best Practice: Do NOT include the answer in a green box. The cloze handles the reveal.
+    variant = "exam-back" if is_exam else "journal-back"
+    parts = []
+    
+    pearls = extract_pearls(case)
+    if pearls:
+        cls = "pearls-box" + ("" if is_exam else " pearls-journal")
+        parts.append('<div class="' + cls + '"><div class="pearls-label">Key pearls</div><ul>' + "".join('<li>' + enrich(p) + '</li>' for p in pearls) + '</ul></div>')
+        
+    diffs = extract_differential(case)
+    if diffs:
+        parts.append('<div class="diff-box"><div class="diff-label">Differential</div><ul>' + "".join('<li>' + enrich(d) + '</li>' for d in diffs) + '</ul></div>')
+        
+    parts.append(build_source_block(case))
+    
+    full = []
+    full_order = EXAM_FULL_ORDER if is_exam else JOURNAL_FULL_ORDER
+    for k in full_order:
+        txt = case["sec"].get(k)
+        if not txt: continue
+        if k in ("discussion", "presentation") and len(txt) > 1000: txt = clip_for_front(txt, 1000)
+        section = _section(k, enrich(txt), variant)
+        if section: full.append(section)
+        
+    if full:
+        parts.append('<details class="more"><summary>Show full case text</summary>' + "".join(full) + '</details>')
+    return "".join(parts)
+
+# ---------------------------------------------------------------- CSS
+CARD_CSS = """
+.card { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 16px; line-height: 1.65; color: #1e293b; background: #f8fafc; padding: 24px; max-width: 820px; margin: 0 auto; }
+.nightMode .card, .night_mode .card { color: #e2e8f0; background: #0f172a; }
+.case-header { margin: 0 0 20px; padding: 0 0 16px; border-bottom: 2px solid #e2e8f0; position: relative; }
+.case-header::after { content: ""; position: absolute; bottom: -2px; left: 0; width: 72px; height: 2px; background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899); border-radius: 2px; }
+.nightMode .case-header, .night_mode .case-header { border-color: #334155; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; align-items: center; padding: 4px 11px; border-radius: 14px; font-size: 0.68em; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.06)); color: #4f46e5; border: 1px solid rgba(99,102,241,0.22); box-shadow: 0 1px 2px rgba(99,102,241,0.06); }
+.chip-topic { background: linear-gradient(135deg, rgba(14,165,233,0.12), rgba(59,130,246,0.06)); color: #0369a1; border-color: rgba(14,165,233,0.22); box-shadow: 0 1px 2px rgba(14,165,233,0.06); }
+.chip-exam { background: linear-gradient(135deg, rgba(139,92,246,0.14), rgba(168,85,247,0.06)); color: #6d28d9; border-color: rgba(139,92,246,0.30); box-shadow: 0 1px 2px rgba(139,92,246,0.08); }
+.nightMode .chip, .night_mode .chip { background: linear-gradient(135deg, rgba(129,140,248,0.20), rgba(139,92,246,0.12)); color: #a5b4fc; border-color: rgba(129,140,248,0.35); box-shadow: none; }
+.nightMode .chip-topic, .night_mode .chip-topic { background: linear-gradient(135deg, rgba(56,189,248,0.20), rgba(14,165,233,0.12)); color: #7dd3fc; border-color: rgba(56,189,248,0.35); }
+.nightMode .chip-exam, .night_mode .chip-exam { background: linear-gradient(135deg, rgba(167,139,250,0.22), rgba(139,92,246,0.14)); color: #c4b5fd; border-color: rgba(167,139,250,0.42); }
+.section-block { margin: 12px 0; padding: 14px 16px 16px; border-radius: 10px; border-left: 4px solid var(--accent, #6366f1); background: var(--accent-bg, rgba(99,102,241,0.05)); box-shadow: 0 1px 3px rgba(15,23,42,0.04); transition: box-shadow 0.15s ease, transform 0.15s ease; }
+.section-block:hover { box-shadow: 0 4px 10px rgba(15,23,42,0.06); }
+.nightMode .section-block, .night_mode .section-block { background: var(--accent-bg-night, rgba(99,102,241,0.12)); box-shadow: none; }
+.section-label { display: flex; align-items: center; gap: 8px; font-size: 0.7em; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent, #6366f1); margin-bottom: 10px; }
+.section-label::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent, #6366f1); box-shadow: 0 0 0 3px rgba(99,102,241,0.15); flex-shrink: 0; }
+.section-body { color: #334155; font-size: 0.97em; line-height: 1.62; }
+.nightMode .section-body, .night_mode .section-body { color: #cbd5e1; }
+.sec-presentation, .sec-chief, .sec-hpi, .sec-case { --accent: #6366f1; --accent-bg: rgba(99,102,241,0.05); --accent-bg-night: rgba(99,102,241,0.12); }
+.sec-history, .sec-past { --accent: #64748b; --accent-bg: rgba(100,116,139,0.05); --accent-bg-night: rgba(148,163,184,0.10); }
+.sec-exam { --accent: #0891b2; --accent-bg: rgba(8,145,178,0.05); --accent-bg-night: rgba(8,145,178,0.14); }
+.sec-workup, .sec-lab, .sec-imaging { --accent: #059669; --accent-bg: rgba(5,150,105,0.05); --accent-bg-night: rgba(5,150,105,0.14); }
+.sec-dx, .sec-discussion, .sec-conclusion { --accent: #d97706; --accent-bg: rgba(217,119,6,0.05); --accent-bg-night: rgba(217,119,6,0.14); }
+.sec-tx, .sec-outcome { --accent: #7c3aed; --accent-bg: rgba(124,58,237,0.05); --accent-bg-night: rgba(124,58,237,0.14); }
+.hl-finding { background: linear-gradient(180deg, transparent 55%, rgba(239,68,68,0.18) 55%); border-bottom: 2px solid rgba(239,68,68,0.55); padding: 0 3px; border-radius: 3px; font-weight: 600; color: #991b1b; }
+.nightMode .hl-finding, .night_mode .hl-finding { background: linear-gradient(180deg, transparent 55%, rgba(248,113,113,0.28) 55%); color: #fca5a5; border-color: rgba(248,113,113,0.65); }
+.hl-measure { background: rgba(16,185,129,0.14); border-bottom: 1.5px solid rgba(16,185,129,0.55); padding: 0 4px; border-radius: 3px; font-weight: 700; color: #065f46; font-variant-numeric: tabular-nums; }
+.nightMode .hl-measure, .night_mode .hl-measure { background: rgba(52,211,153,0.22); color: #6ee7b7; border-color: rgba(52,211,153,0.62); }
+.hl-demo { background: rgba(139,92,246,0.14); border-bottom: 1.5px solid rgba(139,92,246,0.5); padding: 0 4px; border-radius: 3px; color: #5b21b6; }
+.nightMode .hl-demo, .night_mode .hl-demo { background: rgba(167,139,250,0.22); color: #c4b5fd; border-color: rgba(167,139,250,0.6); }
+.hl-time { background: rgba(245,158,11,0.16); border-bottom: 1.5px solid rgba(245,158,11,0.55); padding: 0 4px; border-radius: 3px; color: #92400e; }
+.nightMode .hl-time, .night_mode .hl-time { background: rgba(251,191,36,0.22); color: #fcd34d; border-color: rgba(251,191,36,0.62); }
+.hl-eye { background: rgba(59,130,246,0.14); border-bottom: 1.5px solid rgba(59,130,246,0.5); padding: 0 4px; border-radius: 3px; color: #1e40af; font-weight: 600; }
+.nightMode .hl-eye, .night_mode .hl-eye { background: rgba(96,165,250,0.22); color: #93c5fd; border-color: rgba(96,165,250,0.62); }
+.hl-status { background: rgba(249,115,22,0.14); border-bottom: 1.5px solid rgba(249,115,22,0.5); padding: 0 4px; border-radius: 3px; color: #9a3412; font-style: italic; }
+.nightMode .hl-status, .night_mode .hl-status { background: rgba(251,146,60,0.22); color: #fdba74; border-color: rgba(251,146,60,0.62); }
+.hl-drug { background: rgba(236,72,153,0.12); border-bottom: 1.5px solid rgba(236,72,153,0.5); padding: 0 4px; border-radius: 3px; color: #9d174d; font-weight: 500; }
+.nightMode .hl-drug, .night_mode .hl-drug { background: rgba(244,114,182,0.22); color: #f9a8d4; border-color: rgba(244,114,182,0.62); }
+.cloze, .cloze b { color: #dc2626; font-weight: 800; letter-spacing: 0.01em; background: linear-gradient(180deg, transparent 60%, rgba(220,38,38,0.1) 60%); padding: 0 2px; border-radius: 2px; }
+.nightMode .cloze, .night_mode .cloze { color: #f87171; background: linear-gradient(180deg, transparent 60%, rgba(248,113,113,0.15) 60%); }
+.question-box { margin: 28px 0 0; padding: 24px 26px; background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); border: 2px dashed rgba(139,92,246,0.45); border-radius: 16px; text-align: center; box-shadow: 0 4px 14px rgba(139,92,246,0.10); position: relative; overflow: hidden; }
+.question-box::before { content: ""; position: absolute; top: -40%; left: -20%; width: 140%; height: 180%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.55), transparent 60%); pointer-events: none; }
+.nightMode .question-box, .night_mode .question-box { background: linear-gradient(135deg, #1e1b4b 0%, #2e1065 100%); border-color: rgba(167,139,250,0.5); box-shadow: 0 4px 14px rgba(139,92,246,0.20); }
+.question-label { font-size: 0.7em; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #7c3aed; margin-bottom: 12px; position: relative; }
+.nightMode .question-label, .night_mode .question-label { color: #c4b5fd; }
+.question-cloze { font-size: 1.22em; font-weight: 700; color: #4c1d95; position: relative; }
+.nightMode .question-cloze, .night_mode .question-cloze { color: #ddd6fe; }
+.trigger-card { margin: 14px 0; padding: 16px 20px; background: rgba(219, 39, 119, 0.06); border-left: 4px solid #db2777; border-radius: 8px; }
+.nightMode .trigger-card, .night_mode .trigger-card { background: rgba(219, 39, 119, 0.15); border-color: #ec4899; }
+.trigger-label { font-size: 0.72em; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #be185d; margin-bottom: 8px; }
+.nightMode .trigger-label, .night_mode .trigger-label { color: #f9a8d4; }
+.trigger-body { font-size: 1.02em; color: #1e293b; }
+.nightMode .trigger-body, .night_mode .trigger-body { color: #e2e8f0; }
+.pearls-box { margin: 18px 0; padding: 18px 22px; background: linear-gradient(135deg, rgba(251,191,36,0.12), rgba(245,158,11,0.05)); border: 1px solid rgba(245,158,11,0.35); border-radius: 12px; box-shadow: 0 2px 8px rgba(245,158,11,0.08); }
+.pearls-journal { background: linear-gradient(135deg, rgba(20,184,166,0.10), rgba(13,148,136,0.04)); border-color: rgba(20,184,166,0.35); box-shadow: 0 2px 8px rgba(20,184,166,0.08); }
+.nightMode .pearls-box, .night_mode .pearls-box { background: linear-gradient(135deg, rgba(234,179,8,0.18), rgba(234,179,8,0.06)); border-color: rgba(250,204,21,0.45); box-shadow: none; }
+.nightMode .pearls-journal, .night_mode .pearls-journal { background: linear-gradient(135deg, rgba(45,212,191,0.18), rgba(45,212,191,0.06)); border-color: rgba(45,212,191,0.45); }
+.pearls-label, .diff-label { font-size: 0.72em; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.pearls-label { color: #a16207; }
+.pearls-journal .pearls-label { color: #0f766e; }
+.nightMode .pearls-label, .night_mode .pearls-label { color: #fcd34d; }
+.nightMode .pearls-journal .pearls-label, .night_mode .pearls-journal .pearls-label { color: #5eead4; }
+.pearls-label::before { content: "💡"; font-size: 1.15em; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.12)); }
+.pearls-box ul { margin: 0; padding-left: 0; list-style: none; }
+.pearls-box li { padding: 8px 0 8px 24px; position: relative; font-size: 0.96em; line-height: 1.6; color: #334155; border-bottom: 1px dashed rgba(245,158,11,0.18); }
+.pearls-box li:last-child { border-bottom: none; }
+.pearls-journal li { border-bottom-color: rgba(20,184,166,0.18); }
+.nightMode .pearls-box li, .night_mode .pearls-box li { color: #cbd5e1; border-color: rgba(250,204,21,0.15); }
+.pearls-box li::before { content: "▸"; position: absolute; left: 6px; top: 8px; color: #d97706; font-weight: 800; font-size: 1.1em; }
+.pearls-journal li::before { color: #0d9488; }
+.nightMode .pearls-box li::before, .night_mode .pearls-box li::before { color: #fcd34d; }
+.nightMode .pearls-journal li::before, .night_mode .pearls-journal li::before { color: #5eead4; }
+.diff-box { margin: 18px 0; padding: 18px 22px; background: linear-gradient(135deg, rgba(244,63,94,0.08), rgba(244,63,94,0.02)); border: 1px solid rgba(244,63,94,0.30); border-radius: 12px; box-shadow: 0 2px 8px rgba(244,63,94,0.06); }
+.nightMode .diff-box, .night_mode .diff-box { background: linear-gradient(135deg, rgba(244,63,94,0.16), rgba(244,63,94,0.06)); border-color: rgba(244,63,94,0.42); box-shadow: none; }
+.diff-label { color: #be123c; }
+.nightMode .diff-label, .night_mode .diff-label { color: #fda4af; }
+.diff-label::before { content: "⚖️"; font-size: 1.15em; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.12)); }
+.diff-box ul { margin: 0; padding-left: 0; list-style: none; }
+.diff-box li { padding: 8px 0 8px 24px; position: relative; font-size: 0.96em; line-height: 1.6; color: #334155; }
+.nightMode .diff-box li, .night_mode .diff-box li { color: #cbd5e1; }
+.diff-box li::before { content: "▸"; position: absolute; left: 6px; top: 8px; color: #be123c; font-weight: 800; }
+.nightMode .diff-box li::before, .night_mode .diff-box li::before { color: #fda4af; }
+.source { margin: 20px 0 0; padding: 14px 18px; background: linear-gradient(135deg, rgba(148,163,184,0.10), rgba(148,163,184,0.04)); border-radius: 10px; font-size: 0.85em; color: #475569; line-height: 1.55; }
+.nightMode .source, .night_mode .source { background: linear-gradient(135deg, rgba(71,85,105,0.24), rgba(71,85,105,0.12)); color: #94a3b8; }
+.src-title { font-weight: 600; margin-bottom: 6px; color: #334155; line-height: 1.45; }
+.nightMode .src-title, .night_mode .src-title { color: #cbd5e1; }
+.src-meta { color: #64748b; margin-bottom: 8px; font-style: italic; }
+.src-link { margin-top: 3px; }
+.source a { color: #0d9488; text-decoration: none; border-bottom: 1px dotted rgba(13,148,136,0.4); transition: border-color 0.15s ease; }
+.source a:hover { border-bottom-color: #0d9488; }
+.nightMode .source a, .night_mode .source a { color: #5eead4; border-bottom-color: rgba(94,234,212,0.4); }
+details.more { margin-top: 16px; }
+details.more > summary { cursor: pointer; font-size: 0.85em; color: #7c3aed; padding: 10px 14px; font-weight: 600; user-select: none; background: rgba(124,58,237,0.04); border-radius: 8px; list-style: none; transition: background 0.15s ease; }
+details.more > summary::-webkit-details-marker { display: none; }
+details.more > summary::before { content: "▸ "; display: inline-block; margin-right: 6px; transition: transform 0.2s ease; }
+details.more[open] > summary::before { transform: rotate(90deg); }
+details.more > summary:hover { background: rgba(124,58,237,0.08); }
+.nightMode details.more > summary, .night_mode details.more > summary { color: #c4b5fd; }
+"""
+
+def main():
+    ap = argparse.ArgumentParser(description="Turn case reports into Anki decks.")
+    ap.add_argument("input", type=Path)
+    ap.add_argument("-o", "--output", default="ophthalmology.apkg")
+    ap.add_argument("--deck", default="Ophthalmology")
+    ap.add_argument("--specialty", default="ophthalmology")
+    ap.add_argument("--text-only", action="store_true")
+    ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--chunk", type=int, default=0)
+    ap.add_argument("--no-mask", action="store_true")
+    ap.add_argument("--no-trigger", action="store_true")
+    ap.add_argument("--no-next-step", action="store_true")
+    ap.add_argument("--no-dedup", action="store_true")
+    ap.add_argument("--interleave", action="store_true")
+    ap.add_argument("--preview", action="store_true")
+    ap.add_argument("--quality-report", action="store_true")
+    ap.add_argument("--include-quarantine", action="store_true")
+    ap.add_argument("--curate", choices=["balanced", "strict", "ultra"], default="")
+    args = ap.parse_args()
+
+    if not args.input.exists(): sys.exit("Input not found: " + str(args.input))
+    xml_files = list(args.input.rglob("article.xml")) if args.input.is_dir() else [args.input]
+
+    import genanki
+    model = genanki.Model(
+        1607392324, "Clinical Case Exam v2",
+        fields=[{"name": "Front"}, {"name": "Hint"}, {"name": "Back"}],
+        templates=[{"name": "Cloze", "qfmt": "{{cloze:Front}}{{#Hint}}<br><br>{{hint:Hint}}{{/Hint}}", "afmt": "{{cloze:Front}}<hr id=answer>{{Back}}"}],
+        css=CARD_CSS, model_type=genanki.Model.CLOZE)
+
+    entries = []
+    media_files = set()
+    report_rows = []
+    counts = {"diag": 0, "trig": 0, "next": 0}
+    skipped = 0
+
+    for fp_path in xml_files:
+        try:
+            case = parse_jats(fp_path)
+            if args.specialty == "ophthalmology" and not _positive_ophthalmology(case.get("title", ""), case.get("abstract_case", "")): skipped += 1; continue
+            dx, dx_source = find_dx(case)
+            mask_dx = "" if args.no_mask else dx
+            is_exam = case.get("discovered_via", "").startswith("exam:")
+            conf = _diagnosis_confidence(case, dx, dx_source)
+            diag_front = build_diagnosis_front(case, mask_dx, dx, is_exam)
+            
+            # Quality gate
+            blocking, soft, score = _quality_gate(case, dx, diag_front, dx_source, conf, args.specialty)
+            action = _action(blocking, soft, score)
+            report_rows.append([case["id"], case["title"][:80], dx, dx_source, ";".join(blocking), ";".join(soft), score, action, round(conf, 2)])
+            
+            if action == "rejected": skipped += 1; continue
+            entries.append({"case": case, "dx": dx, "dx_source": dx_source, "mask_dx": mask_dx, "fp": _fingerprint(case), "action": action, "is_exam": is_exam, "confidence": conf})
+            for img in case.get("images", []):
+                if img.get("path"): media_files.add(str(img["path"]))
+        except Exception as e: print("parse skip " + fp_path.name + ": " + str(e))
+
+    print("Parsed " + str(len(entries)) + " usable cases (" + str(skipped) + " skipped)")
+
+    if args.quality_report:
+        Path("decks").mkdir(exist_ok=True)
+        with open("decks/quality_report.csv", "w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f)
+            w.writerow(["pmcid", "title", "dx", "dx_source", "blocking", "soft", "score", "action", "confidence"])
+            for row in report_rows: w.writerow(row)
+        print("Wrote decks/quality_report.csv (" + str(len(report_rows)) + " rows)")
+
+    if not args.no_dedup:
+        before = len(entries)
+        entries = _dedupe(entries)
+        print("Dedup: " + str(before) + " -> " + str(len(entries)))
+
+    kept_entries = [e for e in entries if e["action"] == "kept"]
+    quarantined = [e for e in entries if e["action"] == "quarantined"]
+
+    for entry in kept_entries:
+        entry["trigger"] = extract_trigger_sentence(entry["case"], entry["dx"])
+        entry["next_step"] = extract_next_step(entry["case"], entry["dx"])
+        entry["has_trigger"] = bool(entry["trigger"])
+        entry["has_next"] = bool(entry["next_step"])
+        entry["curation_score"] = _curation_score(entry["case"], entry["dx"], entry["dx_source"], entry["confidence"], entry["has_trigger"], entry["has_next"])
+
+    if args.curate:
+        thresholds = {"balanced": 4, "strict": 6, "ultra": 8}
+        threshold = thresholds[args.curate]
+        before = len(kept_entries)
+        kept_entries = [e for e in kept_entries if e["curation_score"] >= threshold]
+        dropped = before - len(kept_entries)
+        print("Curation (" + args.curate + ", score>=" + str(threshold) + "): " + str(before) + " -> " + str(len(kept_entries)) + " cases (" + str(dropped) + " dropped)")
+
+    def _make_notes(entry_list):
+        notes_out = []
+        for entry in entry_list:
+            case = entry["case"]; dx = entry["dx"]; dx_source = entry["dx_source"]; mask_dx = entry["mask_dx"]; is_exam = entry["is_exam"]; conf = entry["confidence"]
+            back_html = build_back(case, dx, dx_source, is_exam)
+            
+            diag_front = build_diagnosis_front(case, mask_dx, dx, is_exam)
+            chips = [topic.replace("-", " ").title() for topic, pats in _SUB.items() if any(p.search((case.get("title", "") + " " + dx).lower()) for p in pats)]
+            hint = "Topic: " + chips[0] if chips else ""
+
+            notes_out.append(genanki.Note(model=model, fields=[diag_front, hint, back_html], guid=genanki.guid_for(case["id"] + str(case["title"]) + "diag"), tags=build_tags(case, dx, args.specialty, case.get("discovered_via", ""), "diag", conf)))
+            counts["diag"] += 1
+
+            if not args.no_trigger:
+                trigger = entry.get("trigger") or extract_trigger_sentence(case, dx)
+                if trigger and len(trigger) > 30:
+                    trig_front = build_trigger_front(case, trigger, dx, is_exam)
+                    notes_out.append(genanki.Note(model=model, fields=[trig_front, hint, back_html], guid=genanki.guid_for(case["id"] + str(case["title"]) + "trig"), tags=build_tags(case, dx, args.specialty, case.get("discovered_via", ""), "trig", conf)))
+                    counts["trig"] += 1
+
+            if not args.no_next_step:
+                next_step = entry.get("next_step") or extract_next_step(case, dx)
+                if next_step and len(next_step) > 20:
+                    nxt_front = build_next_step_front(case, mask_dx, dx, next_step, is_exam)
+                    if len(nxt_front) > 100:
+                        notes_out.append(genanki.Note(model=model, fields=[nxt_front, "", back_html], guid=genanki.guid_for(case["id"] + str(case["title"]) + "next"), tags=build_tags(case, dx, args.specialty, case.get("discovered_via", ""), "next", conf)))
+                        counts["next"] += 1
+        return notes_out
+
+    notes = _make_notes(kept_entries)
+    quarantine_notes = _make_notes(quarantined) if args.include_quarantine else []
+
+    print("Cards: diag=" + str(counts["diag"]) + " trig=" + str(counts["trig"]) + " next=" + str(counts["next"]) + " total=" + str(len(notes)))
+    if counts["diag"]: print("Coverage: trig " + str(int(100 * counts["trig"] / counts["diag"])) + "% | next " + str(int(100 * counts["next"] / counts["diag"])) + "%")
+
+    if args.limit and len(notes) > args.limit: notes = notes[:args.limit]
+    if args.interleave: random.Random(42).shuffle(notes); print("Interleaved (seed=42)")
+
+    if args.preview:
+        Path("decks").mkdir(exist_ok=True); preview_path = Path("decks/preview.html")
+        html_out = ("<html><head><meta charset='utf-8'><style>" + CARD_CSS + "</style></head><body>" + "".join('<div class="card">' + n.fields[0] + '<hr id=answer>' + n.fields[2] + '</div>' for n in notes[:30]) + "</body></html>")
+        preview_path.write_text(html_out, encoding="utf-8"); print("Preview: " + str(preview_path))
+
+    Path("decks").mkdir(exist_ok=True)
+    if args.chunk:
+        for i in range(0, len(notes), args.chunk):
+            part = notes[i:i + args.chunk]; chunk_num = (i // args.chunk) + 1
+            deck = genanki.Deck(stable_id(args.deck) + chunk_num, args.deck + " - Part " + str(chunk_num).zfill(2))
+            for n in part: deck.add_note(n)
+            pkg = genanki.Package(deck)
+            if not args.text_only and media_files: pkg.media_files = sorted(media_files)
+            out = Path("decks") / (Path(args.output).stem + "_part" + str(chunk_num).zfill(2) + ".apkg")
+            pkg.write_to_file(str(out)); print("Wrote " + str(len(part)) + " cards to " + str(out))
+    else:
+        deck = genanki.Deck(stable_id(args.deck), args.deck)
+        for n in notes: deck.add_note(n)
+        pkg = genanki.Package(deck)
+        if not args.text_only and media_files: pkg.media_files = sorted(media_files)
+        out = Path(args.output) if Path(args.output).is_absolute() else Path("decks") / args.output
+        pkg.write_to_file(str(out)); print("Wrote " + str(len(notes)) + " cards to " + str(out))
+
+    if quarantine_notes:
+        qdeck = genanki.Deck(stable_id(args.deck) + 999, args.deck + " - Quarantine")
+        for n in quarantine_notes: qdeck.add_note(n)
+        qpkg = genanki.Package(qdeck)
+        if not args.text

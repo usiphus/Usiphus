@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "maintainer": "Project maintainers; requires clinical governance review before production use",
+  "reviewed_at": "2026-10-30",
+  "hosts": [
+    "aap.org",
+    "acc.org",
+    "acog.org",
+    "acpjournals.org",
+    "ahajournals.org",
+    "asco.org",
+    "ashpublications.org",
+    "auanet.org",
+    "cdc.gov",
+    "escardio.org",
+    "eular.org",
+    "nice.org.uk",
+    "nih.gov",
+    "rcplondon.ac.uk",
+    "who.int",
+    "uroweb.org"
+  ],
+  "governance_approved": false,
+  "approved_by": ""
+}

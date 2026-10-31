@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+.article_status_cache.json
+case_library/
+decks/
+*.apkg
+*.tsv
+*_quality.csv
+*_review.jsonl
+*_assets.jsonl
+*_preview.html

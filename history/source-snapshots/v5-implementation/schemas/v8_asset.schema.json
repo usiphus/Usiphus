@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "V8 JATS media inventory record",
+  "type": "object",
+  "required": ["schema_version", "asset_id", "case_id", "asset_type", "graphic_refs", "source_xml_sha256", "reuse_decision", "downloaded", "embedded"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "asset_id": {"type": "string", "minLength": 1},
+    "case_id": {"type": "string", "minLength": 1},
+    "asset_type": {"enum": ["figure", "table"]},
+    "label": {"type": "string"},
+    "caption": {"type": "string"},
+    "graphic_refs": {"type": "array", "items": {"type": "string"}},
+    "source_url": {"type": "string"},
+    "source_xml_sha256": {"type": "string", "minLength": 1},
+    "license": {"type": "string"},
+    "reuse_decision": {"enum": ["blocked_unknown_license", "manual_review_required"]},
+    "downloaded": {"const": false},
+    "embedded": {"const": false}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "V5 dated guideline source and recommendation record",
+  "type": "object",
+  "required": ["guideline_id", "publisher", "title", "stable_url", "publication_date", "last_updated", "recommendation_text", "strength_grade", "accessed_at", "version"],
+  "properties": {
+    "guideline_id": {"type": "string", "minLength": 1},
+    "publisher": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 1},
+    "stable_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+    "publication_date": {"type": "string", "format": "date"},
+    "last_updated": {"type": "string", "format": "date"},
+    "recommendation_text": {"type": "string", "minLength": 1},
+    "strength_grade": {"type": "string", "minLength": 1},
+    "evidence_reference": {"type": "string"},
+    "accessed_at": {"type": "string", "format": "date"},
+    "version": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": true
+}

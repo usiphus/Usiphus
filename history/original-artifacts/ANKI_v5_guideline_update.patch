@@ -1,0 +1,1387 @@
+From ad68be8282269d7633ee4e076b66984613cd34ee Mon Sep 17 00:00:00 2001
+From: OpenAI Assistant <assistant@openai.com>
+Date: Fri, 30 Oct 2026 20:45:13 +0000
+Subject: [PATCH 1/3] Add PubMed clinical guideline source integration
+
+---
+ BUG_AUDIT.md                    |   6 +-
+ CHANGELOG.md                    |  15 +++-
+ PR_DESCRIPTION.md               |   6 +-
+ README.md                       |  29 +++---
+ ROADMAPS.md                     |  17 ++--
+ ROADMAP_COMPLETION_REPORT.md    |   6 +-
+ ROADMAP_v5.md                   |  64 ++++++-------
+ ROADMAP_v6.md                   |  13 ++-
+ case_database.py                |  92 ++++++++++++-------
+ guideline_allowlist.json        |  25 +++---
+ guideline_sources.py            | 155 ++++++++++++++++++++++++++++++++
+ pyproject.toml                  |   2 +-
+ schemas/sqlite_schema.md        |   8 +-
+ tests/test_guideline_sources.py |  62 +++++++++++++
+ tests/test_v5_release.py        |  10 +--
+ tests/test_v5_v6.py             |  26 +++---
+ v5_release.py                   |  16 ++--
+ 17 files changed, 421 insertions(+), 131 deletions(-)
+ create mode 100644 guideline_sources.py
+ create mode 100644 tests/test_guideline_sources.py
+
+diff --git a/BUG_AUDIT.md b/BUG_AUDIT.md
+index f17bc82..e5df9e0 100644
+--- a/BUG_AUDIT.md
++++ b/BUG_AUDIT.md
+@@ -134,7 +134,7 @@ See `ROADMAP_v7.md` for prioritized pre-V8 release gates.
+ ### Delivered
+ - Added `v5_release.py`: persistent SQLite harvest state, resumable retry queue, bounded Retry-After/backoff helper, per-host rate limiter, full manifest/cache verification, gold-set evaluation metrics, signed reviewer-token issuance/verification, and guideline record validation.
+ - Extended `specialty_harvest.py` with `--target-saved`, hard `--max-candidates`, persistent state DB, per-host rate limiting, retryable/permanent failure tracking, and `--verify-cache`.
+-- Extended `case_database.py` to schema v4 with append-only claim assessments, high-risk flags, double independent clinician assessment, signed reviewer decisions, separate guideline ingestion, and hash-bearing review queue export.
++- Extended `case_database.py` to schema v5 with append-only claim assessments, high-risk flags, double independent clinician assessment, signed reviewer decisions, PubMed guideline citation discovery and source-separated recommendation storage, and hash-bearing review queue export.
+ - Changed claim semantics: an evidence span is not itself a claim, and a linked span does not automatically set `evidence_covered`. Authenticated clinician assessment is required.
+ - Changed `cases2anki.py` so `--approved-only` requires the SQLite audit database and checks current card content, source XML hash, evidence spans, all claim assessments, and signed card approval.
+ - Added a gold-set evaluator that rejects synthetic/unadjudicated records and requires distinct reviewer IDs; no real gold dataset or clinical metrics are fabricated.
+@@ -142,14 +142,14 @@ See `ROADMAP_v7.md` for prioritized pre-V8 release gates.
+ ### Verification
+ - `python -m py_compile *.py tests/*.py` — passed.
+ - `python -m unittest discover -s tests -q` — 62 offline tests passed.
+-- SQLite schema v4 initialization, `PRAGMA integrity_check`, and `PRAGMA foreign_key_check` — passed.
++- SQLite schema v5 initialization, `PRAGMA integrity_check`, and `PRAGMA foreign_key_check` — passed.
+ - CLI help smoke tests for V5 harvest and evaluation/token tools — passed.
+ 
+ ### External gates still open
+ - Real clinician-adjudicated gold dataset and performance report.
+ - Institutional SSO/MFA/reviewer directory, managed signing-key storage/rotation, and external immutable audit.
+ - Crossmark adapter and live Europe PMC/Crossref verification.
+-- Clinical governance approval of the shipped guideline allow-list (disabled by default).
++- Manual verification of guideline recommendation wording and current version against the issuing publisher.
+ - Production corpus, legal/licence review, and real Anki collection update/history tests.
+ 
+ The V5 engineering scope is implemented, but these external/human requirements prevent claiming a validated clinical-safety release.
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 70094dc..9fa29b9 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -1,5 +1,17 @@
+ # Changelog
+ 
++## 8.2.1 — 2026-10-30
++
++### Added
++- PubMed guideline citation discovery via NCBI E-utilities with topic search and bounded result count.
++- Guideline metadata/abstract import is separate from case reports; abstract-only citations never create recommendation claims.
++- SQLite schema v5 adds guideline source database, source record ID, journal, DOI, abstract, and provenance label.
++- Removed the unrelated institutional governance-attestation subsystem; retained clinical reviewer validation and evidence safeguards.
++
++### Safety boundaries
++- PubMed is a discovery/indexing service, not the guideline issuer. Confirm current recommendation wording/version at the issuing publisher.
++- No guideline recommendation is auto-approved; curated recommendations remain `needs_review`.
++
+ ## 8.2.0 — 2026-10-30
+ 
+ ### Added
+@@ -8,13 +20,12 @@
+ - Per-host rate limiting and shared bounded Retry-After/backoff logic.
+ - HMAC-signed, expiring, role-scoped reviewer tokens; approvals are bound to current content/evidence hashes.
+ - Claim-level authenticated support assessments; evidence links alone no longer count as verified support; high-risk claims require two distinct reviewers.
+-- Separate allow-list-gated guideline ingestion and explicit governance approval fields.
++- Separate manual guideline-record ingestion and guideline claim storage; source claims remain separate from case reports.
+ - Gold-set evaluation runner with per-specialty/card-type precision, recall, F1, evidence exactness, unsupported-claim rate, denominators and error examples.
+ - SQLite schema migration v4 (full-card-content approval hashes) and expanded offline tests.
+ 
+ ### Safety boundaries
+ - No synthetic clinical gold data or fabricated clinical metrics are shipped.
+-- The guideline allow-list is intentionally unapproved by default.
+ - HMAC tokens require institutional provisioning and secret management; no SSO/IdP is included.
+ - Engineering completion does not certify clinical safety; live provider checks and clinician adjudication remain required.
+ 
+diff --git a/PR_DESCRIPTION.md b/PR_DESCRIPTION.md
+index bf31486..0b5eeac 100644
+--- a/PR_DESCRIPTION.md
++++ b/PR_DESCRIPTION.md
+@@ -2,7 +2,7 @@
+ 
+ ## Summary
+ 
+-- Implement V5 engineering workflows across harvesting, claim-level evidence, reviewer governance, guideline ingestion, evaluation, and cache verification.
++- Implement V5 engineering workflows across harvesting, claim-level evidence, reviewer validation, PubMed guideline-source discovery, evaluation, and cache verification.
+ - Reconcile the V4–V8 roadmap status against inspectable code and tests; document clinical/institutional release gates explicitly.
+ 
+ - Add optional Europe PMC `status-update-search` and Crossref `update-to` screening with TTL caching and explicit `unknown` / `conflict` outcomes.
+@@ -11,7 +11,7 @@
+ - Add persistent resumable harvest checkpoints, per-host rate limiting, target-saved budgets, and cache verification.
+ - Add signed role-scoped reviewer tokens, hash-bound append-only approvals, claim-level support assessments, and two-reviewer gates for high-risk claims.
+ - Add separate allow-list-gated guideline ingestion and a gold-set metrics engine that rejects synthetic/unadjudicated labels.
+-- Add SQLite schema v4, idempotent JATS import, source-hash verification, FTS5 search, identity conflicts, and review queue exports.
++- Add SQLite schema v5, idempotent JATS import, source-hash verification, FTS5 search, identity conflicts, and review queue exports.
+ - Preserve the previous release archives and unclassified legacy material without inventing V1/V2 labels.
+ - Add CI for Python 3.10–3.13.
+ 
+@@ -23,4 +23,4 @@
+ 
+ ## Safety and scope notes
+ 
+-This is a tested V5 engineering implementation, not a clinical-safety certification. No real clinician-adjudicated gold set, institutional SSO/MFA/key vault, Crossmark adapter, governance-approved guideline allow-list, live Europe PMC/Crossref validation, image download, visual-card generation, or real Anki collection update test is included. The shipped allow-list is disabled by default. HMAC tokens require institution-controlled provisioning and secret management.
++This is a tested V5 engineering implementation, not a clinical-safety certification. No real clinician-adjudicated gold set, institutional SSO/MFA/key vault, Crossmark adapter, clinician verification of current publisher guideline text, live Europe PMC/Crossref validation, image download, visual-card generation, or real Anki collection update test is included. The HTTPS host registry is a technical source filter only. HMAC reviewer tokens require controlled provisioning and secret management.
+diff --git a/README.md b/README.md
+index 8fe5dac..3119f27 100644
+--- a/README.md
++++ b/README.md
+@@ -1,4 +1,4 @@
+-# Clinical Case Report → Exam Flashcards (Version 8.2.0)
++# Clinical Case Report → Exam Flashcards (Version 8.2.1)
+ 
+ > Roadmap index: [ROADMAPS.md](ROADMAPS.md) · [V4 baseline](ROADMAP_v4.md) · [V5 safety roadmap](ROADMAP_v5.md) · [V6 database design](ROADMAP_v6.md) · [V7 review workflow](ROADMAP_v7.md) · [V8 media roadmap](ROADMAP_v8.md) · [Code audit](BUG_AUDIT.md)
+ 
+@@ -13,19 +13,19 @@ A local workflow for finding open-access clinical case reports in Europe PMC, sc
+ - **Strict evidence export:** `--strict-evidence` keeps only cards with a direct evidence span and source URL.
+ - **Author-stated reasoning cards:** quote explicit reasoning from the discussion; do not infer guidelines or next-best steps.
+ 
+-## What's new in 8.2.0
++## What's new in 8.2.1
+ 
+ - **Source status:** Europe PMC status-update and Crossref `update-to` checks with TTL cache, force refresh, explicit unknown/conflict states, and default exclusion of confirmed retractions.
+ - **Reliable harvesting:** bounded HTTP reads/retries, numeric and HTTP-date `Retry-After`, jittered backoff, per-host rate limiting, persistent SQLite checkpoints, resumable processing, `--target-saved`, and hard `--max-candidates` budget.
+ - **Cache verification:** `--verify-cache` validates manifest consistency, required files, metadata schema, identity/specialty/status, and source XML SHA-256.
+ - **Claim-level evidence:** exact evidence spans and answer clauses are distinct. Only authenticated clinician assessments can mark claims supported; high-risk claims need two different reviewers.
+-- **Guideline separation:** guideline sources and claims are stored separately from case reports. Ingestion requires HTTPS, dates, version/grade, an allow-listed host, and explicit governance approval.
++- **Guideline separation:** guideline sources and claims are stored separately from case reports. PubMed-indexed guideline discovery is available through the NCBI E-utilities API. Citations and abstracts are stored separately from case reports; recommendation statements are never inferred from abstracts and remain in `needs_review` until manually curated against the issuing publisher.
+ - **Evaluation runner:** per-specialty and per-card-type precision/recall/F1, evidence exactness, unsupported-claim rate, denominators and error examples. It accepts only real adjudicated data; no synthetic gold set or fabricated metrics is included.
+-- **SQLite schema v4:** explicit migrations, append-only claim-assessment history, and hash-bound review decisions.
++- **SQLite schema v5:** explicit migrations, append-only claim-assessment history, and hash-bound review decisions.
+ 
+ ## V5 release boundary
+ 
+-The V5 engineering workflows are implemented, but this is **not a clinical-safety certification**. A real multi-specialty clinician-adjudicated gold set, institutional reviewer identity provider and key management, Crossmark integration, live Europe PMC/Crossref verification, and a governance-approved guideline allow-list must be supplied by the deploying institution. The shipped allow-list is intentionally unapproved. HMAC tokens provide signed role claims only when an institution controls issuance and secret storage; they are not SSO/MFA. See `ROADMAP_v5.md` for exact gates.
++The V5 engineering workflows are implemented, but this is **not a clinical-safety certification**. A real multi-specialty clinician-adjudicated gold set, production reviewer identity/key management, Crossmark integration, and live provider verification remain release gates. PubMed is used as a discovery/indexing service, not treated as the issuing authority for a guideline. Current publisher versions and recommendation wording must be checked at the source before clinical use. See `ROADMAP_v5.md` for exact gates.
+ 
+ ## What was introduced in 4.0
+ 
+@@ -148,7 +148,16 @@ python case_database.py import --db case_library.sqlite3 --input case_library \
+ 
+ For authenticated database review, use `--authenticated-review-decisions` and `--claim-assessments` with `ANKI_REVIEW_HMAC_SECRET`. Plain `--review-decisions` remains a legacy import path and never authorizes approved-only export. Claim assessments are individually hash-bound; high-risk claims require two distinct clinician identities. Local SQLite triggers are not tamper-proof against host/database replacement.
+ 
+-Guideline JSONL can be imported separately with `--guideline-jsonl`. Before importing, the allow-list JSON must be approved by the clinical governance owner (`governance_approved: true`, `approved_by`, and `reviewed_at`). The shipped allow-list is disabled by default.
++Discover PubMed-indexed clinical practice guidelines for a condition and import the citations separately from case reports:
++
++```bash
++python guideline_sources.py --query "acute urinary retention" --limit 30 \
++  --output data/guidelines/acute-urinary-retention.jsonl
++python case_database.py import --db case_library.sqlite3 --input case_library \
++  --guideline-jsonl data/guidelines/acute-urinary-retention.jsonl
++```
++
++The importer stores citation metadata, abstract, DOI (when indexed), PubMed URL, access date, and source label. It does **not** convert an abstract into a recommendation. Curated recommendation text and strength/grade can be added as separate records and remain `needs_review` until a clinician verifies the exact current publisher document. The host list in `guideline_allowlist.json` is a technical HTTPS source filter only; it is not evidence that a recommendation is clinically approved.
+ 
+ 
+ Create a urology TSV without differential or reasoning cards:
+@@ -195,13 +204,13 @@ Converter output:
+ - Management cards describe what happened in one published case. They are **not** guideline recommendations and must not be generalized to patient care.
+ - The educational score is a transparent text-feature score, not a peer-review, evidence-quality, novelty, or clinical-importance rating.
+ - `OPEN_ACCESS:Y` and full-text availability do not by themselves grant unrestricted redistribution rights. The original article's licence and publisher terms govern reuse. Preserve attribution and do not redistribute copied full text unless the licence permits it. The scripts preserve licence metadata but do not make legal determinations.
+-- Article-status screening is best-effort; unknown/conflicting status requires manual checking. HMAC-signed reviewer tokens are only as trustworthy as institutional provisioning and key management. The local database is not tamper-proof. No clinician gold set or clinical metrics are shipped, and the guideline allow-list requires governance approval.
++- Article-status screening is best-effort; unknown/conflicting status requires manual checking. HMAC-signed reviewer tokens are only as trustworthy as institutional provisioning and key management. The local database is not tamper-proof. No clinician gold set or clinical metrics are shipped, and guideline recommendations require manual verification against current publisher sources.
+ 
+ ## Offline tests
+ 
+ ```bash
+ python -m unittest discover -s tests -v
+-python -m py_compile specialty_harvest.py cases2anki.py source_integrity.py case_database.py tests/*.py
++python -m py_compile specialty_harvest.py cases2anki.py source_integrity.py case_database.py guideline_sources.py tests/*.py
+ ```
+ 
+ The tests use synthetic JATS and mocked API responses. They do not establish live API compatibility, diagnosis accuracy, MeSH coverage, or clinical safety.
+@@ -221,7 +230,7 @@ python cases2anki.py case_library --format both --output decks/v8_cases \
+ 
+ This creates `decks/v8_cases_assets.jsonl`. Each figure/table record includes its caption, JATS graphic references, source XML hash, and licence string. Unknown licences are blocked; known licence strings still require manual review. The tool does not interpret or embed article images.
+ 
+-The full version history is in `ROADMAPS.md`. V1/V2 source snapshots were not separately identifiable; legacy archives are preserved in the combined distribution rather than mislabelled. V5 engineering workflows are implemented, but its clinical release gates remain open; V6 schema v4 is the current local database foundation. V8's remaining visual-card, licensing, and safe Anki-update gates are listed in `ROADMAP_v8.md`.
++The full version history is in `ROADMAPS.md`. V1/V2 source snapshots were not separately identifiable; legacy archives are preserved in the combined distribution rather than mislabelled. V5 engineering workflows are implemented, but its clinical release gates remain open; V6 schema v5 is the current local database foundation. V8's remaining visual-card, licensing, and safe Anki-update gates are listed in `ROADMAP_v8.md`.
+ 
+ ## Recommended end-to-end commands
+ 
+@@ -244,7 +253,7 @@ python cases2anki.py case_library --format both --output decks/clinical_cases \
+   --strict-evidence --asset-report --preview
+ 
+ # 4) Run all offline checks before using the deck
+-python -m py_compile specialty_harvest.py cases2anki.py source_integrity.py case_database.py tests/*.py
++python -m py_compile specialty_harvest.py cases2anki.py source_integrity.py case_database.py guideline_sources.py tests/*.py
+ python -m unittest discover -s tests -v
+ ```
+ 
+diff --git a/ROADMAPS.md b/ROADMAPS.md
+index 65af71c..b72a575 100644
+--- a/ROADMAPS.md
++++ b/ROADMAPS.md
+@@ -10,8 +10,8 @@ This index is the source of truth for version history. A version is labelled imp
+ | V2 | No separately identifiable V2 source tree or release archive | Historical record missing | Intermediate iteration; scope cannot be reconstructed reliably |
+ | V3 | `clinical_case_flashcards_v3.0.zip` | Archived release snapshot | Conservative diagnosis extraction, quality CSV, differential/pitfall cards, basic QA, DOI deduplication, cache re-filtering |
+ | V4 | `ROADMAP_v4.md`, V4 code baseline and tests | Implemented baseline | MeSH relevance, assertion attributes, evidence sentence display, differential cards, deduplication, provenance, cache repair/re-filtering |
+-| V5 | `ROADMAP_v5.md`, `v5_release.py`, V5 tests | Engineering workflows implemented; clinical-safety release blocked | Persistent checkpoints/cache verification, retry/rate-limit controls, signed role-scoped review tokens, clinician-assessed claim coverage, guideline allow-list workflow, and gold-set evaluation engine; real clinician dataset, institutional IdP, live provider verification, Crossmark and governance approval remain external gates |
+-| V6 | `ROADMAP_v6.md` | Partial implementation (SQLite schema v4) | Idempotent JATS import, exact evidence validation, FTS5, conflict flags, asset metadata and local review history; concept/event annotation population, deterministic rebuild/diff and authenticated governance remain open |
++| V5 | `ROADMAP_v5.md`, `v5_release.py`, V5 tests | Engineering workflows implemented; clinical-safety release blocked | Persistent checkpoints/cache verification, retry/rate-limit controls, signed role-scoped review tokens, clinician-assessed claim coverage, PubMed guideline citation discovery, source-separated recommendation review, and gold-set evaluation engine; real clinician dataset, production reviewer identity/key management, live provider verification, and Crossmark remain external gates |
++| V6 | `ROADMAP_v6.md` | Partial implementation (SQLite schema v5) | Idempotent JATS import, exact evidence validation, FTS5, conflict flags, asset metadata and local review history; concept/event annotation population, deterministic rebuild/diff and authenticated institutional reviewer provisioning remains open |
+ | V7 | `ROADMAP_v7.md`, current source/tests | Core workflow implemented locally; production gates open | Stable card/evidence IDs, explicit answer claims, signed audit-backed review, clinician claim assessments, high-risk double review, strict-evidence export; institutional SSO/MFA, real clinical validation and external immutable audit remain open |
+ | V8 | `ROADMAP_v8.md`, current source/tests | Media-inventory foundation implemented; visual release incomplete | Metadata-only figure/table inventory with fail-closed licensing; licensed asset download/validation, visual cards, image review UX and safe Anki update integration remain open |
+ 
+@@ -58,6 +58,13 @@ V1 prototype (historical source not preserved)
+ 
+ ## 8.2.0 delivery update (2026-10-30)
+ 
+-- V5: engineering workflows are implemented: status screening/retraction gates, persistent harvest checkpoints, retry/rate-limit handling, cache verification, signed reviewer tokens, per-claim authenticated clinical assessments (double review for high-risk claims), guideline ingestion/allow-list gates, and a clinician-gold-set metrics runner. No real adjudicated gold set, institutional IdP/key management, Crossmark adapter, live provider verification, or governance-approved guideline allow-list is supplied; clinical-safety release remains blocked.
+-- V6: SQLite schema v4, idempotent JATS imports, hash verification, nested sections, FTS5, identity conflict reporting, asset metadata, review-card/evidence import, hash-bound append-only review decisions, authenticated claim assessments, schema migrations v1–v4, and JSONL manifest/review-queue exports are implemented. Concept/event population and deterministic rebuild/diff remain incomplete.
+-- Verification: 59 offline unit tests pass; Python compilation and SQLite integrity/foreign-key checks pass. HMAC token and clinician-claim workflows are exercised with test keys, not a production identity provider. No real clinical gold-set evaluation, live API run, licensed asset review, or real Anki collection import was performed.
++- V5: engineering workflows are implemented: status screening/retraction gates, persistent harvest checkpoints, retry/rate-limit handling, cache verification, signed reviewer tokens, per-claim authenticated clinical assessments (double review for high-risk claims), PubMed-indexed guideline discovery, separate source/claim storage, and a clinician-gold-set metrics runner. No real adjudicated gold set, production reviewer identity/key management, Crossmark adapter, or live provider verification is supplied; clinical-safety release remains blocked.
++- V6: SQLite schema v5, idempotent JATS imports, hash verification, nested sections, FTS5, identity conflict reporting, asset metadata, review-card/evidence import, hash-bound append-only review decisions, authenticated claim assessments, schema migrations v1–v5, and JSONL manifest/review-queue exports are implemented. Concept/event population and deterministic rebuild/diff remain incomplete.
++- Verification: 66 offline unit tests pass; Python compilation and SQLite integrity/foreign-key checks pass. HMAC token and clinician-claim workflows are exercised with test keys, not a production identity provider. No real clinical gold-set evaluation, live API run, licensed asset review, or real Anki collection import was performed.
++
++
++## 8.2.1 delivery update (2026-10-30)
++
++- V5: added PubMed guideline citation discovery, abstract/provenance metadata, and source-separated recommendation review. Removed the unrelated institutional governance-attestation layer; reviewer identity, hash-bound evidence assessments, and high-risk double review remain.
++- V6: database migration v5 adds PubMed source identifiers, DOI, abstract, and provenance to guideline source records.
++- Verification: 66 offline unit tests pass; Python compilation passes. PubMed network discovery is implemented against official E-utilities endpoints and exercised with deterministic mocked responses; no live API result or clinical recommendation approval is claimed.
+diff --git a/ROADMAP_COMPLETION_REPORT.md b/ROADMAP_COMPLETION_REPORT.md
+index aae9214..d01c546 100644
+--- a/ROADMAP_COMPLETION_REPORT.md
++++ b/ROADMAP_COMPLETION_REPORT.md
+@@ -2,15 +2,15 @@
+ 
+ **Audit date:** 2026-10-30
+ **Workspace:** local `8.2.0` implementation
+-**Overall status:** core educational pipeline foundations are implemented, but the complete V4–V8 production release is **not** complete. Items requiring external clinical governance, licensing decisions, credentials, or an Anki runtime remain explicitly blocked.
++**Overall status:** core educational pipeline foundations are implemented, but the complete V4–V8 production release is **not** complete. Items requiring clinician adjudication, licensing decisions, credentials, or an Anki runtime remain explicitly blocked.
+ 
+ ## Cross-version status
+ 
+ | Version | Delivered in this workspace | Still open / release gate |
+ |---|---|---|
+ | V4 | MeSH enrichment, heuristic assertion attributes, diagnosis evidence sentence, differential/pitfall cards, deduplication, provenance, cache re-filtering/repair, dotted output basenames. | Heuristic extraction limitations; no V5 status screening or clinician validation in the original V4 release. |
+-| V5 | Europe PMC/Crossref status screening; explicit unknown/conflict; TTL cache; retraction gate; bounded HTTP/retry/rate-limit; persistent harvest checkpoints/resume; target-saved and candidate budget; cache verifier; signed reviewer tokens; append-only hash-bound card decisions; separate answer claims and clinician assessments (double review for high-risk claims); guideline ingestion gate; per-specialty gold-set evaluator. | Real clinician-adjudicated multi-specialty gold set and metrics; institutional SSO/MFA/key vault and external immutable audit; Crossmark; live provider validation; governance approval of guideline allow-list; clinician adjudication of every semantic claim. |
+-| V6 | SQLite schema v4; idempotent JATS import; source XML hash verification; nested sections; FTS5; identity-conflict reporting; asset metadata; review-queue import; hash-bound local review history; JSONL manifest. | Populate concepts/events from reviewed annotations; deterministic full rebuild and dry-run diff; migration path beyond v4; larger real-world corpus validation; authenticated governance. |
++| V5 | Europe PMC/Crossref status screening; explicit unknown/conflict; TTL cache; retraction gate; bounded HTTP/retry/rate-limit; persistent harvest checkpoints/resume; target-saved and candidate budget; cache verifier; signed reviewer tokens; append-only hash-bound card decisions; separate answer claims and clinician assessments (double review for high-risk claims); PubMed guideline citation discovery and source-separated recommendation review; per-specialty gold-set evaluator. | Real clinician-adjudicated multi-specialty gold set and metrics; production reviewer identity/key management; Crossmark; live provider validation; clinician verification of current publisher guideline text; clinician adjudication of every semantic claim. |
++| V6 | SQLite schema v5; idempotent JATS import; source XML hash verification; nested sections; FTS5; identity-conflict reporting; asset metadata; review-queue import; hash-bound local review history; JSONL manifest. | Populate concepts/events from reviewed annotations; deterministic full rebuild and dry-run diff; migration path beyond v5; larger real-world corpus validation; authenticated reviewer provisioning. |
+ | V7 | Stable card/evidence IDs; answer-claim declarations; sentence evidence spans; signed review queue/audit workflow; per-claim clinician assessment; high-risk double review; approved-only export verifies current card/evidence/claim state. | Institutional SSO/MFA and external immutable audit; real clinician-labelled metrics; expanded fuzz/property/performance tests; actual Anki import/update compatibility and history-preservation tests. |
+ | V8 | Deterministic JATS figure/table metadata inventory; source XML hash and source URL; graphic references/captions/licence metadata; fail-closed reuse state; no implicit downloads or embedding. | Human licence decision workflow; approved asset download and byte-level MIME/size/dimension/checksum validation; asset deduplication and safe processing; image-caption review; image occlusion/visual card generators; visual review UX; stable note GUIDs and dry-run conflict-safe Anki updates. |
+ 
+diff --git a/ROADMAP_v5.md b/ROADMAP_v5.md
+index 1041b3c..c371e71 100644
+--- a/ROADMAP_v5.md
++++ b/ROADMAP_v5.md
+@@ -1,6 +1,6 @@
+ # Version 5.0 roadmap — source integrity, clinical validation, and evidence-locked learning
+ 
+-**Status:** V5 engineering workflows are implemented in the 8.2.0 workspace; the clinical-safety release remains blocked pending real clinician adjudication, institutional identity provisioning, and live provider validation.
++**Status:** V5 core engineering is implemented. This update adds PubMed guideline discovery and separates indexed citations from curated recommendations. Clinical release remains blocked pending real clinician adjudication, production reviewer identity/key management, and live provider verification.
+ **Depends on:** V4.0 baseline.
+ **Primary objective:** ensure that clinical cards are not only readable, but traceable, current in source status, and evaluated against clinician-labelled examples.
+ 
+@@ -64,21 +64,24 @@ Keep V4's CLI compatible. New behaviour must be opt-in until validated, except s
+ 
+ **Acceptance:** deliberately altered offsets, missing spans, source-hash changes, and unsupported answer clauses are detected in tests.
+ 
+-#### 3.4 Human review governance
++#### 3.4 Human clinical review
+ - Keep `needs_review`, `approved`, `needs_changes`, and `rejected` as explicit states.
+ - Record reviewer ID, role, timestamp, decision, notes, card content hash, and evidence hash in append-only history.
+-- Prevent the same person from silently approving their own generated content where institutional governance requires separation.
++- Prevent the same person from silently approving their own generated content where reviewer policy requires separation.
+ - Reviewer tokens are HMAC-signed and role-scoped; the institution must authenticate and provision the reviewer before issuing a token. This is not SSO/MFA or a tamper-proof audit log.
+ 
+ **Acceptance:** approved-only export requires a current approval for the exact card/evidence hash; edits invalidate approval.
+ 
+ #### 3.5 Guideline source separation
+ - Guideline cards must be stored separately from case-report cards.
+-- Record publisher, guideline title, stable URL, publication date, last-updated date, recommendation wording, strength/grade, access date, and version.
+-- Require a maintained authoritative source allow-list and human review for high-impact recommendations.
+-- Never infer a guideline from case chronology or an author's discussion sentence.
++- Discover clinical practice guideline citations from PubMed using the official NCBI E-utilities API and publication-type filters; retain PMID, DOI, journal, title, publication date, abstract, stable PubMed URL, access date, and source provenance. Identify PubMed as the index and store journal separately; do not label the journal as the publisher.
++- Treat PubMed as an indexing/discovery source, not as the issuing guideline publisher. Preserve publisher identity/URL when supplied and require verification against the current publisher document.
++- Store citation metadata separately from case-report records and separately from recommendation claims.
++- Never turn an abstract, case chronology, or an author's discussion sentence into a recommendation automatically.
++- Store curated recommendation wording, strength/grade, exact source reference, version, and update date as a separate claim; keep it `needs_review` until clinician verification.
++- Restrict imported URLs to HTTPS hosts in the technical source registry; this is a URL safety filter, not a clinical approval.
+ 
+-**Acceptance:** every guideline claim has a dated source and is visually labelled as guideline-derived; case-derived management remains labelled as reported management.
++**Acceptance:** offline tests cover PubMed query construction, XML metadata extraction, missing identifiers, abstract-only records, source-host rejection, idempotent import, and the rule that abstract-only records create no recommendation claims.
+ 
+ ### P1 — reliability, identity, and parser quality
+ 
+@@ -178,14 +181,15 @@ Recommended implementation order: M0 → M1/M6 in parallel → M2/M3 → M4/M5 
+ - [ ] Clinician-labelled evaluation dataset and per-specialty metrics published (evaluation runner is implemented; real labels are not supplied).
+ - [x] Every answer claim can be separately declared and linked to exact, hash-bound evidence; clinician support assessment remains mandatory.
+ - [x] Reviewer decisions are signed, timestamped, append-only, role-scoped, and bound to content/evidence hashes (institutional IdP/MFA remains external).
+-- [x] Guideline claims use a separate dated source layer and a fail-closed allow-list gate (governance approval remains external).
++- [x] Guideline citations use a separate source layer; PubMed discovery imports citation metadata/abstracts without inventing recommendation claims.
++- [x] Curated recommendation claims remain separate, source-linked, and `needs_review` until clinical verification.
+ - [x] HTTP retries, response bounds, cache validation, and resumability have offline fault-injection tests.
+ - [ ] Quality, licence, and attribution gates pass in a production corpus (unknown licence remains blocked; live corpus review is outstanding).
+ - [x] README, migration notes, changelog, and clean-install instructions match shipped engineering behaviour.
+ 
+ ## 7. Known boundaries
+ 
+-V5 engineering workflows are implemented, but the clinical-safety release remains incomplete. The system records clinician assessments of each answer clause; it does not independently prove semantic entailment. No clinician-adjudicated gold set exists, no institutional IdP/MFA/key vault is integrated, and the shipped guideline allow-list is intentionally unapproved. Status checks are best-effort and have not been live-verified in this offline test run.
++V5 engineering workflows are implemented, but the clinical-safety release remains incomplete. The system records clinician assessments of each answer clause; it does not independently prove semantic entailment. No clinician-adjudicated gold set exists, and production identity/key management is not integrated. PubMed guideline discovery returns indexed citation metadata and abstracts only; current recommendation wording and version must be verified against the issuing publisher. Status checks are best-effort and have not been live-verified in this offline test run.
+ 
+ ## 8. Technical references
+ 
+@@ -196,27 +200,25 @@ V5 engineering workflows are implemented, but the clinical-safety release remain
+ - Crossref versioning and update relationships: https://www.crossref.org/documentation/principles-practices/best-practices/versioning/
+ - Crossmark: https://www.crossref.org/crossmark/
+ - Crossref REST API: https://www.crossref.org/documentation/retrieve-metadata/rest-api/
++- NCBI PubMed E-utilities reference: https://www.ncbi.nlm.nih.gov/books/NBK25499/
++- NCBI E-utilities usage guidance: https://eutilities.github.io/site/API_Key/usageandkey/
+ 
+ 
+-## 8.2.0 delivery record (engineering implementation; 2026-10-30)
+-
+-### Implemented engineering workflows (8.2.0)
+-- Europe PMC status-update search and Crossref `update-to` lookup, TTL cache, force refresh, explicit unknown/conflict states, bounded reads/retries, and default exclusion of confirmed retractions.
+-- Shared retry-delay parsing for numeric and HTTP-date `Retry-After`, bounded exponential backoff with jitter, per-host rate limiting, and persistent SQLite harvest checkpoints (`discovered` → `downloaded` → `parsed` → `retained` / `rejected` / `failed`).
+-- Separate `--target-saved` and hard `--max-candidates` controls; resumable runs reuse cached article files and retry only eligible failed checkpoint records.
+-- `--verify-cache` / `v5_release.py verify-cache`: manifest, schema, required-file, identity, specialty, status, and XML SHA-256 checks; corrupt or inconsistent cache entries fail the gate.
+-- Claim-level contracts distinguish evidence spans from answer claims. A linked quotation is traceability, not proof of support. Coverage remains false until a signed clinician assessment; high-risk claims require two distinct clinician/adjudicator identities.
+-- Reviewer tokens are HMAC-signed, expiring, role-scoped, and decisions bind to exact content/evidence hashes. Plain reviewer names and legacy local JSONL decisions cannot authorize approved-only export. This is a signed-token trust boundary, not a substitute for an institutional SSO/IdP or hardware-backed identity system.
+-- Guideline records have a separate ingestion path and tables, required dates/version/strength, HTTPS URLs, and a fail-closed allow-list. The shipped allow-list is intentionally **not governance-approved**; an authorized clinical governance owner must approve and maintain it before guideline ingestion.
+-- Gold-set evaluation tooling reports precision, recall, F1, evidence exactness, unsupported-claim rate, denominators, and error examples by specialty/card type. It rejects synthetic or non-adjudicated records and enforces distinct reviewer IDs and double review for high-risk records.
+-- SQLite schema migration v4 adds append-only claim-assessment history and high-risk review requirements.
+-
+-### External / human release blockers (not fabricated)
+-- No real clinician-labelled multi-specialty gold set is bundled. The evaluation command is implemented, but no clinical metrics are published until qualified reviewers label and adjudicate a de-identified dataset.
+-- Reviewer token issuance is implemented, but the project has no institutional IdP, reviewer directory, MFA, managed key rotation, or production secret vault. The issuer secret and reviewer provisioning must be owned by the deploying institution; HMAC is not equivalent to SSO.
+-- No Crossmark-specific adapter or live Europe PMC/Crossref verification was run in this offline test environment.
+-- A signed claim assessment records a human judgement; software cannot establish semantic entailment by itself. Clinicians must inspect source context and adjudicate every answer clause.
+-- The allow-list file requires a named governance approval before guideline ingestion; no guideline recommendation is auto-approved.
+-- Local SQLite append-only triggers are not tamper-proof against replacement of the database or host compromise. Production audit requires external immutable logging/backups and access controls.
+-
+-V5 engineering implementation is substantially complete, but V5 is **not certified as a clinical-safety release** until these human, institutional, and live-service gates are closed.
++## 8.2.1 delivery record — V5 guideline-source integration (2026-10-30)
++
++### Implemented
++- Removed the unrelated institutional governance-attestation subsystem. V5 clinical review, signed reviewer tokens, evidence contracts, and high-risk double-review requirements remain intact.
++- Added `guideline_sources.py`, using the official NCBI PubMed E-utilities endpoints to search records indexed as `Practice Guideline` or `Guideline` for a supplied clinical topic.
++- Added XML parsing for PMID, title, journal, publication date, abstract, DOI, publication types, and stable PubMed URL. The query is bounded to 1–200 records and uses the shared bounded/retrying HTTP client.
++- Added SQLite schema migration v5 for guideline source database, journal, record ID, DOI, abstract, and provenance label.
++- Guideline citations import into separate guideline tables. Abstract-only records do not create recommendation claims. Explicitly curated recommendation text remains `needs_review` and must be checked against the current issuing-publisher document.
++- The source host registry is now a technical HTTPS URL filter only; it does not represent clinical or institutional approval.
++
++### Remaining clinical release gates
++- A clinician-adjudicated, multi-specialty gold set and real evaluation metrics are still not supplied.
++- Current recommendation wording, strength/grade, update date, and version require manual extraction/verification from the issuing publisher; PubMed indexing alone does not prove that a guideline remains current.
++- No Crossmark-specific adapter or live provider verification is claimed by the offline test run.
++- Reviewer token signing remains a software trust mechanism, not institutional SSO/MFA or managed key infrastructure.
++- No clinical recommendation is approved automatically. Case-reported management and guideline-derived recommendations remain distinct.
++
++V5 engineering implementation is substantially complete. V5 is **not a clinical-safety certification** and must not be used as an autonomous diagnostic or treatment system.
+diff --git a/ROADMAP_v6.md b/ROADMAP_v6.md
+index 0a0e6b9..5e47f7f 100644
+--- a/ROADMAP_v6.md
++++ b/ROADMAP_v6.md
+@@ -1,6 +1,6 @@
+ # Version 6.0 roadmap — specialty-focused clinical case knowledge base
+ 
+-**Status:** SQLite schema v4 and core local database workflows are implemented in `case_database.py`; V6 remains partial because deterministic rebuild/diff and richer annotation population are still open.
++**Status:** SQLite schema v5 and core local database workflows are implemented in `case_database.py`; V6 remains partial because deterministic rebuild/diff and richer annotation population are still open.
+ **Purpose:** define a structured, queryable case library between V5 source/evidence hardening and V7 card review workflows.
+ 
+ ## 1. Goals
+@@ -62,10 +62,10 @@ The dataset is for educational case reports, not identifiable patient records. D
+ V6 should consume V5 source-status/evidence contracts and provide structured records for V7 review and V8 media-aware card generation. V6 now provides the local SQLite layer consumed by the V7/V8 workflow. It is not yet a complete rebuildable knowledge-base release: concepts/events are not automatically populated from reviewed annotations, rebuild/diff commands are incomplete, and full rebuild/diff and annotation population remain incomplete.
+ 
+ 
+-## 8.2.0 delivery record (schema v4; 2026-10-30)
++## 8.2.0 delivery record (schema v5; 2026-10-30)
+ 
+ Implemented in `case_database.py`:
+-- SQLite schema/migration marker v4 (migrations 1–4) with articles, sections, evidence spans, concepts, clinical events, assets, cards, card claims, append-only card decisions and clinician claim assessments, identifier conflicts, separate guideline sources/claims, and FTS5 index.
++- SQLite schema/migration marker v5 (migrations 1–5) with articles, sections, evidence spans, concepts, clinical events, assets, cards, card claims, append-only card decisions and clinician claim assessments, identifier conflicts, separate guideline sources/claims, and FTS5 index.
+ - Idempotent case-folder import keyed by PMCID/source path; XML SHA-256 is verified against metadata when supplied. Source XML remains untouched.
+ - Nested JATS sections are retained; figure/table metadata is indexed without downloading or embedding media.
+ - Duplicate DOI/PMID identifiers are flagged rather than merged. Conflicting identifiers on an existing PMCID are retained as conflict metadata rather than silently replacing the original identifier.
+@@ -73,3 +73,10 @@ Implemented in `case_database.py`:
+ - CLI supports init/import/search/manifest/review-queue/integrity-check and authenticated decision/claim-assessment/guideline imports.
+ 
+ Remaining work: populate concepts and clinical events from reviewed annotations, add deterministic full rebuild and dry-run diff commands, populate concepts and clinical events, add full rebuild/diff commands, provide institutional SSO/MFA and external immutable audit, and validate behavior against larger real-world JATS corpora.
++
++
++## 8.2.1 schema update — guideline source provenance (2026-10-30)
++
++- Migration v5 adds `source_database`, `journal`, `source_record_id`, `doi`, `abstract`, and `source_label` to the separate `guideline_sources` table.
++- PubMed citation discovery records are stored independently from case reports and from curated recommendation claims.
++- Existing databases migrate forward without dropping existing case, evidence, card, or review records.
+diff --git a/case_database.py b/case_database.py
+index 048cd24..35988e1 100644
+--- a/case_database.py
++++ b/case_database.py
+@@ -14,7 +14,7 @@ import xml.etree.ElementTree as ET
+ from pathlib import Path
+ from typing import Any
+ 
+-DB_SCHEMA_VERSION = 4
++DB_SCHEMA_VERSION = 5
+ SUPPORTED_METADATA_SCHEMA_VERSION = 5
+ 
+ SCHEMA = """
+@@ -102,7 +102,9 @@ CREATE TABLE IF NOT EXISTS guideline_sources (
+     guideline_id TEXT PRIMARY KEY, publisher TEXT NOT NULL, title TEXT NOT NULL,
+     stable_url TEXT NOT NULL, publication_date TEXT NOT NULL DEFAULT '', last_updated TEXT NOT NULL DEFAULT '',
+     accessed_at TEXT NOT NULL, version TEXT NOT NULL DEFAULT '', allowlisted INTEGER NOT NULL DEFAULT 0,
+-    review_status TEXT NOT NULL DEFAULT 'needs_review'
++    review_status TEXT NOT NULL DEFAULT 'needs_review', source_database TEXT NOT NULL DEFAULT 'manual', journal TEXT NOT NULL DEFAULT '',
++    source_record_id TEXT NOT NULL DEFAULT '', doi TEXT NOT NULL DEFAULT '', abstract TEXT NOT NULL DEFAULT '',
++    source_label TEXT NOT NULL DEFAULT ''
+ );
+ CREATE TABLE IF NOT EXISTS guideline_claims (
+     guideline_claim_id TEXT PRIMARY KEY, guideline_id TEXT NOT NULL REFERENCES guideline_sources(guideline_id),
+@@ -174,6 +176,22 @@ def initialize(conn: sqlite3.Connection) -> None:
+             conn.execute("ALTER TABLE cards ADD COLUMN tags_json TEXT NOT NULL DEFAULT '[]'")
+         conn.execute("INSERT INTO schema_migrations(version, applied_at, description) VALUES(4, ?, ?)",
+                       (_now(), "Bind approvals to full card back panel and tags"))
++        current = 4
++    if current < 5:
++        columns = {row[1] for row in conn.execute("PRAGMA table_info(guideline_sources)")}
++        additions = {
++            "source_database": "TEXT NOT NULL DEFAULT 'manual'",
++            "journal": "TEXT NOT NULL DEFAULT ''",
++            "source_record_id": "TEXT NOT NULL DEFAULT ''",
++            "doi": "TEXT NOT NULL DEFAULT ''",
++            "abstract": "TEXT NOT NULL DEFAULT ''",
++            "source_label": "TEXT NOT NULL DEFAULT ''",
++        }
++        for name, declaration in additions.items():
++            if name not in columns:
++                conn.execute(f"ALTER TABLE guideline_sources ADD COLUMN {name} {declaration}")
++        conn.execute("INSERT INTO schema_migrations(version, applied_at, description) VALUES(5, ?, ?)",
++                     (_now(), "Add indexed guideline-source metadata and abstract provenance"))
+     conn.commit()
+ 
+ 
+@@ -616,45 +634,57 @@ def effective_review_status(conn: sqlite3.Connection, card_id: str) -> str:
+ 
+ 
+ def import_guideline_records(conn: sqlite3.Connection, records_path: Path, allowlist_path: Path) -> dict[str, int]:
+-    """Import dated guideline records into the separate guideline-only tables."""
++    """Import guideline citations separately from case reports and recommendation claims.
++
++    Discovery records may contain bibliographic metadata/abstract only. An abstract is
++    never silently converted into a recommendation; claims are stored only when an
++    explicit recommendation_text has been supplied for human review.
++    """
+     from v5_release import validate_guideline_record
+     config = json.loads(allowlist_path.read_text(encoding="utf-8"))
+     if not isinstance(config, dict) or not isinstance(config.get("hosts"), list):
+-        raise ValueError("Guideline allow-list must contain a hosts array")
+-    if config.get("governance_approved") is not True or not str(config.get("approved_by") or "").strip():
+-        raise PermissionError("Guideline allow-list requires explicit governance_approved=true and approved_by")
+-    dt.date.fromisoformat(str(config.get("reviewed_at") or "")[:10])
+-    hosts = {str(host).lower() for host in config["hosts"]}
++        raise ValueError("Guideline source registry must contain a hosts array")
++    hosts = {str(host).strip().lower().rstrip(".") for host in config["hosts"] if str(host).strip()}
+     if not hosts:
+-        raise ValueError("Guideline allow-list is empty; guideline ingestion is disabled")
+-    imported = rejected = 0
++        raise ValueError("Guideline source registry has no permitted HTTPS hosts")
++    imported = rejected = claims_imported = 0
+     for line_no, line in enumerate(records_path.read_text(encoding="utf-8").splitlines(), 1):
+         if not line.strip():
+             continue
+-        row = json.loads(line)
+-        if not isinstance(row, dict):
+-            rejected += 1
+-            continue
+         try:
++            row = json.loads(line)
++            if not isinstance(row, dict):
++                raise ValueError("record must be a JSON object")
+             clean = validate_guideline_record(row, hosts)
+-        except (ValueError, PermissionError):
++            conn.execute("""INSERT INTO guideline_sources(
++              guideline_id,publisher,title,stable_url,publication_date,last_updated,accessed_at,version,
++              allowlisted,review_status,source_database,journal,source_record_id,doi,abstract,source_label)
++              VALUES(?,?,?,?,?,?,?,?,1,'needs_review',?,?,?,?,?,?) ON CONFLICT(guideline_id) DO UPDATE SET
++              publisher=excluded.publisher,title=excluded.title,stable_url=excluded.stable_url,
++              publication_date=excluded.publication_date,last_updated=excluded.last_updated,
++              accessed_at=excluded.accessed_at,version=excluded.version,allowlisted=1,
++              review_status='needs_review',source_database=excluded.source_database,journal=excluded.journal,
++              source_record_id=excluded.source_record_id,doi=excluded.doi,abstract=excluded.abstract,
++              source_label=excluded.source_label""",
++              (clean["guideline_id"],clean["publisher"],clean["title"],clean["stable_url"],
++               clean.get("publication_date", ""),clean.get("last_updated", ""),clean["accessed_at"],clean["version"],
++               clean.get("source_database", "manual"),clean.get("journal", ""),clean.get("source_record_id", ""),clean.get("doi", ""),
++               clean.get("abstract", ""),clean.get("source_label", "")))
++            recommendation = str(clean.get("recommendation_text", "")).strip()
++            if recommendation:
++                claim_id = sha256(clean["guideline_id"] + "\0" + recommendation)
++                conn.execute("""INSERT INTO guideline_claims(guideline_claim_id,guideline_id,recommendation_text,strength_grade,evidence_reference,review_status)
++                  VALUES(?,?,?,?,?,'needs_review') ON CONFLICT(guideline_claim_id) DO UPDATE SET
++                  recommendation_text=excluded.recommendation_text,strength_grade=excluded.strength_grade,
++                  evidence_reference=excluded.evidence_reference,review_status='needs_review'""",
++                  (claim_id,clean["guideline_id"],recommendation,clean.get("strength_grade", ""),clean.get("evidence_reference", "")))
++                claims_imported += 1
++            imported += 1
++        except (ValueError, PermissionError, json.JSONDecodeError):
+             rejected += 1
+-            continue
+-        conn.execute("""INSERT INTO guideline_sources(guideline_id,publisher,title,stable_url,publication_date,last_updated,accessed_at,version,allowlisted,review_status)
+-          VALUES(?,?,?,?,?,?,?,?,1,'needs_review') ON CONFLICT(guideline_id) DO UPDATE SET
+-          publisher=excluded.publisher,title=excluded.title,stable_url=excluded.stable_url,
+-          publication_date=excluded.publication_date,last_updated=excluded.last_updated,
+-          accessed_at=excluded.accessed_at,version=excluded.version,allowlisted=1,review_status='needs_review'""",
+-          (clean["guideline_id"],clean["publisher"],clean["title"],clean["stable_url"],clean["publication_date"],
+-           clean["last_updated"],clean["accessed_at"],clean["version"]))
+-        claim_id = sha256(clean["guideline_id"] + "\0" + clean["recommendation_text"])
+-        conn.execute("""INSERT INTO guideline_claims(guideline_claim_id,guideline_id,recommendation_text,strength_grade,evidence_reference,review_status)
+-          VALUES(?,?,?,?,?,'needs_review') ON CONFLICT(guideline_claim_id) DO UPDATE SET
+-          recommendation_text=excluded.recommendation_text,strength_grade=excluded.strength_grade,
+-          evidence_reference=excluded.evidence_reference,review_status='needs_review'""",
+-          (claim_id,clean["guideline_id"],clean["recommendation_text"],clean["strength_grade"],clean.get("evidence_reference", "")))
+-        imported += 1
+-    return {"guidelines_imported": imported, "rejected_records": rejected}
++    conn.commit()
++    return {"guideline_sources_imported": imported, "recommendation_claims_imported": claims_imported,
++            "rejected_records": rejected}
+ 
+ 
+ def import_library(conn: sqlite3.Connection, root: Path) -> list[dict[str, Any]]:
+diff --git a/guideline_allowlist.json b/guideline_allowlist.json
+index 126ee1d..c95d308 100644
+--- a/guideline_allowlist.json
++++ b/guideline_allowlist.json
+@@ -1,25 +1,22 @@
+ {
+   "schema_version": 1,
+-  "maintainer": "Project maintainers; requires clinical governance review before production use",
+-  "reviewed_at": "2026-10-30",
++  "purpose": "Allow-list of HTTPS domains used for guideline citation discovery and source records; this is a technical source filter, not an institutional approval system.",
+   "hosts": [
++    "pubmed.ncbi.nlm.nih.gov",
++    "europepmc.org",
++    "nice.org.uk",
++    "who.int",
++    "uroweb.org",
++    "auanet.org",
++    "cdc.gov",
++    "acog.org",
+     "aap.org",
+     "acc.org",
+-    "acog.org",
+-    "acpjournals.org",
+     "ahajournals.org",
+     "asco.org",
+     "ashpublications.org",
+-    "auanet.org",
+-    "cdc.gov",
+     "escardio.org",
+     "eular.org",
+-    "nice.org.uk",
+-    "nih.gov",
+-    "rcplondon.ac.uk",
+-    "who.int",
+-    "uroweb.org"
+-  ],
+-  "governance_approved": false,
+-  "approved_by": ""
++    "rcplondon.ac.uk"
++  ]
+ }
+diff --git a/guideline_sources.py b/guideline_sources.py
+new file mode 100644
+index 0000000..9db6c43
+--- /dev/null
++++ b/guideline_sources.py
+@@ -0,0 +1,155 @@
++#!/usr/bin/env python3
++"""Discover clinical practice guideline citations through the official NCBI PubMed API.
++
++PubMed is a discovery/indexing source, not the issuing guideline publisher. This module
++imports citation metadata and abstracts only. It deliberately does not manufacture
++recommendation statements or strength grades from abstracts.
++"""
++from __future__ import annotations
++
++import argparse
++import datetime as dt
++import json
++import re
++import sys
++import urllib.parse
++import xml.etree.ElementTree as ET
++from pathlib import Path
++from typing import Callable
++
++from specialty_harvest import http_get
++
++EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
++USER_AGENT = "ANKI-clinical-guideline-discovery/5.0 (educational research; contact: project maintainers)"
++
++
++def build_pubmed_query(topic: str) -> str:
++    topic = re.sub(r"\s+", " ", topic).strip()
++    if not topic:
++        raise ValueError("A clinical topic is required")
++    # PubMed publication-type filters restrict results to indexed guideline records.
++    return f'(({topic}) AND ("Practice Guideline"[Publication Type] OR "Guideline"[Publication Type]))'
++
++
++def _text(node: ET.Element | None) -> str:
++    if node is None:
++        return ""
++    return re.sub(r"\s+", " ", " ".join(node.itertext())).strip()
++
++
++def _publication_date(article: ET.Element) -> str:
++    date_node = article.find(".//JournalIssue/PubDate")
++    if date_node is None:
++        date_node = article.find(".//PubDate")
++    if date_node is None:
++        return ""
++    year = _text(date_node.find("Year"))
++    month = _text(date_node.find("Month"))
++    day = _text(date_node.find("Day"))
++    if year and year.isdigit():
++        month_names = ("January", "February", "March", "April", "May", "June", "July", "August",
++                       "September", "October", "November", "December")
++        months = {name.lower(): f"{i:02d}" for i, name in enumerate(month_names, 1)}
++        months.update({name[:3].lower(): f"{i:02d}" for i, name in enumerate(month_names, 1)})
++        month_num = months.get(month.lower(), month.zfill(2) if month.isdigit() else "")
++        if month_num and day.isdigit():
++            return f"{year}-{month_num}-{day.zfill(2)}"
++        if month_num:
++            return f"{year}-{month_num}-01"
++        return f"{year}-01-01"
++    return _text(date_node.find("MedlineDate"))[:10]
++
++
++def parse_pubmed_xml(payload: bytes | str, *, accessed_at: str | None = None) -> list[dict[str, str]]:
++    root = ET.fromstring(payload)
++    accessed = accessed_at or dt.date.today().isoformat()
++    records: list[dict[str, str]] = []
++    for item in root.findall(".//PubmedArticle"):
++        citation = item.find(".//MedlineCitation")
++        article = citation.find("Article") if citation is not None else None
++        if article is None:
++            continue
++        pmid = _text(citation.find("PMID")) if citation is not None else ""
++        title = _text(article.find("ArticleTitle"))
++        if not pmid or not title:
++            continue
++        journal = _text(article.find("Journal/Title")) or "PubMed indexed record"
++        abstract_parts = []
++        abstract = article.find("Abstract")
++        if abstract is not None:
++            for part in abstract.findall("AbstractText"):
++                label = part.attrib.get("Label", "").strip()
++                value = _text(part)
++                if value:
++                    abstract_parts.append(f"{label}: {value}" if label else value)
++        doi = ""
++        for identifier in item.findall(".//ArticleId"):
++            if identifier.attrib.get("IdType", "").lower() == "doi":
++                doi = _text(identifier)
++                break
++        publication_types = [
++            _text(x) for x in article.findall("PublicationTypeList/PublicationType") if _text(x)
++        ]
++        pub_date = _publication_date(article)
++        records.append({
++            "guideline_id": f"pubmed:{pmid}",
++            "publisher": "PubMed (NCBI indexing service)",
++            "journal": journal,
++            "title": title,
++            "stable_url": f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/",
++            "publication_date": pub_date,
++            "last_updated": "",
++            "accessed_at": accessed,
++            "version": f"PubMed PMID {pmid}",
++            "source_database": "PubMed",
++            "source_record_id": pmid,
++            "doi": doi,
++            "abstract": "\n".join(abstract_parts),
++            "source_label": "PubMed-indexed guideline citation; verify current version and recommendations at the issuing publisher",
++            "publication_types": "; ".join(publication_types),
++            # Intentionally no recommendation_text/strength_grade here.
++        })
++    return records
++
++
++def search_pubmed_guidelines(topic: str, *, limit: int = 25,
++                              get: Callable[..., bytes] = http_get,
++                              accessed_at: str | None = None) -> list[dict[str, str]]:
++    if limit < 1 or limit > 200:
++        raise ValueError("limit must be between 1 and 200")
++    query = build_pubmed_query(topic)
++    search_url = EUTILS + "/esearch.fcgi?" + urllib.parse.urlencode({
++        "db": "pubmed", "term": query, "retmode": "json", "retmax": str(limit),
++        "sort": "date",
++    })
++    search_data = json.loads(get(search_url, accept="application/json", user_agent=USER_AGENT))
++    ids = search_data.get("esearchresult", {}).get("idlist", [])
++    if not ids:
++        return []
++    fetch_url = EUTILS + "/efetch.fcgi?" + urllib.parse.urlencode({
++        "db": "pubmed", "id": ",".join(ids), "retmode": "xml",
++    })
++    return parse_pubmed_xml(get(fetch_url, accept="application/xml", user_agent=USER_AGENT),
++                             accessed_at=accessed_at)
++
++
++def main(argv: list[str] | None = None) -> int:
++    parser = argparse.ArgumentParser(description="Discover PubMed-indexed clinical practice guidelines")
++    parser.add_argument("--query", required=True, help="Clinical condition or topic, e.g. acute urinary retention")
++    parser.add_argument("--limit", type=int, default=25, help="Maximum citations to retrieve (1-200)")
++    parser.add_argument("--output", type=Path, required=True, help="Output JSONL file for ANKI guideline import")
++    args = parser.parse_args(argv)
++    try:
++        records = search_pubmed_guidelines(args.query, limit=args.limit)
++        args.output.parent.mkdir(parents=True, exist_ok=True)
++        args.output.write_text("".join(json.dumps(x, ensure_ascii=False) + "\n" for x in records), encoding="utf-8")
++        print(json.dumps({"records": len(records), "output": str(args.output),
++                          "note": "Citations/abstracts only; verify publisher guideline text and manually curate recommendations."}))
++        return 0
++    except (OSError, ValueError, json.JSONDecodeError, ET.ParseError, RuntimeError) as exc:
++        print(f"ERROR: {exc}", file=sys.stderr)
++        return 2
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+diff --git a/pyproject.toml b/pyproject.toml
+index 6c6920e..db299cb 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,6 +1,6 @@
+ [project]
+ name = "clinical-case-flashcards"
+-version = "8.2.0"
++version = "8.2.1"
+ description = "Source-linked clinical case report harvesting and Anki conversion"
+ requires-python = ">=3.10"
+ 
+diff --git a/schemas/sqlite_schema.md b/schemas/sqlite_schema.md
+index 50adfae..ec56916 100644
+--- a/schemas/sqlite_schema.md
++++ b/schemas/sqlite_schema.md
+@@ -1,6 +1,6 @@
+-# SQLite schema v4
++# SQLite schema v5
+ 
+-`case_database.py` owns the schema and explicit migration markers (v1–v4). The database is a rebuildable local index; `article.xml` and `meta.json` remain the source artifacts.
++`case_database.py` owns the schema and explicit migration markers (v1–v5). The database is a rebuildable local index; `article.xml` and `meta.json` remain the source artifacts.
+ 
+ | Table | Purpose |
+ |---|---|
+@@ -20,3 +20,7 @@
+ | `article_fts` | FTS5 index over title, abstract, and section text |
+ 
+ `PRAGMA foreign_keys=ON` is enabled for every connection. `case_database.py check` runs SQLite integrity and foreign-key checks. The append-only triggers prevent ordinary SQL updates/deletes of review history but are not a security boundary against a database owner replacing or rebuilding the file. HMAC token issuance requires an institution-managed secret; this is not SSO/MFA. Approval hashes include front, back, extra reading panel, and tags. Claim support is a human assessment, not an automated entailment proof.
++
++## Guideline source provenance (migration v5)
++
++`guideline_sources` stores indexed source metadata separately from case reports: `source_database`, `journal`, `source_record_id`, `doi`, `abstract`, and `source_label`. A source citation/abstract is not itself a curated recommendation. Recommendation claims remain separate in `guideline_claims` and start in `needs_review`.
+diff --git a/tests/test_guideline_sources.py b/tests/test_guideline_sources.py
+new file mode 100644
+index 0000000..de6a6f9
+--- /dev/null
++++ b/tests/test_guideline_sources.py
+@@ -0,0 +1,62 @@
++import json
++import unittest
++
++import guideline_sources as gs
++
++
++PUBMED_XML = b'''<?xml version="1.0"?>
++<PubmedArticleSet><PubmedArticle><MedlineCitation><PMID>12345</PMID><Article>
++<ArticleTitle>Clinical practice guideline for acute urinary retention</ArticleTitle>
++<Journal><Title>Example Journal of Urology</Title><JournalIssue><PubDate><Year>2025</Year><Month>Feb</Month><Day>3</Day></PubDate></JournalIssue></Journal>
++<Abstract><AbstractText Label="BACKGROUND">Background text.</AbstractText><AbstractText Label="RECOMMENDATIONS">Recommendation summary in abstract.</AbstractText></Abstract>
++<PublicationTypeList><PublicationType>Practice Guideline</PublicationType></PublicationTypeList>
++</Article></MedlineCitation><PubmedData><ArticleIdList><ArticleId IdType="doi">10.1000/example</ArticleId></ArticleIdList></PubmedData></PubmedArticle></PubmedArticleSet>'''
++
++
++class GuidelineSourceTests(unittest.TestCase):
++    def test_query_requires_topic_and_uses_guideline_publication_types(self):
++        with self.assertRaises(ValueError):
++            gs.build_pubmed_query("  ")
++        query = gs.build_pubmed_query("acute urinary retention")
++        self.assertIn('"Practice Guideline"[Publication Type]', query)
++        self.assertIn('"Guideline"[Publication Type]', query)
++        self.assertIn("acute urinary retention", query)
++
++    def test_parse_pubmed_metadata_without_creating_recommendation(self):
++        rows = gs.parse_pubmed_xml(PUBMED_XML, accessed_at="2026-10-30")
++        self.assertEqual(len(rows), 1)
++        row = rows[0]
++        self.assertEqual(row["guideline_id"], "pubmed:12345")
++        self.assertEqual(row["publication_date"], "2025-02-03")
++        self.assertEqual(row["doi"], "10.1000/example")
++        self.assertEqual(row["publisher"], "PubMed (NCBI indexing service)")
++        self.assertEqual(row["journal"], "Example Journal of Urology")
++        self.assertIn("RECOMMENDATIONS: Recommendation summary", row["abstract"])
++        self.assertNotIn("recommendation_text", row)
++        self.assertEqual(row["stable_url"], "https://pubmed.ncbi.nlm.nih.gov/12345/")
++
++    def test_search_calls_esearch_then_efetch_and_respects_limit(self):
++        calls = []
++        def fake_get(url, **kwargs):
++            calls.append((url, kwargs))
++            if "esearch.fcgi" in url:
++                return json.dumps({"esearchresult": {"idlist": ["12345"]}}).encode()
++            return PUBMED_XML
++        rows = gs.search_pubmed_guidelines("acute urinary retention", limit=5, get=fake_get,
++                                           accessed_at="2026-10-30")
++        self.assertEqual(len(rows), 1)
++        self.assertEqual(len(calls), 2)
++        self.assertIn("retmax=5", calls[0][0])
++        self.assertIn("12345", calls[1][0])
++
++    def test_search_empty_results_skips_fetch(self):
++        calls = []
++        def fake_get(url, **kwargs):
++            calls.append(url)
++            return b'{"esearchresult":{"idlist":[]}}'
++        self.assertEqual(gs.search_pubmed_guidelines("rare condition", get=fake_get), [])
++        self.assertEqual(len(calls), 1)
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/tests/test_v5_release.py b/tests/test_v5_release.py
+index ab99e5e..913e128 100644
+--- a/tests/test_v5_release.py
++++ b/tests/test_v5_release.py
+@@ -70,11 +70,11 @@ class V5ReleaseTests(unittest.TestCase):
+         token["signature"]="0"*64
+         with self.assertRaises(PermissionError): v5.verify_reviewer_token(token,secret=secret)
+ 
+-    def test_guideline_allowlist_is_fail_closed(self):
+-        record={"guideline_id":"g1","publisher":"Society","title":"Guideline","stable_url":"https://uroweb.org/guideline/x",
+-                "publication_date":"2025-01-01","last_updated":"2025-02-01","recommendation_text":"Recommendation",
+-                "strength_grade":"Strong","accessed_at":"2026-10-30","version":"1"}
+-        self.assertTrue(v5.validate_guideline_record(record,{"uroweb.org"})["allowlisted"])
++    def test_guideline_source_metadata_is_validated_without_fake_claim(self):
++        record={"guideline_id":"pubmed:123","publisher":"Journal","title":"Guideline",
++                "stable_url":"https://pubmed.ncbi.nlm.nih.gov/123/","accessed_at":"2026-10-30","version":"PMID 123",
++                "abstract":"Abstract text only"}
++        self.assertTrue(v5.validate_guideline_record(record,{"pubmed.ncbi.nlm.nih.gov"})["allowlisted"])
+         with self.assertRaises(PermissionError): v5.validate_guideline_record(record,{"example.org"})
+ 
+ if __name__=="__main__": unittest.main()
+diff --git a/tests/test_v5_v6.py b/tests/test_v5_v6.py
+index aaebb6b..226b3d7 100644
+--- a/tests/test_v5_v6.py
++++ b/tests/test_v5_v6.py
+@@ -145,7 +145,7 @@ class DatabaseTests(unittest.TestCase):
+         db.initialize(legacy)
+         versions=[r[0] for r in legacy.execute("SELECT version FROM schema_migrations ORDER BY version")]
+         columns={r[1] for r in legacy.execute("PRAGMA table_info(card_claims)")}
+-        self.assertEqual(versions,[1,2,3,4])
++        self.assertEqual(versions,[1,2,3,4,5])
+         self.assertIn("high_risk",columns)
+         card_columns={r[1] for r in legacy.execute("PRAGMA table_info(cards)")}
+         self.assertIn("extra",card_columns)
+@@ -408,22 +408,24 @@ class DatabaseTests(unittest.TestCase):
+             text = (Path(tmp) / "override.tsv").read_text(encoding="utf-8-sig")
+             self.assertIn("RETRACTED ARTICLE", text)
+ 
+-    def test_guideline_import_is_separate_and_allowlist_gated(self):
++    def test_guideline_import_is_separate_and_abstract_does_not_become_claim(self):
+         records = self.root / "guidelines.jsonl"
+-        row = {"guideline_id":"g-urology-1","publisher":"Urology Society","title":"Urology guideline",
+-               "stable_url":"https://uroweb.org/guidelines/example","publication_date":"2025-01-01",
+-               "last_updated":"2025-06-01","recommendation_text":"A dated recommendation.",
+-               "strength_grade":"Strong","accessed_at":"2026-10-30","version":"2025.1"}
++        row = {"guideline_id":"pubmed:12345","publisher":"Example Journal","title":"Urology guideline",
++               "stable_url":"https://pubmed.ncbi.nlm.nih.gov/12345/","publication_date":"2025-01-01",
++               "accessed_at":"2026-10-30","version":"PubMed PMID 12345","source_database":"PubMed",
++               "journal":"Example Journal","source_record_id":"12345","doi":"10.1234/example","abstract":"An abstract, not a recommendation.",
++               "source_label":"PubMed-indexed citation"}
+         records.write_text(json.dumps(row)+"\n")
+         allowlist = self.root / "allowlist.json"
+-        allowlist.write_text(json.dumps({"schema_version":1,"hosts":["uroweb.org"],"governance_approved":True,
+-                                         "approved_by":"clinical-governance-board","reviewed_at":"2026-10-30"}))
++        allowlist.write_text(json.dumps({"schema_version":1,"hosts":["pubmed.ncbi.nlm.nih.gov"]}))
+         result = db.import_guideline_records(self.conn, records, allowlist)
+-        self.assertEqual(result["guidelines_imported"],1)
++        self.assertEqual(result["guideline_sources_imported"],1)
++        self.assertEqual(result["recommendation_claims_imported"],0)
+         self.assertEqual(self.conn.execute("SELECT COUNT(*) FROM articles").fetchone()[0],0)
+-        self.assertEqual(self.conn.execute("SELECT review_status FROM guideline_sources WHERE guideline_id='g-urology-1'").fetchone()[0],"needs_review")
+-        allowlist.write_text(json.dumps({"schema_version":1,"hosts":["example.org"],"governance_approved":True,
+-                                         "approved_by":"clinical-governance-board","reviewed_at":"2026-10-30"}))
++        self.assertEqual(self.conn.execute("SELECT review_status FROM guideline_sources WHERE guideline_id='pubmed:12345'").fetchone()[0],"needs_review")
++        self.assertEqual(self.conn.execute("SELECT abstract FROM guideline_sources WHERE guideline_id='pubmed:12345'").fetchone()[0],row["abstract"])
++        self.assertEqual(self.conn.execute("SELECT journal FROM guideline_sources WHERE guideline_id='pubmed:12345'").fetchone()[0],"Example Journal")
++        allowlist.write_text(json.dumps({"schema_version":1,"hosts":["example.org"]}))
+         result = db.import_guideline_records(self.conn, records, allowlist)
+         self.assertEqual(result["rejected_records"],1)
+ 
+diff --git a/v5_release.py b/v5_release.py
+index 059f279..55137df 100644
+--- a/v5_release.py
++++ b/v5_release.py
+@@ -207,16 +207,20 @@ def verify_reviewer_token(token: dict[str,str], *, secret: str) -> dict[str,str]
+ 
+ 
+ def validate_guideline_record(row: dict[str,Any], allowlist: set[str]) -> dict[str,Any]:
+-    required=("guideline_id","publisher","title","stable_url","publication_date","last_updated","recommendation_text","strength_grade","accessed_at","version")
++    required=("guideline_id","publisher","title","stable_url","accessed_at","version")
+     missing=[k for k in required if not str(row.get(k," ")).strip()]
+-    if missing: raise ValueError("Missing guideline fields: "+", ".join(missing))
++    if missing: raise ValueError("Missing guideline source fields: "+", ".join(missing))
+     from urllib.parse import urlparse
+     parsed=urlparse(str(row["stable_url"]))
+-    if parsed.scheme!="https" or not parsed.netloc: raise ValueError("Guideline stable_url must be HTTPS")
+-    host=parsed.hostname.lower()
+-    if host not in allowlist: raise PermissionError(f"Guideline host is not allow-listed: {host}")
++    if parsed.scheme!="https" or not parsed.hostname: raise ValueError("Guideline source URL must be HTTPS")
++    host=parsed.hostname.lower().rstrip(".")
++    if host not in allowlist: raise PermissionError(f"Guideline source host is not in the source registry: {host}")
+     for field in ("publication_date","last_updated","accessed_at"):
+-        dt.date.fromisoformat(str(row[field])[:10])
++        value=str(row.get(field,"")).strip()
++        if value:
++            dt.date.fromisoformat(value[:10])
++    if row.get("recommendation_text") and not str(row.get("strength_grade", "")).strip():
++        raise ValueError("A manually entered recommendation claim must include its strength/grade or explicitly use 'Not stated'")
+     return {**row,"source_type":"guideline","allowlisted":True,"review_status":"needs_review"}
+ 
+ 
+-- 
+2.47.3
+
+
+From 7536b0487bc47d0f057a4a51225e6a73300e5e63 Mon Sep 17 00:00:00 2001
+From: OpenAI Assistant <assistant@openai.com>
+Date: Fri, 30 Oct 2026 20:47:00 +0000
+Subject: [PATCH 2/3] Add official EAU guideline catalogue import
+
+---
+ CHANGELOG.md                    |  4 +-
+ README.md                       | 10 ++--
+ ROADMAPS.md                     |  6 +--
+ ROADMAP_v5.md                   | 10 ++--
+ guideline_sources.py            | 91 +++++++++++++++++++++++++++++++--
+ tests/test_guideline_sources.py | 32 ++++++++++++
+ v5_release.py                   | 12 +++--
+ 7 files changed, 144 insertions(+), 21 deletions(-)
+
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 9fa29b9..ac76d45 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -3,13 +3,13 @@
+ ## 8.2.1 — 2026-10-30
+ 
+ ### Added
+-- PubMed guideline citation discovery via NCBI E-utilities with topic search and bounded result count.
++- PubMed guideline citation discovery via NCBI E-utilities plus direct EAU official guideline catalogue import.
+ - Guideline metadata/abstract import is separate from case reports; abstract-only citations never create recommendation claims.
+ - SQLite schema v5 adds guideline source database, source record ID, journal, DOI, abstract, and provenance label.
+ - Removed the unrelated institutional governance-attestation subsystem; retained clinical reviewer validation and evidence safeguards.
+ 
+ ### Safety boundaries
+-- PubMed is a discovery/indexing service, not the guideline issuer. Confirm current recommendation wording/version at the issuing publisher.
++- PubMed is a discovery/indexing service, not the guideline issuer; the EAU adapter links directly to the official publisher catalogue. Confirm current recommendation wording/version at the issuing publisher.
+ - No guideline recommendation is auto-approved; curated recommendations remain `needs_review`.
+ 
+ ## 8.2.0 — 2026-10-30
+diff --git a/README.md b/README.md
+index 3119f27..e89d1a2 100644
+--- a/README.md
++++ b/README.md
+@@ -25,7 +25,7 @@ A local workflow for finding open-access clinical case reports in Europe PMC, sc
+ 
+ ## V5 release boundary
+ 
+-The V5 engineering workflows are implemented, but this is **not a clinical-safety certification**. A real multi-specialty clinician-adjudicated gold set, production reviewer identity/key management, Crossmark integration, and live provider verification remain release gates. PubMed is used as a discovery/indexing service, not treated as the issuing authority for a guideline. Current publisher versions and recommendation wording must be checked at the source before clinical use. See `ROADMAP_v5.md` for exact gates.
++The V5 engineering workflows are implemented, but this is **not a clinical-safety certification**. A real multi-specialty clinician-adjudicated gold set, production reviewer identity/key management, Crossmark integration, and live provider verification remain release gates. PubMed is used as a discovery/indexing service, while the EAU adapter points directly to the official urology guideline catalogue. Current publisher versions and recommendation wording must be checked at the source before clinical use. See `ROADMAP_v5.md` for exact gates.
+ 
+ ## What was introduced in 4.0
+ 
+@@ -148,16 +148,18 @@ python case_database.py import --db case_library.sqlite3 --input case_library \
+ 
+ For authenticated database review, use `--authenticated-review-decisions` and `--claim-assessments` with `ANKI_REVIEW_HMAC_SECRET`. Plain `--review-decisions` remains a legacy import path and never authorizes approved-only export. Claim assessments are individually hash-bound; high-risk claims require two distinct clinician identities. Local SQLite triggers are not tamper-proof against host/database replacement.
+ 
+-Discover PubMed-indexed clinical practice guidelines for a condition and import the citations separately from case reports:
++Discover guideline sources and import them separately from case reports. PubMed provides broad citation discovery; the EAU option reads the official urology guideline catalogue:
+ 
+ ```bash
+-python guideline_sources.py --query "acute urinary retention" --limit 30 \
++python guideline_sources.py --source pubmed --query "acute urinary retention" --limit 30 \
+   --output data/guidelines/acute-urinary-retention.jsonl
++python guideline_sources.py --source eau --query "urological infections" \
++  --output data/guidelines/eau-urological-infections.jsonl
+ python case_database.py import --db case_library.sqlite3 --input case_library \
+   --guideline-jsonl data/guidelines/acute-urinary-retention.jsonl
+ ```
+ 
+-The importer stores citation metadata, abstract, DOI (when indexed), PubMed URL, access date, and source label. It does **not** convert an abstract into a recommendation. Curated recommendation text and strength/grade can be added as separate records and remain `needs_review` until a clinician verifies the exact current publisher document. The host list in `guideline_allowlist.json` is a technical HTTPS source filter only; it is not evidence that a recommendation is clinically approved.
++The importer stores source metadata, journal, DOI/abstract when indexed, official source URL, access date, and provenance. It does **not** convert an abstract into a recommendation. Curated recommendation text and strength/grade can be added as separate records and remain `needs_review` until a clinician verifies the exact current publisher document. The host list in `guideline_allowlist.json` is a technical HTTPS source filter only; it is not evidence that a recommendation is clinically approved.
+ 
+ 
+ Create a urology TSV without differential or reasoning cards:
+diff --git a/ROADMAPS.md b/ROADMAPS.md
+index b72a575..03a5aab 100644
+--- a/ROADMAPS.md
++++ b/ROADMAPS.md
+@@ -10,7 +10,7 @@ This index is the source of truth for version history. A version is labelled imp
+ | V2 | No separately identifiable V2 source tree or release archive | Historical record missing | Intermediate iteration; scope cannot be reconstructed reliably |
+ | V3 | `clinical_case_flashcards_v3.0.zip` | Archived release snapshot | Conservative diagnosis extraction, quality CSV, differential/pitfall cards, basic QA, DOI deduplication, cache re-filtering |
+ | V4 | `ROADMAP_v4.md`, V4 code baseline and tests | Implemented baseline | MeSH relevance, assertion attributes, evidence sentence display, differential cards, deduplication, provenance, cache repair/re-filtering |
+-| V5 | `ROADMAP_v5.md`, `v5_release.py`, V5 tests | Engineering workflows implemented; clinical-safety release blocked | Persistent checkpoints/cache verification, retry/rate-limit controls, signed role-scoped review tokens, clinician-assessed claim coverage, PubMed guideline citation discovery, source-separated recommendation review, and gold-set evaluation engine; real clinician dataset, production reviewer identity/key management, live provider verification, and Crossmark remain external gates |
++| V5 | `ROADMAP_v5.md`, `v5_release.py`, V5 tests | Engineering workflows implemented; clinical-safety release blocked | Persistent checkpoints/cache verification, retry/rate-limit controls, signed role-scoped review tokens, clinician-assessed claim coverage, PubMed discovery plus EAU official guideline catalogue import, source-separated recommendation review, and gold-set evaluation engine; real clinician dataset, production reviewer identity/key management, live provider verification, and Crossmark remain external gates |
+ | V6 | `ROADMAP_v6.md` | Partial implementation (SQLite schema v5) | Idempotent JATS import, exact evidence validation, FTS5, conflict flags, asset metadata and local review history; concept/event annotation population, deterministic rebuild/diff and authenticated institutional reviewer provisioning remains open |
+ | V7 | `ROADMAP_v7.md`, current source/tests | Core workflow implemented locally; production gates open | Stable card/evidence IDs, explicit answer claims, signed audit-backed review, clinician claim assessments, high-risk double review, strict-evidence export; institutional SSO/MFA, real clinical validation and external immutable audit remain open |
+ | V8 | `ROADMAP_v8.md`, current source/tests | Media-inventory foundation implemented; visual release incomplete | Metadata-only figure/table inventory with fail-closed licensing; licensed asset download/validation, visual cards, image review UX and safe Anki update integration remain open |
+@@ -58,13 +58,13 @@ V1 prototype (historical source not preserved)
+ 
+ ## 8.2.0 delivery update (2026-10-30)
+ 
+-- V5: engineering workflows are implemented: status screening/retraction gates, persistent harvest checkpoints, retry/rate-limit handling, cache verification, signed reviewer tokens, per-claim authenticated clinical assessments (double review for high-risk claims), PubMed-indexed guideline discovery, separate source/claim storage, and a clinician-gold-set metrics runner. No real adjudicated gold set, production reviewer identity/key management, Crossmark adapter, or live provider verification is supplied; clinical-safety release remains blocked.
++- V5: engineering workflows are implemented: status screening/retraction gates, persistent harvest checkpoints, retry/rate-limit handling, cache verification, signed reviewer tokens, per-claim authenticated clinical assessments (double review for high-risk claims), PubMed/EAU guideline-source discovery, separate source/claim storage, and a clinician-gold-set metrics runner. No real adjudicated gold set, production reviewer identity/key management, Crossmark adapter, or live provider verification is supplied; clinical-safety release remains blocked.
+ - V6: SQLite schema v5, idempotent JATS imports, hash verification, nested sections, FTS5, identity conflict reporting, asset metadata, review-card/evidence import, hash-bound append-only review decisions, authenticated claim assessments, schema migrations v1–v5, and JSONL manifest/review-queue exports are implemented. Concept/event population and deterministic rebuild/diff remain incomplete.
+ - Verification: 66 offline unit tests pass; Python compilation and SQLite integrity/foreign-key checks pass. HMAC token and clinician-claim workflows are exercised with test keys, not a production identity provider. No real clinical gold-set evaluation, live API run, licensed asset review, or real Anki collection import was performed.
+ 
+ 
+ ## 8.2.1 delivery update (2026-10-30)
+ 
+-- V5: added PubMed guideline citation discovery, abstract/provenance metadata, and source-separated recommendation review. Removed the unrelated institutional governance-attestation layer; reviewer identity, hash-bound evidence assessments, and high-risk double review remain.
++- V5: added PubMed citation discovery and direct EAU guideline-catalogue import, with source provenance and separate recommendation review. Removed the unrelated institutional governance-attestation layer; reviewer identity, hash-bound evidence assessments, and high-risk double review remain.
+ - V6: database migration v5 adds PubMed source identifiers, DOI, abstract, and provenance to guideline source records.
+ - Verification: 66 offline unit tests pass; Python compilation passes. PubMed network discovery is implemented against official E-utilities endpoints and exercised with deterministic mocked responses; no live API result or clinical recommendation approval is claimed.
+diff --git a/ROADMAP_v5.md b/ROADMAP_v5.md
+index c371e71..6bb5875 100644
+--- a/ROADMAP_v5.md
++++ b/ROADMAP_v5.md
+@@ -74,7 +74,7 @@ Keep V4's CLI compatible. New behaviour must be opt-in until validated, except s
+ 
+ #### 3.5 Guideline source separation
+ - Guideline cards must be stored separately from case-report cards.
+-- Discover clinical practice guideline citations from PubMed using the official NCBI E-utilities API and publication-type filters; retain PMID, DOI, journal, title, publication date, abstract, stable PubMed URL, access date, and source provenance. Identify PubMed as the index and store journal separately; do not label the journal as the publisher.
++- Discover guideline citations from PubMed using the official NCBI E-utilities API and publication-type filters; retain PMID, DOI, journal, title, publication date, abstract, stable PubMed URL, access date, and source provenance. For urology, also import the top-level catalogue entries from the official EAU guideline index, preserving the official page URL and clearly marking edition/date as not stated when the index does not expose them. Identify PubMed as the index and store journal separately; do not label the journal as the publisher.
+ - Treat PubMed as an indexing/discovery source, not as the issuing guideline publisher. Preserve publisher identity/URL when supplied and require verification against the current publisher document.
+ - Store citation metadata separately from case-report records and separately from recommendation claims.
+ - Never turn an abstract, case chronology, or an author's discussion sentence into a recommendation automatically.
+@@ -189,7 +189,7 @@ Recommended implementation order: M0 → M1/M6 in parallel → M2/M3 → M4/M5 
+ 
+ ## 7. Known boundaries
+ 
+-V5 engineering workflows are implemented, but the clinical-safety release remains incomplete. The system records clinician assessments of each answer clause; it does not independently prove semantic entailment. No clinician-adjudicated gold set exists, and production identity/key management is not integrated. PubMed guideline discovery returns indexed citation metadata and abstracts only; current recommendation wording and version must be verified against the issuing publisher. Status checks are best-effort and have not been live-verified in this offline test run.
++V5 engineering workflows are implemented, but the clinical-safety release remains incomplete. The system records clinician assessments of each answer clause; it does not independently prove semantic entailment. No clinician-adjudicated gold set exists, and production identity/key management is not integrated. PubMed discovery returns indexed citation metadata and abstracts only; EAU index import returns official guideline page references only; current recommendation wording and version must be verified against the issuing publisher. Status checks are best-effort and have not been live-verified in this offline test run.
+ 
+ ## 8. Technical references
+ 
+@@ -202,14 +202,16 @@ V5 engineering workflows are implemented, but the clinical-safety release remain
+ - Crossref REST API: https://www.crossref.org/documentation/retrieve-metadata/rest-api/
+ - NCBI PubMed E-utilities reference: https://www.ncbi.nlm.nih.gov/books/NBK25499/
+ - NCBI E-utilities usage guidance: https://eutilities.github.io/site/API_Key/usageandkey/
++- European Association of Urology guideline index: https://uroweb.org/guidelines
++- EAU Guidelines Office: https://uroweb.org/eau-guidelines
+ 
+ 
+ ## 8.2.1 delivery record — V5 guideline-source integration (2026-10-30)
+ 
+ ### Implemented
+ - Removed the unrelated institutional governance-attestation subsystem. V5 clinical review, signed reviewer tokens, evidence contracts, and high-risk double-review requirements remain intact.
+-- Added `guideline_sources.py`, using the official NCBI PubMed E-utilities endpoints to search records indexed as `Practice Guideline` or `Guideline` for a supplied clinical topic.
+-- Added XML parsing for PMID, title, journal, publication date, abstract, DOI, publication types, and stable PubMed URL. The query is bounded to 1–200 records and uses the shared bounded/retrying HTTP client.
++- Added `guideline_sources.py` with PubMed topic search through official NCBI E-utilities and direct catalogue import from the official EAU urology guideline index.
++- Added PubMed XML parsing for PMID, title, journal, publication date, abstract, DOI, publication types, and stable PubMed URL; added EAU index parsing for top-level guideline pages and stable publisher URLs. The query is bounded to 1–200 records and uses the shared bounded/retrying HTTP client.
+ - Added SQLite schema migration v5 for guideline source database, journal, record ID, DOI, abstract, and provenance label.
+ - Guideline citations import into separate guideline tables. Abstract-only records do not create recommendation claims. Explicitly curated recommendation text remains `needs_review` and must be checked against the current issuing-publisher document.
+ - The source host registry is now a technical HTTPS URL filter only; it does not represent clinical or institutional approval.
+diff --git a/guideline_sources.py b/guideline_sources.py
+index 9db6c43..819cff5 100644
+--- a/guideline_sources.py
++++ b/guideline_sources.py
+@@ -13,6 +13,7 @@ import json
+ import re
+ import sys
+ import urllib.parse
++from html.parser import HTMLParser
+ import xml.etree.ElementTree as ET
+ from pathlib import Path
+ from typing import Callable
+@@ -20,6 +21,7 @@ from typing import Callable
+ from specialty_harvest import http_get
+ 
+ EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
++EAU_GUIDELINES_INDEX = "https://uroweb.org/guidelines"
+ USER_AGENT = "ANKI-clinical-guideline-discovery/5.0 (educational research; contact: project maintainers)"
+ 
+ 
+@@ -57,7 +59,9 @@ def _publication_date(article: ET.Element) -> str:
+         if month_num:
+             return f"{year}-{month_num}-01"
+         return f"{year}-01-01"
+-    return _text(date_node.find("MedlineDate"))[:10]
++    medline_date = _text(date_node.find("MedlineDate"))
++    year_match = re.search(r"\b(?:19|20)\d{2}\b", medline_date)
++    return year_match.group(0) if year_match else ""
+ 
+ 
+ def parse_pubmed_xml(payload: bytes | str, *, accessed_at: str | None = None) -> list[dict[str, str]]:
+@@ -133,18 +137,95 @@ def search_pubmed_guidelines(topic: str, *, limit: int = 25,
+                              accessed_at=accessed_at)
+ 
+ 
++
++class _EAUGuidelineLinks(HTMLParser):
++    """Extract only top-level guideline pages from the official EAU index."""
++    def __init__(self) -> None:
++        super().__init__(convert_charrefs=True)
++        self.links: list[tuple[str, str]] = []
++        self._href = ""
++        self._parts: list[str] = []
++
++    def handle_starttag(self, tag: str, attrs) -> None:
++        if tag.lower() == "a":
++            values = dict(attrs)
++            href = values.get("href", "")
++            if re.fullmatch(r"/guidelines/[a-z0-9-]+/?", href, flags=re.I):
++                self._href = href
++                self._parts = []
++
++    def handle_data(self, data: str) -> None:
++        if self._href:
++            self._parts.append(data)
++
++    def handle_endtag(self, tag: str) -> None:
++        if tag.lower() == "a" and self._href:
++            title = re.sub(r"\s+", " ", " ".join(self._parts)).strip()
++            if title:
++                self.links.append((self._href, title))
++            self._href = ""
++            self._parts = []
++
++
++def parse_eau_guideline_index(payload: bytes | str, *, query: str = "",
++                              accessed_at: str | None = None) -> list[dict[str, str]]:
++    parser = _EAUGuidelineLinks()
++    parser.feed(payload.decode("utf-8", errors="replace") if isinstance(payload, bytes) else payload)
++    terms = [x.lower() for x in re.findall(r"[a-z0-9]+", query)]
++    accessed = accessed_at or dt.date.today().isoformat()
++    rows = []
++    seen = set()
++    for href, title in parser.links:
++        url = urllib.parse.urljoin("https://uroweb.org", href)
++        if url in seen:
++            continue
++        seen.add(url)
++        if terms and not all(term in title.lower() for term in terms):
++            continue
++        slug = href.rstrip("/").rsplit("/", 1)[-1]
++        rows.append({
++            "guideline_id": f"eau:{slug}",
++            "publisher": "European Association of Urology",
++            "journal": "",
++            "title": title,
++            "stable_url": url,
++            "publication_date": "",
++            "last_updated": "",
++            "accessed_at": accessed,
++            "version": "Not stated in catalogue; verify edition on publisher page",
++            "source_database": "EAU official guideline catalogue",
++            "source_record_id": slug,
++            "doi": "",
++            "abstract": "",
++            "source_label": "Official EAU guideline index entry; verify current edition and recommendation text on the publisher page",
++        })
++    return rows
++
++
++def search_eau_guidelines(query: str = "", *, get: Callable[..., bytes] = http_get,
++                          accessed_at: str | None = None) -> list[dict[str, str]]:
++    html = get(EAU_GUIDELINES_INDEX, accept="text/html", user_agent=USER_AGENT)
++    return parse_eau_guideline_index(html, query=query, accessed_at=accessed_at)
++
+ def main(argv: list[str] | None = None) -> int:
+     parser = argparse.ArgumentParser(description="Discover PubMed-indexed clinical practice guidelines")
+-    parser.add_argument("--query", required=True, help="Clinical condition or topic, e.g. acute urinary retention")
+-    parser.add_argument("--limit", type=int, default=25, help="Maximum citations to retrieve (1-200)")
++    parser.add_argument("--source", choices=("pubmed", "eau"), default="pubmed",
++                        help="PubMed indexed guideline discovery or the official EAU guideline catalogue")
++    parser.add_argument("--query", default="", help="Clinical topic (required for PubMed; optional title filter for EAU)")
++    parser.add_argument("--limit", type=int, default=25, help="Maximum PubMed citations to retrieve (1-200)")
+     parser.add_argument("--output", type=Path, required=True, help="Output JSONL file for ANKI guideline import")
+     args = parser.parse_args(argv)
+     try:
+-        records = search_pubmed_guidelines(args.query, limit=args.limit)
++        if args.source == "pubmed":
++            if not args.query.strip():
++                parser.error("--query is required when --source=pubmed")
++            records = search_pubmed_guidelines(args.query, limit=args.limit)
++        else:
++            records = search_eau_guidelines(args.query)
+         args.output.parent.mkdir(parents=True, exist_ok=True)
+         args.output.write_text("".join(json.dumps(x, ensure_ascii=False) + "\n" for x in records), encoding="utf-8")
+         print(json.dumps({"records": len(records), "output": str(args.output),
+-                          "note": "Citations/abstracts only; verify publisher guideline text and manually curate recommendations."}))
++                          "note": "Source entries only; verify current publisher version and manually curate recommendation claims."}))
+         return 0
+     except (OSError, ValueError, json.JSONDecodeError, ET.ParseError, RuntimeError) as exc:
+         print(f"ERROR: {exc}", file=sys.stderr)
+diff --git a/tests/test_guideline_sources.py b/tests/test_guideline_sources.py
+index de6a6f9..329b04b 100644
+--- a/tests/test_guideline_sources.py
++++ b/tests/test_guideline_sources.py
+@@ -57,6 +57,38 @@ class GuidelineSourceTests(unittest.TestCase):
+         self.assertEqual(gs.search_pubmed_guidelines("rare condition", get=fake_get), [])
+         self.assertEqual(len(calls), 1)
+ 
++    def test_parse_eau_index_extracts_only_top_level_guideline_pages(self):
++        html = b'''<html><body>
++          <a href="/guidelines/prostate-cancer">Prostate Cancer</a>
++          <a href="/guidelines/urological-infections/">Urological Infections</a>
++          <a href="/guidelines/prostate-cancer/chapter/diagnosis">Diagnosis chapter</a>
++          <a href="/guidelines">Guidelines home</a>
++        </body></html>'''
++        rows = gs.parse_eau_guideline_index(html, query="urological infections", accessed_at="2026-10-30")
++        self.assertEqual(len(rows), 1)
++        self.assertEqual(rows[0]["guideline_id"], "eau:urological-infections")
++        self.assertEqual(rows[0]["publisher"], "European Association of Urology")
++        self.assertEqual(rows[0]["stable_url"], "https://uroweb.org/guidelines/urological-infections/")
++        self.assertEqual(rows[0]["publication_date"], "")
++        self.assertNotIn("recommendation_text", rows[0])
++
++    def test_medline_date_preserves_year_without_inventing_month_or_day(self):
++        xml = b'''<PubmedArticleSet><PubmedArticle><MedlineCitation><PMID>77</PMID><Article>
++        <ArticleTitle>Guideline</ArticleTitle><Journal><Title>Journal</Title><JournalIssue><PubDate><MedlineDate>2024 Dec-2025 Jan</MedlineDate></PubDate></JournalIssue></Journal>
++        </Article></MedlineCitation></PubmedArticle></PubmedArticleSet>'''
++        row = gs.parse_pubmed_xml(xml, accessed_at="2026-10-30")[0]
++        self.assertEqual(row["publication_date"], "2024")
++
++    def test_eau_search_uses_official_index(self):
++        calls = []
++        def fake_get(url, **kwargs):
++            calls.append((url, kwargs))
++            return b'<a href="/guidelines/paediatric-urology">Paediatric Urology</a>'
++        rows = gs.search_eau_guidelines("paediatric urology", get=fake_get, accessed_at="2026-10-30")
++        self.assertEqual(len(rows), 1)
++        self.assertEqual(calls[0][0], gs.EAU_GUIDELINES_INDEX)
++        self.assertEqual(calls[0][1]["accept"], "text/html")
++
+ 
+ if __name__ == "__main__":
+     unittest.main()
+diff --git a/v5_release.py b/v5_release.py
+index 55137df..97bad09 100644
+--- a/v5_release.py
++++ b/v5_release.py
+@@ -1,12 +1,12 @@
+ #!/usr/bin/env python3
+-"""V5 reliability, evaluation, governance and cache services.
++"""V5 reliability, evaluation, reviewer and cache services.
+ 
+ Clinical validation data and reviewer identities are never fabricated here:
+ metrics require externally adjudicated labels; signed reviewer assertions require
+ an institution-managed secret and remain distinct from an external IdP.
+ """
+ from __future__ import annotations
+-import argparse, datetime as dt, email.utils, hashlib, hmac, json, math, os, random, sqlite3, time
++import argparse, datetime as dt, email.utils, hashlib, hmac, json, math, os, random, re, sqlite3, time
+ from collections import defaultdict
+ from pathlib import Path
+ from typing import Any, Callable
+@@ -218,7 +218,13 @@ def validate_guideline_record(row: dict[str,Any], allowlist: set[str]) -> dict[s
+     for field in ("publication_date","last_updated","accessed_at"):
+         value=str(row.get(field,"")).strip()
+         if value:
+-            dt.date.fromisoformat(value[:10])
++            if re.fullmatch(r"\d{4}", value):
++                year = int(value)
++                if year < 1500 or year > 9999: raise ValueError(f"Invalid {field}: {value}")
++            elif re.fullmatch(r"\d{4}-\d{2}", value):
++                dt.date.fromisoformat(value + "-01")
++            else:
++                dt.date.fromisoformat(value[:10])
+     if row.get("recommendation_text") and not str(row.get("strength_grade", "")).strip():
+         raise ValueError("A manually entered recommendation claim must include its strength/grade or explicitly use 'Not stated'")
+     return {**row,"source_type":"guideline","allowlisted":True,"review_status":"needs_review"}
+-- 
+2.47.3
+
+
+From 7d6f0e3e835a94ab692e05c6e8c0b71f81bf57b3 Mon Sep 17 00:00:00 2001
+From: OpenAI Assistant <assistant@openai.com>
+Date: Fri, 30 Oct 2026 20:47:59 +0000
+Subject: [PATCH 3/3] Allow standalone guideline source imports
+
+---
+ CHANGELOG.md        |  2 +-
+ README.md           |  2 +-
+ case_database.py    |  6 +++---
+ tests/test_v5_v6.py | 16 ++++++++++++++++
+ 4 files changed, 21 insertions(+), 5 deletions(-)
+
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index ac76d45..daadcae 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -4,7 +4,7 @@
+ 
+ ### Added
+ - PubMed guideline citation discovery via NCBI E-utilities plus direct EAU official guideline catalogue import.
+-- Guideline metadata/abstract import is separate from case reports; abstract-only citations never create recommendation claims.
++- Guideline metadata/abstract import is separate from case reports and can run without a case-library path; abstract-only citations never create recommendation claims.
+ - SQLite schema v5 adds guideline source database, source record ID, journal, DOI, abstract, and provenance label.
+ - Removed the unrelated institutional governance-attestation subsystem; retained clinical reviewer validation and evidence safeguards.
+ 
+diff --git a/README.md b/README.md
+index e89d1a2..786019b 100644
+--- a/README.md
++++ b/README.md
+@@ -155,7 +155,7 @@ python guideline_sources.py --source pubmed --query "acute urinary retention" --
+   --output data/guidelines/acute-urinary-retention.jsonl
+ python guideline_sources.py --source eau --query "urological infections" \
+   --output data/guidelines/eau-urological-infections.jsonl
+-python case_database.py import --db case_library.sqlite3 --input case_library \
++python case_database.py import --db case_library.sqlite3 \
+   --guideline-jsonl data/guidelines/acute-urinary-retention.jsonl
+ ```
+ 
+diff --git a/case_database.py b/case_database.py
+index 35988e1..d545c38 100644
+--- a/case_database.py
++++ b/case_database.py
+@@ -794,9 +794,9 @@ def main(argv: list[str] | None = None) -> int:
+             if args.command == "init":
+                 print(f"Initialized {args.db} (schema {DB_SCHEMA_VERSION})")
+             elif args.command == "import":
+-                if not args.input:
+-                    parser.error("import requires --input")
+-                results = import_library(conn, args.input)
++                if not args.input and not args.guideline_jsonl:
++                    parser.error("import requires --input or --guideline-jsonl")
++                results = import_library(conn, args.input) if args.input else []
+                 for row in results:
+                     print(json.dumps(row, ensure_ascii=False))
+                 if args.review_queue:
+diff --git a/tests/test_v5_v6.py b/tests/test_v5_v6.py
+index 226b3d7..d01c426 100644
+--- a/tests/test_v5_v6.py
++++ b/tests/test_v5_v6.py
+@@ -429,6 +429,22 @@ class DatabaseTests(unittest.TestCase):
+         result = db.import_guideline_records(self.conn, records, allowlist)
+         self.assertEqual(result["rejected_records"],1)
+ 
++    def test_guideline_only_import_does_not_require_case_library_input(self):
++        records = self.root / "guideline-only.jsonl"
++        row = {"guideline_id":"pubmed:555","publisher":"PubMed (NCBI indexing service)","title":"Practice guideline",
++               "stable_url":"https://pubmed.ncbi.nlm.nih.gov/555/","accessed_at":"2026-10-30","version":"PubMed PMID 555",
++               "source_database":"PubMed","source_record_id":"555","journal":"Example Journal"}
++        records.write_text(json.dumps(row)+"\n")
++        allowlist = self.root / "allowlist.json"
++        allowlist.write_text(json.dumps({"schema_version":1,"hosts":["pubmed.ncbi.nlm.nih.gov"]}))
++        result = db.main(["import","--db",str(self.root / "guideline-only.sqlite3"),
++                          "--guideline-jsonl",str(records),"--guideline-allowlist",str(allowlist)])
++        self.assertEqual(result,0)
++        with db.connect(self.root / "guideline-only.sqlite3") as conn:
++            db.initialize(conn)
++            self.assertEqual(conn.execute("SELECT COUNT(*) FROM guideline_sources").fetchone()[0],1)
++            self.assertEqual(conn.execute("SELECT COUNT(*) FROM articles").fetchone()[0],0)
++
+     def test_database_integrity_and_foreign_keys(self):
+         db.import_case_folder(self.conn, self.folder)
+         self.assertEqual(self.conn.execute("PRAGMA integrity_check").fetchone()[0], "ok")
+-- 
+2.47.3
+

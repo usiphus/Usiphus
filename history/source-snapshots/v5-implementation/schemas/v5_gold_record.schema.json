@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/v5_gold_record.schema.json",
+  "title": "V5 clinician-adjudicated evaluation record",
+  "type": "object",
+  "required": [
+    "dataset_version", "case_id", "specialty", "predicted_specialty", "card_type",
+    "reviewer_ids", "reviewer_count", "adjudicated", "gold_diagnosis", "predicted_diagnosis",
+    "gold_supported", "predicted_supported", "evidence_exact", "answer_claim_count",
+    "supported_claim_count", "assertion_gold", "assertion_predicted"
+  ],
+  "properties": {
+    "dataset_version": {"type": "string", "minLength": 1},
+    "case_id": {"type": "string", "minLength": 1},
+    "specialty": {"type": "string", "minLength": 1},
+    "predicted_specialty": {"type": "string", "minLength": 1},
+    "card_type": {"type": "string", "minLength": 1},
+    "reviewer_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1, "uniqueItems": true},
+    "reviewer_count": {"type": "integer", "minimum": 1},
+    "high_risk": {"type": "boolean"},
+    "adjudicated": {"const": true},
+    "adjudicator_id": {"type": "string"},
+    "reviewer_labels": {"type": "array"},
+    "gold_diagnosis": {"type": "string"},
+    "predicted_diagnosis": {"type": "string"},
+    "gold_supported": {"type": "boolean"},
+    "predicted_supported": {"type": "boolean"},
+    "evidence_exact": {"type": "boolean"},
+    "answer_claim_count": {"type": "integer", "minimum": 1},
+    "supported_claim_count": {"type": "integer", "minimum": 0},
+    "assertion_gold": {"$ref": "#/$defs/assertions"},
+    "assertion_predicted": {"$ref": "#/$defs/assertions"},
+    "synthetic": {"const": false},
+    "error": {"type": "string"}
+  },
+  "$defs": {
+    "assertions": {
+      "type": "object",
+      "required": ["negation", "certainty", "temporality", "experiencer", "family_history"],
+      "properties": {
+        "negation": {"type": ["boolean", "string"]},
+        "certainty": {"type": "string"},
+        "temporality": {"type": "string"},
+        "experiencer": {"type": "string"},
+        "family_history": {"type": ["boolean", "string"]}
+      }
+    }
+  },
+  "additionalProperties": true
+}

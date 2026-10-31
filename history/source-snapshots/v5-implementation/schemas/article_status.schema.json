@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Clinical Case Flashcards article status record",
+  "type": "object",
+  "required": ["schema_version", "status", "checked_at", "providers"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"enum": ["current", "corrected", "retracted", "expression_of_concern", "unknown", "conflict"]},
+    "checked_at": {"type": ["string", "null"], "format": "date-time"},
+    "requested_identifiers": {"type": "array", "items": {"type": "object", "required": ["src", "extId"], "properties": {"src": {"enum": ["PMC", "MED", "DOI", "PPR"]}, "extId": {"type": "string", "minLength": 1}}, "additionalProperties": false}},
+    "providers": {"type": "array", "items": {"type": "object", "required": ["provider", "status"], "properties": {"provider": {"type": "string"}, "status": {"enum": ["current", "corrected", "retracted", "expression_of_concern", "unknown", "conflict"]}, "checked_at": {"type": "string", "format": "date-time"}, "endpoint": {"type": "string"}, "error": {"type": "string"}}, "additionalProperties": true}},
+    "warning": {"type": "string"}
+  },
+  "additionalProperties": true
+}
