@@ -187,6 +187,8 @@ def load_evidence(path: Path, cards: set[str], as_of: date, max_age_days: int):
         if not clean(row.get("reference")) or not clean(row.get("source_type")):
             issues.append("reference and source_type are required")
         issues.extend(validate_evidence_audit(row))
+        if status not in {"approved", "published"}:
+            issues.append(f"release blocked: evidence status is {status}, not approved/published")
         if status in {"approved", "published"}:
             raw_date = clean(row.get("reviewed_on"))
             try:
@@ -471,6 +473,14 @@ def run_self_test() -> int:
                     "reviewed_on":"2020-01-01","reviewer":"faculty","audit_trail":[
                     {"to":"in_review","actor":"faculty","date":"2020-01-01"},
                     {"to":"approved","actor":"faculty","date":"2020-01-02"}]}]}))
+                covered, findings, _, _ = load_evidence(p,{"c1"},date(2026,10,31),730)
+                self.assertFalse(covered)
+                self.assertTrue(findings)
+        def test_draft_evidence_blocks_release(self):
+            with tempfile.TemporaryDirectory() as d:
+                p = Path(d) / "evidence.json"
+                p.write_text(json.dumps({"claims":[{"claim_id":"x","card_id":"c1",
+                    "claim":"Claim","reference":"Ref","source_type":"guideline","status":"draft"}]}))
                 covered, findings, _, _ = load_evidence(p,{"c1"},date(2026,10,31),730)
                 self.assertFalse(covered)
                 self.assertTrue(findings)
