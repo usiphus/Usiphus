@@ -8,16 +8,16 @@ as verified coverage until a human adds an explicit competency ID.
 
 Curriculum JSON:
 {"specialty":"urology","competencies":[
- {"id":"URO-01","title":"Assess acute urinary retention","description":"Recognize and initially manage retention","domain":"Emergency urology","level":"apply","required":true,"weight":2,"learning_objectives":["Identify red flags"]}
-]}
+ {"id":"URO-01","title":"Assess acute urinary retention","description":"Recognize and initially manage retention","domain":"Emergency urology","level":"apply","required":true,"weight":2,"learning_[...]
+ ]}
 
 Cards JSON: a list or {"cards":[...]}; each card requires card_id/id and
 prompt/question. Optional fields: answer, specialty, tags, learning_objective,
 competency_ids (or curriculum_competencies).
 
 Examples:
- python usiphus_v10.py --cards cards.json --curriculum urology.json --output build
- python usiphus_v10.py --self-test
+  python usiphus_v10.py --cards cards.json --curriculum urology.json --output build
+  python usiphus_v10.py --self-test
 
 Clinical limitation: this measures mapping metadata, not clinical truth,
 educational effectiveness, or learner competence. Faculty review is required.
@@ -148,6 +148,15 @@ def load_json(path: Path) -> Any:
         return json.load(handle)
 
 
+def normalize_reviewed_at(value: Any) -> str:
+    text = clean(value)
+    if not text:
+        return ""
+    if text[-1] in {"Z", "z"}:
+        text = text[:-1] + "+00:00"
+    return text
+
+
 def load_faculty_approvals(raw: Any, card_id: str) -> tuple[FacultyApproval, ...]:
     if raw is None:
         return ()
@@ -159,12 +168,12 @@ def load_faculty_approvals(raw: Any, card_id: str) -> tuple[FacultyApproval, ...
             raise ValueError(f"Faculty approval {index} for card {card_id} must be an object")
         competency_id = clean(item.get("competency_id"))
         reviewer = clean(item.get("reviewer"))
-        reviewed_at = clean(item.get("reviewed_at"))
+        reviewed_at = normalize_reviewed_at(item.get("reviewed_at"))
         status = clean(item.get("status")).casefold()
         if not competency_id or not reviewer or not reviewed_at or status != "approved":
             raise ValueError(f"Faculty approval {index} for card {card_id} requires competency_id, status='approved', reviewer, and timezone-aware reviewed_at")
         try:
-            parsed = datetime.fromisoformat(reviewed_at.replace("Z", "+00:00"))
+            parsed = datetime.fromisoformat(reviewed_at)
         except ValueError:
             raise ValueError(f"Invalid reviewed_at timestamp for card {card_id}") from None
         if parsed.tzinfo is None or parsed.utcoffset() is None:
@@ -188,7 +197,11 @@ def validate_specialty_alignment(cards: Sequence[Card], specialty: str) -> None:
 
 
 def validate_threshold(threshold: float) -> None:
-    if not math.isfinite(threshold) or not 0.0 <= threshold <= 1.0:
+    try:
+        value = float(threshold)
+    except (TypeError, ValueError):
+        raise ValueError("min-match-score must be a finite number between 0 and 1") from None
+    if not math.isfinite(value) or not 0.0 <= value <= 1.0:
         raise ValueError("min-match-score must be a finite number between 0 and 1")
 
 
@@ -308,6 +321,7 @@ def build_candidates(cards: Sequence[Card], competencies: Sequence[Competency], 
                 rows.append(MappingCandidate(card.card_id, competency.competency_id, round(score, 4),
                     "lexical", "suggested", "Lexical candidate only; faculty confirmation required"))
     return sorted(rows, key=lambda x: (x.status != "verified", -x.score, x.card_id, x.competency_id))
+
 
 def build_report(cards: Sequence[Card], competencies: Sequence[Competency], candidates: Sequence[MappingCandidate], specialty: str) -> CurriculumReport:
     validate_specialty_alignment(cards, specialty)
