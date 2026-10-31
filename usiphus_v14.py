@@ -59,7 +59,7 @@ def load_config(filename):
         if output == protected or output in protected.parents:
             raise ReleaseError(f"output_dir cannot replace protected directory: {protected}")
     for protected in protected_files:
-        if output == protected or protected in output.parents:
+        if output == protected or output in protected.parents:
             raise ReleaseError(f"output_dir cannot replace or contain protected file: {protected}")
     age=cfg.get("max_evidence_age_days",730)
     if type(age) is not int or age<1: raise ReleaseError("max_evidence_age_days must be positive")
