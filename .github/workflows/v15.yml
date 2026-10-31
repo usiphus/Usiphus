@@ -1,0 +1,41 @@
+name: Usiphus V15 governance checks
+
+on:
+  pull_request:
+    paths:
+      - "usiphus_v15.py"
+      - "tests/test_v15_governance.py"
+      - "schemas/v15_*.schema.json"
+      - "examples/v15.*.json"
+      - "docs/V15_EVIDENCE_GOVERNANCE.md"
+      - ".github/workflows/v15.yml"
+  push:
+    branches: [main, "feature/usiphus-v15-evidence-governance"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile all engines
+        run: python -m py_compile usiphus_v8.py usiphus_v9.py usiphus_v10.py usiphus_v11.py usiphus_v12.py usiphus_v13.py usiphus_v14.py usiphus_v15.py
+      - name: Run V8–V15 regression self-tests
+        run: |
+          python usiphus_v8.py --self-test
+          python usiphus_v9.py --self-test
+          python usiphus_v10.py --self-test
+          python usiphus_v11.py --self-test
+          python usiphus_v12.py --self-test
+          python usiphus_v13.py --self-test
+          python usiphus_v14.py --self-test
+          python usiphus_v15.py --self-test
+      - name: V14 synthetic end-to-end regression
+        run: python -m unittest discover -s tests -p "test_v14_e2e.py" -v
+      - name: V15 governance tests
+        run: python -m unittest discover -s tests -p "test_v15_governance.py" -v
+      - name: Validate V15 example bundle
+        run: |
+          python usiphus_v15.py --sources examples/v15.sources.example.json --claims examples/v15.claims.example.json --as-of 2026-10-31 --require-registered-sources --output-dir build-v15-ci
