@@ -12,23 +12,23 @@ Place the original files used by V12 together in one directory:
 
 | File | Purpose |
 |---|---|
-| \`cards.json\` | V8/V9 cards |
-| \`curriculum.json\` | V10 specialty curriculum |
-| \`mapping.json\` | V10 curriculum coverage report |
-| \`evidence.json\` | V8 evidence registry |
-| \`learner_progress.json\` | V11 pseudonymous learner progress |
-| \`cohort_analytics.json\` | V11 cohort summary |
-| \`review_schedule.csv\` | V11 review schedule |
+| `cards.json` | V8/V9 cards |
+| `curriculum.json` | V10 specialty curriculum |
+| `mapping.json` | V10 curriculum coverage report |
+| `evidence.json` | V8 evidence registry |
+| `learner_progress.json` | V11 pseudonymous learner progress |
+| `cohort_analytics.json` | V11 cohort summary |
+| `review_schedule.csv` | V11 review schedule |
 
 The names are the V13 input-directory contract. They can be copied from their source locations; do not modify them between the V12 run and V13 validation. V13 verifies the V12 manifest hashes against these exact input files.
 
-The V12 output directory must contain \`platform_report.json\`, \`faculty_review_queue.csv\`, \`release_checklist.json\`, and \`v12_manifest.json\`.
+The V12 output directory must contain `platform_report.json`, `faculty_review_queue.csv`, `release_checklist.json`, and `v12_manifest.json`.
 
 ## Run
 
 First generate V12 outputs using the same seven input files:
 
-\`\`\`bash
+```bash
 python usiphus_v12.py --self-test
 python usiphus_v12.py \
   --cards source-artifacts/cards.json \
@@ -39,19 +39,19 @@ python usiphus_v12.py \
   --cohort-analytics source-artifacts/cohort_analytics.json \
   --review-schedule source-artifacts/review_schedule.csv \
   --output build-v12
-\`\`\`
+```
 
 Then run V13:
 
-\`\`\`bash
+```bash
 python usiphus_v13.py --self-test
 python usiphus_v13.py \
   --input-dir source-artifacts \
   --output-dir build-v12 \
   --report build-v13/v13_validation_report.json
-\`\`\`
+```
 
-Exit code \`0\` means validation passed. Exit code \`2\` means validation failed or required arguments are missing. Failures are logged with the relevant artifact/field; no source file is modified.
+Exit code `0` means validation passed. Exit code `2` means validation failed or required arguments are missing. Failures are logged with the relevant artifact/field; no source file is modified.
 
 ## Validation coverage
 
