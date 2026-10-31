@@ -286,10 +286,12 @@ def build_candidates(cards: Sequence[Card], competencies: Sequence[Competency], 
                 rows.append(MappingCandidate(card.card_id, by_id[key].competency_id, 1.0, "explicit", "pending",
                     "Explicit mapping supplied without auditable faculty approval"))
         for key, approval in approvals.items():
+            if key in explicit:
+                continue  # Already represented by the explicit-link path above.
             if key not in by_id:
                 rows.append(MappingCandidate(card.card_id, approval.competency_id, 1.0, "faculty-approved", "invalid",
                     "Approved ID is absent from this curriculum", approval.reviewer, approval.reviewed_at))
-            elif key not in explicit:
+            else:
                 rows.append(MappingCandidate(card.card_id, by_id[key].competency_id, 1.0, "faculty-approved", "verified",
                     "Faculty-approved mapping", approval.reviewer, approval.reviewed_at))
         excluded = set(explicit) | set(approvals)
