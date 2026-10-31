@@ -15,7 +15,7 @@ on:
       - "README.md"
       - ".github/workflows/v14.yml"
   push:
-    branches: [main, "feature/usiphus-v14-unified-release-platform"]
+    branches: [main, "feature/usiphus-v14-unified-release-platform", "feature/usiphus-v14x-e2e-hardening"]
 
 jobs:
   test:
