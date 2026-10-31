@@ -18,7 +18,8 @@ explicit specialty curriculum and makes gaps visible by domain and competency.
 - Lists of required competencies without verified links and cards with no
   candidate mapping.
 - JSON, Markdown, CSV mapping matrix, and build manifest outputs.
-- Built-in self-tests and atomic text output writes.
+- Built-in regression tests, atomic text output writes, and atomic CSV matrix export.
+- Strict validation for finite positive weights and boolean required flags.
 
 ## Important semantics
 
@@ -34,7 +35,7 @@ clinical correctness, educational effectiveness, or learner competence.
 
 ```bash
 python usiphus_v10.py --self-test
-python usiphus_v10.py --cards cards.json --curriculum curriculum.json --output build
+python usiphus_v10.py --cards cards.json --curriculum curriculum.json --specialty urology --output build
 ```
 
 ## Curriculum schema example
@@ -79,6 +80,7 @@ Cards can explicitly link to one or more curriculum competency IDs:
 
 ## Validation status
 
-The script includes ten deterministic self-tests. They must be executed in a
-Python environment before describing the release as runtime-tested. The GitHub
-commit itself does not execute those tests.
+The script includes thirteen deterministic self-tests. A GitHub Actions workflow
+now compiles the script and runs the self-tests on pushes to this feature branch
+and relevant pull requests. A green workflow run is required before describing
+the release as runtime-tested. Software tests do not establish clinical validity.
