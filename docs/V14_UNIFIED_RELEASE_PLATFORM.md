@@ -1,4 +1,4 @@
-# Usiphus V14 — Unified Release Platform
+# Usiphus V14.1 — Unified Release Platform
 
 ## Purpose
 
@@ -65,3 +65,25 @@ Hashes support audit and change detection. Timestamps vary, so V14 does not clai
 ## Governance and privacy
 
 A ready status is a software/workflow result only. Faculty must review clinical claims, references, currency, curriculum mappings, and queued work. Learner progress and review schedules contain pseudonymous identifiers and remain sensitive educational records; apply appropriate access controls and retention. UUID formatting is not anonymization. V14 never automatically approves content.
+
+## V14.1 hardening and end-to-end tests
+
+V14.1 rejects output paths that would replace the repository/config directory or
+an ancestor containing the configuration or any of the seven input artifacts.
+Keep the output directory separate from all source artifacts.
+
+Run the synthetic integration suite from the repository root:
+
+```bash
+python -m unittest discover -s tests -p "test_v14_e2e.py" -v
+```
+
+The tests use fictional data and verify:
+- A complete V12 → V13 → V14 run publishes a ready bundle and all expected files.
+- The seven source artifacts remain unchanged and the learner UUID is absent from V12 outputs.
+- A failed subsequent run preserves the previously published bundle.
+- An unsafe output directory is rejected before publication.
+
+GitHub Actions runs this suite in addition to compilation and the V8–V14
+self-tests. These tests validate software integration behavior only; they do
+not validate clinical claims, educational effectiveness, or production data.
