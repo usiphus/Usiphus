@@ -1,0 +1,21 @@
+name: Usiphus V12 checks
+
+on:
+  pull_request:
+    paths:
+      - "usiphus_v12.py"
+      - "docs/V12_INTEGRATED_PLATFORM.md"
+      - ".github/workflows/v12.yml"
+
+jobs:
+  v12-self-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile V12
+        run: python -m py_compile usiphus_v12.py
+      - name: Run V12 self-tests
+        run: python usiphus_v12.py --self-test
