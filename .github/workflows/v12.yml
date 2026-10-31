@@ -1,6 +1,9 @@
 name: Usiphus V12 checks
 
 on:
+  push:
+    branches:
+      - "feature/usiphus-v12-integrated-platform"
   pull_request:
     paths:
       - "usiphus_v12.py"
