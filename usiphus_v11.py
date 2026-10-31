@@ -71,10 +71,12 @@ def load_curriculum(path: Path) -> tuple[str, list[dict[str, Any]]]:
     if not competencies: raise ValueError("Curriculum must contain at least one competency")
     return specialty, competencies
 
-def load_verified_card_map(path: Path, competency_ids: set[str]) -> dict[str, set[str]]:
+def load_verified_card_map(path: Path, competency_ids: set[str], specialty: str) -> dict[str, set[str]]:
     payload = read_json(path)
     if not isinstance(payload, dict) or not isinstance(payload.get("candidates"), list):
         raise ValueError("Mapping report must be a V10 curriculum_coverage.json with candidates")
+    if clean(payload.get("specialty")).casefold() != specialty.casefold():
+        raise ValueError("V10 mapping report specialty does not match the curriculum")
     card_map: dict[str,set[str]] = defaultdict(set)
     for row in payload["candidates"]:
         if not isinstance(row, dict): raise ValueError("Mapping candidate rows must be objects")
@@ -127,6 +129,8 @@ def load_events(path: Path, as_of: datetime):
         if not isinstance(granted,bool): raise ValueError(f"consent_granted must be boolean for {lid}")
         consented=parse_time(item.get("consented_at"),f"consented_at for {lid}") if granted else None
         revoked=parse_time(item["consent_revoked_at"],f"consent_revoked_at for {lid}") if item.get("consent_revoked_at") else None
+        if consented is not None and revoked is not None and revoked < consented:
+            raise ValueError(f"consent_revoked_at precedes consented_at for {lid}")
         learners[lid]={"granted":granted,"consented":consented,"revoked":revoked}
     cutoff=as_of-timedelta(days=retention)
     accepted,seen=[],set()
@@ -210,7 +214,7 @@ def build_analytics(specialty,competencies,card_map,attempts,excluded,cohort_min
         "privacy":{"consent_required":True,"retention_days":retention,
             "retention_cutoff":(as_of-timedelta(days=retention)).isoformat().replace("+00:00","Z"),
             "learner_ids_are_pseudonymous":True,"raw_answers_stored":False},
-        "active_learners":len(learners),"accepted_attempts":sum(len(v) for v in by_pair.values()),
+        "active_learners":len(learners),"accepted_attempts":sum(1 for event in attempts if card_map.get(event["card_id"])),
         "excluded_events":excluded,"learners":individual,
         "limitations":["Mastery is a descriptive educational estimate, not proof of knowledge or clinical competence.",
             "Only attempts on cards with V10 faculty-verified competency mappings contribute.",
@@ -246,7 +250,7 @@ def run(curriculum_path,mapping_path,attempts_path,output,settings_path,as_of_ra
     as_of=parse_time(as_of_raw,"--as-of") if as_of_raw else datetime.now(timezone.utc)
     specialty,competencies=load_curriculum(curriculum_path)
     ids={c["competency_id"].casefold() for c in competencies}
-    card_map=load_verified_card_map(mapping_path,ids); settings=load_settings(settings_path)
+    card_map=load_verified_card_map(mapping_path,ids,specialty); settings=load_settings(settings_path)
     attempts,excluded,cohort_min,retention=load_events(attempts_path,as_of)
     learner,cohort,schedule=build_analytics(specialty,competencies,card_map,attempts,excluded,cohort_min,retention,settings,as_of)
     write_outputs(output,learner,cohort,schedule)
@@ -280,14 +284,14 @@ def run_self_test():
             with self.assertRaises(ValueError): parse_time("2026-10-31T12:00:00","test")
         def test_only_verified_mappings_loaded(self):
             with tempfile.TemporaryDirectory() as d:
-                p=Path(d)/"map.json"; p.write_text(json.dumps({"candidates":[
+                p=Path(d)/"map.json"; p.write_text(json.dumps({"specialty":"urology","candidates":[
                     {"card_id":"card-1","competency_id":"U1","status":"suggested"},
                     {"card_id":"card-2","competency_id":"U2","status":"verified"}]}))
-                self.assertEqual(load_verified_card_map(p,{"u1","u2"}),{"card-2":{"U2"}})
+                self.assertEqual(load_verified_card_map(p,{"u1","u2"},"urology"),{"card-2":{"U2"}})
         def test_unknown_verified_mapping_rejected(self):
             with tempfile.TemporaryDirectory() as d:
-                p=Path(d)/"map.json"; p.write_text(json.dumps({"candidates":[{"card_id":"c","competency_id":"BAD","status":"verified"}]}))
-                with self.assertRaises(ValueError): load_verified_card_map(p,{"u1"})
+                p=Path(d)/"map.json"; p.write_text(json.dumps({"specialty":"urology","candidates":[{"card_id":"c","competency_id":"BAD","status":"verified"}]}))
+                with self.assertRaises(ValueError): load_verified_card_map(p,{"u1"},"urology")
         def test_small_cohort_suppressed(self):
             _,cohort,_=build_analytics("urology",self.comps,self.map,self.events[:2],{},2,365,self.cfg,self.now)
             self.assertTrue(all(x["suppressed"] for x in cohort["competencies"]))
