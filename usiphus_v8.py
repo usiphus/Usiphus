@@ -998,3 +998,315 @@ def analyze_evidence_registry(
             findings.append({"claim_id": cid or f"row-{index+1}", "card_id": card_id,
                              "severity": "error" if require_approved else "warn", "issues": issues})
     # Conservative polarity-only contradiction heuristic. It does not infer clinical meaning.
+    contradictions = []
+    for normalized, items in claim_groups.items():
+        if len(items) < 2: continue
+        positive = [x for x in items if not re.search(r"\b(no|not|never|without|decrease|decreases|decreased|absence)\b", x["claim"].casefold())]
+        negative = [x for x in items if re.search(r"\b(no|not|never|without|decrease|decreases|decreased|absence)\b", x["claim"].casefold())]
+        if positive and negative:
+            contradictions.append({"normalized_claim": normalized,
+                "claim_ids": sorted({x["claim_id"] for x in positive + negative}),
+                "card_ids": sorted({x["card_id"] for x in positive + negative}),
+                "note": "Possible polarity conflict; human clinical adjudication required."})
+    cards_without_evidence = sorted(known_ids - set(by_card))
+    if require_approved:
+        for card_id in cards_without_evidence:
+            findings.append({"claim_id": "", "card_id": card_id, "severity": "error",
+                             "issues": ["release blocked: no mapped evidence claims"]})
+    error_count = sum(x["severity"] == "error" for x in findings)
+    return {"schema_version": 1, "claims_count": len(records),
+            "cards_with_evidence": len(by_card), "cards_without_evidence": cards_without_evidence,
+            "findings": findings, "contradiction_candidates": contradictions,
+            "release_ready": error_count == 0 and not contradictions,
+            "error_count": error_count,
+            "notice": "Automated governance checks validate metadata and workflow only; they do not establish source quality or clinical truth."}
+
+
+# ---------------------------------------------------------------------------
+# CLI orchestration
+# ---------------------------------------------------------------------------
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Usiphus V8 clinical evidence governance engine")
+    parser.add_argument("--specialty", help="Default specialty for imported cards")
+    parser.add_argument("--exam-cards", help="JSON exam-card file")
+    parser.add_argument("--case-library", help="JSON case-library file")
+    parser.add_argument("--blueprint", help="JSON blueprint file")
+    parser.add_argument("--output", default="./build", help="Output directory")
+    parser.add_argument("--deck-name", help="Anki deck name")
+    parser.add_argument("--apkg", action="store_true", help="Export an Anki package")
+    parser.add_argument("--study-guide", action="store_true", help="Export Markdown study guide")
+    parser.add_argument("--anki-connect", action="store_true", help="Push to AnkiConnect")
+    parser.add_argument("--anki-url", default="http://localhost:8765", help="AnkiConnect endpoint")
+    parser.add_argument("--force", action="store_true", help="Export despite quality errors")
+    parser.add_argument("--fail-on-warn", action="store_true", help="Abort if any warning exists")
+    parser.add_argument("--require-reviewed", action="store_true", help="Require evidence_status=reviewed for every card")
+    parser.add_argument("--max-review-age-days", type=int, default=730, help="Warn when evidence review is older than this many days")
+    parser.add_argument("--evidence-registry", help="JSON evidence registry mapping claims to references and workflow status")
+    parser.add_argument("--require-approved-evidence", action="store_true", help="Block release unless every card has current approved/published claim evidence")
+    parser.add_argument("--self-test", action="store_true", help="Run built-in diagnostics")
+    parser.add_argument("--verbose", action="store_true")
+    return parser.parse_args(argv)
+
+
+def run_pipeline(args: argparse.Namespace) -> int:
+    if args.verbose:
+        logging.getLogger().setLevel(logging.DEBUG)
+
+    specialty = canonicalize_specialty(args.specialty)
+    if getattr(args, "max_review_age_days", 730) < 1:
+        raise ValueError("--max-review-age-days must be >= 1")
+    cards: list[Card] = []
+
+    if args.exam_cards:
+        if not specialty:
+            raise ValueError("--specialty is required with --exam-cards")
+        cards.extend(build_exam_cards(Path(args.exam_cards), specialty))
+    if args.case_library:
+        cards.extend(build_case_cards(Path(args.case_library), specialty))
+    if args.blueprint:
+        if not specialty:
+            raise ValueError("--specialty is required with --blueprint")
+        cards.extend(build_blueprint_cards(Path(args.blueprint), specialty))
+
+    if not cards:
+        raise ValueError("No cards loaded. Supply --exam-cards, --case-library, or --blueprint.")
+
+    missing_specialties = [c.card_id or "<no-id>" for c in cards if not c.specialty]
+    if missing_specialties:
+        raise ValueError(
+            "Cards missing specialty: " + ", ".join(missing_specialties[:10])
+            + ". Supply --specialty or specialty on each record."
+        )
+
+    evidence_report = None
+    if getattr(args, "evidence_registry", None):
+        evidence_records = load_evidence_registry(Path(args.evidence_registry))
+        evidence_report = analyze_evidence_registry(
+            cards, evidence_records,
+            max_age_days=getattr(args, "max_review_age_days", 730),
+            require_approved=getattr(args, "require_approved_evidence", False),
+        )
+    elif getattr(args, "require_approved_evidence", False):
+        evidence_report = analyze_evidence_registry(
+            cards, [], max_age_days=getattr(args, "max_review_age_days", 730), require_approved=True,
+        )
+
+    report = evaluate_quality(
+        cards,
+        require_reviewed=getattr(args, "require_reviewed", False),
+        max_review_age_days=getattr(args, "max_review_age_days", 730),
+    )
+    output_dir = Path(args.output)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    report_path = output_dir / "quality_report.json"
+    atomic_write_text(
+        json.dumps({
+            **report_to_dict(report),
+            "near_duplicate_candidates": find_near_duplicate_pairs(cards),
+            "quality_score": calculate_quality_score(cards, report),
+            "evidence_governance": evidence_report,
+            "clinical_review_notice": (
+                "Automated checks assess structure and educational metadata only; "
+                "they do not verify clinical truth, guideline currency, or patient safety."
+            ),
+        }, indent=2, ensure_ascii=False),
+        report_path,
+    )
+    if evidence_report is not None:
+        atomic_write_text(json.dumps(evidence_report, indent=2, ensure_ascii=False), output_dir / "evidence_governance_report.json")
+
+    LOG.info(
+        "Quality: %d/%d passed; %d errors; %d warnings",
+        report.cards_passed, report.cards_evaluated,
+        report.error_count, report.warning_count,
+    )
+
+    if evidence_report and not evidence_report["release_ready"] and getattr(args, "require_approved_evidence", False) and not args.force:
+        LOG.error("Release blocked by evidence governance: %d evidence errors and %d contradiction candidates.",
+                  evidence_report["error_count"], len(evidence_report["contradiction_candidates"]))
+        return 1
+
+    if report.error_count and not args.force:
+        LOG.error("Export aborted due to quality errors. Use --force to override.")
+        for item in report.error_examples[:20]:
+            LOG.error("%s [%s] %s", item["card_id"], item["code"], item["detail"])
+        return 1
+
+    if args.fail_on_warn and report.warning_count and not args.force:
+        LOG.error("Export aborted because warnings exist (--fail-on-warn).")
+        return 1
+
+    write_tsv(cards, output_dir / "deck.tsv")
+    deck_name = args.deck_name or (f"Usiphus::{specialty.title()}" if specialty else "Usiphus Deck")
+
+    if args.apkg:
+        export_apkg(cards, output_dir / "deck.apkg", deck_name)
+    if args.anki_connect:
+        push_to_ankiconnect(cards, deck_name, args.anki_url)
+    if args.study_guide:
+        export_study_guide(cards, output_dir / "study_guide.md", specialty, deck_name)
+
+    atomic_write_text(
+        json.dumps({
+            "usiphus_version": VERSION,
+            "created_unix": int(time.time()),
+            "deck_name": deck_name,
+            "specialty": specialty,
+            "card_count": len(cards),
+            "card_ids": [c.card_id for c in cards],
+        }, indent=2, ensure_ascii=False),
+        output_dir / "build_manifest.json",
+    )
+    return 0
+
+
+# ---------------------------------------------------------------------------
+# Self-tests
+# ---------------------------------------------------------------------------
+
+def run_self_test() -> int:
+    import unittest
+
+    class UsiphusTests(unittest.TestCase):
+        def test_normalizer_idempotent(self):
+            value = "[Cornea] Keratoconus — what is it"
+            once = canonicalize_prompt(value)
+            self.assertEqual(once, "[Cornea] Keratoconus — what is it?")
+            self.assertEqual(canonicalize_prompt(once), once)
+
+        def test_hyphen_preserved(self):
+            self.assertEqual(canonicalize_prompt("A-B test"), "A-B test")
+
+        def test_tag_deduplication(self):
+            self.assertEqual(canonicalize_tags(["Case", "case", " OSCE "]), ("Case", "OSCE"))
+
+        def test_duplicate_prompt_and_ids(self):
+            cards = [
+                Card("A", "ophthalmology", "What is cataract?", "Lens opacity causing visual impairment."),
+                Card("a", "ophthalmology", " what is cataract? ", "Another valid answer."),
+            ]
+            report = evaluate_quality(cards)
+            codes = {f.code for r in report.results for f in r.findings}
+            self.assertIn(FindingCode.CARD_ID_DUPLICATE, codes)
+            self.assertIn(FindingCode.PROMPT_DUPLICATE, codes)
+
+        def test_mcq_validation(self):
+            card = Card(
+                "mcq1", "surgery", "Which is correct?", "The femoral artery is commonly affected.",
+                card_type="mcq", options=("Femoral", "Popliteal"), correct_option="Femoral",
+            )
+            self.assertTrue(evaluate_quality([card]).results[0].passed)
+
+        def test_mcq_missing_correct_answer(self):
+            card = Card(
+                "mcq1", "surgery", "Which is correct?", "A sufficiently long answer here.",
+                card_type="mcq", options=("A", "B"),
+            )
+            codes = {f.code for f in evaluate_quality([card]).results[0].findings}
+            self.assertIn(FindingCode.MCQ_CORRECT_OPTION_MISSING, codes)
+
+        def test_stable_ids(self):
+            self.assertEqual(stable_blueprint_id("Cornea", "Keratoconus"),
+                             stable_blueprint_id("Cornea", "Keratoconus"))
+            self.assertEqual(anki_guid("card-1"), anki_guid("CARD-1"))
+
+        def test_warning_does_not_count_as_error(self):
+            card = Card("x", "medicine", "What is X?", "A sufficiently long answer for this card.")
+            report = evaluate_quality([card])
+            self.assertGreater(report.warning_count, 0)
+            self.assertEqual(report.error_count, 0)
+            self.assertTrue(report.results[0].passed)
+
+        def test_atomic_writes(self):
+            with tempfile.TemporaryDirectory() as directory:
+                path = Path(directory) / "sample.txt"
+                atomic_write_text("hello", path)
+                self.assertEqual(path.read_text(encoding="utf-8"), "hello")
+
+        def test_json_loading_and_blueprint(self):
+            with tempfile.TemporaryDirectory() as directory:
+                path = Path(directory) / "blueprint.json"
+                path.write_text(json.dumps([{
+                    "topic": "Cornea", "name": "Keratoconus",
+                    "definition": "Progressive corneal thinning and ectasia.",
+                }]), encoding="utf-8")
+                cards = build_blueprint_cards(path, "ophthalmology")
+                self.assertEqual(len(cards), 1)
+                self.assertTrue(cards[0].card_id.startswith("bp-"))
+                self.assertTrue(cards[0].prompt.endswith("?"))
+
+        def test_lexical_near_duplicate_candidates(self):
+            cards = [
+                Card("a", "ophthalmology", "What is the common cause of cataract?", "A sufficiently detailed answer."),
+                Card("b", "ophthalmology", "What is a common cause of cataract?", "Another sufficiently detailed answer."),
+            ]
+            self.assertTrue(find_near_duplicate_pairs(cards, threshold=0.5))
+
+        def test_quality_score_is_not_accuracy_claim(self):
+            card = Card("x", "medicine", "What is X?", "A sufficiently long answer for this card.")
+            report = evaluate_quality([card])
+            score = calculate_quality_score([card], report)
+            self.assertIn("metadata-completeness", score["label"])
+            self.assertIn("not a clinical accuracy", score["warning"])
+
+        def test_reviewed_metadata(self):
+            card = Card(
+                "x", "medicine", "What is X?", "A sufficiently long answer for this card.",
+                references=("Guideline reference",), source="faculty-reviewed source",
+                evidence_status="reviewed", reviewed_on="2026-01-01", reviewer="reviewer-1",
+            )
+            report = evaluate_quality([card], max_review_age_days=3650)
+            self.assertFalse(any(f.code == FindingCode.EVIDENCE_NOT_REVIEWED
+                                 for f in report.results[0].findings))
+
+    class EvidenceGovernanceTests(unittest.TestCase):
+        def test_approved_claim_requires_reference_and_reviewer(self):
+            card = Card("c1", "medicine", "What is X?", "A sufficiently long answer.")
+            result = analyze_evidence_registry([card], [{"claim_id":"cl1", "card_id":"c1", "claim":"X is present", "reference":"Guideline", "source_type":"guideline", "status":"approved", "reviewed_on":"2026-01-01", "reviewer":"reviewer"}], max_age_days=5000)
+            self.assertEqual(result["error_count"], 0)
+
+        def test_release_gate_blocks_unapproved_claim(self):
+            card = Card("c1", "medicine", "What is X?", "A sufficiently long answer.")
+            result = analyze_evidence_registry([card], [{"claim_id":"cl1", "card_id":"c1", "claim":"X is present", "reference":"Guideline", "source_type":"guideline", "status":"draft"}], require_approved=True)
+            self.assertFalse(result["release_ready"])
+            self.assertGreater(result["error_count"], 0)
+
+        def test_invalid_audit_transition_is_flagged(self):
+            issues = validate_workflow_audit({"status":"published", "audit_trail":[{"to":"published", "actor":"x", "date":"2026-01-01"}]})
+            self.assertTrue(any("transition" in x for x in issues))
+
+        def test_polarity_conflict_is_review_candidate(self):
+            card = Card("c1", "medicine", "What is X?", "A sufficiently long answer.")
+            records = [
+                {"claim_id":"a", "card_id":"c1", "claim":"Drug increases risk", "reference":"R1", "source_type":"study"},
+                {"claim_id":"b", "card_id":"c1", "claim":"Drug does not increases risk", "reference":"R2", "source_type":"study"},
+            ]
+            result = analyze_evidence_registry([card], records)
+            self.assertTrue(result["contradiction_candidates"])
+
+    suite = unittest.TestSuite([
+        unittest.defaultTestLoader.loadTestsFromTestCase(UsiphusTests),
+        unittest.defaultTestLoader.loadTestsFromTestCase(EvidenceGovernanceTests),
+    ])
+    result = unittest.TextTestRunner(verbosity=2).run(suite)
+    return 0 if result.wasSuccessful() else 2
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
+    if args.self_test:
+        return run_self_test()
+    try:
+        return run_pipeline(args)
+    except (ValueError, FileNotFoundError, NotADirectoryError, RuntimeError, OSError, json.JSONDecodeError) as exc:
+        LOG.error("%s", exc)
+        return 2
+
+
+if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+    )
+    raise SystemExit(main())
