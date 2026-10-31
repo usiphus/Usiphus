@@ -21,7 +21,8 @@
 - [x] Report domain-level gaps and unmapped cards.
 - [x] Export JSON, Markdown, CSV, and manifest artifacts.
 - [x] Include deterministic self-tests.
-- [ ] Execute the self-tests in a supported Python environment and record the result.
+- [ ] Obtain a green GitHub Actions run for compile and self-tests.
+- [ ] Validate against at least one faculty-approved real specialty curriculum.
 - [ ] Validate against at least one faculty-approved real specialty curriculum.
 
 ## V11 planning boundary
