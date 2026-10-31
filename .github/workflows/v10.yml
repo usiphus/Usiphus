@@ -1,0 +1,23 @@
+name: Usiphus V10 checks
+
+on:
+  push:
+    branches:
+      - feature/usiphus-v10-curriculum-mapping
+  pull_request:
+    paths:
+      - "usiphus_v10.py"
+      - ".github/workflows/v10.yml"
+
+jobs:
+  v10-self-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile V10
+        run: python -m py_compile usiphus_v10.py
+      - name: Run V10 self-tests
+        run: python usiphus_v10.py --self-test
