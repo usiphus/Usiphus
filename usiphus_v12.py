@@ -110,10 +110,12 @@ def load_mapping(path: Path, specialty: str, cards: set[str], competencies: set[
         if not isinstance(row, dict):
             raise ValueError(f"Mapping candidate {i} must be an object")
         card, comp, status = clean(row.get("card_id")), clean(row.get("competency_id")), clean(row.get("status")).casefold()
-        if not card or card not in cards or not comp or comp.casefold() not in competencies:
-            raise ValueError(f"Mapping candidate {i} references an unknown card or competency")
+        if not card or card not in cards or not comp:
+            raise ValueError(f"Mapping candidate {i} references an unknown card or has no competency ID")
         if status not in {"verified", "suggested", "pending", "invalid"}:
             raise ValueError(f"Mapping candidate {i} has unsupported status '{status}'")
+        if status != "invalid" and comp.casefold() not in competencies:
+            raise ValueError(f"Mapping candidate {i} references an unknown competency")
         key = (card, comp.casefold(), status)
         if key in seen:
             raise ValueError(f"Duplicate mapping candidate: {key}")
