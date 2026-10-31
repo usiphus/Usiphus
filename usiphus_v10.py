@@ -27,6 +27,7 @@ import argparse
 import csv
 import json
 import logging
+import math
 import re
 import tempfile
 from collections import defaultdict
@@ -180,14 +181,17 @@ def load_competencies(path: Path) -> tuple[str, list[Competency]]:
             weight = float(item.get("weight", 1.0))
         except (TypeError, ValueError):
             raise ValueError(f"Invalid weight for competency {cid}") from None
-        if weight <= 0:
-            raise ValueError(f"Competency weight must be positive: {cid}")
+        if not math.isfinite(weight) or weight <= 0:
+            raise ValueError(f"Competency weight must be finite and positive: {cid}")
+        required_raw = item.get("required", True)
+        if not isinstance(required_raw, bool):
+            raise ValueError(f"'required' must be a boolean for competency {cid}")
         level = clean(item.get("level") or "understand").casefold()
         if level not in VALID_LEVELS:
             raise ValueError(f"Invalid Bloom level '{level}' for competency {cid}")
         result.append(Competency(
             cid, title, clean(item.get("description")), clean(item.get("domain") or "Uncategorized"),
-            level, bool(item.get("required", True)), weight,
+            level, required_raw, weight,
             string_tuple(item.get("learning_objectives") or item.get("objectives")),
             string_tuple(item.get("tags")),
         ))
@@ -257,7 +261,7 @@ def build_report(cards: Sequence[Card], competencies: Sequence[Competency], cand
         domain_rows.append({
             "domain": domain, "competencies": len(items), "required": len(req),
             "verified_covered": verified, "suggested_only": suggested,
-            "uncovered_required": len(req) - verified - suggested,
+            "uncovered_required": len(req) - verified,
             "verified_coverage_percent": round(100 * verified / len(req), 1) if req else 100.0,
         })
     mapped = sum(bool(verified_card[c.card_id] or suggested_card[c.card_id]) for c in cards)
@@ -317,7 +321,7 @@ def render_markdown(report: CurriculumReport) -> str:
     lines.extend(f"- {cid}" for cid in report.uncovered_competency_ids) if report.uncovered_competency_ids else lines.append("None.")
     lines.extend(["", "## Unmapped cards", ""])
     lines.extend(f"- {cid}" for cid in report.unmapped_card_ids) if report.unmapped_card_ids else lines.append("None.")
-    lines.extend(["", "## Interpretation"])
+    lines.extend(["", "## Interpretation", "", "Suggested-only competencies remain uncovered until faculty verification."])
     lines.extend(f"- {warning}" for warning in report.warnings)
     return "\n".join(lines) + "\n"
 
@@ -326,11 +330,18 @@ def write_outputs(report: CurriculumReport, output: Path) -> None:
     output.mkdir(parents=True, exist_ok=True)
     atomic_text(output / "curriculum_coverage.json", json.dumps(asdict(report), indent=2, ensure_ascii=False))
     atomic_text(output / "curriculum_coverage.md", render_markdown(report))
-    with (output / "curriculum_mapping_matrix.csv").open("w", encoding="utf-8-sig", newline="") as handle:
-        writer = csv.writer(handle)
-        writer.writerow(["card_id", "competency_id", "score", "method", "status", "rationale"])
-        for row in report.candidates:
-            writer.writerow([row["card_id"], row["competency_id"], row["score"], row["method"], row["status"], row["rationale"]])
+    csv_path = output / "curriculum_mapping_matrix.csv"
+    fd, temp_name = tempfile.mkstemp(prefix=".mapping-", suffix=".csv", dir=output)
+    try:
+        with open(fd, "w", encoding="utf-8-sig", newline="") as handle:
+            writer = csv.writer(handle)
+            writer.writerow(["card_id", "competency_id", "score", "method", "status", "rationale"])
+            for row in report.candidates:
+                writer.writerow([row["card_id"], row["competency_id"], row["score"], row["method"], row["status"], row["rationale"]])
+            handle.flush()
+        Path(temp_name).replace(csv_path)
+    finally:
+        Path(temp_name).unlink(missing_ok=True)
     atomic_text(output / "curriculum_manifest.json", json.dumps({
         "usiphus_version": VERSION, "report_schema_version": REPORT_SCHEMA_VERSION,
         "cards": report.cards_evaluated, "competencies": report.competencies_evaluated,
@@ -338,8 +349,8 @@ def write_outputs(report: CurriculumReport, output: Path) -> None:
     }, indent=2))
 
 
-def run(cards_path: Path, curriculum_path: Path, output: Path, threshold: float) -> int:
-    cards = load_cards(cards_path)
+def run(cards_path: Path, curriculum_path: Path, output: Path, threshold: float, default_specialty: str = "") -> int:
+    cards = load_cards(cards_path, default_specialty=default_specialty)
     specialty, competencies = load_competencies(curriculum_path)
     candidates = build_candidates(cards, competencies, threshold)
     report = build_report(cards, competencies, candidates, specialty)
@@ -395,6 +406,23 @@ def run_self_test() -> int:
                 path=Path(directory)/"cards.json"
                 path.write_text(json.dumps([{"id":"x","prompt":"Q"},{"id":"X","prompt":"Q2"}]),encoding="utf-8")
                 with self.assertRaises(ValueError): load_cards(path)
+        def test_non_finite_weight_rejected(self):
+            with tempfile.TemporaryDirectory() as directory:
+                path=Path(directory)/"curriculum.json"
+                path.write_text(json.dumps({"specialty":"urology","competencies":[{"id":"X","title":"Example","weight":float("nan")}]}),encoding="utf-8")
+                with self.assertRaises(ValueError): load_competencies(path)
+        def test_required_must_be_boolean(self):
+            with tempfile.TemporaryDirectory() as directory:
+                path=Path(directory)/"curriculum.json"
+                path.write_text(json.dumps({"specialty":"urology","competencies":[{"id":"X","title":"Example","required":"false"}]}),encoding="utf-8")
+                with self.assertRaises(ValueError): load_competencies(path)
+        def test_suggested_is_still_uncovered(self):
+            comps=[Competency("X","Renal colic",required=True)]
+            cards=[Card("c","urology","Renal colic","",tags=("stone",))]
+            candidates=[MappingCandidate("c","X",0.8,"lexical","suggested","review")]
+            report=build_report(cards,comps,candidates,"urology")
+            self.assertEqual(report.uncovered_required_competencies,1)
+            self.assertEqual(report.uncovered_competency_ids,["X"])
         def test_output_files(self):
             with tempfile.TemporaryDirectory() as directory:
                 report=build_report(self.cards,self.comps,build_candidates(self.cards,self.comps),"urology")
@@ -411,6 +439,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser=argparse.ArgumentParser(description="Usiphus V10 specialty curriculum mapping engine")
     parser.add_argument("--cards",help="V9-compatible JSON cards file")
     parser.add_argument("--curriculum",help="Specialty curriculum JSON file")
+    parser.add_argument("--specialty",help="Default specialty for cards without specialty metadata")
     parser.add_argument("--output",default="./build",help="Output directory")
     parser.add_argument("--min-match-score",type=float,default=0.12,help="Lexical candidate threshold (0–1)")
     parser.add_argument("--self-test",action="store_true",help="Run built-in tests")
@@ -431,7 +460,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         LOG.error("--min-match-score must be between 0 and 1")
         return 2
     try:
-        return run(Path(args.cards),Path(args.curriculum),Path(args.output),args.min_match_score)
+        return run(Path(args.cards),Path(args.curriculum),Path(args.output),args.min_match_score,args.specialty or "")
     except (ValueError,OSError,json.JSONDecodeError) as exc:
         LOG.error("%s",exc)
         return 2
