@@ -333,8 +333,10 @@ def run_self_test():
             build_analytics("urology",self.comps,self.map,self.events,{},2,365,self.cfg,self.now)
             self.assertEqual(self.map,before)
         def test_unseen_competency_due_now(self):
-            _,_,schedule=build_analytics("urology",self.comps,self.map,[],{},2,365,self.cfg,self.now)
-            self.assertEqual(schedule[0]["next_due_at"],self.now.isoformat().replace("+00:00","Z"))
+            _,_,schedule=build_analytics("urology",self.comps,self.map,[self.events[0]],{},2,365,self.cfg,self.now)
+            unseen=next(row for row in schedule if row["competency_id"]=="U2")
+            self.assertEqual(unseen["next_due_at"],self.now.isoformat().replace("+00:00","Z"))
+            self.assertEqual(unseen["status"],"not_started")
         def test_outputs_written(self):
             learner,cohort,schedule=build_analytics("urology",self.comps,self.map,self.events,{},2,365,self.cfg,self.now)
             with tempfile.TemporaryDirectory() as d:
