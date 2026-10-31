@@ -1,0 +1,37 @@
+name: Usiphus V13 validation
+
+on:
+  push:
+    branches:
+      - "feature/usiphus-v13-validation-engine"
+  pull_request:
+    paths:
+      - "usiphus_v8.py"
+      - "usiphus_v9.py"
+      - "usiphus_v10.py"
+      - "usiphus_v11.py"
+      - "usiphus_v12.py"
+      - "usiphus_v13.py"
+      - "docs/V13_VALIDATION_ENGINE.md"
+      - ".github/workflows/v13.yml"
+
+jobs:
+  regression-and-v13:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile versioned engines
+        run: |
+          python -m py_compile usiphus_v8.py usiphus_v9.py usiphus_v10.py usiphus_v11.py usiphus_v12.py usiphus_v13.py
+      - name: Run V8–V12 regression self-tests
+        run: |
+          python usiphus_v8.py --self-test
+          python usiphus_v9.py --self-test
+          python usiphus_v10.py --self-test
+          python usiphus_v11.py --self-test
+          python usiphus_v12.py --self-test
+      - name: Run V13 validation self-tests
+        run: python usiphus_v13.py --self-test
