@@ -998,3 +998,121 @@ def run_pipeline(args: argparse.Namespace) -> int:
 # ---------------------------------------------------------------------------
 # Self-tests
 # ---------------------------------------------------------------------------
+
+def run_self_test() -> int:
+    import unittest
+
+    class UsiphusTests(unittest.TestCase):
+        def test_normalizer_idempotent(self):
+            value = "[Cornea] Keratoconus — what is it"
+            once = canonicalize_prompt(value)
+            self.assertEqual(once, "[Cornea] Keratoconus — what is it?")
+            self.assertEqual(canonicalize_prompt(once), once)
+
+        def test_hyphen_preserved(self):
+            self.assertEqual(canonicalize_prompt("A-B test"), "A-B test")
+
+        def test_tag_deduplication(self):
+            self.assertEqual(canonicalize_tags(["Case", "case", " OSCE "]), ("Case", "OSCE"))
+
+        def test_duplicate_prompt_and_ids(self):
+            cards = [
+                Card("A", "ophthalmology", "What is cataract?", "Lens opacity causing visual impairment."),
+                Card("a", "ophthalmology", " what is cataract? ", "Another valid answer."),
+            ]
+            report = evaluate_quality(cards)
+            codes = {f.code for r in report.results for f in r.findings}
+            self.assertIn(FindingCode.CARD_ID_DUPLICATE, codes)
+            self.assertIn(FindingCode.PROMPT_DUPLICATE, codes)
+
+        def test_mcq_validation(self):
+            card = Card(
+                "mcq1", "surgery", "Which is correct?", "The femoral artery is commonly affected.",
+                card_type="mcq", options=("Femoral", "Popliteal"), correct_option="Femoral",
+            )
+            self.assertTrue(evaluate_quality([card]).results[0].passed)
+
+        def test_mcq_missing_correct_answer(self):
+            card = Card(
+                "mcq1", "surgery", "Which is correct?", "A sufficiently long answer here.",
+                card_type="mcq", options=("A", "B"),
+            )
+            codes = {f.code for f in evaluate_quality([card]).results[0].findings}
+            self.assertIn(FindingCode.MCQ_CORRECT_OPTION_MISSING, codes)
+
+        def test_stable_ids(self):
+            self.assertEqual(stable_blueprint_id("Cornea", "Keratoconus"),
+                             stable_blueprint_id("Cornea", "Keratoconus"))
+            self.assertEqual(anki_guid("card-1"), anki_guid("CARD-1"))
+
+        def test_warning_does_not_count_as_error(self):
+            card = Card("x", "medicine", "What is X?", "A sufficiently long answer for this card.")
+            report = evaluate_quality([card])
+            self.assertGreater(report.warning_count, 0)
+            self.assertEqual(report.error_count, 0)
+            self.assertTrue(report.results[0].passed)
+
+        def test_atomic_writes(self):
+            with tempfile.TemporaryDirectory() as directory:
+                path = Path(directory) / "sample.txt"
+                atomic_write_text("hello", path)
+                self.assertEqual(path.read_text(encoding="utf-8"), "hello")
+
+        def test_json_loading_and_blueprint(self):
+            with tempfile.TemporaryDirectory() as directory:
+                path = Path(directory) / "blueprint.json"
+                path.write_text(json.dumps([{
+                    "topic": "Cornea", "name": "Keratoconus",
+                    "definition": "Progressive corneal thinning and ectasia.",
+                }]), encoding="utf-8")
+                cards = build_blueprint_cards(path, "ophthalmology")
+                self.assertEqual(len(cards), 1)
+                self.assertTrue(cards[0].card_id.startswith("bp-"))
+                self.assertTrue(cards[0].prompt.endswith("?"))
+
+        def test_lexical_near_duplicate_candidates(self):
+            cards = [
+                Card("a", "ophthalmology", "What is the common cause of cataract?", "A sufficiently detailed answer."),
+                Card("b", "ophthalmology", "What is a common cause of cataract?", "Another sufficiently detailed answer."),
+            ]
+            self.assertTrue(find_near_duplicate_pairs(cards, threshold=0.5))
+
+        def test_quality_score_is_not_accuracy_claim(self):
+            card = Card("x", "medicine", "What is X?", "A sufficiently long answer for this card.")
+            report = evaluate_quality([card])
+            score = calculate_quality_score([card], report)
+            self.assertIn("metadata-completeness", score["label"])
+            self.assertIn("not a clinical accuracy", score["warning"])
+
+        def test_reviewed_metadata(self):
+            card = Card(
+                "x", "medicine", "What is X?", "A sufficiently long answer for this card.",
+                references=("Guideline reference",), source="faculty-reviewed source",
+                evidence_status="reviewed", reviewed_on="2026-01-01", reviewer="reviewer-1",
+            )
+            report = evaluate_quality([card], max_review_age_days=3650)
+            self.assertFalse(any(f.code == FindingCode.EVIDENCE_NOT_REVIEWED
+                                 for f in report.results[0].findings))
+
+    suite = unittest.defaultTestLoader.loadTestsFromTestCase(UsiphusTests)
+    result = unittest.TextTestRunner(verbosity=2).run(suite)
+    return 0 if result.wasSuccessful() else 2
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
+    if args.self_test:
+        return run_self_test()
+    try:
+        return run_pipeline(args)
+    except (ValueError, FileNotFoundError, NotADirectoryError, RuntimeError, OSError, json.JSONDecodeError) as exc:
+        LOG.error("%s", exc)
+        return 2
+
+
+if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+    )
+    raise SystemExit(main())
