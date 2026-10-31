@@ -190,5 +190,25 @@ class V14EndToEndTests(unittest.TestCase):
         self.assertFalse(self.output.exists())
 
 
+    def test_rejects_output_directory_that_is_parent_of_external_input(self) -> None:
+        source_dir = self.root / "external-source"
+        source_dir.mkdir()
+        write_json(source_dir / "cards.json", {
+            "cards": [{
+                "card_id": "TEST-001",
+                "specialty": "urology",
+                "title": "Fictional integration-test card"
+            }]
+        })
+        config = json.loads(self.config_path.read_text())
+        config["inputs"]["cards"] = "../external-source/cards.json"
+        config["output_dir"] = "../external-source"
+        write_json(self.config_path, config)
+
+        result = self.run_cli()
+        self.assertEqual(result.returncode, 2)
+        self.assertTrue((source_dir / "cards.json").is_file())
+
+
 if __name__ == "__main__":
     unittest.main()
