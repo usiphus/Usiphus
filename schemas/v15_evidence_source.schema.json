@@ -1,0 +1,18 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"Usiphus V15 evidence source",
+  "type":"object",
+  "required":["source_id","title","source_type","authority","jurisdiction","status"],
+  "properties":{
+    "source_id":{"type":"string","minLength":1},
+    "title":{"type":"string","minLength":1},
+    "source_type":{"type":"string","minLength":1},
+    "authority":{"type":"string","minLength":1},
+    "jurisdiction":{"type":"string","minLength":1},
+    "version":{"type":"string"},
+    "published_on":{"type":"string","format":"date"},
+    "status":{"enum":["active","superseded","withdrawn"]},
+    "superseded_by":{"type":"string"}
+  },
+  "additionalProperties":true
+}
