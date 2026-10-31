@@ -47,3 +47,19 @@ responsible for access controls, source deletion, and applicable policies.
 All heuristic mappings remain suggestions until reviewed. Medical claims and
 curriculum decisions require qualified human review. A passing software test
 suite does not establish clinical accuracy or educational validity.
+
+## V12 implementation
+
+- [x] Integrate V10 specialty curriculum and mapping report with specialty/card/competency cross-checks.
+- [x] Reuse V8 evidence-registry workflow rules for provenance, audit transitions, reviewer metadata, and freshness checks.
+- [x] Integrate V11 learner progress, privacy-suppressed cohort analytics, and review schedule.
+- [x] Produce a faculty review/repair work queue for pending mappings, evidence, and curriculum gaps.
+- [x] Produce a software release checklist with explicit blockers.
+- [x] Hash all input artifacts and generate a provenance manifest.
+- [x] Keep all source artifacts read-only and omit individual learner pseudonyms from the V12 summary.
+- [x] Add deterministic self-tests and dedicated pull-request CI.
+- [ ] Validate the end-to-end pipeline against a faculty-approved real specialty dataset and institutional privacy review.
+
+V12 is a local batch integration layer, not a hosted LMS or faculty identity
+system. Release readiness is a metadata/workflow gate, not clinical or
+educational validation. V12 does not approve source mappings or evidence.
