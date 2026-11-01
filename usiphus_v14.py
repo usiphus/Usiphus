@@ -1,13 +1,13 @@
 
 #!/usr/bin/env python3
-"""Usiphus V14: configuration-driven unified release orchestration."""
+"""Usiphus V16: one governed release using the compatible V14 command."""
 from __future__ import annotations
 import argparse, contextlib, ctypes, hashlib, importlib.util, json, logging, os, shutil, sys, tempfile, uuid
 from datetime import date, datetime, timezone
 from pathlib import Path
 from types import SimpleNamespace
 
-VERSION = "14.2.0"
+VERSION = "16.0.0"
 ROOT = Path(__file__).resolve().parent
 LOG = logging.getLogger("usiphus.v14")
 FILES = {"cards":"cards.json","curriculum":"curriculum.json","mapping":"mapping.json",
@@ -19,7 +19,7 @@ from usiphus_common import atomic_write_text  # noqa: E402
 MARKER = ".usiphus_v14_bundle"
 POINTER_MARKER_TEXT = "usiphus-v14-pointer-root\nThis directory holds immutable releases and a current.json pointer managed by Usiphus V14.\n"
 PUBLISH_MODES = {"auto", "pointer"}
-V15_KEYS = {"v15_sources","v15_claims","v15_minimum_reviewers","v15_require_registered_sources","v15_require_signed_audit","v15_require_audit_anchor","v15_audit_trusted_keys","v15_anchors"}
+V15_KEYS = {"v15_sources","v15_claims","v15_evidence_mode","v15_block_on_failure","v15_minimum_reviewers","v15_require_registered_sources","v15_require_signed_audit","v15_require_audit_anchor","v15_audit_trusted_keys","v15_anchors"}
 ALLOWED = {"schema_version","inputs","output_dir","as_of","max_evidence_age_days","run_regression_tests","publish_mode","keep_releases","require_release_ledger"} | V15_KEYS
 
 class ReleaseError(ValueError):
@@ -86,6 +86,12 @@ def load_config(filename):
     if type(reviewers) is not int or reviewers<1: raise ReleaseError("v15_minimum_reviewers must be a positive integer")
     registered=cfg.get("v15_require_registered_sources",True)
     if not isinstance(registered,bool): raise ReleaseError("v15_require_registered_sources must be boolean")
+    evidence_mode=cfg.get("v15_evidence_mode")
+    if evidence_mode is None: evidence_mode="strict" if registered else "legacy"
+    if evidence_mode not in {"strict","legacy"}: raise ReleaseError("v15_evidence_mode must be strict or legacy")
+    registered = evidence_mode == "strict"
+    block_v15=cfg.get("v15_block_on_failure",True)
+    if not isinstance(block_v15,bool): raise ReleaseError("v15_block_on_failure must be boolean")
     signed=cfg.get("v15_require_signed_audit",True); anchored=cfg.get("v15_require_audit_anchor",True)
     if not isinstance(signed,bool) or not isinstance(anchored,bool): raise ReleaseError("v15_require_signed_audit and v15_require_audit_anchor must be boolean")
     if not isinstance(cfg["output_dir"],str) or not cfg["output_dir"].strip(): raise ReleaseError("output_dir is required")
@@ -109,6 +115,7 @@ def load_config(filename):
     if not isinstance(tests,bool): raise ReleaseError("run_regression_tests must be boolean")
     cfg.update(inputs=inputs,output_dir=str(output),max_evidence_age_days=age,run_regression_tests=tests,
                v15=v15_inputs,v15_minimum_reviewers=reviewers,v15_require_registered_sources=registered,
+               v15_evidence_mode=evidence_mode,v15_block_on_failure=block_v15,
                v15_require_signed_audit=signed,v15_require_audit_anchor=anchored,publish_mode=publish_mode,keep_releases=keep,require_release_ledger=need_ledger)
     return cfg,path
 
@@ -256,10 +263,21 @@ def _run_release_locked(cfg,config_path,target):
         else: stages.append({"stage":"V8-V13 regression tests","status":"skipped"})
         source=stage/"source-artifacts"
         source.mkdir()
+        v15_source=stage/"v15-source-artifacts"
+        v15_source.mkdir()
         staged={}
         for key,name in FILES.items():
             staged[key]=source/name
             shutil.copyfile(cfg["inputs"][key],staged[key])
+        # Analyze immutable snapshots rather than caller-owned mutable paths.
+        v15_staged={}
+        v15_names={"v15_sources":"v15_sources.json","v15_claims":"v15_claims.json",
+                   "v15_audit_trusted_keys":"v15_audit_trusted_keys.json","v15_anchors":"v15_anchors.json"}
+        for key,name in v15_names.items():
+            if key in cfg["v15"]:
+                snapshot=v15_source/name
+                shutil.copyfile(cfg["v15"][key],snapshot)
+                v15_staged[key]=snapshot
         out=stage/"v12"
         args=SimpleNamespace(cards=str(staged["cards"]),curriculum=str(staged["curriculum"]),
             mapping=str(staged["mapping"]),evidence=str(staged["evidence"]),
@@ -275,13 +293,14 @@ def _run_release_locked(cfg,config_path,target):
         checklist=json.loads((out/"release_checklist.json").read_text(encoding="utf-8"))
         v12_ready=checklist.get("release_ready") is True
         v15_status=None
+        v15_result=None
         if 15 in engines:
             v15=engines[15]
-            verifier=v15.verifier_from_path(cfg["v15"].get("v15_audit_trusted_keys") or os.environ.get(v15.TRUSTED_KEYS_ENV))
-            anchors=v15.anchors_from_path(cfg["v15"].get("v15_anchors"),verifier)
+            verifier=v15.verifier_from_path(str(v15_staged["v15_audit_trusted_keys"]) if "v15_audit_trusted_keys" in v15_staged else os.environ.get(v15.TRUSTED_KEYS_ENV))
+            anchors=v15.anchors_from_path(str(v15_staged["v15_anchors"]) if "v15_anchors" in v15_staged else None,verifier)
             v15_result=v15.analyze(
-                v15.records(v15.read_json(Path(cfg["v15"]["v15_sources"])),"sources","Source registry"),
-                v15.records(v15.read_json(Path(cfg["v15"]["v15_claims"])),"claims","Claim registry"),
+                v15.records(v15.read_json(v15_staged["v15_sources"]),"sources","Source registry"),
+                v15.records(v15.read_json(v15_staged["v15_claims"]),"claims","Claim registry"),
                 as_of=date.fromisoformat(cfg["as_of"]) if cfg.get("as_of") else date.today(),
                 max_age_days=cfg["max_evidence_age_days"],minimum_reviewers=cfg["v15_minimum_reviewers"],
                 require_registered_sources=cfg["v15_require_registered_sources"],audit_hmac_key=v15.audit_key_from_env(),
@@ -290,29 +309,83 @@ def _run_release_locked(cfg,config_path,target):
             v15.write_outputs(v15_result,stage/"v15")
             v15_status=v15_result["governance_status"]
             stages.append({"stage":"V15 evidence governance","status":"passed" if v15_status=="checks_passed" else "blocked"})
+        v15_blocked = v15_status == "blocked"
+        if v15_blocked and cfg.get("v15_block_on_failure",True):
+            details=[]
+            for finding in v15_result["findings"]:
+                details.append(f"{finding['kind']} {finding['id']}: {'; '.join(finding['issues'])}")
+            detail_text=" | ".join(details[:8])
+            if len(details)>8: detail_text += f" | ... {len(details)-8} additional finding(s)"
+            raise ReleaseError(
+                f"V15 evidence governance blocked this release ({len(details)} finding(s)): "
+                f"{detail_text}. Previous published bundle was preserved."
+            )
         ready=v12_ready and v15_status in (None,"checks_passed")
-        status="ready" if ready else "blocked"
+        status="ready" if ready else ("ready_with_warnings" if v15_blocked else "blocked")
         now=datetime.now(timezone.utc).isoformat().replace("+00:00","Z")
-        summary={"schema_version":1,"usiphus_version":VERSION,"specialty":validation.get("specialty"),
+        summary={"schema_version":2,"usiphus_version":VERSION,"specialty":validation.get("specialty"),
                  "release_status":status,"v12_release_ready":v12_ready,"v15_governance_status":v15_status,"v13_validation_status":"passed",
+                 "v15_evidence_mode":cfg["v15_evidence_mode"] if cfg.get("v15") else "not_configured",
+                 "v15_block_on_failure":cfg.get("v15_block_on_failure",True),
+                 "v15_governance":{"status":v15_status,
+                     "source_count":v15_result["source_count"] if v15_result else None,
+                     "claim_count":v15_result["claim_count"] if v15_result else None,
+                     "legacy_reference_claims":v15_result["legacy_reference_claims"] if v15_result else None,
+                     "finding_count":len(v15_result["findings"]) if v15_result else None,
+                     "impact_source_count":len(v15_result["impact_index"]) if v15_result else None,
+                     "findings":v15_result["findings"] if v15_result else []},
                  "generated_at":now,"stages":stages,
                  "boundary":"Software status only; not clinical approval, educational validity, competence, anonymization, or legal compliance."}
         write_json(stage/"release_summary.json",summary)
-        report=["# Usiphus V14 release report","",f"- Specialty: {summary['specialty']}",
+        report=["# Usiphus V16 governed release report","",f"- Specialty: {summary['specialty']}",
                 f"- Release status: **{status.upper()}**","","| Stage | Status |","|---|---|"]
         report += [f"| {x['stage']} | {x['status']} |" for x in stages]
+        if 15 in engines:
+            report += ["",f"- V15 evidence mode: **{cfg['v15_evidence_mode']}**",
+                       f"- V15 mandatory failure gate: **{cfg.get('v15_block_on_failure',True)}**",
+                       "", "## V15 governance findings"]
+            if v15_result["findings"]:
+                report += [f"- **{row['kind']} {row['id']}**: {'; '.join(row['issues'])}"
+                           for row in v15_result["findings"]]
+            else:
+                report.append("- No source or claim metadata findings.")
+            report += ["", f"- Registered sources: {v15_result['source_count']}",
+                       f"- Claims: {v15_result['claim_count']}",
+                       f"- Legacy references: {v15_result['legacy_reference_claims']}",
+                       f"- Source impact entries: {len(v15_result['impact_index'])}"]
         report += ["","Automated checks do not establish clinical truth, educational effectiveness,",
                    "learner competence, anonymization, or legal/institutional compliance.",
                    "Qualified faculty review remains mandatory.",""]
         (stage/"release_report.md").write_text("\n".join(report),encoding="utf-8")
         (stage/MARKER).write_text("Created by Usiphus V14. This directory may be replaced by later V14 releases.\n",encoding="utf-8")
-        source_hashes={k:{"path":p,"sha256":digest(p),"bytes":Path(p).stat().st_size} for k,p in {**cfg["inputs"],**cfg["v15"]}.items()}
+        source_hashes={}
+        for key,original in cfg["inputs"].items():
+            snap=staged[key]
+            source_hashes[key]={"path":original,"sha256":digest(snap),"bytes":snap.stat().st_size}
+        for key,original in cfg["v15"].items():
+            snap=v15_staged[key]
+            source_hashes[key]={"path":original,"sha256":digest(snap),"bytes":snap.stat().st_size}
+        report_hashes={}
+        if (stage/"v15").is_dir():
+            report_hashes={p.name:{"sha256":digest(p),"bytes":p.stat().st_size}
+                           for p in sorted((stage/"v15").iterdir()) if p.is_file()}
         shutil.rmtree(source)
+        shutil.rmtree(v15_source)
         output_hashes={str(p.relative_to(stage)):{"sha256":digest(p),"bytes":p.stat().st_size}
                        for p in sorted(stage.rglob("*")) if p.is_file()}
-        manifest={"schema_version":1,"usiphus_version":VERSION,
+        manifest={"schema_version":2,"usiphus_version":VERSION,
             "engine_versions":{f"v{v}":engines[v].VERSION for v in engines},
             "config_sha256":digest(config_path),"inputs":source_hashes,"outputs":output_hashes,
+            "release_policy":{"v15_enabled":15 in engines,
+                "v15_evidence_mode":cfg["v15_evidence_mode"] if cfg.get("v15") else "not_configured",
+                "v15_block_on_failure":cfg.get("v15_block_on_failure",True),
+                "v15_minimum_reviewers":cfg["v15_minimum_reviewers"] if cfg.get("v15") else None,
+                "v15_require_registered_sources":cfg["v15_require_registered_sources"] if cfg.get("v15") else None,
+                "v15_require_signed_audit":cfg["v15_require_signed_audit"] if cfg.get("v15") else None,
+                "v15_require_audit_anchor":cfg["v15_require_audit_anchor"] if cfg.get("v15") else None,
+                "max_evidence_age_days":cfg["max_evidence_age_days"],
+                "as_of":cfg.get("as_of")},
+            "governance_report_hashes":report_hashes,
             "release_status":status,"generated_at":now,
             "note":"Hashes support integrity/change detection; timestamps vary and byte-identical bundles are not promised."}
         write_json(stage/"v14_manifest.json",manifest)
@@ -388,7 +461,7 @@ def main(argv=None):
             print(read_current(Path(cfg["output_dir"]))); return 0
         result=run_release(cfg,path)
         print(json.dumps(result,indent=2,ensure_ascii=False))
-        return 0 if result["release_status"]=="ready" else 1
+        return 0 if result["release_status"] in {"ready","ready_with_warnings"} else 1
     except (ReleaseError,OSError,ValueError,TypeError) as exc:
         LOG.error("%s",exc); return 2
 
