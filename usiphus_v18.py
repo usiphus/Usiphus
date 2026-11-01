@@ -33,6 +33,7 @@ CHANGE_WEIGHTS = {
     "source_status_changed": 700,
     "source_metadata_changed": 500,
     "review_overdue": 400,
+    "review_timestamp_in_future": 600,
     "review_date_missing": 350,
     "new_source": 100,
 }
@@ -162,6 +163,8 @@ def source_fingerprint(source: dict[str, Any], source_root: Path) -> dict[str, A
     url = canonical_url(clean(source.get("url") or source.get("canonical_url")))
     return {
         "source_id": clean(source.get("source_id")),
+        "canonical_id": clean(source.get("canonical_id") or source.get("doi") or source.get("identifier")),
+        "superseded_by": clean(source.get("superseded_by")),
         "title": clean(source.get("title")),
         "publisher": clean(source.get("publisher")),
         "authority": clean(source.get("authority")),
@@ -229,6 +232,7 @@ def analyze(sources: list[dict[str, Any]], claims: list[dict[str, Any]], *,
             cards: list[dict[str, Any]] | None = None,
             assessments: list[dict[str, Any]] | None = None,
             osce: list[dict[str, Any]] | None = None,
+            release_links: list[dict[str, Any]] | None = None,
             decisions: list[dict[str, Any]] | None = None,
             max_queue_items: int = 5000) -> dict[str, Any]:
     previous = load_previous_state(previous_state)
@@ -248,6 +252,8 @@ def analyze(sources: list[dict[str, Any]], claims: list[dict[str, Any]], *,
             source_by_id[sid] = source
         if sid:
             fingerprints[sid] = source_fingerprint(source, source_root)
+            if fingerprints[sid]["canonical_id"]:
+                duplicate_index["id:" + fingerprints[sid]["canonical_id"].casefold()].append(sid)
             if fingerprints[sid]["canonical_url"]:
                 duplicate_index["url:" + fingerprints[sid]["canonical_url"]].append(sid)
             if fingerprints[sid]["content_sha256"]:
@@ -276,7 +282,8 @@ def analyze(sources: list[dict[str, Any]], claims: list[dict[str, Any]], *,
         unique = sorted(set(ids))
         if len(unique) > 1:
             duplicate_candidates.append({
-                "candidate_type": "canonical_url" if key.startswith("url:") else "identical_content_hash",
+                "candidate_type": ("canonical_identifier" if key.startswith("id:") else
+                               "canonical_url" if key.startswith("url:") else "identical_content_hash"),
                 "source_ids": unique, "review_required": True,
                 "note": "Candidate only; do not merge source records or infer equivalence automatically.",
             })
@@ -341,9 +348,12 @@ def analyze(sources: list[dict[str, Any]], claims: list[dict[str, Any]], *,
         osce_ids = sorted({station_id for station_id, row in osce_by_id.items()
                            if set(competencies).intersection(
                                clean(value) for value in row.get("competency_ids", []))})
+        artifact_ids = set(claim_ids) | set(cards_hit) | set(competencies) | set(assessment_ids) | set(osce_ids)
+        release_ids = sorted({release_id for release_id, row in release_by_id.items()
+                              if artifact_ids.intersection(clean(value) for value in row.get("artifact_ids", []))})
         downstream[sid] = {"claims": sorted(claim_ids), "cards": cards_hit,
                            "competencies": competencies, "assessment_items": assessment_ids,
-                           "osce_stations": osce_ids}
+                           "osce_stations": osce_ids, "releases": release_ids}
 
     change_events: list[dict[str, Any]] = []
     current_state: dict[str, dict[str, Any]] = {}
@@ -359,7 +369,7 @@ def analyze(sources: list[dict[str, Any]], claims: list[dict[str, Any]], *,
             continue
         changed = []
         for field in ("title", "publisher", "authority", "jurisdiction", "source_type", "version",
-                      "status", "canonical_url", "content_sha256", "published_on", "retrieved_at"):
+                      "status", "superseded_by", "canonical_id", "canonical_url", "content_sha256", "published_on", "retrieved_at"):
             if clean(old.get(field)) != clean(fingerprint.get(field)):
                 changed.append(field)
         if changed:
@@ -392,7 +402,10 @@ def analyze(sources: list[dict[str, Any]], claims: list[dict[str, Any]], *,
             reviewed = parse_timestamp(review_raw, f"source {sid} last_reviewed_at", optional=False)
             due_days = source.get("review_due_days", 365)
             age = (as_of - reviewed).days
-            if age > due_days:
+            if reviewed > as_of:
+                queue.append(make_queue_item("review_timestamp_in_future", sid, impact,
+                                              "Recorded review timestamp is later than the report as-of time."))
+            elif age > due_days:
                 queue.append(make_queue_item("review_overdue", sid, impact,
                                               f"Recorded review is {age} days old; configured interval is {due_days} days.",
                                               age_days=age, review_due_days=due_days))
@@ -481,6 +494,21 @@ def analyze(sources: list[dict[str, Any]], claims: list[dict[str, Any]], *,
                         if competency in {clean(x) for x in row.get("competency_ids", [])}:
                             add_node("osce:" + station_id, "osce_station", station_id)
                             add_edge("competency:" + competency, "osce:" + station_id, "assessed_by")
+    for release_id, row in release_by_id.items():
+        add_node("release:" + release_id, "release", release_id)
+        for artifact_id in row.get("artifact_ids", []):
+            artifact_id = clean(artifact_id)
+            if not artifact_id:
+                continue
+            for prefix, kind in (("claim", "claim"), ("card", "card"), ("competency", "competency"),
+                                 ("assessment", "assessment_item"), ("osce", "osce_station")):
+                if ((prefix == "claim" and artifact_id in claim_card) or
+                    (prefix == "card" and artifact_id in card_by_id) or
+                    (prefix == "competency" and any(artifact_id in {clean(x) for x in c.get("competency_ids", [])} for c in card_by_id.values())) or
+                    (prefix == "assessment" and artifact_id in assessment_by_id) or
+                    (prefix == "osce" and artifact_id in osce_by_id)):
+                    add_node(prefix + ":" + artifact_id, kind, artifact_id)
+                    add_edge(prefix + ":" + artifact_id, "release:" + release_id, "included_in")
 
     audit_events = []
     previous_hash = "0" * 64
@@ -611,10 +639,11 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         cards=optional_records(args.cards, "cards", "cards"),
         assessments=optional_records(args.assessments, "items", "assessments"),
         osce=optional_records(args.osce, "stations", "OSCE stations"),
+        release_links=optional_records(args.release_links, "releases", "release links"),
         decisions=decisions,
     )
     inputs = [sources_path, claims_path] + [Path(p) for p in
-             (args.previous_state, args.cards, args.assessments, args.osce, args.decisions) if p]
+             (args.previous_state, args.cards, args.assessments, args.osce, args.release_links, args.decisions) if p]
     report["input_hashes"] = {str(path): digest_bytes(path.read_bytes()) for path in inputs}
     write_outputs(report, Path(args.output_dir))
     return report
@@ -700,6 +729,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--cards", help="V17 cards JSON for downstream impact")
     parser.add_argument("--assessments", help="V17 assessment items JSON")
     parser.add_argument("--osce", help="V17 OSCE stations JSON")
+    parser.add_argument("--release-links", help="Optional JSON: releases with release_id and artifact_ids")
     parser.add_argument("--decisions", help="Faculty decision JSON (accepted/rejected/deferred)")
     parser.add_argument("--as-of", default=datetime.now(timezone.utc).isoformat(),
                         help="Timezone-aware ISO timestamp; defaults to current UTC time")
