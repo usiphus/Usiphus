@@ -21,6 +21,7 @@ import tempfile
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
+from statistics import median
 from typing import Any
 
 VERSION = "17.0.0"
@@ -269,6 +270,82 @@ def load_curriculum(payload: Any) -> tuple[str, list[dict[str, Any]]]:
     return clean(data["specialty"]).casefold(), comps
 
 
+
+def find_exact_duplicate_cards(cards: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+    """Find exact normalized prompt duplicates; candidates always require human review."""
+    groups: dict[str, list[str]] = defaultdict(list)
+    for card_id, card in cards.items():
+        prompt = re.sub(r"\s+", " ", clean(card.get("prompt") or card.get("question"))).casefold()
+        if prompt:
+            groups[prompt].append(card_id)
+    return [{"card_ids": sorted(ids), "review_required": True,
+             "match_method": "exact-normalized-prompt"}
+            for ids in groups.values() if len(ids) > 1]
+
+
+def summarize_pilot_metrics(path: Path) -> dict[str, Any]:
+    """Summarize only rows explicitly consented/approved for aggregate use."""
+    durations: list[float] = []
+    corrections = traceability = reproducible = reproducibility_responses = friction = 0
+    role_counts: dict[str, int] = defaultdict(int)
+    excluded = missing = 0
+    with Path(path).open("r", encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle)
+        required = {"participant_role", "started_at", "completed_at", "mapping_corrections",
+                    "evidence_traceability_issue", "release_reproducible",
+                    "friction_note", "consented_for_aggregate"}
+        if not reader.fieldnames or not required.issubset(set(reader.fieldnames)):
+            raise V17Error("V17-E060", "Pilot CSV is missing required columns: " +
+                           ", ".join(sorted(required - set(reader.fieldnames or []))))
+        for line, row in enumerate(reader, start=2):
+            consent = clean(row.get("consented_for_aggregate")).casefold()
+            if consent not in {"yes", "true", "1"}:
+                excluded += 1
+                continue
+            missing += sum(not clean(row.get(field)) for field in
+                           ("participant_role", "started_at", "completed_at", "mapping_corrections",
+                            "evidence_traceability_issue", "release_reproducible"))
+            start_text, end_text = clean(row.get("started_at")), clean(row.get("completed_at"))
+            if start_text and end_text:
+                try:
+                    start = datetime.fromisoformat(start_text.replace("Z", "+00:00"))
+                    end = datetime.fromisoformat(end_text.replace("Z", "+00:00"))
+                    if start.tzinfo is None or end.tzinfo is None or end < start:
+                        raise ValueError
+                    durations.append((end - start).total_seconds() / 60.0)
+                except ValueError:
+                    raise V17Error("V17-E061", f"Pilot CSV line {line} has invalid timezone-aware timestamps")
+            try:
+                value = clean(row.get("mapping_corrections"))
+                if value:
+                    parsed = int(value)
+                    if parsed < 0:
+                        raise ValueError
+                    corrections += parsed
+            except ValueError:
+                raise V17Error("V17-E062", f"Pilot CSV line {line} has invalid mapping_corrections")
+            if clean(row.get("evidence_traceability_issue")).casefold() in {"yes", "true", "1"}:
+                traceability += 1
+            response = clean(row.get("release_reproducible")).casefold()
+            if response in {"yes", "true", "1", "no", "false", "0"}:
+                reproducibility_responses += 1
+                reproducible += int(response in {"yes", "true", "1"})
+            if clean(row.get("friction_note")):
+                friction += 1
+            role = clean(row.get("participant_role")) or "unspecified"
+            role_counts[role] += 1
+    return {"schema_version": 1, "consented_task_rows": sum(role_counts.values()),
+            "excluded_without_aggregate_consent": excluded, "rows_with_missing_fields": missing,
+            "median_duration_minutes": round(median(durations), 2) if durations else None,
+            "minimum_duration_minutes": round(min(durations), 2) if durations else None,
+            "maximum_duration_minutes": round(max(durations), 2) if durations else None,
+            "mapping_corrections": corrections, "tasks_with_traceability_issues": traceability,
+            "release_reproducibility_rate": round(reproducible / reproducibility_responses, 4)
+                if reproducibility_responses else None,
+            "tasks_with_friction_notes": friction, "task_rows_by_role": dict(sorted(role_counts.items())),
+            "privacy_note": "Only rows explicitly marked consented_for_aggregate=yes are included; no participant identifiers are collected."}
+
+
 def analyze_curriculum(curriculum_payload: Any, cards_payload: Any, mapping_payload: Any = None,
                        assessments_payload: Any = None, osce_payload: Any = None,
                        previous_curriculum_payload: Any = None) -> tuple[dict[str, Any], dict[str, Any], list[dict[str, Any]]]:
@@ -398,6 +475,32 @@ def analyze_curriculum(curriculum_payload: Any, cards_payload: Any, mapping_payl
             entry["competency_ids"].append(comp["id"])
             entry["verified_competency_count"] += int(covered)
 
+    duplicate_groups = find_exact_duplicate_cards(cards)
+    for group in duplicate_groups:
+        queue.append({"work_type": "duplicate_content_review", "card_ids": group["card_ids"],
+                      "reason": "Exact normalized prompt duplicate candidate; human review required"})
+    queue_summary: dict[str, int] = defaultdict(int)
+    for item in queue:
+        queue_summary[item["work_type"]] += 1
+    graph_nodes = [{"id": "competency:" + row["competency_id"], "type": "competency",
+                    "label": row["title"]} for row in comp_report]
+    graph_edges = []
+    for row in comp_report:
+        comp_node = "competency:" + row["competency_id"]
+        for card_id in row["verified_card_ids"]:
+            graph_nodes.append({"id": "card:" + card_id, "type": "card", "label": card_id})
+            graph_edges.append({"from": comp_node, "to": "card:" + card_id, "relationship": "verified_teaching"})
+        for objective in row["learning_objectives"]:
+            objective_node = "objective:" + objective
+            graph_nodes.append({"id": objective_node, "type": "learning_objective", "label": objective})
+            graph_edges.append({"from": comp_node, "to": objective_node, "relationship": "supports"})
+        for item_id in row["assessment_item_ids"]:
+            graph_nodes.append({"id": "assessment:" + item_id, "type": "assessment", "label": item_id})
+            graph_edges.append({"from": comp_node, "to": "assessment:" + item_id, "relationship": "assessed_by"})
+        for station_id in row["osce_station_ids"]:
+            graph_nodes.append({"id": "osce:" + station_id, "type": "osce_station", "label": station_id})
+            graph_edges.append({"from": comp_node, "to": "osce:" + station_id, "relationship": "assessed_by"})
+    graph_nodes = list({row["id"]: row for row in graph_nodes}.values())
     required = [row for row in competencies if row["required"]]
     verified_required = sum(bool(verified[row["id"].casefold()]) for row in required)
     total_weight = sum(row["weight"] for row in required)
@@ -411,9 +514,12 @@ def analyze_curriculum(curriculum_payload: Any, cards_payload: Any, mapping_payl
                     "verified_weighted_coverage": round(verified_weight / total_weight, 4) if total_weight else 0.0,
                     "verified_coverage": round(verified_required / len(required), 4) if required else 0.0,
                     "mapping_candidates": sum(candidate_counts.values()), "mapping_conflicts": conflict_count,
+                    "exact_duplicate_groups": len(duplicate_groups),
                     "assessment_items": len(assessments), "osce_stations": len(osce_rows)},
         "competencies": comp_report, "by_domain": by_domain, "by_cognitive_level": by_level,
-        "by_learning_objective": by_objective, "findings": findings,
+        "by_learning_objective": by_objective, "dependency_graph": {"nodes": graph_nodes, "edges": graph_edges},
+        "review_queue_summary": dict(sorted(queue_summary.items())),
+        "possible_duplicate_cards": duplicate_groups, "findings": findings,
         "limitations": ["Coverage is metadata completeness, not clinical correctness or educational effectiveness.",
                         "Only explicit faculty-approved provenance counts as verified; reviewer labels are not authenticated identities.",
                         "Suggested and pending mappings are excluded from verified coverage."]
@@ -542,11 +648,12 @@ def write_pilot_template(path: Path) -> None:
 
 def run_analysis(args: argparse.Namespace) -> dict[str, Any]:
     paths = {"curriculum": Path(args.curriculum), "cards": Path(args.cards)}
-    for key in ("mapping", "assessments", "osce", "previous_curriculum"):
+    for key in ("mapping", "assessments", "osce", "previous_curriculum", "pilot_metrics"):
         value = getattr(args, key, None)
         if value:
             paths[key] = Path(value)
-    payloads = {key: read_json(path) for key, path in paths.items()}
+    payloads = {key: read_json(path) for key, path in paths.items() if key != "pilot_metrics"}
+    pilot_summary = summarize_pilot_metrics(paths["pilot_metrics"]) if "pilot_metrics" in paths else None
     quality, impact, queue = analyze_curriculum(
         payloads["curriculum"], payloads["cards"], payloads.get("mapping"),
         payloads.get("assessments"), payloads.get("osce"), payloads.get("previous_curriculum"))
@@ -557,6 +664,8 @@ def run_analysis(args: argparse.Namespace) -> dict[str, Any]:
         "v17_curriculum_impact.json": impact,
         "v17_faculty_review_queue.json": {"schema_version": 1, "items": queue},
     }
+    if pilot_summary is not None:
+        outputs["v17_pilot_metrics_summary.json"] = pilot_summary
     for name, payload in outputs.items():
         write_json(out / name, payload)
     atomic_write_text(dashboard_html(quality, impact), out / "v17_dashboard.html")
@@ -661,6 +770,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--mapping")
     parser.add_argument("--assessments")
     parser.add_argument("--osce")
+    parser.add_argument("--pilot-metrics", help="Summarize institution-approved aggregate pilot CSV rows")
     parser.add_argument("--previous-curriculum")
     parser.add_argument("--compare-manifests", nargs=2, metavar=("PREVIOUS", "CURRENT"))
     parser.add_argument("--output-dir", default="build-v17")
