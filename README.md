@@ -17,7 +17,7 @@ Usiphus helps structure medical teaching material and provides explicit workflow
 | V12 | Integrated specialty report, faculty queue, and release checklist |
 | V13 | Cross-artifact validation, manifest integrity, and selected privacy checks |
 | **V14** | Configuration-driven release orchestration, regression gate, provenance manifest, and atomic bundle publication |
-| **V15** | Evidence-source registry, supersession checks, reviewer quorum, hash-chained audit events, and source-to-card impact index |
+| **V15** | Evidence-source registry, supersession checks, reviewer quorum, hash-chained audit events, and source-to-card impact index |\n| **V16** | One governed release: V15 evidence governance integrated into V14 orchestration, with explicit migration/strict modes and a release-level manifest |
 
 ## Quick start
 
@@ -25,7 +25,7 @@ Requires Python 3.11 or later. The core project uses the Python standard library
 
 ## Recommended workflows
 
-- **New integrated release:** use V14 to run the release pipeline and validation:
+- **Governed release (V16):** use the compatible V14 command to run V8–V13 validation and the configured V15 governance stage as one release decision:
 
   ```bash
   python usiphus_v14.py --config path/to/v14.config.json
@@ -64,16 +64,16 @@ For an integrated release:
 python usiphus_v14.py --config path/to/v14.config.json
 ```
 
-Paths in the configuration are relative to the config file. V14 runs V8–V13 regression suites by default, creates V12 outputs, validates them with V13, and publishes a complete release bundle.
+Paths in the configuration are relative to the config file. The V16 implementation retains the usiphus_v14.py entry point and V14 config compatibility. When V15 source and claim files are configured, they are snapshotted and evaluated as an explicit stage; strict mode requires registered sources, while legacy mode permits documented free-text references during migration.
 
 ## V14 outputs
 
 - `v12/`: platform report, faculty review queue, release checklist, and manifest.
 - `v13_validation_report.json`: V13 software-assurance report.
 - `release_summary.json` and `release_report.md`: V14 status and stage results.
-- `v14_manifest.json`: config/input/output hashes, byte counts, engine versions, and release status.
+- `v14_manifest.json`: the single release manifest (legacy filename retained for compatibility), including V15 policy, engine versions, source snapshot hashes, output hashes, and V15 report hashes.\n- `v15/`: V15 governance JSON, CSV findings, and Markdown report when the stage is configured.
 
-Exit code 0 means the V12 metadata gate is ready and V13 validation passed. Exit code 1 means the pipeline completed but the V12 release gate is blocked. Exit code 2 means configuration, execution, or validation failed. A failed run does not replace the previous published bundle.
+Exit code 0 means the release is ready (or ready with explicitly non-blocking V15 warnings). Exit code 1 means the V12 gate is blocked. Exit code 2 means configuration, execution, validation, or a mandatory V15 governance gate failed. Mandatory V15 failures do not publish and preserve the previous known-good bundle.
 
 ## Privacy and governance
 

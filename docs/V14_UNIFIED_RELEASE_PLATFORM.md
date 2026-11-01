@@ -90,3 +90,27 @@ operating-system matrix. A configured workflow is not evidence that every
 matrix job has already passed. These tests validate software integration
 behavior only; they do not validate clinical claims, educational
 effectiveness, or production data.
+
+
+## V16 — One Governed Release
+
+V16 extends the compatible `usiphus_v14.py` command; it does not introduce a parallel release engine. V14-only configurations continue to work unchanged. Configure both `v15_sources` and `v15_claims` to add V15 as a release stage.
+
+### Evidence modes
+
+- `v15_evidence_mode: "strict"` requires every claim reference to resolve to a registered source. References to superseded or withdrawn sources, unknown source IDs, malformed registries, supersession cycles, invalid audit state and insufficient reviewer quorum are governance findings.
+- `v15_evidence_mode: "legacy"` is an explicit migration mode. It permits legacy free-text references but does not convert them into registered evidence or certify their quality. Missing/unknown registered IDs and other governance defects remain findings.
+- `v15_block_on_failure: true` (default) makes V15 findings publication-blocking. A blocked V15 run aborts before publication; the previous known-good bundle and pointer remain unchanged.
+- Set `v15_block_on_failure: false` only when a release owner deliberately accepts a warning-bearing release. Its status is `ready_with_warnings`, never plain `ready`.
+
+Existing `v15_require_registered_sources` remains accepted as a compatibility alias when `v15_evidence_mode` is omitted. New configurations should always specify the mode explicitly.
+
+### Release integrity
+
+V15 source, claim, trusted-key and anchor inputs are copied to a private staging snapshot before analysis. The caller's source files are never edited by V16. The single `v14_manifest.json` filename is retained for existing consumers; its schema is version 2 and records the V15 policy, all engine versions, hashes of the exact input snapshots, output hashes and V15 report hashes. The V15 JSON/CSV/Markdown reports are included in the same published bundle and release report.
+
+The V15 standalone CLI and its schema remain available. V14-only configs remain valid; the V15 stage is added when its source and claim registries are configured.
+
+### Synthetic verification
+
+The V16 integration tests use fictional data to cover strict and legacy modes, active/superseded/withdrawn sources, missing source IDs, supersession cycles, reviewer quorum, input immutability, and rollback after a late governance failure. These tests verify software workflow behavior only. Reviewer labels are not authenticated identities; no automated status is clinical approval or proof of educational validity.

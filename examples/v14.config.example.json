@@ -9,8 +9,15 @@
     "cohort_analytics": "../source-artifacts/cohort_analytics.json",
     "review_schedule": "../source-artifacts/review_schedule.csv"
   },
-  "output_dir": "../build/usiphus-v14",
-  "as_of": "2026-10-31",
+  "output_dir": "../build/usiphus-v16",
+  "as_of": "2026-11-01",
   "max_evidence_age_days": 730,
-  "run_regression_tests": true
+  "run_regression_tests": true,
+  "v15_sources": "../source-artifacts/v15_sources.json",
+  "v15_claims": "../source-artifacts/v15_claims.json",
+  "v15_evidence_mode": "strict",
+  "v15_block_on_failure": true,
+  "v15_minimum_reviewers": 2,
+  "v15_require_signed_audit": false,
+  "v15_require_audit_anchor": false
 }
