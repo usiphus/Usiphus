@@ -263,6 +263,8 @@ def _run_release_locked(cfg,config_path,target):
         else: stages.append({"stage":"V8-V13 regression tests","status":"skipped"})
         source=stage/"source-artifacts"
         source.mkdir()
+        v15_source=stage/"v15-source-artifacts"
+        v15_source.mkdir()
         staged={}
         for key,name in FILES.items():
             staged[key]=source/name
@@ -273,7 +275,7 @@ def _run_release_locked(cfg,config_path,target):
                    "v15_audit_trusted_keys":"v15_audit_trusted_keys.json","v15_anchors":"v15_anchors.json"}
         for key,name in v15_names.items():
             if key in cfg["v15"]:
-                snapshot=source/name
+                snapshot=v15_source/name
                 shutil.copyfile(cfg["v15"][key],snapshot)
                 v15_staged[key]=snapshot
         out=stage/"v12"
@@ -319,7 +321,7 @@ def _run_release_locked(cfg,config_path,target):
                  "generated_at":now,"stages":stages,
                  "boundary":"Software status only; not clinical approval, educational validity, competence, anonymization, or legal compliance."}
         write_json(stage/"release_summary.json",summary)
-        report=["# Usiphus V14 release report","",f"- Specialty: {summary['specialty']}",
+        report=["# Usiphus V16 governed release report","",f"- Specialty: {summary['specialty']}",
                 f"- Release status: **{status.upper()}**","","| Stage | Status |","|---|---|"]
         report += [f"| {x['stage']} | {x['status']} |" for x in stages]
         if 15 in engines:
@@ -342,6 +344,7 @@ def _run_release_locked(cfg,config_path,target):
             report_hashes={p.name:{"sha256":digest(p),"bytes":p.stat().st_size}
                            for p in sorted((stage/"v15").iterdir()) if p.is_file()}
         shutil.rmtree(source)
+        shutil.rmtree(v15_source)
         output_hashes={str(p.relative_to(stage)):{"sha256":digest(p),"bytes":p.stat().st_size}
                        for p in sorted(stage.rglob("*")) if p.is_file()}
         manifest={"schema_version":2,"usiphus_version":VERSION,
@@ -352,7 +355,9 @@ def _run_release_locked(cfg,config_path,target):
                 "v15_block_on_failure":cfg.get("v15_block_on_failure",True),
                 "v15_minimum_reviewers":cfg["v15_minimum_reviewers"] if cfg.get("v15") else None,
                 "v15_require_signed_audit":cfg["v15_require_signed_audit"] if cfg.get("v15") else None,
-                "v15_require_audit_anchor":cfg["v15_require_audit_anchor"] if cfg.get("v15") else None},
+                "v15_require_audit_anchor":cfg["v15_require_audit_anchor"] if cfg.get("v15") else None,
+                "max_evidence_age_days":cfg["max_evidence_age_days"],
+                "as_of":cfg.get("as_of")},
             "governance_report_hashes":report_hashes,
             "release_status":status,"generated_at":now,
             "note":"Hashes support integrity/change detection; timestamps vary and byte-identical bundles are not promised."}
