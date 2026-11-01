@@ -361,3 +361,18 @@ These resources inform exploration and implementation; they do not confer permis
 - [Doctordle](https://doctordle.net/) and [Radiordle](https://www.radiordle.org/) — examples of external challenge formats, not sources to copy or republish.
 - [EnterMedSchool](https://www.entermedschool.org/) — example of an external medical-education resource directory.
 
+
+
+## 15. V19 implementation boundary and acceptance
+
+V19 provides a local-first, standard-library-only authoring and structural-review workflow for:
+- Assessment blueprints linking specialty, competency, objective, cognitive level and method.
+- Single-best-answer MCQs with a focused lead-in, option set, one keyed answer, answer rationale, distractor rationales, evidence reference and objective links.
+- OSCE stations with candidate/role-player briefs, setup, timing, examiner instructions, checklist, critical actions, global rating scale and rubric.
+- Original progressive-clue challenge cases with accepted answer aliases, explanation, differential rationale, curriculum mapping and provenance.
+- An external challenge directory that stores provider links, access and rights metadata; embedding is denied unless license or permission is explicit.
+- Optional aggregate item counts with cohort size, missingness and version context; descriptive only, with no psychometric validity claims.
+
+Automated flags are prompts for faculty review, not judgments of clinical correctness, item validity, station validity, fairness or reliability. Duplicate candidates are never auto-deleted. Third-party content is not scraped, mirrored or reproduced. Media requires documented rights, provenance, privacy/consent review and accessibility checks. Reviewer labels are not authenticated identities. Scores are practice/engagement signals, not proof of learning or competence.
+
+**V19 acceptance:** deterministic self-tests and unit tests; synthetic examples; schema and documentation; actionable JSON/Markdown/CSV reports; no real patient or learner data in fixtures; faculty-reviewed pilot protocol; and explicit non-claims. A clean automated report is only *ready for faculty review*. Publication still requires the existing governed release and explicit human approval.

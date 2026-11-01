@@ -1,0 +1,301 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://usiphus.example/schemas/v19-assessment-studio.schema.json",
+  "title": "Usiphus V19 Assessment Studio input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "blueprint",
+    "mcqs",
+    "osce_stations",
+    "challenges",
+    "external_directory",
+    "item_statistics"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "blueprint": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "objective_id",
+          "specialty",
+          "competency_id"
+        ],
+        "properties": {
+          "objective_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "specialty": {
+            "type": "string"
+          },
+          "competency_id": {
+            "type": "string"
+          },
+          "cognitive_level": {
+            "type": "string",
+            "enum": [
+              "remember",
+              "understand",
+              "apply",
+              "analyze",
+              "evaluate",
+              "create"
+            ]
+          },
+          "assessment_method": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "mcqs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "item_id",
+          "stem",
+          "lead_in",
+          "options"
+        ],
+        "properties": {
+          "item_id": {
+            "type": "string"
+          },
+          "stem": {
+            "type": "string"
+          },
+          "lead_in": {
+            "type": "string"
+          },
+          "options": {
+            "type": "array",
+            "minItems": 3,
+            "items": {
+              "type": "object",
+              "required": [
+                "label",
+                "text"
+              ],
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                },
+                "correct": {
+                  "type": "boolean"
+                },
+                "rationale": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "objective_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "competency_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidence_ref": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "draft",
+              "in_review",
+              "approved",
+              "retired"
+            ]
+          }
+        }
+      }
+    },
+    "osce_stations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "station_id"
+        ],
+        "properties": {
+          "station_id": {
+            "type": "string"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 60
+          },
+          "candidate_instructions": {
+            "type": "string"
+          },
+          "role_player_brief": {
+            "type": "string"
+          },
+          "setup_equipment": {
+            "type": "string"
+          },
+          "examiner_instructions": {
+            "type": "string"
+          },
+          "checklist": {
+            "type": "array"
+          },
+          "global_rating_scale": {
+            "type": "string"
+          },
+          "critical_actions": {
+            "type": "array"
+          },
+          "marking_rubric": {
+            "type": "string"
+          },
+          "objective_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "media_license": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "challenges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "challenge_id",
+          "case_stem",
+          "clues",
+          "accepted_answers",
+          "explanation"
+        ],
+        "properties": {
+          "challenge_id": {
+            "type": "string"
+          },
+          "case_stem": {
+            "type": "string"
+          },
+          "clues": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "accepted_answers": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "explanation": {
+            "type": "string"
+          },
+          "differential_rationale": {
+            "type": "string"
+          },
+          "provenance": {
+            "type": "string"
+          },
+          "media_license": {
+            "type": "string"
+          },
+          "media_provenance": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "external_directory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "entry_id",
+          "provider",
+          "url",
+          "reuse_status"
+        ],
+        "properties": {
+          "entry_id": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "reuse_status": {
+            "enum": [
+              "unknown",
+              "link_only",
+              "licensed",
+              "permission_granted",
+              "prohibited"
+            ]
+          },
+          "embed_allowed": {
+            "type": "boolean"
+          },
+          "last_checked_at": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "item_statistics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "item_id",
+          "cohort_size",
+          "correct_count"
+        ],
+        "properties": {
+          "item_id": {
+            "type": "string"
+          },
+          "item_version": {
+            "type": "string"
+          },
+          "cohort_size": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "correct_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "missing_count": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  }
+}

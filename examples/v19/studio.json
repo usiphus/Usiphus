@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "blueprint": [
+    {
+      "objective_id": "URO-RET-01",
+      "specialty": "Urology",
+      "competency_id": "URO-RETENTION",
+      "cognitive_level": "apply",
+      "assessment_method": "MCQ and OSCE"
+    }
+  ],
+  "mcqs": [
+    {
+      "item_id": "URO-MCQ-001",
+      "version": "1.0.0",
+      "status": "draft",
+      "stem": "A synthetic adult patient presents with acute urinary retention and suprapubic discomfort. The teaching case contains no real patient information.",
+      "lead_in": "Which immediate management principle should be prioritized?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Assess and relieve retention using an appropriate clinical pathway",
+          "correct": true,
+          "rationale": "The option addresses the immediate problem in the synthetic scenario."
+        },
+        {
+          "label": "B",
+          "text": "Defer all assessment until outpatient review",
+          "rationale": "This does not address the acute presentation."
+        },
+        {
+          "label": "C",
+          "text": "Start an unrelated long-term treatment",
+          "rationale": "The option is not directed at the immediate problem."
+        },
+        {
+          "label": "D",
+          "text": "Ignore the urinary symptoms",
+          "rationale": "The option is unsafe and unsupported."
+        }
+      ],
+      "answer_rationale": "Synthetic educational rationale only; faculty must verify the clinical content against current local guidance.",
+      "distractor_rationale": "Each distractor has an explicit reason for being less appropriate.",
+      "objective_ids": [
+        "URO-RET-01"
+      ],
+      "competency_ids": [
+        "URO-RETENTION"
+      ],
+      "evidence_ref": "SYNTHETIC-SOURCE-01"
+    }
+  ],
+  "osce_stations": [
+    {
+      "station_id": "URO-OSCE-001",
+      "status": "draft",
+      "duration_minutes": 8,
+      "candidate_instructions": "Take a focused history from a simulated patient with urinary symptoms.",
+      "role_player_brief": "Use only the supplied synthetic script; do not improvise identifying details.",
+      "setup_equipment": "Chair, desk, simulated notes.",
+      "examiner_instructions": "Observe communication, focused history and safety-netting.",
+      "checklist": [
+        {
+          "criterion": "Introduces self and confirms simulated patient identity",
+          "weight": 1
+        },
+        {
+          "criterion": "Clarifies onset and associated symptoms",
+          "weight": 1
+        }
+      ],
+      "critical_actions": [
+        "Recognizes red-flag features and escalates appropriately"
+      ],
+      "global_rating_scale": "1–5 anchored scale; anchors to be faculty-authored.",
+      "marking_rubric": "Local faculty rubric; review before use.",
+      "objective_ids": [
+        "URO-RET-01"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "challenge_id": "URO-CH-001",
+      "status": "draft",
+      "case_stem": "Synthetic progressive case: an adult presents with a new urinary symptom.",
+      "clues": [
+        "Initial symptom description",
+        "Relevant examination finding",
+        "A synthetic investigation result"
+      ],
+      "accepted_answers": [
+        "Teaching diagnosis",
+        "accepted synonym"
+      ],
+      "explanation": "Explain the reasoning and uncertainty; cite a current verified source before approval.",
+      "differential_rationale": "Explain why plausible alternatives are less likely without implying certainty.",
+      "provenance": "Original synthetic faculty-authored case; no third-party content.",
+      "objective_ids": [
+        "URO-RET-01"
+      ],
+      "difficulty": "introductory"
+    }
+  ],
+  "external_directory": [
+    {
+      "entry_id": "EXT-001",
+      "provider": "Example medical challenge provider",
+      "url": "https://example.org/",
+      "specialty": "General medicine",
+      "format": "case challenge",
+      "access_method": "external website",
+      "reuse_status": "unknown",
+      "embed_allowed": false,
+      "last_checked_at": "2026-11-01",
+      "attribution": "Independent external provider; no affiliation or endorsement implied."
+    }
+  ],
+  "item_statistics": []
+}
