@@ -241,3 +241,123 @@ The engineering guardrails are informed by:
 - [W3C WCAG 2.2](https://www.w3.org/TR/WCAG22/) for web-interface accessibility.
 
 These references inform engineering practice; they do not certify Usiphus or establish clinical, educational, privacy-law or security compliance.
+
+## 11. Expanded medical-education product capabilities
+
+This section expands the V17–V21 candidate work above. It is deliberately integrated into the existing milestones rather than creating a new versioned engine for every idea. The sequence remains conditional on faculty/learner discovery, licensing, safety review and implementation cost.
+
+### 11.1 Curriculum quality and change intelligence (V17)
+
+- Provide a curriculum quality view that separates verified, suggested, pending, missing and conflicting mappings.
+- Show coverage by specialty, competency, objective, topic, cognitive level and assessment method; never turn incomplete mapping into a falsely reassuring aggregate score.
+- Record why a mapping was proposed, its source, confidence/limitations, reviewer and approval history.
+- Generate change-impact reports when a competency, objective or curriculum framework changes, identifying affected cards, cases, questions, OSCE stations and releases.
+- Consider 1EdTech CASE exchange only after a real curriculum-framework exchange use case is identified.
+
+**Gate:** Faculty can inspect, correct and approve mappings; dashboards distinguish machine suggestions from verified coverage.
+
+### 11.2 Evidence-to-learning impact graph (V18)
+
+Connect the existing V15 source/claim/card impact model to curriculum and assessment artifacts:
+
+`source → claim → teaching card/case → objective/competency → assessment item/OSCE station → release`
+
+- Show downstream impact of a changed, superseded or withdrawn source.
+- Show upstream evidence and approval history for an assessment item or challenge case.
+- Prioritize review queues using transparent policy factors such as source withdrawal, change detection, review age, jurisdiction mismatch and affected-artifact count.
+- Keep source freshness, similarity and metadata distinct from clinical authority or correctness.
+- Require a qualified reviewer to interpret source changes and approve clinical edits.
+
+**Gate:** Every impact edge is traceable; machine-generated review candidates never silently modify clinical content.
+
+### 11.3 Assessment, OSCE and challenge studio (V19)
+
+**Blueprinting and written assessments**
+- Blueprint by specialty, competency, objective, topic, cognitive level and assessment method; support rapid blueprint creation with faculty approval.
+- Structured single-best-answer/MCQ and clinical-vignette authoring, including focused lead-ins, homogeneous plausible options, answer rationale, distractor rationale and evidence links.
+- NBME-informed deterministic quality flags for missing data, ambiguous lead-ins, implausible/heterogeneous options, cueing, technical flaws and duplicate candidates. Flags are prompts for review, not automatic validity decisions.
+- Review workflows for item approval, versioning, retirement and change history.
+- Optional post-administration item statistics only when response data are explicitly supplied and sufficiently described; report cohort size, missingness, version and limitations. Do not infer validity, reliability or fairness from a single statistic.
+
+**OSCE and clinical-station authoring**
+- Station brief, candidate instructions, role-player/patient brief, equipment/setup, duration, examiner checklist, global rating scale, critical actions, marking rubric and accommodations.
+- Faculty review, station version history, blueprint mapping and post-use review notes.
+- Do not claim station validity or examiner reliability merely because a checklist is complete.
+
+**Medical Challenges Hub — two distinct products**
+1. **External challenge directory:** Curated links to independent medical challenge sites, categorized by specialty, format (diagnosis, radiology/image interpretation, ECG, dermatology, pathology, anatomy, pharmacology, etc.), level, access method and last-checked date. Store provider, URL, attribution, license/reuse status and whether embedding is explicitly permitted. Default to opening the provider's website.
+2. **Native Usiphus challenge engine:** Original faculty-authored cases with progressive clues, bounded attempts, accepted answer aliases, reveal/explanation, differential comparison, source links, curriculum objectives, difficulty and reviewer status. Support daily or themed packs only when Usiphus owns or is licensed to distribute the cases; include untimed/offline practice.
+
+- A native challenge record should include a stable ID/version, case stem, clue sequence, accepted answers/aliases, explanation, differential/distractor rationale, source and attribution, specialty/objective mapping, cognitive level, difficulty, image/media provenance and license, faculty reviewer/approval state, publication status and withdrawal/supersession history.
+- Challenge feedback should explain why the intended answer fits and why plausible alternatives are less likely; avoid score-only feedback.
+- Support image-based challenges only with documented rights, provenance, de-identification/privacy review and appropriate consent. Never place identifiable patient material in examples or fixtures.
+- Connect challenge cases to V8 evidence governance, V10 curriculum mapping, V12 faculty review, V15 source lifecycle and the V16 governed release through versioned artifacts and explicit interfaces.
+- Do not scrape, mirror, copy daily answers, reproduce third-party clues/images, bypass access controls or embed third-party games without explicit permission and compatible terms. A link in the directory does not imply endorsement, partnership, API access or content rights. If rights are unknown, mark them unknown and link out only.
+
+**Gate:** Native cases are original or licensed, evidence-linked where clinically relevant, mapped and faculty-approved. External listings accurately disclose access and rights status. Challenge scores are descriptive engagement data, not proof of learning or competence.
+
+### 11.4 Feedback-to-action and faculty authoring (V20)
+
+- Capture learner reflection/confidence and faculty feedback with clear purpose, notice/consent where applicable, role-based visibility and retention limits.
+- Turn feedback into an action record: issue/strength, linked objective or artifact, agreed next step, owner, due/review date, completion evidence and follow-up outcome.
+- Keep formative feedback distinct from summative grading; do not use satisfaction ratings as a proxy for learning.
+- Provide structured authoring for cards, cases, objectives, evidence links, curriculum mappings, challenge packs, OSCE stations and assessment items.
+- Add review diffs, comments, approval queues, version history and release previews.
+- Produce reproducible PPTX, PDF, HTML and structured-data exports from the governed content model.
+- Evaluate interactive-content tools such as H5P only when user demand, license compatibility, accessibility, offline behavior and maintenance costs are established.
+- Target WCAG 2.2 AA for any web interface and separately test exported documents, keyboard interaction, captions/transcripts, alternative text, reading order and assessment accessibility.
+
+**Gate:** Feedback results in documented follow-up actions; access to learner feedback is appropriately restricted; published artifacts remain traceable to source, mapping and approval state.
+
+### 11.5 Standards-based exchange and deployment (V21)
+
+Adopt standards in response to an actual pilot requirement, not as a checklist:
+- **1EdTech CASE:** competency frameworks, standards and learning-objective exchange.
+- **1EdTech QTI:** question/item and test exchange; implement a documented supported profile and round-trip tests rather than claiming full-specification support.
+- **Open Badges:** optional portable recognition of a defined, human-approved learning achievement; never imply licensure or clinical competence.
+- **H5P:** optional interactive-content exchange/embedding subject to license, host compatibility, accessibility and offline constraints.
+- **LTI 1.3:** only when a concrete LMS launch/gradebook integration is required and identity/security responsibilities are understood.
+- Portable bundles, backup/restore, retention/deletion and migration tools before any hosted deployment.
+- Multi-user deployment only after identity, authorization, key management, threat modelling, audit, incident response, data ownership and operational support are specified.
+- No speculative FHIR integration, hosted LMS, cloud database or always-on service without a demonstrated use case.
+
+**Gate:** Each adapter has a documented profile, conformance/round-trip fixtures and explicit unsupported-feature behavior. Local-first operation remains supported.
+
+## 12. Expanded prioritization and release sequence
+
+1. Complete V16 first: V15 evidence governance becomes part of the V14 governed release.
+2. Validate V10–V12 with faculty and a real specialty curriculum under appropriate data governance.
+3. V17: stabilize only the contracts needed by the validated workflow; add curriculum quality/change-impact views where they solve a demonstrated problem.
+4. V18: connect evidence lifecycle events to downstream curriculum and assessment artifacts.
+5. Optional small step after V16: publish an external challenge directory containing links and rights metadata only. This must not delay V16 and must not scrape or republish provider content.
+6. V19: build the assessment/OSCE/challenge studio on the governed content model. Start with faculty-authored original cases and a narrow specialty pilot before adding image/media complexity.
+7. V20: add feedback-to-action and authoring/publishing workflows based on pilot feedback.
+8. V21: implement only the standards and deployment modes explicitly requested by pilot institutions.
+
+A later milestone may be split into small PRs or deferred. These are product capabilities, not promises to ship a monolithic V19 or V20 engine.
+
+## 13. Additional product measures
+
+Establish baselines before setting targets. In addition to the measures above, consider:
+- Verified curriculum coverage and unresolved mapping conflicts by objective/competency.
+- Percentage of challenge cases with documented provenance/rights, curriculum mapping and faculty approval.
+- Challenge completion, repeat practice and user-reported usefulness as descriptive engagement measures only.
+- Percentage of OSCE stations with complete required materials and recorded faculty review.
+- Assessment blueprint coverage and review-defect categories; item statistics only with adequate response-data context.
+- Feedback action closure and follow-up outcomes, reported with privacy-preserving aggregation.
+- External directory link health and percentage of entries with recently checked access and rights metadata.
+
+Do not optimize for daily active users, streaks, leaderboards, challenge scores or badge counts at the expense of educational quality, accessibility, privacy or learner wellbeing.
+
+## 14. Additional reference links
+
+These resources inform exploration and implementation; they do not confer permission to reuse third-party content or certify Usiphus:
+- [NBME](https://www.nbme.org/) — item-writing and assessment resources for faculty-led question development.
+- [1EdTech CASE](https://www.1edtech.org/standards/case) — competency framework and learning-objective exchange.
+- [1EdTech QTI](https://www.1edtech.org/standards/qti) — assessment-item and test exchange.
+- [1EdTech LTI](https://www.1edtech.org/standards/lti) — optional LMS integration.
+- [1EdTech Open Badges](https://www.1edtech.org/standards/open-badges) — portable recognition of defined achievements.
+- [H5P](https://h5p.org/) — interactive-content ecosystem to evaluate only where justified.
+- [Doctordle](https://doctordle.net/) and [Radiordle](https://www.radiordle.org/) — examples of external challenge formats, not sources to copy or republish.
+- [EnterMedSchool](https://www.entermedschool.org/) — example of an external medical-education resource directory.
+
