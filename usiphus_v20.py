@@ -169,7 +169,7 @@ def validate_actions(actions: list[dict[str, Any]], feedback_index: dict[str, An
 
 def version_key(item: dict[str, Any]) -> tuple[Any, ...]:
     value = clean(item.get("version"))
-    if re.fullmatch(r"v?\\d+(?:\\.\\d+){1,3}", value):
+    if re.fullmatch(r"v?\d+(?:\.\d+){1,3}", value):
         return (0, tuple(int(part) for part in value.lstrip("v").split(".")))
     return (1, value.casefold())
 
