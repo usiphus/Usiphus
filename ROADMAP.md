@@ -1,287 +1,243 @@
-# Usiphus Product & Engineering Roadmap
+# Usiphus Product Roadmap
 
-**Status:** Proposed direction, based on repository review  
-**Research snapshot:** 2026-11-01  
-**Current baseline:** `main` at `24e5d54e2cc8581f56bf660580cbbae09f9dfe5b`
+**Status:** Proposed, evidence-informed direction  
+**Last reconciled:** 2026-11-01  
+**Baseline:** V14.1 release orchestration and V15 evidence governance are present on `main`.
 
-This roadmap is an evidence-informed plan, not a promise that future capabilities already exist. Milestones are capability releases, not a reason to add a new engine file for every version. Each milestone must solve a demonstrated user or engineering problem and pass its acceptance gates before the next one begins.
+This is the single forward-looking roadmap for Usiphus. It reconciles the original [V10-and-beyond roadmap](ROADMAP_v10.md), which captures the product's educational capabilities and validation needs, with the research-backed engineering plan. The older file remains as a historical record of the V7–V12 plan; this document supersedes it for future prioritization.
+
+The roadmap is deliberately conditional: version numbers identify capability milestones, not a requirement to ship a new engine every time. Do not start a later milestone until its user need, dependencies, acceptance evidence, and cost are clear.
 
 ## 1. Product direction
 
-Usiphus should become a **local-first, evidence-governed medical education production system**. It should help a specialty team move from structured teaching material to curriculum mapping, faculty review, assessments, and reproducible release packages while keeping clinical and educational decisions under qualified human control.
+**Usiphus helps specialty medical-education teams create, map, review, assess, and reproducibly publish teaching content with traceable evidence and faculty control.**
 
-The product should optimize for:
+Its differentiator should be the combination of:
+- Medical-content and curriculum workflows designed around specialty education.
+- Traceability from teaching cards and assessment items to claims, sources, mappings, and reviewer decisions.
+- A local-first, reproducible workflow that can run without paid APIs or mandatory hosted services.
+- Explicit separation of automated checks, candidate suggestions, faculty decisions, and release status.
 
-1. Clinical evidence traceability and timely human review.
-2. Curriculum coverage and assessment alignment.
-3. Safe, reproducible production of teaching artifacts.
-4. Privacy-conscious handling of learner records.
-5. Low operational cost, offline-capable workflows, and minimal dependencies.
-6. Clear boundaries between automated software checks and clinical/educational approval.
+The product should optimize for clinical evidence traceability, curriculum and assessment alignment, safe production of teaching artifacts, privacy-conscious learner workflows, low operating cost, and ease of review.
 
-### Explicit non-goals
+### Non-goals and guardrails
 
-- Not a clinical decision-support system or autonomous guideline author.
-- Not an identity provider, hosted LMS, accreditation service, or proof of learner competence.
-- Not a substitute for faculty review, institutional privacy/security controls, or psychometric expertise.
+- Not clinical decision support, an autonomous guideline author, or a source of clinical authority.
+- Not a hosted LMS, identity provider, accreditation service, or proof of learner competence.
+- No automated clinical approval, automatic acceptance of suggested curriculum mappings, or unsupported psychometric claims.
 - No mandatory paid LLM, cloud database, hosted API, or third-party Python dependency.
-- No large rewrite of V7–V15 just to create a cleaner architecture.
+- No rewrite of working engines merely to achieve architectural neatness.
+- Real patient or learner data must not be used in fixtures or examples.
 
-## 2. Verified baseline (main branch)
+## 2. Product history and verified baseline
 
-The repository review found:
+The original roadmap established the educational product sequence below. The V7–V12 capabilities and acceptance notes remain useful context; completed software work must not be confused with real-world faculty validation.
 
-| Area | Verified state |
-|---|---|
-| V14 | V14.1 unified release orchestration is merged |
-| V14 hardening | Synthetic end-to-end, protected-path and rollback tests exist |
-| V15 | Evidence-source registry, supersession checks, reviewer quorum, hash-chain verification and source-to-card impact index exist |
-| V14/V15 integration | **Not integrated:** V14 orchestrates V8–V13; V15 is a separate command/report |
-| CI | Python 3.11–3.13 on Ubuntu, macOS and Windows (9-job matrix) |
-| Latest main CI at snapshot | 9/9 jobs succeeded for `24e5d54` |
-| Dependencies | Core is documented as Python standard-library only |
-| Governance boundary | Existing docs correctly state that software checks do not prove clinical truth, educational effectiveness, anonymization, competence or legal compliance |
-| Repository state | No open pull requests at snapshot |
+| Milestone | Product capability | Status / remaining validation |
+|---|---|---|
+| V7 | Examination intelligence: objectives, rubrics, exam metadata and diagnostics | Historical capability |
+| V8 | Clinical evidence governance and review workflow | Implemented; preserve governance boundaries |
+| V9 | Semantic exam intelligence and duplicate/answer diagnostics | Implemented; suggestions require review |
+| V10 | Specialty curriculum mapping and weighted coverage | Implemented; faculty-approved real curriculum validation remains important |
+| V11 | Consent-aware learner progress, mastery estimates and spaced repetition | Implemented; educational-model and real-data validation remain outstanding |
+| V12 | Integrated specialty learning platform, faculty queue and release checklist | Implemented as a local batch workflow; end-to-end faculty/institutional validation remains outstanding |
+| V13 | Cross-artifact validation, manifest integrity and selected privacy checks | Implemented |
+| V14.1 | Configuration-driven release orchestration, regression gate and atomic bundle publication | Merged and hardened |
+| V15 | Evidence-source registry, supersession checks, reviewer quorum, hash-chained audit and source-to-card impact index | Merged; currently a separate workflow from V14 |
 
-The version history is not fully reconstructable from the current source tree: the history index explicitly says distinct V1/V2 source archives were not recovered. Do not invent missing early-version capabilities in future documentation.
+**Important gap:** V14 orchestrates V8–V13, while V15 runs independently. A V14 release therefore does not yet apply V15 governance as part of the same release decision.
 
-## 3. Strategic sequence
+The source history does not fully reconstruct every early release. Do not invent capabilities for missing historical versions. Check the actual repository and CI result before describing a feature as shipped or a release as passing.
 
-### Phase 0 — Maintain the proven baseline (continuous; no new version required)
+## 3. Prioritized roadmap
 
-**Objective:** Keep V14.1 and V15 trustworthy while planning the next release.
+### Continuous — Protect and validate the existing product
 
-Work:
-- Preserve the V14 synthetic end-to-end, unsafe-output-path and failed-publication rollback tests.
-- Preserve V15 schema, source lifecycle, supersession-cycle, reviewer-quorum, audit-chain and impact-index tests.
-- Ensure changes to V15 contracts trigger the relevant V15 and integrated regression tests.
-- Verify every release against the actual CI run for its commit; a configured matrix is not proof that all jobs passed.
-- Keep examples synthetic and never place real patient or learner records in fixtures.
-- Document known limitations and compatibility contracts.
+Before adding breadth:
+- Preserve V14 end-to-end, protected-output-path and rollback tests.
+- Preserve V15 schema, source lifecycle, supersession, quorum, audit-chain and impact-index tests.
+- Keep V7–V15 interfaces usable until a documented compatibility/deprecation policy exists.
+- Validate V10–V12 against at least one faculty-approved specialty dataset and review learner-data handling with the relevant institution before real learner records are used.
+- Talk to actual educators and learners. Record the task they are trying to complete, current workaround, frequency, pain, and what would count as a meaningful improvement.
+- Establish baseline task time, review effort, defect rates and user satisfaction before setting numerical product targets.
 
-Exit criteria:
-- All required tests pass on the release commit.
-- No unexplained test skips or ignored failures.
-- V14 publication failure leaves the last successful bundle intact.
-- V15 governance findings are deterministic for fixed inputs and `as_of` date.
-- The README, CLI help and version-specific guides agree.
+**Gate:** No expansion should be justified only by feature count, version number, or a technically impressive architecture.
 
-### V16 — Governed Release Integration (highest priority)
+### V16 — One Governed Release (next engineering milestone)
 
-**Problem:** V15 currently runs independently, so a V14 release does not automatically apply V15's richer source lifecycle and claim-to-card impact checks.
+**User/engineering problem:** Evidence governance is disconnected from the main release workflow.
 
-Deliverables:
-- Add an explicit V15 stage to V14's configured pipeline, with a documented opt-in/strictness transition for legacy reference strings.
-- Add configuration for source registry, claim mapping, `as_of`, maximum source age, and minimum distinct reviewers. Reuse V15 policy semantics; do not duplicate or fork them.
-- Build one release-level report that joins V12/V13 findings with V15 source/claim findings and the source-to-card impact index.
-- Block publication when configured mandatory governance checks fail; preserve a clearly labelled warning mode for migration from legacy references.
-- Include V15 inputs, policy, engine versions, and report hashes in the release manifest.
-- Keep the seven V14 legacy inputs working during migration; do not silently promote free-text references to registered evidence.
-- Add synthetic end-to-end tests for active, superseded and withdrawn sources; missing source IDs; supersession cycles; insufficient reviewer quorum; legacy references; and rollback after a late V15 failure.
+Deliver:
+- Add V15 as an explicit stage in V14's configured release pipeline.
+- Reuse V15 policy logic; do not duplicate source lifecycle or quorum rules.
+- Support a clearly documented migration mode for legacy free-text references and a strict registered-source mode.
+- Produce one release-level report joining V12/V13 validation with V15 source, claim and impact findings.
+- Include V15 inputs, policy, engine versions and report hashes in the release manifest.
+- Block publication on configured mandatory governance failures while preserving the previous known-good bundle.
+- Keep existing V14 inputs and standalone V15 use working during migration.
+- Add synthetic end-to-end tests for active, superseded and withdrawn sources, missing IDs, supersession cycles, insufficient quorum, legacy references and late-stage rollback.
 
-Exit criteria:
-- A single V16 command produces one coherent V12/V13/V15 release decision and manifest.
-- A failed V15 stage cannot replace the last successful published bundle.
-- Legacy inputs remain readable and migration findings are explicit.
-- Tests prove source files are unchanged and sensitive learner identifiers do not leak into release outputs.
-- Faculty approval remains a human action; metadata status is not clinical approval.
+**Acceptance:** One command produces one coherent release decision; V15 failure cannot publish a partial bundle; legacy migration is explicit; source inputs remain unchanged; human approval remains separate from machine findings.
 
-### V17 — Stable Core, Contracts & CLI
+### V17 — Stable Contracts and Real-Workflow Validation
 
-**Problem:** The versioned standalone scripts are useful for history and compatibility, but the platform needs stable interfaces before the feature surface expands.
+**Problem:** The platform needs stable interfaces, but architecture work must follow actual workflow needs rather than lead them.
 
-Deliverables:
-- Define canonical internal models and versioned JSON Schemas for cards, claims, sources, curriculum, mappings, assessments, and release manifests.
-- Define explicit input/output contracts, error codes, compatibility rules, and schema migration policy.
-- Extract shared utilities incrementally into a small internal package (for example, `usiphus/`); keep existing `usiphus_vN.py` commands as compatibility wrappers.
-- Add one documented CLI entry point with subcommands for validate, govern, build, report, and migrate.
-- Add schema validation tests and golden fixtures; test old-to-new migration without modifying source files.
-- Add structured logs with safe defaults and no learner identifiers or source text in routine logs.
-- Keep the standard-library-only baseline unless a dependency has a documented benefit, license, maintenance plan, and fallback.
+Deliver:
+- Define versioned schemas and contracts for cards, claims, sources, curriculum mappings, assessments and release manifests.
+- Specify compatibility rules, actionable error codes and explicit migrations.
+- Extract only genuinely shared utilities into a small internal package; keep existing versioned scripts as compatibility wrappers.
+- Add a single documented CLI only if it materially simplifies common workflows.
+- Validate the end-to-end workflow with faculty using a real specialty curriculum and appropriately governed teaching data.
+- Measure authoring/review time, mapping corrections, evidence traceability, release reproducibility and user-reported friction.
+- Convert feedback into a prioritized backlog; distinguish must-fix reliability issues from optional convenience features.
 
-Exit criteria:
-- Existing V7–V16 workflows still run through compatibility wrappers.
-- Versioned schemas reject malformed input with actionable errors.
-- Migration is explicit, reversible where practical, and never silently changes clinical meaning.
-- Shared core extraction does not cause a wholesale rewrite.
+**Acceptance:** Existing workflows remain compatible; schemas reject malformed data clearly; migrations do not silently change meaning; user testing identifies a repeatable workflow improvement. If a shared core or unified CLI does not remove demonstrated friction, defer it.
 
 ### V18 — Evidence Lifecycle Operations
 
-**Problem:** V15 governs registered metadata but explicitly does not fetch guidelines, appraise source quality, or determine clinical meaning.
+**Problem:** A registry can track source metadata but cannot itself determine whether a source is clinically authoritative or what a changed guideline means.
 
-Deliverables:
-- Add controlled source intake from user-supplied files and URLs, recording canonical identifier, title, publisher, jurisdiction, publication/update dates, version, retrieval date, and content hash where available.
-- Add duplicate/canonical-source candidates and change-detection reports; require human confirmation before superseding a source or changing a claim.
-- Add evidence review queues sorted by withdrawn/superseded status, source changes, review age, jurisdiction mismatch, and affected-card count.
-- Track claim-level review decisions and rationale, with reviewer identity authenticated only if a real identity mechanism is later introduced.
-- Separate source metadata, source-quality appraisal, and clinical interpretation into distinct review fields.
-- Keep retrieval optional and auditable; do not make live network access a requirement for deterministic builds.
-- Provide a manual offline import/export path.
+Candidate work:
+- Controlled intake of user-provided files/URLs with canonical identifiers, publisher, jurisdiction, dates, version, retrieval time and content hash where available.
+- Duplicate/canonical-source candidates and change reports.
+- Review queues prioritizing withdrawn/superseded sources, source changes, stale reviews, jurisdiction mismatches and affected-card counts.
+- Claim-level faculty decisions and rationale.
+- Optional, auditable retrieval; offline builds must continue to work.
+- Human confirmation before changing source status or clinical claims.
 
-Exit criteria:
-- Every registered claim has an inspectable provenance path to a specific source/version/jurisdiction.
-- Source changes produce deterministic impact candidates, not automatic clinical edits.
-- Network failure does not corrupt or block offline builds using already registered sources.
-- Qualified faculty can accept, reject, or defer every suggested change.
+**Acceptance:** Source changes create review candidates, never automatic clinical edits; provenance is inspectable; offline operation remains reliable; qualified reviewers can accept, reject or defer suggestions.
 
-### V19 — Assessment & Educational Measurement
+### V19 — Assessment Quality Workflow
 
-**Problem:** Assessment generation is valuable only when items are aligned, reviewed, and measured appropriately. Heuristic item checks alone cannot establish validity or reliability.
+**Problem:** Assessment features are useful only when aligned, reviewed and interpreted responsibly.
 
-Deliverables:
-- Add assessment blueprints mapping specialty, competency, learning objective, topic, cognitive level, and intended difficulty.
-- Add structured SBA/MCQ and clinical-vignette schemas with answer rationale, source links, and reviewer status.
-- Add deterministic checks for missing stems/options/keys/rationales, multiple correct answers, ambiguous wording flags, duplicate candidates, and blueprint coverage.
-- Add optional item statistics (difficulty, discrimination, distractor performance) only from explicitly supplied, sufficiently described response datasets.
-- Record cohort size, missingness, assessment version, and limitations alongside statistics; suppress or avoid subgroup reports where privacy or sample size makes them unsafe.
-- Keep psychometric interpretation, standard setting, fairness review, and item retirement under qualified human oversight.
-- Add exportable exam blueprint and item-review reports.
+Candidate work:
+- Assessment blueprints linking specialty, competency, learning objective, topic and cognitive level.
+- Structured SBA/MCQ and clinical-vignette schemas with rationale, evidence links and reviewer state.
+- Deterministic checks for incomplete items, duplicate candidates, ambiguous wording flags and blueprint coverage.
+- Optional item statistics only from adequately described, explicitly supplied response data; include cohort size, missingness and assessment version.
+- Human oversight for validity, reliability, fairness, standard setting and item retirement.
 
-Exit criteria:
-- Every released item is mapped to a blueprint and has human approval.
-- Statistics are reproducible and always accompanied by dataset and sample-size context.
-- No automated score or heuristic is described as proof of validity, reliability, fairness, or learner competence.
-- Synthetic test responses are clearly marked and never mixed with real outcomes.
+**Acceptance:** Released items have blueprint mapping and human approval; statistics are reproducible and contextualized; no heuristic is presented as proof of validity or learner competence.
 
-### V20 — Faculty Authoring & Accessible Publishing
+### V20 — Faculty Authoring and Accessible Publishing
 
-**Problem:** Faculty need a usable path from governed source content to teaching artifacts without weakening provenance or review.
+**Problem:** Faculty need a straightforward way to turn governed content into useful teaching artifacts.
 
-Deliverables:
-- Start with a local-first authoring workflow and CLI/API contracts; build a GUI only after a validated user need and workflow are documented.
-- Provide structured editing for cards, cases, objectives, evidence links, curriculum mappings, and assessment items.
-- Add review diffs, version history, approval queues, comments, and release previews.
-- Generate PPTX, PDF, HTML and structured-data exports from the same governed content model.
-- Add accessibility checks for heading order, reading order, alternative text, table structure, contrast where measurable, and keyboard navigation in any UI.
-- Use WCAG 2.2 AA as a target for web interfaces; separately test exported documents for their own accessibility requirements.
-- Keep the authoring source format open and exportable; never make a proprietary hosted service necessary to recover project content.
+Candidate work:
+- Start with the simplest validated local-first authoring workflow; do not build a GUI until user research supports it.
+- Structured editing for cards, cases, objectives, evidence links, mappings and assessment items.
+- Review diffs, history, comments, approval queues and release previews.
+- Reproducible PPTX, PDF, HTML and structured-data exports from one governed content model.
+- Accessibility checks for heading/reading order, alternative text, table structure, contrast where measurable and keyboard navigation.
+- WCAG 2.2 AA as a target for web interfaces; separately test exported documents.
 
-Exit criteria:
-- Faculty can trace each published teaching element to its source claims, mapping and approval state.
-- Exports are reproducible from a fixed content revision and configuration, with variable timestamps clearly separated.
-- Accessibility findings are visible and reviewable; automated checks do not claim complete accessibility conformance.
-- The local workflow works without paid services or network access for already available content.
+**Acceptance:** Faculty can trace published content to evidence, mappings and approval state; exports are reproducible; accessibility limitations are visible; local/offline use remains supported.
 
-### V21 — Interoperability & Deployment Options (only when demand is demonstrated)
+### V21 — Interoperability and Deployment (only on demonstrated demand)
 
-**Problem:** Interoperability can add complexity and privacy risk; implement only formats needed by actual institutions.
+Consider only formats and deployment modes requested by pilot institutions:
+- Import/export adapters for agreed curriculum, question-bank and learning-event formats.
+- Portable bundles, backup/restore, retention/deletion and migration tools.
+- Optional multi-user deployment only after identity, authorization, key management, threat modelling, audit, incident response and institutional ownership are specified.
+- Standards-based integration only for a real use case; do not add speculative FHIR or hosted infrastructure.
 
-Candidate deliverables:
-- Stable import/export adapters for agreed curriculum, question-bank and learning-event formats.
-- Optional standards-based integration selected with pilot institutions; avoid speculative FHIR integration unless a genuine health-record use case exists.
-- Portable release bundles, documented backup/restore, retention/deletion workflows, and migration tools.
-- Optional authenticated multi-user deployment only after threat modelling, identity, authorization, key management, audit, incident response and institutional ownership are specified.
-- A documented plugin/adapter interface with strict input validation and least privilege.
+**Acceptance:** Adapters have conformance and round-trip fixtures where possible; data minimization and access control are reviewed; local mode remains supported.
 
-Exit criteria:
-- Every adapter has conformance fixtures and round-trip tests where possible.
-- Data minimization and access control are reviewed before real learner records are exchanged.
-- Local/offline mode remains supported.
-- No deployment model is described as compliant or secure solely because its tests pass.
+## 4. Prioritization rules
 
-## 4. Cross-cutting engineering requirements
+Choose work in this order:
+1. Safety, data integrity, privacy or release-blocking defects.
+2. V16 integration and reliability of the existing end-to-end workflow.
+3. Faculty validation of V10–V12 and usability problems that block real adoption.
+4. Stable contracts or refactoring only where they reduce demonstrated maintenance or user friction.
+5. New evidence, assessment and authoring capabilities when validated users need them.
+6. Interoperability, GUI, hosted or multi-user features only when a concrete pilot requires them.
 
-These requirements apply to every milestone, not only V17 or V21.
+For every proposed feature, record: target user, problem, current workaround, expected outcome, evidence for demand, implementation/maintenance cost, privacy/safety impact, and a testable acceptance condition. Defer ideas without a clear user or engineering benefit.
+
+## 5. Cross-cutting release requirements
+
+Every milestone must address the applicable requirements below.
 
 ### Clinical and educational governance
 - Qualified reviewers remain responsible for clinical accuracy, source interpretation, curriculum meaning, assessment quality and release approval.
-- Distinguish machine findings, reviewer decisions, and release policy in every report.
-- Keep jurisdiction and source version explicit.
-- Never convert similarity, polarity, freshness, or authority metadata into an automated clinical-quality score.
-- Record uncertainty and unresolved conflicts rather than hiding them.
+- Reports distinguish machine findings, reviewer decisions and release policy.
+- Keep source version and jurisdiction explicit; preserve uncertainty and unresolved conflicts.
+- Similarity, freshness or authority metadata must never become an automated clinical-quality score.
 
 ### Privacy and security
-- Classify data before adding fields; collect the minimum necessary.
+- Minimize data collection and classify data before adding fields.
 - Treat pseudonymous learner records, audit ledgers, salts, backups and exports as sensitive.
-- Define retention, deletion, access, backup, restore and incident procedures with the data-owning institution.
-- Threat-model new importers, output paths, plugins, logs, and multi-user features.
-- Protect signing keys separately from source code and generated bundles.
-- Treat hash chains as tamper-evident only within their stated limits; use signatures and independently controlled anchors if stronger audit guarantees become a real requirement.
-- Follow a risk-based secure development process informed by NIST SSDF; monitor the draft SSDF 1.2 rather than claiming it is final.
+- Document access, retention, deletion, backup and incident procedures with the data owner.
+- Threat-model importers, output paths, plugins, logs and any multi-user features.
+- Hash chains are tamper-evident only within their stated limits; do not overstate their guarantees.
 
-### Software supply chain and releases
-- Pin GitHub Actions to reviewed full commit SHAs when practical; keep action updates deliberate and reviewable.
-- Use least-privilege workflow permissions.
-- Add a dependency inventory/SBOM when distributable artifacts or external dependencies are introduced.
-- Produce release provenance describing source revision, build workflow, configuration and artifact hashes; adopt SLSA/in-toto-compatible attestations if release distribution warrants it.
-- Keep secrets out of repository files, fixtures, logs and artifacts.
-- Test backup restoration and failed-release rollback, not just successful publication.
+### Reliability and supply chain
+- Use least-privilege workflow permissions and keep secrets out of code, fixtures, logs and artifacts.
+- Preserve atomic publication and prove rollback with tests.
+- Record source revision, configuration, input/output hashes and test evidence for releases.
+- Pin GitHub Actions to reviewed full commit SHAs when practical.
+- Add SBOMs or stronger provenance attestations when distribution/dependencies make them worthwhile; do not add process for its own sake.
 
 ### Compatibility and maintainability
-- Preserve V7–V15 as historical/compatibility interfaces until a deprecation policy is published.
-- Add schema versions and explicit migrations before changing formats.
+- Keep the standard-library-only baseline unless a dependency has a documented benefit, license, maintenance plan and fallback.
+- Preserve compatibility wrappers and define schema migrations before changing formats.
 - Prefer small, independently reviewable PRs.
-- Do not add a new versioned engine if the work is a bug fix, documentation correction, or maintenance task.
-- Keep the canonical product direction in this file and historical version plans in the history archive.
+- Do not create a new versioned engine for routine maintenance, bug fixes or documentation changes.
 
-## 5. Release gates (definition of done)
+## 6. Definition of done
 
-A milestone is not complete because a self-test returns zero. It must satisfy all applicable gates:
+A milestone is complete only when applicable evidence exists for:
+- Correctness: unit, regression, negative and representative end-to-end tests.
+- Safety: human-review boundaries and failure modes documented.
+- Data integrity: source immutability, safe paths, atomic publication and rollback.
+- Privacy: output/log review and data-handling implications documented.
+- Compatibility: supported contracts and migration tests.
+- Reproducibility: fixed inputs/configuration yield stable semantic outputs.
+- Usability: examples, CLI help, actionable errors and migration guidance.
+- Human acceptance: relevant faculty/operator review before real clinical or learner data use.
 
-| Gate | Required evidence |
-|---|---|
-| Correctness | Unit tests, regression tests, negative tests and representative end-to-end fixtures |
-| Safety | Human-review boundary and failure modes documented; no automated clinical approval |
-| Data integrity | Source immutability, safe path handling, atomic publication and rollback verified |
-| Privacy | Data inventory, output/log review, disclosure tests and retention implications documented |
-| Compatibility | Supported schemas/CLIs and migration tests pass |
-| Reproducibility | Fixed inputs/configuration produce stable semantic outputs; timestamps and nondeterministic fields documented |
-| Security | Threat model updated for new attack surfaces; least privilege and secret handling checked |
-| Usability | Example workflow, CLI help, errors and migration guide updated |
-| Release provenance | Commit, configuration, input/output hashes and test evidence recorded |
-| Human acceptance | Relevant faculty/operator review completed before real clinical or learner data use |
+Publish passed, failed, skipped and not-applicable checks separately. A green self-test is not clinical, educational, privacy-law or security certification.
 
-For each release, publish a concise report listing passed, failed, skipped and not-applicable checks. Never hide skips inside an overall green status.
+## 7. CI and cost policy
 
-## 6. CI strategy and cost control
+- Pull requests: one fast required Linux/Python 3.11 check for compile, unit/integration tests and affected engine self-tests, where repository configuration permits.
+- Main/release candidates: retain the full supported Python/OS matrix.
+- Scheduled/manual deeper checks are optional unless a demonstrated risk justifies making them required.
+- Avoid duplicate overlapping workflows and unnecessary matrix expansion.
+- Use path filters only when shared-contract and cross-engine tests cannot be skipped accidentally.
+- Do not introduce paid hosted services or mandatory paid APIs.
 
-Current CI runs a 3 × 3 Python/OS matrix. The latest main-branch run at the snapshot passed all nine jobs. Keep this broad compatibility signal, but avoid duplicating the same expensive work across multiple overlapping workflows.
+## 8. Product and engineering measures
 
-Recommended policy:
-- Pull requests: one fast required Linux/Python 3.11 job for compile, unit/integration tests, and affected engine self-tests.
-- Main/release candidates: full Python 3.11–3.13 × Linux/macOS/Windows matrix.
-- Scheduled/manual: optional deeper security, performance, and long-running compatibility checks.
-- Use path filters only when they cannot accidentally skip shared-contract or cross-engine tests.
-- Do not add paid hosted services or mandatory third-party actions.
-- Revisit the matrix only if runtime or maintenance burden becomes material; preserve at least one full cross-platform release check.
+Establish baselines before setting targets. Track:
+- Time for a faculty member to prepare and review a specialty teaching release.
+- Percentage of published claims with registered, versioned evidence and a recorded faculty decision.
+- Age of unresolved high-priority evidence-review items.
+- Verified curriculum coverage separately from suggested, pending and invalid mappings.
+- Percentage of released assessment items with blueprint mapping and human approval.
+- Release reproducibility, failed-publication rollback and regression health.
+- User-reported usefulness and recurring workflow friction.
+- Privacy incidents and time to contain/remediate.
 
-Branch protection is not assumed to be enabled. Before relying on required checks, verify repository settings and configure a required status check for the fast PR gate.
+Do not optimize for version count, lines of code, number of automated suggestions, or vanity deployment metrics.
 
-## 7. Product and engineering metrics
+## 9. Immediate decision
 
-Track trends, not vanity totals:
+1. Keep V14.1 and V15 stable.
+2. Complete V16 as a focused integration, preserving standalone compatibility and rollback.
+3. Validate the existing V10–V12 educational workflow with faculty and a real specialty curriculum under appropriate governance.
+4. Use those findings to decide how much V17 contract/core work is actually needed.
+5. Reassess V18–V21 from user evidence rather than treating them as guaranteed commitments.
 
-- **Release integrity:** failed publication never replaces the last known-good bundle.
-- **Regression health:** required checks passing; skips and flaky tests visible.
-- **Traceability:** percentage of released claims with a registered, versioned source and a recorded faculty decision.
-- **Review latency:** age of unresolved high-priority source/claim review items.
-- **Curriculum coverage:** verified coverage versus pending, suggested and invalid mappings (never combine these states).
-- **Assessment quality workflow:** percentage of released items with blueprint mapping and faculty approval; statistics reported only where data support them.
-- **Privacy incidents:** unintended learner-data disclosures and time to contain/remediate.
-- **Maintainability:** time to understand/fix regressions, compatibility breaks, and duplicated logic.
+## 10. Reference basis
 
-DORA's delivery metrics can inform engineering retrospectives, but a small single-maintainer project should not optimize for deployment frequency or compare itself mechanically with large teams. Prioritize release safety and useful outcomes.
+The engineering guardrails are informed by:
+- [NIST SP 800-218, Secure Software Development Framework 1.1](https://csrc.nist.gov/pubs/sp/800/218/final).
+- [SLSA build provenance](https://slsa.dev/spec/v1.2/build-provenance) and [build levels](https://slsa.dev/spec/v1.2/levels), applied proportionately.
+- [DORA software delivery metrics](https://dora.dev/guides/dora-metrics/), used for learning rather than vanity targets.
+- [W3C WCAG 2.2](https://www.w3.org/TR/WCAG22/) for web-interface accessibility.
 
-## 8. Immediate execution order
-
-1. Keep the current main baseline green; do not reopen completed V14.1 work without a failing test or demonstrated defect.
-2. Implement V16 as a small integration PR: V15 invocation, policy/config mapping, unified report/manifest, and late-stage rollback tests.
-3. Add V16 integration fixtures covering legacy and strict registered-source modes.
-4. Only after V16 is stable, begin V17 schema contracts and incremental shared-core extraction.
-5. Reassess V18–V21 after faculty workflow feedback; do not commit to building all candidate features in advance.
-
-## 9. Research references
-
-The roadmap draws on these primary or authoritative references:
-
-- [NIST SP 800-218, Secure Software Development Framework (SSDF) 1.1](https://csrc.nist.gov/pubs/sp/800/218/final) — secure development practices across the lifecycle. [NIST SSDF publications](https://csrc.nist.gov/projects/ssdf/publications) lists SSDF 1.2 as a draft at the research snapshot.
-- [SLSA Build Provenance](https://slsa.dev/spec/v1.2/build-provenance) — describing where, when and how software artifacts were produced.
-- [SLSA Build Track](https://slsa.dev/spec/v1.2/levels) — graduated build integrity expectations; use proportionately rather than claiming a level without meeting it.
-- [DORA software delivery metrics](https://dora.dev/guides/dora-metrics/) — throughput and instability measures, useful as a learning tool rather than vanity targets.
-- [W3C WCAG 2.2](https://www.w3.org/TR/WCAG22/) — testable accessibility criteria for web interfaces.
-
-External references inform engineering direction; they do not certify Usiphus or establish clinical, educational, privacy-law, or security compliance.
-
----
-
-**Decision:** V16 should integrate V15 governance into V14's release pipeline. V17 should establish stable contracts and a shared core. Only then should Usiphus expand into richer evidence operations, assessment measurement, authoring, and optional interoperability.
+These references inform engineering practice; they do not certify Usiphus or establish clinical, educational, privacy-law or security compliance.
