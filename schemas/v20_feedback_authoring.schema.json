@@ -1,0 +1,227 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Usiphus V20 workflow input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "feedback",
+    "actions",
+    "artifacts",
+    "comments"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "feedback": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "feedback_id",
+          "role",
+          "purpose",
+          "notice_acknowledged",
+          "visibility",
+          "submitted_at",
+          "retention_until",
+          "text"
+        ],
+        "properties": {
+          "feedback_id": {
+            "type": "string"
+          },
+          "role": {
+            "enum": [
+              "learner",
+              "faculty"
+            ]
+          },
+          "purpose": {
+            "type": "string"
+          },
+          "notice_acknowledged": {
+            "const": true
+          },
+          "visibility": {
+            "enum": [
+              "faculty_only",
+              "feedback_team",
+              "submitter_and_faculty"
+            ]
+          },
+          "submitted_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "retention_until": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "text": {
+            "type": "string"
+          },
+          "linked_artifact_id": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          }
+        }
+      }
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "action_id",
+          "feedback_ids",
+          "title",
+          "next_step",
+          "status",
+          "created_at",
+          "due_at"
+        ],
+        "properties": {
+          "action_id": {
+            "type": "string"
+          },
+          "feedback_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "title": {
+            "type": "string"
+          },
+          "next_step": {
+            "type": "string"
+          },
+          "owner_label": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "open",
+              "in_progress",
+              "done",
+              "deferred"
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "due_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "completion_evidence": {
+            "type": "string"
+          },
+          "follow_up_outcome": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "artifact_id",
+          "version",
+          "artifact_type",
+          "title",
+          "content"
+        ],
+        "properties": {
+          "artifact_id": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "artifact_type": {
+            "enum": [
+              "card",
+              "case",
+              "objective",
+              "evidence_link",
+              "mapping",
+              "challenge_pack",
+              "osce",
+              "mcq"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "draft",
+              "in_review",
+              "approved",
+              "retired"
+            ]
+          },
+          "content": {},
+          "created_by_label": {
+            "type": "string"
+          },
+          "reviewer_label": {
+            "type": "string"
+          },
+          "reviewed_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "comments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "comment_id",
+          "artifact_id",
+          "version",
+          "text"
+        ],
+        "properties": {
+          "comment_id": {
+            "type": "string"
+          },
+          "artifact_id": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "author_label": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}

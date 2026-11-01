@@ -376,3 +376,17 @@ V19 provides a local-first, standard-library-only authoring and structural-revie
 Automated flags are prompts for faculty review, not judgments of clinical correctness, item validity, station validity, fairness or reliability. Duplicate candidates are never auto-deleted. Third-party content is not scraped, mirrored or reproduced. Media requires documented rights, provenance, privacy/consent review and accessibility checks. Reviewer labels are not authenticated identities. Scores are practice/engagement signals, not proof of learning or competence.
 
 **V19 acceptance:** deterministic self-tests and unit tests; synthetic examples; schema and documentation; actionable JSON/Markdown/CSV reports; no real patient or learner data in fixtures; faculty-reviewed pilot protocol; and explicit non-claims. A clean automated report is only *ready for faculty review*. Publication still requires the existing governed release and explicit human approval.
+
+
+## 16. V20 implementation boundary and acceptance
+
+V20 introduces a local-first, standard-library-only feedback-to-action and faculty authoring workflow:
+- Purpose-defined learner/faculty feedback records with notice acknowledgement, restricted visibility, timezone-aware submission/retention dates and optional confidence reflection.
+- Traceable action records linked to feedback, with next step, owner label, due date, status, completion evidence and follow-up outcome.
+- Versioned authoring records for cards, cases, objectives, evidence links, curriculum mappings, challenge packs, OSCE stations and MCQs.
+- Comments bound to exact artifact versions, deterministic field-level version diffs, review queue and static HTML release preview.
+- Privacy-minimized JSON report, structured authored-content JSON, CSV action queue and HTML preview.
+
+**Boundaries:** reports must not echo raw feedback/comment text; heuristic personal-data patterns are warnings only and do not anonymize data. Reviewer/owner labels are not authenticated identities. Confidence/satisfaction are not learning or competence measures. Formative feedback remains separate from summative grading. Institutional notice/consent, lawful basis, access control, secure storage, retention/deletion and incident processes remain outside this local tool and must be defined before real feedback is collected. PDF/PPTX export adapters are deferred pending an agreed faculty template, accessibility requirements and dependency/maintenance assessment.
+
+**V20 acceptance:** tests for feedback/action linkage, retention metadata, PII warning behavior, exact-version comments, version diffs and approval metadata; synthetic fixtures; output privacy review; faculty pilot demonstrating closed-loop actions and usable authoring diffs; and explicit human approval before publication. Final publication continues through the governed V16 release workflow.
