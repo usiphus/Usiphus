@@ -84,6 +84,9 @@ The tests use fictional data and verify:
 - A failed subsequent run preserves the previously published bundle.
 - An unsafe output directory is rejected before publication.
 
-GitHub Actions runs this suite in addition to compilation and the V8–V14
-self-tests. These tests validate software integration behavior only; they do
-not validate clinical claims, educational effectiveness, or production data.
+The [GitHub Actions workflow](../.github/workflows/ci.yml) is configured to run
+this suite, compilation, and the V7–V15 self-tests across its Python and
+operating-system matrix. A configured workflow is not evidence that every
+matrix job has already passed. These tests validate software integration
+behavior only; they do not validate clinical claims, educational
+effectiveness, or production data.

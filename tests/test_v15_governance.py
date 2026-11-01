@@ -1,10 +1,50 @@
+import json
+import subprocess
+import sys
+import tempfile
 import unittest
 from datetime import date
+from pathlib import Path
 
 import usiphus_v15 as v15
 
+ROOT = Path(__file__).resolve().parents[1]
+
 
 class V15GovernanceTests(unittest.TestCase):
+    def test_cli_rejects_malformed_inputs_without_writing_outputs(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            cases = [
+                ('{"sources":', '{"claims": []}'),
+                (json.dumps({"sources": "not-a-list"}), '{"claims": []}'),
+            ]
+
+            for index, (sources_data, claims_data) in enumerate(cases):
+                with self.subTest(case=index):
+                    sources = root / f"sources-{index}.json"
+                    claims = root / f"claims-{index}.json"
+                    output = root / f"output-{index}"
+                    sources.write_text(sources_data, encoding="utf-8")
+                    claims.write_text(claims_data, encoding="utf-8")
+                    result = subprocess.run(
+                        [
+                            sys.executable,
+                            str(ROOT / "usiphus_v15.py"),
+                            "--sources", str(sources),
+                            "--claims", str(claims),
+                            "--output-dir", str(output),
+                        ],
+                        cwd=ROOT,
+                        text=True,
+                        capture_output=True,
+                        check=False,
+                    )
+
+                    self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+                    self.assertIn("ERROR |", result.stderr)
+                    self.assertFalse(output.exists())
+
     def test_hash_chain_detects_tampering(self):
         event = v15.build_event("0" * 64, "reviewer", "approve",
                                 "2026-10-31T12:00:00Z", {"claim_id": "C1"})
