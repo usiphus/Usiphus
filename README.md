@@ -39,6 +39,7 @@ Requires Python 3.11 or later. The core project uses the Python standard library
 
     python usiphus_v17.py --validate examples/v17/cards.json --contract-type card
     python usiphus_v17.py --migrate legacy-curriculum.json --contract-type curriculum --migration-output curriculum.v17.json
+    python usiphus_v17.py --curriculum examples/v17/curriculum.json --cards examples/v17/cards.json --pilot-metrics pilot.csv --output-dir build-v17
 
 **Independent source governance (V15):**
 
@@ -68,6 +69,9 @@ Run all engine self-tests and unit/integration tests:
 - v17_dashboard.html: self-contained static dashboard.
 - v17_pilot_metrics_template.csv: blank template for an institution-led pilot.
 - v17_manifest.json: input/output hashes and summary.
+- v17_pilot_metrics_summary.json: consent-filtered workflow measures when pilot data are supplied.
+
+V17 also generates a competency-to-objective/card/assessment/OSCE dependency graph and exact normalized-prompt duplicate candidates for human review.
 
 See docs/V17_STABLE_CONTRACTS_AND_CURRICULUM_INTELLIGENCE.md and docs/V17_PILOT_PROTOCOL.md.
 

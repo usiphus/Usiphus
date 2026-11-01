@@ -9,6 +9,7 @@ V17 adds an additive, local-first analysis layer. It does not replace V14/V16 re
     python usiphus_v17.py --validate examples/v17/cards.json --contract-type card
     python usiphus_v17.py --migrate legacy-curriculum.json --contract-type curriculum --migration-output curriculum.v17.json
     python usiphus_v17.py --compare-manifests previous-manifest.json current-manifest.json
+    python usiphus_v17.py --curriculum examples/v17/curriculum.json --cards examples/v17/cards.json --pilot-metrics pilot.csv --output-dir build-v17
 
 ## Outputs
 
@@ -18,6 +19,7 @@ V17 adds an additive, local-first analysis layer. It does not replace V14/V16 re
 - v17_dashboard.html: self-contained static dashboard with accessible text and table content.
 - v17_pilot_metrics_template.csv: blank, privacy-conscious template for institution-led workflow evaluation.
 - v17_manifest.json: hashes of exact inputs and generated outputs.
+- v17_pilot_metrics_summary.json: privacy-conscious aggregate workflow measures when --pilot-metrics is supplied.
 
 ## Contracts and compatibility
 
@@ -34,7 +36,7 @@ The existing V7–V16 engines and entry points remain unchanged. The V17 CLI is 
 - Suggested and pending mappings are candidates and never counted as verified coverage.
 - Invalid/conflicting mappings are sent to the repair queue.
 - Required competencies without verified mappings are reported as gaps.
-- Coverage by domain, cognitive level and learning objective is descriptive metadata coverage, not educational effectiveness, clinical accuracy or learner competence.
+- Coverage by domain, cognitive level and learning objective is descriptive metadata coverage, not educational effectiveness, clinical accuracy or learner competence. Exact normalized-prompt duplicates are surfaced as human-review candidates only. A dependency graph connects competencies, objectives, verified cards, assessment items and OSCE stations.
 
 V17 can consume a V10 mapping report (candidates) or explicit card competency_ids with faculty approval metadata. If no mapping report is supplied, unapproved card links are suggestions, not verified coverage.
 
@@ -46,7 +48,7 @@ Supply --previous-curriculum to compare competency identifiers and selected fiel
 
 ## Faculty pilot and measures
 
-Use the CSV template during a real specialty pilot. Collect only information the institution has approved and avoid patient data, learner identifiers and free-text personal information. Establish a baseline before setting targets. Suggested measures include authoring/review elapsed time, mapping corrections, evidence traceability issues, release reproducibility and user-reported friction.
+Use the CSV template during a real specialty pilot. Collect only information the institution has approved and avoid patient data, learner identifiers and free-text personal information. Establish a baseline before setting targets. Supply the completed CSV with --pilot-metrics to calculate elapsed-time median/range, mapping corrections, evidence traceability issues, release reproducibility and friction-note counts. Only rows explicitly marked consented_for_aggregate=yes are included; non-consented rows are excluded.
 
 The repository cannot perform faculty validation on its own. A faculty-led pilot must assess repeatability, mapping correctness and workflow friction. Record cohort size, role, missingness and consent/notice arrangements before interpreting aggregate results.
 
