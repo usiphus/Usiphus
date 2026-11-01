@@ -325,7 +325,7 @@ def self_test():
                 for name in FILES.values(): (root/name).write_text("{}")
                 path=root/"cfg.json"; path.write_text(json.dumps({"schema_version":1,"inputs":FILES,"output_dir":"build"}))
                 cfg,_=load_config(path)
-                self.assertEqual(Path(cfg["inputs"]["cards"]),root/"cards.json")
+                self.assertEqual(Path(cfg["inputs"]["cards"]).resolve(),(root/"cards.json").resolve())
                 self.assertTrue(cfg["run_regression_tests"])
                 self.assertEqual(cfg["max_evidence_age_days"],730)
         def test_config_rejects_extra_key(self):
