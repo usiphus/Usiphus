@@ -189,6 +189,11 @@ def validate_source(source: dict[str, Any], index: int) -> list[str]:
     for field in ("title", "jurisdiction", "source_type"):
         if not clean(source.get(field)):
             issues.append(f"{field} is required")
+    if not clean(source.get("publisher") or source.get("authority")):
+        issues.append("publisher or authority metadata is required")
+    raw_url = clean(source.get("url") or source.get("canonical_url"))
+    if raw_url and not canonical_url(raw_url):
+        issues.append("url must be a valid HTTP(S) URL")
     status = clean(source.get("status") or "active").casefold()
     if status not in {"active", "superseded", "withdrawn"}:
         issues.append(f"unsupported lifecycle status: {status}")
@@ -369,7 +374,7 @@ def analyze(sources: list[dict[str, Any]], claims: list[dict[str, Any]], *,
             continue
         changed = []
         for field in ("title", "publisher", "authority", "jurisdiction", "source_type", "version",
-                      "status", "superseded_by", "canonical_id", "canonical_url", "content_sha256", "published_on", "retrieved_at"):
+                      "status", "superseded_by", "canonical_id", "canonical_url", "content_sha256", "published_on", "retrieved_at", "review_due_days"):
             if clean(old.get(field)) != clean(fingerprint.get(field)):
                 changed.append(field)
         if changed:

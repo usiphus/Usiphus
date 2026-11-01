@@ -34,7 +34,7 @@ Priority is a transparent workflow triage score: fixed event weights plus a capp
 
 ## Review lifecycle
 
-V18 queues withdrawn/superseded sources, changed versions/content/metadata, stale or missing review dates, jurisdiction mismatches, and downstream impacts. Qualified reviewers must interpret what a source change means, determine whether claims and learning artifacts remain appropriate, and explicitly accept, reject or defer review candidates. V18 records supplied decisions but does not alter claim text, source status, mappings, assessment items, OSCE stations or releases.
+V18 queues withdrawn/superseded sources, changed versions/content/metadata, stale/missing/future review dates, jurisdiction mismatches, and downstream impacts. Optional release links extend impact tracing to published releases. Qualified reviewers must interpret what a source change means, determine whether claims and learning artifacts remain appropriate, and explicitly accept, reject or defer review candidates. V18 records supplied decisions but does not alter claim text, source status, mappings, assessment items, OSCE stations or releases.
 
 A decision hash chain is useful for detecting accidental edits when recomputed. Without signatures and an independently stored anchor it is not tamper-proof. Reviewer labels are not authenticated identities. Institutions remain responsible for access control, retention, backup, key management and identity verification.
 

@@ -5,6 +5,7 @@
   "properties": {
     "sources": {"type":"array","items":{"$ref":"#/$defs/source"}},
     "claims": {"type":"array","items":{"$ref":"#/$defs/claim"}},
+    "releases": {"type":"array","items":{"$ref":"#/$defs/release"}},
     "decisions": {"type":"array","items":{"$ref":"#/$defs/decision"}},
     "schema_version": {"type":"integer"}
   },
@@ -45,6 +46,7 @@
         }}}
       }
     },
+    "release": {"type":"object","required":["release_id","artifact_ids"],"properties":{"release_id":{"type":"string","minLength":1},"artifact_ids":{"type":"array","items":{"type":"string"}}}},
     "decision": {
       "type":"object","required":["target_type","target_id","decision","reviewer_label","rationale","decided_at"],
       "properties":{
