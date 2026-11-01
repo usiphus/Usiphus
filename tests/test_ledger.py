@@ -24,7 +24,12 @@ class ReleaseLedgerConflictTests(unittest.TestCase):
     def test_overlapping_cohorts_with_small_current_only_difference_are_suppressed(self):
         prior = {"a", "b", "c", "d", "e", "f", "g"}
         current = {"a", "b", "c", "h", "i"}
-        result = conflicts({"COMP-NEW": frozenset(current)}, self.make_ledger(prior), 3)
+        result = conflicts(
+            {"COMP-NEW": frozenset(current)},
+            self.make_ledger(prior, "COMP-NEW"),
+            3,
+            mode="strict",
+        )
         self.assertIn("COMP-NEW", result)
 
     def test_nested_cohort_with_difference_at_least_k_is_allowed(self):
