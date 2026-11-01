@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 """Usiphus V13 — deterministic validation and privacy assurance for V12 bundles.
 
@@ -34,6 +35,8 @@ INPUTS = {
 }
 OUTPUTS = ("platform_report.json", "faculty_review_queue.csv",
            "release_checklist.json", "v12_manifest.json")
+MIN_COHORT_FLOOR = 5
+MAPPING_STATUSES = {"verified", "suggested", "pending", "invalid"}
 SCHEDULE_STATUSES = {"not_started", "study_target_met", "review_due", "learning"}
 DIRECT_IDENTIFIERS = {
     "name", "full_name", "email", "phone", "address", "date_of_birth",
@@ -128,8 +131,65 @@ def validate_curriculum(path: Path) -> tuple[str, set[str]]:
     return specialty.strip().casefold(), ids
 
 
+def validate_cards(path: Path, specialty: str) -> set[str]:
+    payload = read_json(path)
+    rows = payload.get("cards") if isinstance(payload, dict) else payload
+    require(isinstance(rows, list) and bool(rows), "Cards must be a non-empty list or an object with 'cards'")
+    ids: set[str] = set()
+    for index, row in enumerate(rows):
+        require(isinstance(row, dict), f"Card {index} must be an object")
+        cid = row.get("card_id") or row.get("id")
+        require(isinstance(cid, str) and cid.strip(), f"Card {index} requires card_id/id")
+        cid = cid.strip()
+        require(cid not in ids, f"Duplicate card ID: {cid}")
+        ids.add(cid)
+        require(str(row.get("specialty", "")).strip().casefold() == specialty,
+                f"Card {cid} specialty does not match curriculum")
+    return ids
+
+
+def validate_mapping(path: Path, specialty: str, card_ids: set[str],
+                     competency_ids: set[str]) -> dict[str, int]:
+    payload = read_json(path)
+    require(isinstance(payload, dict) and isinstance(payload.get("candidates"), list),
+            "Mapping must be an object with a candidates list")
+    require(str(payload.get("specialty", "")).strip().casefold() == specialty, "Mapping specialty mismatch")
+    verified = 0
+    for index, row in enumerate(payload["candidates"]):
+        require(isinstance(row, dict), f"Mapping row {index} must be an object")
+        status = str(row.get("status", "")).strip().casefold()
+        require(status in MAPPING_STATUSES, f"Mapping row {index} has unsupported status: {status}")
+        require(str(row.get("card_id", "")).strip() in card_ids, f"Mapping row {index} references an unknown card")
+        if status != "invalid":
+            require(str(row.get("competency_id", "")).strip().casefold() in competency_ids,
+                    f"Mapping row {index} references an unknown competency")
+        if status == "verified":
+            require(str(row.get("method", "")).strip().casefold() == "faculty-approved"
+                    and bool(str(row.get("reviewer", "")).strip()),
+                    f"Mapping row {index} is 'verified' without faculty-approved provenance")
+            parse_timestamp(row.get("reviewed_at"), f"Mapping row {index} reviewed_at")
+            verified += 1
+    return {"rows": len(payload["candidates"]), "verified": verified}
+
+
+def validate_evidence(path: Path, card_ids: set[str]) -> int:
+    payload = read_json(path)
+    rows = payload.get("claims") if isinstance(payload, dict) else payload
+    require(isinstance(rows, list), "Evidence must be a list or an object with 'claims'")
+    seen: set[str] = set()
+    for index, row in enumerate(rows):
+        require(isinstance(row, dict), f"Evidence claim {index} must be an object")
+        claim_id = str(row.get("claim_id", "")).strip()
+        require(bool(claim_id) and claim_id not in seen, f"Evidence claim {index} needs a unique claim_id")
+        seen.add(claim_id)
+        require(str(row.get("card_id", "")).strip() in card_ids,
+                f"Evidence claim {claim_id} references an unknown card")
+    return len(rows)
+
+
 def validate_learner_progress(path: Path, specialty: str,
-                              competency_ids: set[str]) -> set[str]:
+                              competency_ids: set[str],
+                              pairs_out: set | None = None) -> set[str]:
     payload = read_json(path)
     require(isinstance(payload, dict), "Learner progress must be a JSON object")
     require(str(payload.get("specialty", "")).strip().casefold() == specialty,
@@ -153,6 +213,8 @@ def validate_learner_progress(path: Path, specialty: str,
             require(cid in competency_ids, f"Learner {lid} references unknown competency: {cid}")
             require(cid not in seen, f"Learner {lid} has duplicate competency row: {cid}")
             seen.add(cid)
+            if pairs_out is not None:
+                pairs_out.add((lid, cid))
             estimate = item.get("mastery_estimate")
             if estimate is not None:
                 require(not isinstance(estimate, bool) and isinstance(estimate, (int, float))
@@ -168,8 +230,8 @@ def validate_cohort(path: Path, specialty: str,
     require(str(payload.get("specialty", "")).strip().casefold() == specialty,
             "Cohort analytics specialty mismatch")
     minimum = payload.get("minimum_cohort_size")
-    require(isinstance(minimum, int) and not isinstance(minimum, bool) and minimum >= 2,
-            "minimum_cohort_size must be an integer of at least 2")
+    require(isinstance(minimum, int) and not isinstance(minimum, bool) and minimum >= MIN_COHORT_FLOOR,
+            f"minimum_cohort_size must be an integer of at least {MIN_COHORT_FLOOR}")
     rows = payload.get("competencies")
     require(isinstance(rows, list), "Cohort analytics requires competencies")
     seen: set[str] = set()
@@ -198,7 +260,8 @@ def validate_cohort(path: Path, specialty: str,
     return len(rows), suppressed
 
 
-def validate_schedule(path: Path, competency_ids: set[str]) -> int:
+def validate_schedule(path: Path, competency_ids: set[str],
+                      pairs_out: set | None = None) -> int:
     require(path.is_file(), f"Missing review schedule: {path}")
     require(path.stat().st_size <= MAX_BYTES, "Review schedule exceeds 50 MiB")
     required = {"learner_id", "competency_id", "next_due_at",
@@ -232,6 +295,8 @@ def validate_schedule(path: Path, competency_ids: set[str]) -> int:
                 require(math.isfinite(number) and 0 <= number <= 1,
                         f"Schedule row {index} mastery estimate must be between 0 and 1")
             count += 1
+    if pairs_out is not None:
+        pairs_out.update(seen)
     return count
 
 
@@ -290,7 +355,7 @@ def validate_v12_outputs(output_dir: Path, specialty: str,
             "V12 report specialty must be normalized consistently")
     curriculum = report.get("curriculum")
     require(isinstance(curriculum, dict), "V12 report curriculum summary is missing")
-    require(curriculum.get("competencies", 0) >= len(competency_ids),
+    require(curriculum.get("competencies") == len(competency_ids),
             "V12 report competency count is inconsistent with curriculum")
     return {
         "platform_release_ready": checklist["release_ready"],
@@ -316,13 +381,26 @@ def atomic_write(path: Path, content: str) -> None:
             Path(temporary).unlink()
 
 
-def validate_bundle(input_dir: Path, output_dir: Path, report_path: Path) -> dict[str, Any]:
+def validate_bundle(input_dir: Path, output_dir: Path, report_path: Path,
+                    require_release_ledger: bool = False) -> dict[str, Any]:
     specialty, competency_ids = validate_curriculum(input_dir / INPUTS["curriculum"])
+    card_ids = validate_cards(input_dir / INPUTS["cards"], specialty)
+    mapping_summary = validate_mapping(input_dir / INPUTS["mapping"], specialty, card_ids, competency_ids)
+    evidence_claims = validate_evidence(input_dir / INPUTS["evidence"], card_ids)
+    progress_pairs: set = set()
     learner_ids = validate_learner_progress(
-        input_dir / INPUTS["learner_progress"], specialty, competency_ids)
+        input_dir / INPUTS["learner_progress"], specialty, competency_ids, progress_pairs)
+    if require_release_ledger:
+        cohort_doc = read_json(input_dir / INPUTS["cohort_analytics"])
+        ledger_info = cohort_doc.get("release_ledger") if isinstance(cohort_doc, dict) else None
+        require(isinstance(ledger_info, dict) and ledger_info.get("used") is True,
+                "A release ledger was required but the cohort analytics were produced without one (re-run V11 with --release-ledger)")
     cohort_rows, suppressed_rows = validate_cohort(
         input_dir / INPUTS["cohort_analytics"], specialty, competency_ids)
-    schedule_rows = validate_schedule(input_dir / INPUTS["review_schedule"], competency_ids)
+    schedule_pairs: set = set()
+    schedule_rows = validate_schedule(input_dir / INPUTS["review_schedule"], competency_ids, schedule_pairs)
+    require(schedule_pairs <= progress_pairs,
+            "Review schedule contains learner/competency rows with no matching learner-progress row")
     output_summary = validate_v12_outputs(
         output_dir, specialty, competency_ids, learner_ids, input_dir)
     return {
@@ -333,6 +411,10 @@ def validate_bundle(input_dir: Path, output_dir: Path, report_path: Path) -> dic
         "specialty": specialty,
         "contracts": {
             "competencies": len(competency_ids),
+            "cards": len(card_ids),
+            "mapping_rows": mapping_summary["rows"],
+            "verified_mapping_rows": mapping_summary["verified"],
+            "evidence_claims": evidence_claims,
             "pseudonymous_learners": len(learner_ids),
             "cohort_rows": cohort_rows,
             "suppressed_cohort_rows": suppressed_rows,
@@ -353,7 +435,7 @@ def run_self_test() -> int:
 
     class V13Tests(unittest.TestCase):
         def setUp(self):
-            self.temp = tempfile.TemporaryDirectory()
+            self.temp = tempfile.TemporaryDirectory(ignore_cleanup_errors=True)
             self.root = Path(self.temp.name)
             self.inputs = self.root / "inputs"
             self.outputs = self.root / "outputs"
@@ -373,13 +455,12 @@ def run_self_test() -> int:
             (self.inputs / "review_schedule.csv").write_text(
                 "learner_id,competency_id,next_due_at,recommended_interval_days,status\n"
                 f"{self.lid},U1,2026-11-01T12:00:00Z,4,learning\n")
-            for key, filename in INPUTS.items():
-                if key in {"curriculum", "learner_progress", "cohort_analytics", "review_schedule"}:
-                    continue
-                if filename.endswith(".csv"):
-                    (self.inputs / filename).write_text("")
-                else:
-                    (self.inputs / filename).write_text("{}")
+            (self.inputs / "cards.json").write_text(json.dumps(
+                {"cards": [{"card_id": "c1", "specialty": "urology"}]}))
+            (self.inputs / "mapping.json").write_text(json.dumps({"specialty": "urology", "candidates": [
+                {"card_id": "c1", "competency_id": "U1", "status": "verified", "method": "faculty-approved",
+                 "reviewer": "Faculty", "reviewed_at": "2026-10-31T12:00:00Z"}]}))
+            (self.inputs / "evidence.json").write_text(json.dumps({"claims": []}))
             (self.outputs / "platform_report.json").write_text(json.dumps({
                 "schema_version": 1, "specialty": "urology",
                 "curriculum": {"competencies": 1},
@@ -516,6 +597,31 @@ def run_self_test() -> int:
         def test_deterministic_hash(self):
             p = self.inputs / "curriculum.json"
             self.assertEqual(sha256(p), sha256(p))
+        def test_cohort_floor_enforced(self):
+            p = self.inputs / "cohort_analytics.json"
+            p.write_text(json.dumps({"specialty": "urology", "minimum_cohort_size": 4,
+                "competencies": [{"competency_id": "U1", "suppressed": True}]}))
+            with self.assertRaises(ValidationError):
+                validate_cohort(p, "urology", {"u1"})
+        def test_unverified_provenance_rejected(self):
+            p = self.inputs / "mapping.json"
+            p.write_text(json.dumps({"specialty": "urology", "candidates": [
+                {"card_id": "c1", "competency_id": "U1", "status": "verified"}]}))
+            with self.assertRaises(ValidationError):
+                validate_mapping(p, "urology", {"c1"}, {"u1"})
+        def test_mapping_unknown_card_rejected(self):
+            p = self.inputs / "mapping.json"
+            p.write_text(json.dumps({"specialty": "urology", "candidates": [
+                {"card_id": "zzz", "competency_id": "U1", "status": "suggested"}]}))
+            with self.assertRaises(ValidationError):
+                validate_mapping(p, "urology", {"c1"}, {"u1"})
+        def test_schedule_without_progress_row_rejected(self):
+            other = "123e4567-e89b-42d3-a456-426614174999"
+            (self.inputs / "review_schedule.csv").write_text(
+                "learner_id,competency_id,next_due_at,recommended_interval_days,status\n"
+                f"{other},U1,2026-11-01T12:00:00Z,4,learning\n")
+            with self.assertRaises(ValidationError):
+                validate_bundle(self.inputs, self.outputs, self.root / "r.json")
 
     result = unittest.TextTestRunner(verbosity=2).run(
         unittest.defaultTestLoader.loadTestsFromTestCase(V13Tests))

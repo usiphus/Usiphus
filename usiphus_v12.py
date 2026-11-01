@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 """Usiphus V12 — integrated specialty learning platform coordinator.
 
@@ -14,6 +15,8 @@ import hashlib
 import io
 import json
 import logging
+import os
+import sys
 import tempfile
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -21,6 +24,9 @@ from typing import Any, Sequence
 
 VERSION = "12.0.0"
 LOG = logging.getLogger("usiphus.v12")
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from usiphus_common import csv_safe, valid_iso_date  # noqa: E402
 WORKFLOW = ("draft", "in_review", "approved", "published")
 TRANSITIONS = {
     "draft": {"in_review"},
@@ -97,6 +103,14 @@ def load_curriculum(path: Path) -> tuple[str, list[dict[str, Any]]]:
     return specialty, result
 
 
+def tz_timestamp_ok(value: Any) -> bool:
+    try:
+        parsed = datetime.fromisoformat(clean(value).replace("Z", "+00:00"))
+        return parsed.tzinfo is not None and parsed.utcoffset() is not None
+    except ValueError:
+        return False
+
+
 def load_mapping(path: Path, specialty: str, cards: set[str], competencies: set[str]):
     payload = read_json(path)
     if not isinstance(payload, dict) or not isinstance(payload.get("candidates"), list):
@@ -116,6 +130,10 @@ def load_mapping(path: Path, specialty: str, cards: set[str], competencies: set[
             raise ValueError(f"Mapping candidate {i} has unsupported status '{status}'")
         if status != "invalid" and comp.casefold() not in competencies:
             raise ValueError(f"Mapping candidate {i} references an unknown competency")
+        if status == "verified" and (clean(row.get("method")).casefold() != "faculty-approved"
+                                     or not clean(row.get("reviewer")) or not tz_timestamp_ok(row.get("reviewed_at"))):
+            raise ValueError(f"Mapping candidate {i} is 'verified' without faculty-approved provenance "
+                             "(method, reviewer, timezone-aware reviewed_at)")
         key = (card, comp.casefold(), status)
         if key in seen:
             raise ValueError(f"Duplicate mapping candidate: {key}")
@@ -148,11 +166,7 @@ def validate_evidence_audit(record: dict[str, Any]) -> list[str]:
             continue
         target = clean(event.get("to")).casefold()
         actor = clean(event.get("actor"))
-        try:
-            date.fromisoformat(clean(event.get("date")))
-            valid_date = True
-        except ValueError:
-            valid_date = False
+        valid_date = valid_iso_date(clean(event.get("date")))
         if target not in WORKFLOW or target not in TRANSITIONS.get(previous, set()):
             issues.append(f"invalid workflow transition at event {i}: {previous} -> {target}")
         if not actor:
@@ -191,12 +205,14 @@ def load_evidence(path: Path, cards: set[str], as_of: date, max_age_days: int):
             issues.append(f"release blocked: evidence status is {status}, not approved/published")
         if status in {"approved", "published"}:
             raw_date = clean(row.get("reviewed_on"))
-            try:
-                reviewed = date.fromisoformat(raw_date)
-                if (as_of - reviewed).days > max_age_days:
-                    issues.append(f"evidence review is stale (>{max_age_days} days)")
-            except ValueError:
+            if not valid_iso_date(raw_date):
                 issues.append("approved/published evidence requires reviewed_on YYYY-MM-DD")
+            else:
+                reviewed = date.fromisoformat(raw_date)
+                if reviewed > as_of:
+                    issues.append("reviewed_on is in the future")
+                elif (as_of - reviewed).days > max_age_days:
+                    issues.append(f"evidence review is stale (>{max_age_days} days)")
             if not clean(row.get("reviewer")):
                 issues.append("approved/published evidence requires reviewer")
         if status in {"approved", "published"} and not issues:
@@ -219,17 +235,20 @@ def validate_v11(path: Path, specialty: str, competencies: set[str]):
     if not isinstance(learners, list):
         raise ValueError("V11 learner progress must contain a learners list")
     rows = 0
+    pairs: set[tuple[str, str]] = set()
     for learner in learners:
         if not isinstance(learner, dict) or not isinstance(learner.get("competencies"), list):
             raise ValueError("Malformed V11 learner progress record")
         for item in learner["competencies"]:
             if not isinstance(item, dict) or clean(item.get("competency_id")).casefold() not in competencies:
                 raise ValueError("V11 progress references an unknown competency")
+            pairs.add((clean(learner.get("learner_id")), clean(item.get("competency_id")).casefold()))
             rows += 1
-    return {"active_learners": len(learners),
-            "accepted_attempts": int(progress.get("accepted_attempts", 0)),
-            "learner_competency_rows": rows,
-            "limitations": ["V11 learner-level records are not copied into V12 platform summaries."]}
+    summary = {"active_learners": len(learners),
+               "accepted_attempts": int(progress.get("accepted_attempts", 0)),
+               "learner_competency_rows": rows,
+               "limitations": ["V11 learner-level records are not copied into V12 platform summaries."]}
+    return summary, pairs
 
 
 def validate_cohort(path: Path, specialty: str, competencies: set[str]):
@@ -253,7 +272,9 @@ def validate_cohort(path: Path, specialty: str, competencies: set[str]):
             "minimum_cohort_size": payload.get("minimum_cohort_size")}
 
 
-def load_schedule(path: Path, competencies: set[str]):
+def read_schedule(path: Path, competencies: set[str]):
+    """Return (row_count, {(learner_id, competency_id)}) for the V11 review schedule."""
+    pairs: set[tuple[str, str]] = set()
     with path.open("r", encoding="utf-8-sig", newline="") as handle:
         reader = csv.DictReader(handle)
         required = {"learner_id", "competency_id", "next_due_at", "recommended_interval_days", "status"}
@@ -263,8 +284,13 @@ def load_schedule(path: Path, competencies: set[str]):
         for row in reader:
             if clean(row.get("competency_id")).casefold() not in competencies:
                 raise ValueError("Review schedule references an unknown competency")
+            pairs.add((clean(row.get("learner_id")), clean(row.get("competency_id")).casefold()))
             count += 1
-    return count
+    return count, pairs
+
+
+def load_schedule(path: Path, competencies: set[str]):
+    return read_schedule(path, competencies)[0]
 
 
 def atomic_write(path: Path, content: str):
@@ -298,9 +324,11 @@ def run(args) -> int:
     verified, mapping_queue = load_mapping(Path(args.mapping), specialty, card_ids, competency_ids)
     evidence_covered, evidence_findings, evidence_queue, evidence_count = load_evidence(
         Path(args.evidence), card_ids, as_of, args.max_evidence_age_days)
-    learner = validate_v11(Path(args.learner_progress), specialty, competency_ids)
+    learner, progress_pairs = validate_v11(Path(args.learner_progress), specialty, competency_ids)
     cohort = validate_cohort(Path(args.cohort_analytics), specialty, competency_ids)
-    schedule_count = load_schedule(Path(args.review_schedule), competency_ids)
+    schedule_count, schedule_pairs = read_schedule(Path(args.review_schedule), competency_ids)
+    unmatched_schedule = len(schedule_pairs - progress_pairs)
+    schedule_consistent = unmatched_schedule == 0
 
     required = [row for row in curriculum if row["required"]]
     mapped = {cid for values in verified.values() for cid in values}
@@ -317,25 +345,28 @@ def run(args) -> int:
             queue.append({"work_type": "evidence_gap", "item_id": card_id, "card_id": card_id,
                           "competency_id": "", "current_status": "missing",
                           "reason": "No current approved/published evidence claim covers this card"})
-    ready = not gaps and not evidence_findings and len(evidence_covered) == len(card_ids)
+    evidence_ok = not evidence_findings and len(evidence_covered) == len(card_ids)
+    ready = not gaps and evidence_ok and schedule_consistent
     checklist = {
         "release_ready": ready,
         "checks": [
             {"check": "all_required_competencies_have_verified_mappings", "passed": not gaps,
              "detail": f"{len(mapped_required)}/{len(required)} required competencies mapped"},
-            {"check": "all_cards_have_current_approved_evidence", "passed": ready and not gaps,
+            {"check": "all_cards_have_current_approved_evidence", "passed": evidence_ok,
              "detail": f"{len(evidence_covered)}/{len(card_ids)} cards covered by current approved/published evidence"},
             {"check": "v11_learner_progress_integrated", "passed": True,
              "detail": f"{learner['active_learners']} learners; {learner['accepted_attempts']} accepted attempts"},
             {"check": "cohort_suppression_schema_valid", "passed": True,
              "detail": f"{cohort['suppressed_rows']} of {cohort['competency_rows']} competency rows suppressed"},
-            {"check": "review_schedule_integrated", "passed": True,
-             "detail": f"{schedule_count} learner-competency review rows"},
+            {"check": "review_schedule_matches_learner_progress", "passed": schedule_consistent,
+             "detail": f"{schedule_count} review rows; {unmatched_schedule} without a matching learner-progress row"},
         ],
         "blocking_items": [f"Required competency gap: {row['id']}" for row in gaps] +
                           [f"Evidence issue: {row['claim_id']}" for row in evidence_findings] +
                           [f"Card lacks current approved/published evidence: {cid}"
-                           for cid in sorted(card_ids - evidence_covered)],
+                           for cid in sorted(card_ids - evidence_covered)] +
+                          ([] if schedule_consistent else
+                           [f"Review schedule has {unmatched_schedule} row(s) with no matching learner-progress row"]),
         "interpretation": "Software readiness is not clinical validation, educational validity, or proof of learner competence."
     }
     report = {
@@ -365,7 +396,7 @@ def run(args) -> int:
     fields = ["work_type", "item_id", "card_id", "competency_id", "current_status", "reason"]
     writer = csv.DictWriter(queue_buf, fieldnames=fields)
     writer.writeheader()
-    writer.writerows(queue)
+    writer.writerows([{k: csv_safe(v) for k, v in row.items()} for row in queue])
     atomic_write(output / "platform_report.json", json.dumps(report, indent=2, ensure_ascii=False) + "\n")
     atomic_write(output / "faculty_review_queue.csv", queue_buf.getvalue())
     atomic_write(output / "release_checklist.json", json.dumps(checklist, indent=2) + "\n")
@@ -410,63 +441,63 @@ def run_self_test() -> int:
                 {"to": "approved", "actor": "a", "date": "2026-10-04"}]}
             self.assertTrue(validate_evidence_audit(row))
         def test_suppressed_cohort_has_no_metrics(self):
-            with tempfile.TemporaryDirectory() as d:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
                 p = Path(d) / "cohort.json"
                 p.write_text(json.dumps({"specialty":"urology","competencies":[
                     {"competency_id":"U1","suppressed":True,"mean_mastery_estimate":0.8}]}))
                 with self.assertRaises(ValueError):
                     validate_cohort(p, "urology", {"u1"})
         def test_unknown_cohort_competency_rejected(self):
-            with tempfile.TemporaryDirectory() as d:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
                 p = Path(d) / "cohort.json"
                 p.write_text(json.dumps({"specialty":"urology","competencies":[
                     {"competency_id":"BAD","suppressed":False}]}))
                 with self.assertRaises(ValueError):
                     validate_cohort(p, "urology", {"u1"})
         def test_curriculum_requires_specialty(self):
-            with tempfile.TemporaryDirectory() as d:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
                 p = Path(d) / "curriculum.json"
                 p.write_text(json.dumps({"competencies":[{"id":"U1"}]}))
                 with self.assertRaises(ValueError):
                     load_curriculum(p)
         def test_duplicate_competency_rejected(self):
-            with tempfile.TemporaryDirectory() as d:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
                 p = Path(d) / "curriculum.json"
                 p.write_text(json.dumps({"specialty":"urology","competencies":[
                     {"id":"U1"},{"id":"u1"}]}))
                 with self.assertRaises(ValueError):
                     load_curriculum(p)
         def test_card_specialty_mismatch_rejected(self):
-            with tempfile.TemporaryDirectory() as d:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
                 p = Path(d) / "cards.json"
                 p.write_text(json.dumps([{"card_id":"c1","specialty":"surgery"}]))
                 with self.assertRaises(ValueError):
                     load_cards(p, "urology")
         def test_verified_mapping_only_counts(self):
-            with tempfile.TemporaryDirectory() as d:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
                 p = Path(d) / "mapping.json"
                 p.write_text(json.dumps({"specialty":"urology","candidates":[
-                    {"card_id":"c1","competency_id":"U1","status":"verified"},
+                    {"card_id":"c1","competency_id":"U1","status":"verified","method":"faculty-approved","reviewer":"Faculty","reviewed_at":"2026-10-31T12:00:00Z"},
                     {"card_id":"c1","competency_id":"U2","status":"suggested"}]}))
                 verified, queue = load_mapping(p,"urology",{"c1"},{"u1","u2"})
                 self.assertEqual(verified,{"c1":{"u1"}})
                 self.assertEqual(len(queue),1)
         def test_unknown_mapping_reference_rejected(self):
-            with tempfile.TemporaryDirectory() as d:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
                 p = Path(d) / "mapping.json"
                 p.write_text(json.dumps({"specialty":"urology","candidates":[
                     {"card_id":"missing","competency_id":"U1","status":"verified"}]}))
                 with self.assertRaises(ValueError):
                     load_mapping(p,"urology",{"c1"},{"u1"})
         def test_evidence_claim_unknown_card_flagged(self):
-            with tempfile.TemporaryDirectory() as d:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
                 p = Path(d) / "evidence.json"
                 p.write_text(json.dumps({"claims":[{"claim_id":"x","card_id":"missing",
                     "claim":"Claim","reference":"Ref","source_type":"guideline","status":"draft"}]}))
                 _, findings, _, _ = load_evidence(p,{"c1"},date(2026,10,31),730)
                 self.assertTrue(findings)
         def test_stale_approved_evidence_flagged(self):
-            with tempfile.TemporaryDirectory() as d:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
                 p = Path(d) / "evidence.json"
                 p.write_text(json.dumps({"claims":[{"claim_id":"x","card_id":"c1",
                     "claim":"Claim","reference":"Ref","source_type":"guideline","status":"approved",
@@ -477,7 +508,7 @@ def run_self_test() -> int:
                 self.assertFalse(covered)
                 self.assertTrue(findings)
         def test_draft_evidence_blocks_release(self):
-            with tempfile.TemporaryDirectory() as d:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
                 p = Path(d) / "evidence.json"
                 p.write_text(json.dumps({"claims":[{"claim_id":"x","card_id":"c1",
                     "claim":"Claim","reference":"Ref","source_type":"guideline","status":"draft"}]}))
@@ -485,25 +516,25 @@ def run_self_test() -> int:
                 self.assertFalse(covered)
                 self.assertTrue(findings)
         def test_privacy_suppression_validated(self):
-            with tempfile.TemporaryDirectory() as d:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
                 p = Path(d) / "cohort.json"
                 p.write_text(json.dumps({"specialty":"urology","competencies":[
                     {"competency_id":"U1","suppressed":True,"suppression_reason":"small"}]}))
                 result = validate_cohort(p,"urology",{"u1"})
                 self.assertEqual(result["suppressed_rows"],1)
         def test_schedule_schema(self):
-            with tempfile.TemporaryDirectory() as d:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
                 p = Path(d) / "schedule.csv"
                 p.write_text("learner_id,competency_id,next_due_at,recommended_interval_days,status\nid,U1,2026-11-01,1,review_due\n")
                 self.assertEqual(load_schedule(p,{"u1"}),1)
         def test_schedule_unknown_competency_rejected(self):
-            with tempfile.TemporaryDirectory() as d:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
                 p = Path(d) / "schedule.csv"
                 p.write_text("learner_id,competency_id,next_due_at,recommended_interval_days,status\nid,BAD,2026-11-01,1,review_due\n")
                 with self.assertRaises(ValueError):
                     load_schedule(p,{"u1"})
         def test_source_hash_deterministic(self):
-            with tempfile.TemporaryDirectory() as d:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
                 p = Path(d) / "source.json"
                 p.write_text('{"a":1}')
                 self.assertEqual(sha256(p),sha256(p))
@@ -542,8 +573,8 @@ def main(argv: Sequence[str] | None = None):
         LOG.error("--max-evidence-age-days must be positive")
         return 2
     try:
-        if args.as_of:
-            date.fromisoformat(args.as_of)
+        if args.as_of and not valid_iso_date(args.as_of):
+            raise ValueError("--as-of must be a strict YYYY-MM-DD date")
         return run(args)
     except (ValueError, OSError, TypeError) as exc:
         LOG.error("%s", exc)
