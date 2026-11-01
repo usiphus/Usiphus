@@ -22,6 +22,7 @@ Usiphus helps structure medical teaching material and provides explicit workflow
 | **V17** | Stable data contracts, explicit migrations, curriculum quality intelligence, change-impact reports, dashboard and faculty pilot workflow |
 | **V18** | Evidence lifecycle operations, source-change detection, prioritized faculty review, and evidence-to-learning impact graph |
 | **V19** | Assessment blueprinting, MCQ/OSCE authoring checks, original challenge cases, and rights-aware external challenge directory |
+| **V20** | Privacy-aware feedback-to-action workflows, versioned faculty authoring, review diffs and release previews |
 
 ## Quick start
 
@@ -85,6 +86,14 @@ Duplicate prompts are candidates only and are never automatically merged. Item s
 
 See docs/V19_ASSESSMENT_OSCE_CHALLENGE_STUDIO.md and docs/V19_FACULTY_PILOT_PROTOCOL.md.
 
+## V20 — Feedback-to-Action and Faculty Authoring
+
+V20 links purpose-defined faculty/learner feedback to owned actions, due dates, completion evidence and follow-up outcomes. It supports versioned authoring for cards, cases, objectives, evidence links, mappings, challenge packs, OSCE stations and MCQs; comments bind to exact versions, with field-level diffs and a release preview.
+
+Reports do not echo raw feedback or comment text. Basic personal-data pattern checks are warnings, not de-identification. Configure restricted access, notice/consent where applicable, retention/deletion and secure storage before real feedback is processed. Confidence and satisfaction are not measures of learning or competence. The core generates structured JSON, CSV and static HTML; PDF/PPTX adapters are deferred.
+
+See docs/V20_FEEDBACK_TO_ACTION_AND_FACULTY_AUTHORING.md and docs/V20_FACULTY_PILOT_PROTOCOL.md.
+
 ## V17 outputs
 
 - v17_curriculum_quality.json: verified coverage, gaps, candidates, conflicts and breakdowns.
@@ -101,13 +110,15 @@ See docs/V17_STABLE_CONTRACTS_AND_CURRICULUM_INTELLIGENCE.md and docs/V17_PILOT_
 
 ## Privacy and governance
 
-Learner progress, item-level response data and review schedules can be sensitive educational records. V19 accepts aggregate item counts only, not learner-level response rows or identifiers. Apply access controls, secure transfer/backup, and retention policies. UUID formatting is not anonymization. V14–V19 do not authenticate faculty or automatically approve evidence, mappings, clinical content, assessment items or curriculum decisions.
+Learner progress, item-level response data and review schedules can be sensitive educational records. V19 accepts aggregate item counts only, not learner-level response rows or identifiers. Apply access controls, secure transfer/backup, and retention policies. UUID formatting is not anonymization. V14–V20 do not authenticate faculty or automatically approve evidence, mappings, clinical content, assessment items or curriculum decisions.
 
 ## Documentation
 
 - Product and engineering roadmap: ROADMAP.md
 - V19 assessment/OSCE/challenge studio: docs/V19_ASSESSMENT_OSCE_CHALLENGE_STUDIO.md
 - V19 faculty pilot protocol: docs/V19_FACULTY_PILOT_PROTOCOL.md
+- V20 feedback-to-action and faculty authoring: docs/V20_FEEDBACK_TO_ACTION_AND_FACULTY_AUTHORING.md
+- V20 faculty pilot protocol: docs/V20_FACULTY_PILOT_PROTOCOL.md
 - V18 evidence lifecycle operations: docs/V18_EVIDENCE_LIFECYCLE_OPERATIONS.md
 - V17 stable contracts and curriculum intelligence: docs/V17_STABLE_CONTRACTS_AND_CURRICULUM_INTELLIGENCE.md
 - V17 faculty pilot protocol: docs/V17_PILOT_PROTOCOL.md

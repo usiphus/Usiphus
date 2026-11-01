@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-11-01T00:00:00Z",
+  "feedback": [
+    {
+      "feedback_id": "FB-SYN-001",
+      "role": "faculty",
+      "purpose": "Improve a synthetic urology teaching card",
+      "notice_acknowledged": true,
+      "visibility": "faculty_only",
+      "submitted_at": "2026-11-01T10:00:00Z",
+      "retention_until": "2027-05-01T00:00:00Z",
+      "text": "Synthetic faculty feedback: add a clearer explanation of the differential.",
+      "linked_artifact_id": "URO-CARD-001",
+      "confidence": 4
+    }
+  ],
+  "actions": [
+    {
+      "action_id": "ACT-SYN-001",
+      "feedback_ids": [
+        "FB-SYN-001"
+      ],
+      "title": "Clarify differential explanation",
+      "next_step": "Draft a revised explanation and request faculty review",
+      "owner_label": "faculty-editor",
+      "status": "open",
+      "created_at": "2026-11-01T11:00:00Z",
+      "due_at": "2026-11-08T11:00:00Z"
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact_id": "URO-CARD-001",
+      "version": "1.0.0",
+      "artifact_type": "card",
+      "title": "Synthetic urinary retention teaching card",
+      "status": "draft",
+      "created_by_label": "faculty-author",
+      "content": {
+        "learning_objective": "Explain the initial assessment of a synthetic acute urinary retention case.",
+        "body": "Synthetic educational text; faculty must add and verify evidence references.",
+        "evidence_refs": [
+          "SYNTHETIC-SOURCE-001"
+        ],
+        "curriculum_objectives": [
+          "URO-RET-01"
+        ]
+      }
+    }
+  ],
+  "comments": [
+    {
+      "comment_id": "COM-SYN-001",
+      "artifact_id": "URO-CARD-001",
+      "version": "1.0.0",
+      "author_label": "faculty-reviewer",
+      "text": "Please verify the evidence reference and add a concise differential explanation.",
+      "created_at": "2026-11-01T12:00:00Z"
+    }
+  ]
+}
