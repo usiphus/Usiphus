@@ -199,7 +199,7 @@ def apply_complementary_suppression(cohort: list[dict[str,Any]], cohort_values: 
                 a,b=members[left],members[right]
                 if not (a & b) or a == b:
                     continue
-                if len(a-b) < k or len(b-a) < k:
+                if (0 < len(a-b) < k) or (0 < len(b-a) < k):
                     victim=left
                     break
             if victim:
@@ -383,6 +383,12 @@ def run_self_test():
             _,cohort,_=build_analytics("urology",self.comps,self.map,events,{},2,365,self.cfg,self.now)
             row=next(x for x in cohort["competencies"] if x["competency_id"]=="U1")
             self.assertFalse(row["suppressed"]); self.assertEqual(row["learner_count"],2)
+        def test_overlapping_non_nested_cohorts_are_suppressed(self):
+            rows=[{"competency_id":cid,"title":cid,"domain":"D","suppressed":False} for cid in ("A","B")]
+            values={"A":[{"lid":str(i)} for i in (1,2,3,4,5,6)],
+                    "B":[{"lid":str(i)} for i in (1,2,3,4,5,7)]}
+            self.assertEqual(apply_complementary_suppression(rows,values,5),1)
+            self.assertEqual(sum(bool(row["suppressed"]) for row in rows),1)
         def test_unmapped_attempt_excluded(self):
             learner,_,_=build_analytics("urology",self.comps,{"card-1":{"U1"}},self.events,{},2,365,self.cfg,self.now)
             self.assertEqual(learner["excluded_events"]["excluded_unmapped"],1)
