@@ -17,14 +17,32 @@ Usiphus helps structure medical teaching material and provides explicit workflow
 | V12 | Integrated specialty report, faculty queue, and release checklist |
 | V13 | Cross-artifact validation, manifest integrity, and selected privacy checks |
 | **V14** | Configuration-driven release orchestration, regression gate, provenance manifest, and atomic bundle publication |
+| **V15** | Evidence-source registry, supersession checks, reviewer quorum, hash-chained audit events, and source-to-card impact index |
 
 ## Quick start
 
-Requires Python 3.11 or later. The core project uses the Python standard library only.
+Requires Python 3.11 or later. The core project uses the Python standard library only. CI is configured for Python 3.11–3.13 on Linux, macOS, and Windows; see the [workflow](.github/workflows/ci.yml). Configuring a matrix does not mean every job has already passed.
 
-Run version self-tests:
+## Recommended workflows
+
+- **New integrated release:** use V14 to run the release pipeline and validation:
+
+  ```bash
+  python usiphus_v14.py --config path/to/v14.config.json
+  ```
+
+- **Independent source governance:** use V15 to analyze registered sources and claims:
+
+  ```bash
+  python usiphus_v15.py --sources sources.json --claims claims.json --require-registered-sources --output-dir build-v15
+  ```
+
+- **Individual engines:** V7–V13 remain available as standalone tools for their specific workflows. Run their self-tests before relying on changes.
+
+Run all version self-tests:
 
 ```bash
+python usiphus_v7.py --self-test
 python usiphus_v8.py --self-test
 python usiphus_v9.py --self-test
 python usiphus_v10.py --self-test
@@ -32,6 +50,8 @@ python usiphus_v11.py --self-test
 python usiphus_v12.py --self-test
 python usiphus_v13.py --self-test
 python usiphus_v14.py --self-test
+python usiphus_v15.py --self-test
+python -m unittest discover -s tests -v
 ```
 
 For an integrated release:
@@ -64,3 +84,4 @@ Learner progress and review schedules contain pseudonymous learner identifiers a
 - [V14 unified release platform](docs/V14_UNIFIED_RELEASE_PLATFORM.md)
 - [V13 validation engine](docs/V13_VALIDATION_ENGINE.md)
 - [V12 integrated platform](docs/V12_INTEGRATED_PLATFORM.md)
+- [Safety, privacy, and security checklist](docs/SAFETY_AND_PRIVACY.md)
