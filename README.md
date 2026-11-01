@@ -21,6 +21,7 @@ Usiphus helps structure medical teaching material and provides explicit workflow
 | **V16** | One governed release: V15 evidence governance integrated into V14 orchestration |
 | **V17** | Stable data contracts, explicit migrations, curriculum quality intelligence, change-impact reports, dashboard and faculty pilot workflow |
 | **V18** | Evidence lifecycle operations, source-change detection, prioritized faculty review, and evidence-to-learning impact graph |
+| **V19** | Assessment blueprinting, MCQ/OSCE authoring checks, original challenge cases, and rights-aware external challenge directory |
 
 ## Quick start
 
@@ -46,6 +47,11 @@ Requires Python 3.11 or later. The core project uses the Python standard library
 
     python usiphus_v15.py --sources sources.json --claims claims.json --require-registered-sources --output-dir build-v15
 
+**Assessment, OSCE and challenge studio (V19):**
+
+    python usiphus_v19.py --self-test
+    python usiphus_v19.py --input examples/v19/studio.json --output-dir build-v19
+
 ## Tests
 
 Run all engine self-tests and unit/integration tests:
@@ -60,6 +66,8 @@ Run all engine self-tests and unit/integration tests:
     python usiphus_v14.py --self-test
     python usiphus_v15.py --self-test
     python usiphus_v17.py --self-test
+    python usiphus_v18.py --self-test
+    python usiphus_v19.py --self-test
     python -m unittest discover -s tests -v
 
 ## V18 — Evidence lifecycle operations
@@ -68,6 +76,14 @@ Run all engine self-tests and unit/integration tests:
     python usiphus_v18.py --sources examples/v18/sources.json --claims examples/v18/claims.json --cards examples/v18/cards.json --assessments examples/v18/assessments.json --osce examples/v18/osce.json --release-links examples/v18/releases.json --as-of 2026-11-01T00:00:00Z --output-dir build-v18
 
 V18 detects source metadata/content changes, duplicate-source candidates, stale reviews and jurisdiction mismatches; prioritizes human review; and traces source-to-claim-to-card-to-competency-to-assessment/OSCE impact. It is offline by default and never auto-edits clinical content.
+
+## V19 — Assessment, OSCE and Challenge Studio
+
+V19 validates blueprint links, MCQ structure and rationales, OSCE station materials, original challenge case completeness, external directory rights metadata and optional aggregate item statistics. It writes JSON/Markdown reports and a CSV review queue. Structural errors block progression; warnings require human review. A clean report means **ready for faculty review**, not approved.
+
+Duplicate prompts are candidates only and are never automatically merged. Item statistics are descriptive only; the tool does not infer validity, reliability, fairness or learner competence. External directory entries default to link-out; embedding requires explicitly licensed or permission-granted rights. V19 does not scrape or reproduce third-party challenge content.
+
+See docs/V19_ASSESSMENT_OSCE_CHALLENGE_STUDIO.md and docs/V19_FACULTY_PILOT_PROTOCOL.md.
 
 ## V17 outputs
 
@@ -85,11 +101,14 @@ See docs/V17_STABLE_CONTRACTS_AND_CURRICULUM_INTELLIGENCE.md and docs/V17_PILOT_
 
 ## Privacy and governance
 
-Learner progress and review schedules contain pseudonymous learner identifiers and remain sensitive educational records. Apply access controls, secure transfer/backup, and retention policies. UUID formatting is not anonymization. V14–V17 do not authenticate faculty or automatically approve evidence, mappings, clinical content or curriculum decisions.
+Learner progress, item-level response data and review schedules can be sensitive educational records. V19 accepts aggregate item counts only, not learner-level response rows or identifiers. Apply access controls, secure transfer/backup, and retention policies. UUID formatting is not anonymization. V14–V19 do not authenticate faculty or automatically approve evidence, mappings, clinical content, assessment items or curriculum decisions.
 
 ## Documentation
 
 - Product and engineering roadmap: ROADMAP.md
+- V19 assessment/OSCE/challenge studio: docs/V19_ASSESSMENT_OSCE_CHALLENGE_STUDIO.md
+- V19 faculty pilot protocol: docs/V19_FACULTY_PILOT_PROTOCOL.md
+- V18 evidence lifecycle operations: docs/V18_EVIDENCE_LIFECYCLE_OPERATIONS.md
 - V17 stable contracts and curriculum intelligence: docs/V17_STABLE_CONTRACTS_AND_CURRICULUM_INTELLIGENCE.md
 - V17 faculty pilot protocol: docs/V17_PILOT_PROTOCOL.md
 - V16 governed release: docs/V16_GOVERNED_RELEASE.md
