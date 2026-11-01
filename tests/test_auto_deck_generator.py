@@ -36,9 +36,31 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
             cards = generator.generate_topic_cards(
                 {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
-                model="test-model", api_key="test", count=1)
+                model="test-model", api_key="test", count=1, max_output_tokens=1024)
         self.assertEqual(cards[0]["card_id"], "AI-CATARACT-001")
         self.assertEqual(cards[0]["evidence_status"], "unreviewed")
+
+    def test_cli_uses_curriculum_defaults(self):
+        args = generator.parse_args(["--generate", "--curriculum", "curriculum.json"])
+        self.assertIsNone(args.specialty)
+        self.assertIsNone(args.level)
+        self.assertEqual(args.max_api_calls, 11)
+        self.assertEqual(args.max_output_tokens, 2500)
+
+    def test_generation_rejects_more_cards_than_requested(self):
+        response = {"choices": [{"message": {"content": json.dumps({"cards": [
+            {"prompt": "Q1?", "answer": "Answer one is sufficiently long."},
+            {"prompt": "Q2?", "answer": "Answer two is sufficiently long."}
+        ]})}}]}
+        class FakeResponse:
+            def __enter__(self): return self
+            def __exit__(self, *args): return False
+            def read(self, _limit): return json.dumps(response).encode()
+        with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
+            with self.assertRaisesRegex(ValueError, "requested at most 1"):
+                generator.generate_topic_cards(
+                    {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
+                    model="test-model", api_key="test", count=1, max_output_tokens=1024)
 
 
 if __name__ == "__main__":
