@@ -91,6 +91,22 @@ class V18Tests(unittest.TestCase):
         with self.assertRaises(v18.V18Error):
             self.run_analysis(decisions=[decision])
 
+    def test_claim_decision_attaches_to_claim_node(self):
+        decision = {"target_type": "claim", "target_id": "CL-1",
+                    "decision": "accepted", "reviewer_label": "faculty-label",
+                    "rationale": "Reviewed in context", "decided_at": "2026-10-31T10:00:00Z"}
+        report = self.run_analysis(decisions=[decision])
+        node = next(x for x in report["impact_graph"]["nodes"] if x["id"] == "claim:CL-1")
+        self.assertEqual(node["faculty_decision"]["decision"], "accepted")
+
+    def test_impact_graph_reaches_release(self):
+        report = self.run_analysis(
+            cards=[{"card_id": "CARD-1", "competency_ids": ["U1"]}],
+            release_links=[{"release_id": "REL-1", "artifact_ids": ["CARD-1"]}],
+        )
+        self.assertTrue(any(x["id"] == "release:REL-1" for x in report["impact_graph"]["nodes"]))
+        self.assertEqual(report["source_impact"]["SRC-1"]["releases"], ["REL-1"])
+
     def test_decision_audit_chain_is_linked(self):
         decision = {"target_type": "claim", "target_id": "CL-1",
                     "decision": "deferred", "reviewer_label": "faculty-label",

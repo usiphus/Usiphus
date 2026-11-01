@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "releases": [
+    {
+      "release_id": "SYNTH-RELEASE-01",
+      "artifact_ids": [
+        "URO-CARD-001",
+        "URO-MCQ-001",
+        "URO-OSCE-001"
+      ]
+    }
+  ]
+}

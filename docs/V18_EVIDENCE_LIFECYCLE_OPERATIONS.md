@@ -5,7 +5,7 @@ V18 adds a local-first operational layer over the V15 source/claim registry and 
 ## Quick start
 
     python usiphus_v18.py --self-test
-    python usiphus_v18.py --sources examples/v18/sources.json --claims examples/v18/claims.json --cards examples/v18/cards.json --assessments examples/v18/assessments.json --osce examples/v18/osce.json --as-of 2026-11-01T00:00:00Z --output-dir build-v18
+    python usiphus_v18.py --sources examples/v18/sources.json --claims examples/v18/claims.json --cards examples/v18/cards.json --assessments examples/v18/assessments.json --osce examples/v18/osce.json --release-links examples/v18/releases.json --as-of 2026-11-01T00:00:00Z --output-dir build-v18
     python usiphus_v18.py --sources examples/v18/sources.json --claims examples/v18/claims.json --previous-state build-v18/v18_state.json --output-dir build-v18-next
 
 ## Inputs
@@ -14,17 +14,18 @@ V18 adds a local-first operational layer over the V15 source/claim registry and 
 - `--claims`: V15-style claim registry with source references and card IDs. Legacy free-text references are surfaced for manual registration.
 - `--cards`, `--assessments`, `--osce`: V17-compatible explicit links used to trace downstream impact.
 - `--previous-state`: prior `v18_state.json` used for deterministic version, status, URL, metadata and content-hash comparisons.
+- `--release-links`: optional JSON containing `releases` with `release_id` and explicit `artifact_ids`; links graph nodes to releases.
 - `--decisions`: optional JSON containing explicit faculty decision records. Decisions require target type/ID, accepted/rejected/deferred, reviewer label, rationale and timezone-aware timestamp. Labels are not authenticated identities.
 - `--as-of`: timezone-aware timestamp for reproducible review-age calculations.
 
-A source may include a relative `content_path`. V18 resolves it beneath the source registry's directory, rejects path traversal, and hashes the local file. Alternatively, provide a SHA-256 hash from a controlled intake process. V18 never downloads URLs or follows redirects automatically. Retrieval time, URL, publisher, jurisdiction, version and local content hash are provenance metadata; they do not establish source authority or clinical currentness.
+A source may include a canonical identifier (for example, a DOI) and a relative `content_path`. V18 resolves it beneath the source registry's directory, rejects path traversal, and hashes the local file. Alternatively, provide a SHA-256 hash from a controlled intake process. V18 never downloads URLs or follows redirects automatically. Retrieval time, URL, publisher, jurisdiction, version and local content hash are provenance metadata; they do not establish source authority or clinical currentness.
 
 ## Outputs
 
 - `v18_evidence_lifecycle_report.json/.md`: summary, findings, changes, decisions and policy boundaries.
 - `v18_review_queue.json/.csv`: prioritized review candidates with affected artifacts and rationale.
 - `v18_source_changes.json`: changed fields and duplicate/canonical-source candidates.
-- `v18_source_impact_graph.json`: source → claim → card → competency → assessment/OSCE links.
+- `v18_source_impact_graph.json`: source → claim → card → competency → assessment/OSCE → release links where explicit artifact IDs are supplied.
 - `v18_state.json`: current source fingerprints for the next comparison.
 - `v18_decision_audit.json`: hash-linked decision event sequence.
 - `v18_manifest.json`: SHA-256 hashes of exact inputs and generated outputs.

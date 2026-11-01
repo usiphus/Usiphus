@@ -362,7 +362,7 @@ def analyze(sources: list[dict[str, Any]], claims: list[dict[str, Any]], *,
         old = previous.get(sid)
         source = source_by_id[sid]
         impact = downstream.get(sid, {"claims": [], "cards": [], "competencies": [],
-                                       "assessment_items": [], "osce_stations": []})
+                                       "assessment_items": [], "osce_stations": [], "releases": []})
         if old is None:
             change_events.append({"source_id": sid, "change_type": "new_source",
                                   "fields": ["source_registered"], "before": {}, "after": fingerprint})

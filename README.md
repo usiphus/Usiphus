@@ -65,7 +65,7 @@ Run all engine self-tests and unit/integration tests:
 ## V18 — Evidence lifecycle operations
 
     python usiphus_v18.py --self-test
-    python usiphus_v18.py --sources examples/v18/sources.json --claims examples/v18/claims.json --cards examples/v18/cards.json --assessments examples/v18/assessments.json --osce examples/v18/osce.json --as-of 2026-11-01T00:00:00Z --output-dir build-v18
+    python usiphus_v18.py --sources examples/v18/sources.json --claims examples/v18/claims.json --cards examples/v18/cards.json --assessments examples/v18/assessments.json --osce examples/v18/osce.json --release-links examples/v18/releases.json --as-of 2026-11-01T00:00:00Z --output-dir build-v18
 
 V18 detects source metadata/content changes, duplicate-source candidates, stale reviews and jurisdiction mismatches; prioritizes human review; and traces source-to-claim-to-card-to-competency-to-assessment/OSCE impact. It is offline by default and never auto-edits clinical content.
 
