@@ -28,6 +28,24 @@ Usiphus helps structure medical teaching material and provides explicit workflow
 
 Requires Python 3.11 or later. The core project uses the Python standard library only. CI is configured for Python 3.11–3.13 on Linux, macOS and Windows; see the workflow in .github/workflows/ci.yml. Configuring a matrix does not mean every job has already passed.
 
+## Automated multi-format deck generation
+
+Generate one canonical specialty card set and export it to **Anki (.apkg) and PowerPoint (.pptx)** in one run. See [the full generator guide](docs/AUTOMATED_DECK_GENERATOR.md) and the [ophthalmology curriculum example](examples/ophthalmology/curriculum.json).
+
+Optional exporters:
+
+    python -m pip install genanki python-pptx
+
+OpenAI generation is explicitly opt-in and separately billable from ChatGPT. Set `OPENAI_API_KEY` in the environment; never commit it. Then:
+
+    python usiphus_auto_deck.py --generate --curriculum examples/ophthalmology/curriculum.json --formats both --output-dir build/ophthalmology
+
+For a no-API local export from an existing card JSON file:
+
+    python usiphus_auto_deck.py --cards ophthalmology_cards.json --formats both --output-dir build/ophthalmology
+
+The generator writes the shared card source, quality report, Anki package and PowerPoint. Generated clinical material remains unreviewed until a qualified faculty member verifies every claim, answer and reference. Token limits are not a hard API spending cap.
+
 ## Recommended workflows
 
 **Governed release (V16):**
@@ -92,8 +110,6 @@ V20 links purpose-defined faculty/learner feedback to owned actions, due dates, 
 
 Reports do not echo raw feedback or comment text. Basic personal-data pattern checks are warnings, not de-identification. Configure restricted access, notice/consent where applicable, retention/deletion and secure storage before real feedback is processed. Confidence and satisfaction are not measures of learning or competence. The core generates structured JSON, CSV and static HTML; PDF/PPTX adapters are deferred.
 
-See docs/V20_FEEDBACK_TO_ACTION_AND_FACULTY_AUTHORING.md and docs/V20_FACULTY_PILOT_PROTOCOL.md.
-
 ## V17 outputs
 
 - v17_curriculum_quality.json: verified coverage, gaps, candidates, conflicts and breakdowns.
@@ -106,8 +122,6 @@ See docs/V20_FEEDBACK_TO_ACTION_AND_FACULTY_AUTHORING.md and docs/V20_FACULTY_PI
 
 V17 also generates a competency-to-objective/card/assessment/OSCE dependency graph and exact normalized-prompt duplicate candidates for human review.
 
-See docs/V17_STABLE_CONTRACTS_AND_CURRICULUM_INTELLIGENCE.md and docs/V17_PILOT_PROTOCOL.md.
-
 ## Privacy and governance
 
 Learner progress, item-level response data and review schedules can be sensitive educational records. V19 accepts aggregate item counts only, not learner-level response rows or identifiers. Apply access controls, secure transfer/backup, and retention policies. UUID formatting is not anonymization. V14–V20 do not authenticate faculty or automatically approve evidence, mappings, clinical content, assessment items or curriculum decisions.
@@ -115,6 +129,7 @@ Learner progress, item-level response data and review schedules can be sensitive
 ## Documentation
 
 - Product and engineering roadmap: ROADMAP.md
+- Automated Anki and PowerPoint generator: docs/AUTOMATED_DECK_GENERATOR.md
 - V19 assessment/OSCE/challenge studio: docs/V19_ASSESSMENT_OSCE_CHALLENGE_STUDIO.md
 - V19 faculty pilot protocol: docs/V19_FACULTY_PILOT_PROTOCOL.md
 - V20 feedback-to-action and faculty authoring: docs/V20_FEEDBACK_TO_ACTION_AND_FACULTY_AUTHORING.md
