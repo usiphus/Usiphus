@@ -21,7 +21,7 @@ Usiphus helps structure medical teaching material and provides explicit workflow
 
 ## Quick start
 
-Requires Python 3.11 or later. The core project uses the Python standard library only. CI is configured for Python 3.11–3.13 on Linux, macOS, and Windows; see the [workflow](.github/workflows/ci.yml). Configuring a matrix does not mean every job has already passed.
+Requires Python 3.11 or later. The core project uses the Python standard library only. CI is configured for Python 3.11–3.13 on Linux, macOS and Windows; see the [workflow](.github/workflows/ci.yml). Configuring a matrix does not mean every job has already passed.
 
 ## Recommended workflows
 
@@ -81,6 +81,8 @@ Learner progress and review schedules contain pseudonymous learner identifiers a
 
 ## Documentation
 
+- [Product and engineering roadmap](ROADMAP.md)
+- [V15 evidence governance](docs/V15_EVIDENCE_GOVERNANCE.md)
 - [V14 unified release platform](docs/V14_UNIFIED_RELEASE_PLATFORM.md)
 - [V13 validation engine](docs/V13_VALIDATION_ENGINE.md)
 - [V12 integrated platform](docs/V12_INTEGRATED_PLATFORM.md)
