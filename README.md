@@ -67,7 +67,7 @@ python usiphus_v14.py --config path/to/v14.config.json
 
 Paths in the configuration are relative to the config file. The V16 implementation retains the usiphus_v14.py entry point and V14 config compatibility. When V15 source and claim files are configured, they are snapshotted and evaluated as an explicit stage; strict mode requires registered sources, while legacy mode permits documented free-text references during migration.
 
-## V14 outputs
+## V16 governed release outputs
 
 - `v12/`: platform report, faculty review queue, release checklist, and manifest.
 - `v13_validation_report.json`: V13 software-assurance report.
@@ -79,7 +79,7 @@ Exit code 0 means the release is ready (or ready with explicitly non-blocking V1
 
 ## Privacy and governance
 
-Learner progress and review schedules contain pseudonymous learner identifiers and remain sensitive educational records. Apply access controls, secure transfer/backup, and retention policies. UUID formatting is not anonymization. V14 does not authenticate faculty or automatically approve evidence, mappings, or clinical content.
+Learner progress and review schedules contain pseudonymous learner identifiers and remain sensitive educational records. Apply access controls, secure transfer/backup, and retention policies. UUID formatting is not anonymization. V14/V16 do not authenticate faculty or automatically approve evidence, mappings, or clinical content.
 
 ## Documentation
 

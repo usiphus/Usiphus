@@ -293,6 +293,7 @@ def _run_release_locked(cfg,config_path,target):
         checklist=json.loads((out/"release_checklist.json").read_text(encoding="utf-8"))
         v12_ready=checklist.get("release_ready") is True
         v15_status=None
+        v15_result=None
         if 15 in engines:
             v15=engines[15]
             verifier=v15.verifier_from_path(str(v15_staged["v15_audit_trusted_keys"]) if "v15_audit_trusted_keys" in v15_staged else os.environ.get(v15.TRUSTED_KEYS_ENV))
@@ -318,6 +319,13 @@ def _run_release_locked(cfg,config_path,target):
                  "release_status":status,"v12_release_ready":v12_ready,"v15_governance_status":v15_status,"v13_validation_status":"passed",
                  "v15_evidence_mode":cfg["v15_evidence_mode"] if cfg.get("v15") else "not_configured",
                  "v15_block_on_failure":cfg.get("v15_block_on_failure",True),
+                 "v15_governance":{"status":v15_status,
+                     "source_count":v15_result["source_count"] if v15_result else None,
+                     "claim_count":v15_result["claim_count"] if v15_result else None,
+                     "legacy_reference_claims":v15_result["legacy_reference_claims"] if v15_result else None,
+                     "finding_count":len(v15_result["findings"]) if v15_result else None,
+                     "impact_source_count":len(v15_result["impact_index"]) if v15_result else None,
+                     "findings":v15_result["findings"] if v15_result else []},
                  "generated_at":now,"stages":stages,
                  "boundary":"Software status only; not clinical approval, educational validity, competence, anonymization, or legal compliance."}
         write_json(stage/"release_summary.json",summary)
@@ -326,7 +334,17 @@ def _run_release_locked(cfg,config_path,target):
         report += [f"| {x['stage']} | {x['status']} |" for x in stages]
         if 15 in engines:
             report += ["",f"- V15 evidence mode: **{cfg['v15_evidence_mode']}**",
-                       f"- V15 mandatory failure gate: **{cfg.get('v15_block_on_failure',True)}**"]
+                       f"- V15 mandatory failure gate: **{cfg.get('v15_block_on_failure',True)}**",
+                       "", "## V15 governance findings"]
+            if v15_result["findings"]:
+                report += [f"- **{row['kind']} {row['id']}**: {'; '.join(row['issues'])}"
+                           for row in v15_result["findings"]]
+            else:
+                report.append("- No source or claim metadata findings.")
+            report += ["", f"- Registered sources: {v15_result['source_count']}",
+                       f"- Claims: {v15_result['claim_count']}",
+                       f"- Legacy references: {v15_result['legacy_reference_claims']}",
+                       f"- Source impact entries: {len(v15_result['impact_index'])}"]
         report += ["","Automated checks do not establish clinical truth, educational effectiveness,",
                    "learner competence, anonymization, or legal/institutional compliance.",
                    "Qualified faculty review remains mandatory.",""]
@@ -354,6 +372,7 @@ def _run_release_locked(cfg,config_path,target):
                 "v15_evidence_mode":cfg["v15_evidence_mode"] if cfg.get("v15") else "not_configured",
                 "v15_block_on_failure":cfg.get("v15_block_on_failure",True),
                 "v15_minimum_reviewers":cfg["v15_minimum_reviewers"] if cfg.get("v15") else None,
+                "v15_require_registered_sources":cfg["v15_require_registered_sources"] if cfg.get("v15") else None,
                 "v15_require_signed_audit":cfg["v15_require_signed_audit"] if cfg.get("v15") else None,
                 "v15_require_audit_anchor":cfg["v15_require_audit_anchor"] if cfg.get("v15") else None,
                 "max_evidence_age_days":cfg["max_evidence_age_days"],
