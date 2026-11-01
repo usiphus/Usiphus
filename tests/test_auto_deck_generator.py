@@ -62,6 +62,23 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
                     {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
                     model="test-model", api_key="test", count=1, max_output_tokens=1024)
 
+    def test_api_call_limit_blocks_before_network_request(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "curriculum.json"
+            path.write_text(json.dumps({
+                "specialty": "ophthalmology",
+                "topics": [{"name": "A"}, {"name": "B"}]
+            }))
+            args = generator.parse_args([
+                "--generate", "--curriculum", str(path),
+                "--max-api-calls", "1", "--output-dir", str(Path(tmp) / "out")
+            ])
+            with patch.dict("os.environ", {"OPENAI_API_KEY": "test-key"}):
+                with patch.object(generator.urllib.request, "urlopen") as request:
+                    with self.assertRaisesRegex(ValueError, "max-api-calls"):
+                        generator.build(args)
+                    request.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()
