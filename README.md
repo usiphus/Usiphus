@@ -21,7 +21,8 @@ Usiphus helps structure medical teaching material and provides explicit workflow
 | **V16** | One governed release: V15 evidence governance integrated into V14 orchestration |
 | **V17** | Stable data contracts, explicit migrations, curriculum quality intelligence, change-impact reports, dashboard and faculty pilot workflow |
 | **V18** | Evidence lifecycle operations, source-change detection, prioritized faculty review, and evidence-to-learning impact graph |
-| **V19** | Assessment blueprinting, MCQ/OSCE authoring checks, original challenge cases, and rights-aware external challenge directory |\n| **V20** | Privacy-aware feedback-to-action workflows, versioned faculty authoring, review diffs and release previews |
+| **V19** | Assessment blueprinting, MCQ/OSCE authoring checks, original challenge cases, and rights-aware external challenge directory |
+| **V20** | Privacy-aware feedback-to-action workflows, versioned faculty authoring, review diffs and release previews |
 
 ## Quick start
 
@@ -115,7 +116,9 @@ Learner progress, item-level response data and review schedules can be sensitive
 
 - Product and engineering roadmap: ROADMAP.md
 - V19 assessment/OSCE/challenge studio: docs/V19_ASSESSMENT_OSCE_CHALLENGE_STUDIO.md
-- V19 faculty pilot protocol: docs/V19_FACULTY_PILOT_PROTOCOL.md\n- V20 feedback-to-action and faculty authoring: docs/V20_FEEDBACK_TO_ACTION_AND_FACULTY_AUTHORING.md\n- V20 faculty pilot protocol: docs/V20_FACULTY_PILOT_PROTOCOL.md
+- V19 faculty pilot protocol: docs/V19_FACULTY_PILOT_PROTOCOL.md
+- V20 feedback-to-action and faculty authoring: docs/V20_FEEDBACK_TO_ACTION_AND_FACULTY_AUTHORING.md
+- V20 faculty pilot protocol: docs/V20_FACULTY_PILOT_PROTOCOL.md
 - V18 evidence lifecycle operations: docs/V18_EVIDENCE_LIFECYCLE_OPERATIONS.md
 - V17 stable contracts and curriculum intelligence: docs/V17_STABLE_CONTRACTS_AND_CURRICULUM_INTELLIGENCE.md
 - V17 faculty pilot protocol: docs/V17_PILOT_PROTOCOL.md
