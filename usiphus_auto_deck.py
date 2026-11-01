@@ -42,7 +42,8 @@ def _extract_json(text: str) -> Any:
 
 
 def generate_topic_cards(topic: dict[str, Any], *, specialty: str, level: str,
-                         model: str, api_key: str, count: int) -> list[dict[str, Any]]:
+                         model: str, api_key: str, count: int,
+                         max_output_tokens: int) -> list[dict[str, Any]]:
     objectives = topic.get("learning_objectives", [])
     source_refs = topic.get("reference_sources", [])
     payload = {
@@ -67,7 +68,7 @@ def generate_topic_cards(topic: dict[str, Any], *, specialty: str, level: str,
     request_body = {
         "model": model,
         "temperature": 0.2,
-        "max_tokens": 5000,
+        "max_tokens": max_output_tokens,
         "response_format": {"type": "json_object"},
         "messages": [
             {"role": "system", "content": system},
@@ -94,6 +95,8 @@ def generate_topic_cards(topic: dict[str, Any], *, specialty: str, level: str,
     cards = parsed.get("cards")
     if not isinstance(cards, list) or not cards:
         raise ValueError("Model response must contain a non-empty cards array")
+    if len(cards) > count:
+        raise ValueError(f"Model returned {len(cards)} cards; requested at most {count}")
     prefix = re.sub(r"[^A-Za-z0-9]+", "-", str(topic.get("name") or topic.get("topic") or "topic")).strip("-").upper()
     for index, card in enumerate(cards, 1):
         if not isinstance(card, dict):
@@ -184,13 +187,21 @@ def build(args: argparse.Namespace) -> int:
         curriculum = load_curriculum(Path(args.curriculum))
         specialty = specialty or curriculum["specialty"]
         level = level or curriculum.get("learner_level", "medical students")
+        topic_count = len(curriculum["topics"])
+        if args.max_api_calls < 1 or topic_count > args.max_api_calls:
+            raise ValueError(
+                f"Curriculum has {topic_count} topics; "
+                f"--max-api-calls permits {args.max_api_calls}. Reduce topics or raise the limit."
+            )
+        if not 256 <= args.max_output_tokens <= 16000:
+            raise ValueError("--max-output-tokens must be between 256 and 16000")
         for topic in curriculum["topics"]:
             count = int(topic.get("card_count", args.cards_per_topic))
             if count < 1 or count > 30:
                 raise ValueError("Each topic card_count must be between 1 and 30")
             raw_cards.extend(generate_topic_cards(
                 topic, specialty=specialty, level=level, model=args.model,
-                api_key=api_key, count=count,
+                api_key=api_key, count=count, max_output_tokens=args.max_output_tokens,
             ))
     elif args.cards:
         payload = load_json(Path(args.cards))
@@ -220,9 +231,11 @@ def build(args: argparse.Namespace) -> int:
               file=sys.stderr)
         return 2
     if args.formats in {"both", "anki"}:
-        export_apkg(cards, out / "ophthalmology.apkg", args.deck_name or f"Usiphus::{specialty.title()}")
+        slug = re.sub(r"[^a-z0-9]+", "-", specialty.casefold()).strip("-") or "medical"
+        export_apkg(cards, out / f"{slug}.apkg", args.deck_name or f"Usiphus::{specialty.title()}")
     if args.formats in {"both", "powerpoint"}:
-        export_powerpoint(cards, out / "ophthalmology.pptx",
+        slug = re.sub(r"[^a-z0-9]+", "-", specialty.casefold()).strip("-") or "medical"
+        export_powerpoint(cards, out / f"{slug}.pptx",
                           args.deck_title or f"{specialty.title()} — Medical Education", level)
     print(f"Generated {len(cards)} cards in {out.resolve()}")
     print(f"Quality: {report.error_count} errors, {report.warning_count} warnings")
@@ -235,10 +248,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     source.add_argument("--generate", action="store_true", help="Generate content with the OpenAI API")
     source.add_argument("--cards", help="Use an existing Usiphus card JSON file")
     p.add_argument("--curriculum", help="Curriculum JSON with specialty and topics")
-    p.add_argument("--specialty", default="ophthalmology")
-    p.add_argument("--level", default="medical students")
+    p.add_argument("--specialty", help="Override the specialty in the curriculum")
+    p.add_argument("--level", help="Override the learner level in the curriculum")
     p.add_argument("--model", default=os.getenv("USIPHUS_OPENAI_MODEL", DEFAULT_MODEL))
     p.add_argument("--cards-per-topic", type=int, default=6)
+    p.add_argument("--max-api-calls", type=int, default=11,
+                   help="Maximum number of billable generation requests (default: 11)")
+    p.add_argument("--max-output-tokens", type=int, default=2500,
+                   help="Maximum generated output tokens per topic request (default: 2500)")
     p.add_argument("--formats", choices=("both", "anki", "powerpoint"), default="both")
     p.add_argument("--output-dir", default="build/ophthalmology")
     p.add_argument("--deck-name")
@@ -251,6 +268,6 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 if __name__ == "__main__":
     try:
         raise SystemExit(build(parse_args()))
-    except (ValueError, RuntimeError, OSError, KeyError, json.JSONDecodeError) as exc:
+    except (ValueError, RuntimeError, OSError, KeyError, urllib.error.URLError, json.JSONDecodeError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         raise SystemExit(2)
