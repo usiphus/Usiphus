@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "specialty": "urology",
+  "competencies": [
+    {
+      "id": "URO-EM-01",
+      "title": "Assess acute urinary retention",
+      "domain": "Emergency urology",
+      "level": "apply",
+      "required": true,
+      "weight": 2,
+      "learning_objectives": [
+        "Identify acute retention"
+      ]
+    },
+    {
+      "id": "URO-ONC-02",
+      "title": "Evaluate haematuria",
+      "domain": "Uro-oncology",
+      "level": "analyze",
+      "required": true,
+      "weight": 1,
+      "learning_objectives": [
+        "Construct a haematuria differential"
+      ]
+    }
+  ]
+}

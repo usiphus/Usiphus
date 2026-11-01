@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://usiphus.invalid/schemas/v17-contracts.schema.json",
+  "title": "Usiphus V17 versioned contract envelope",
+  "description": "Non-destructive versioned envelope. Domain-specific validation is also enforced by usiphus_v17.py.",
+  "oneOf": [
+    {"$ref": "#/$defs/cardEnvelope"},
+    {"$ref": "#/$defs/claimEnvelope"},
+    {"$ref": "#/$defs/sourceEnvelope"},
+    {"$ref": "#/$defs/curriculumEnvelope"},
+    {"$ref": "#/$defs/assessmentEnvelope"},
+    {"$ref": "#/$defs/releaseManifestEnvelope"}
+  ],
+  "$defs": {
+    "baseEnvelope": {
+      "type": "object",
+      "required": ["contract_type", "contract_version", "data"],
+      "properties": {
+        "contract_type": {"type": "string"},
+        "contract_version": {"const": 1},
+        "migration": {
+          "type": "object",
+          "properties": {
+            "from": {"type": "string"},
+            "method": {"type": "string"},
+            "meaning_changed": {"const": false}
+          },
+          "additionalProperties": true
+        },
+        "data": {}
+      },
+      "additionalProperties": false
+    },
+    "cardEnvelope": {"allOf": [{"$ref": "#/$defs/baseEnvelope"}, {"properties": {"contract_type": {"const": "card"}, "data": {"$ref": "#/$defs/card"}}}]},
+    "claimEnvelope": {"allOf": [{"$ref": "#/$defs/baseEnvelope"}, {"properties": {"contract_type": {"const": "claim"}, "data": {"$ref": "#/$defs/claim"}}}]},
+    "sourceEnvelope": {"allOf": [{"$ref": "#/$defs/baseEnvelope"}, {"properties": {"contract_type": {"const": "source"}, "data": {"$ref": "#/$defs/source"}}}]},
+    "curriculumEnvelope": {"allOf": [{"$ref": "#/$defs/baseEnvelope"}, {"properties": {"contract_type": {"const": "curriculum"}, "data": {"$ref": "#/$defs/curriculum"}}}]},
+    "assessmentEnvelope": {"allOf": [{"$ref": "#/$defs/baseEnvelope"}, {"properties": {"contract_type": {"const": "assessment"}, "data": {"$ref": "#/$defs/assessment"}}}]},
+    "releaseManifestEnvelope": {"allOf": [{"$ref": "#/$defs/baseEnvelope"}, {"properties": {"contract_type": {"const": "release_manifest"}, "data": {"$ref": "#/$defs/releaseManifest"}}}]},
+    "card": {"type": "object", "required": ["card_id", "prompt"], "properties": {"card_id": {"type": "string", "minLength": 1}, "prompt": {"type": "string", "minLength": 1}, "specialty": {"type": "string"}, "competency_ids": {"type": "array", "items": {"type": "string"}}, "learning_objective": {"type": "string"}, "evidence_claim_ids": {"type": "array", "items": {"type": "string"}}}},
+    "claim": {"type": "object", "required": ["claim_id", "claim"], "properties": {"claim_id": {"type": "string", "minLength": 1}, "claim": {"type": "string", "minLength": 1}, "card_id": {"type": "string"}, "source_ids": {"type": "array", "items": {"type": "string"}}}},
+    "source": {"type": "object", "required": ["source_id", "title"], "properties": {"source_id": {"type": "string", "minLength": 1}, "title": {"type": "string", "minLength": 1}, "publisher": {"type": "string"}, "jurisdiction": {"type": "string"}, "version": {"type": "string"}, "url": {"type": "string"}}},
+    "curriculum": {"type": "object", "required": ["specialty", "competencies"], "properties": {"specialty": {"type": "string", "minLength": 1}, "competencies": {"type": "array", "items": {"type": "object", "required": ["id"], "properties": {"id": {"type": "string"}, "title": {"type": "string"}, "domain": {"type": "string"}, "level": {"type": "string"}, "required": {"type": "boolean"}, "weight": {"type": "number", "exclusiveMinimum": 0}, "learning_objectives": {"type": "array", "items": {"type": "string"}}}}}},
+    "assessment": {"type": "object", "required": ["item_id"], "properties": {"item_id": {"type": "string", "minLength": 1}, "question": {"type": "string"}, "competency_ids": {"type": "array", "items": {"type": "string"}}, "evidence_claim_ids": {"type": "array", "items": {"type": "string"}}}},
+    "releaseManifest": {"type": "object", "required": ["schema_version", "release_status"], "properties": {"schema_version": {"type": "integer"}, "release_status": {"type": "string"}, "inputs": {"type": "object"}, "outputs": {"type": "object"}, "release_policy": {"type": "object"}}}
+  }
+}

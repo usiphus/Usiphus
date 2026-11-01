@@ -1,0 +1,20 @@
+{
+  "specialty": "urology",
+  "candidates": [
+    {
+      "card_id": "URO-CARD-001",
+      "competency_id": "URO-EM-01",
+      "status": "verified",
+      "method": "faculty-approved",
+      "reviewer": "faculty-reviewer-label",
+      "reviewed_at": "2026-10-01T09:00:00Z"
+    },
+    {
+      "card_id": "URO-CARD-002",
+      "competency_id": "URO-ONC-02",
+      "status": "pending",
+      "method": "suggested",
+      "rationale": "Awaiting faculty mapping review"
+    }
+  ]
+}
