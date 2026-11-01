@@ -1,7 +1,8 @@
+
 """Synthetic V14 integration tests.
 
 These fixtures are fictional software-test data, not clinical teaching content.
-Run with: python -m unittest discover -s tests -v
+Run with: python -m unittest discover -s tests -t . -v
 """
 from __future__ import annotations
 
@@ -24,7 +25,7 @@ def write_json(path: Path, payload: object) -> None:
 
 class V14EndToEndTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.temp = tempfile.TemporaryDirectory(prefix="usiphus-v14-e2e-")
+        self.temp = tempfile.TemporaryDirectory(ignore_cleanup_errors=True, prefix="usiphus-v14-e2e-")
         self.root = Path(self.temp.name)
         self.fixtures = self.root / "fixtures"
         self.fixtures.mkdir()
@@ -52,7 +53,10 @@ class V14EndToEndTests(unittest.TestCase):
             "candidates": [{
                 "card_id": "TEST-001",
                 "competency_id": "U1",
-                "status": "verified"
+                "status": "verified",
+                "method": "faculty-approved",
+                "reviewer": "synthetic-test-reviewer",
+                "reviewed_at": "2026-10-31T12:00:00Z"
             }]
         })
         write_json(self.fixtures / "evidence.json", {

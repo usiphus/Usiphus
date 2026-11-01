@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 """Usiphus V10 — Specialty Curriculum Mapping & Coverage Intelligence.
 
@@ -28,7 +29,9 @@ import csv
 import json
 import logging
 import math
+import os
 import re
+import sys
 from datetime import datetime
 import tempfile
 from collections import defaultdict
@@ -42,6 +45,9 @@ TOKEN_RE = re.compile(r"[a-z0-9]+", re.IGNORECASE)
 STOP_WORDS = {"a","an","and","are","as","at","be","by","describe","do","does","for","from","how","in","into","is","it","list","name","of","on","or","the","to","what","when","which","with"}
 VALID_LEVELS = {"remember","understand","apply","analyze","evaluate","create"}
 LOG = logging.getLogger("usiphus.v10")
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from usiphus_common import csv_safe, valid_iso_date  # noqa: E402
 
 
 @dataclass(frozen=True)
@@ -408,7 +414,7 @@ def write_outputs(report: CurriculumReport, output: Path) -> None:
             writer = csv.writer(handle)
             writer.writerow(["card_id", "competency_id", "score", "method", "status", "rationale", "reviewer", "reviewed_at"])
             for row in report.candidates:
-                writer.writerow([row["card_id"], row["competency_id"], row["score"], row["method"], row["status"], row["rationale"], row.get("reviewer", ""), row.get("reviewed_at", "")])
+                writer.writerow([csv_safe(row["card_id"]), csv_safe(row["competency_id"]), row["score"], csv_safe(row["method"]), csv_safe(row["status"]), csv_safe(row["rationale"]), csv_safe(row.get("reviewer", "")), csv_safe(row.get("reviewed_at", ""))])
             handle.flush()
         Path(temp_name).replace(csv_path)
     finally:
@@ -464,7 +470,7 @@ def run_self_test() -> int:
             with self.assertRaises(ValueError):
                 build_report(mixed,self.comps,build_candidates(mixed,self.comps),"urology")
         def test_empty_curriculum_specialty_rejected(self):
-            with tempfile.TemporaryDirectory() as directory:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as directory:
                 path=Path(directory)/"curriculum.json"
                 path.write_text(json.dumps({"competencies":[{"id":"X","title":"Example"}]}),encoding="utf-8")
                 with self.assertRaises(ValueError): load_competencies(path)
@@ -472,7 +478,7 @@ def run_self_test() -> int:
             for value in (-0.1, 1.1, float("nan"), float("inf")):
                 with self.assertRaises(ValueError): build_candidates(self.cards,self.comps,value)
         def test_approval_requires_reviewer_and_timezone(self):
-            with tempfile.TemporaryDirectory() as directory:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as directory:
                 path=Path(directory)/"cards.json"
                 path.write_text(json.dumps([{"id":"x","specialty":"urology","prompt":"Q","competency_ids":["U1"],"faculty_approvals":[{"competency_id":"U1","status":"approved","reviewer":"Faculty","reviewed_at":"2026-10-31T12:00:00"}]}]),encoding="utf-8")
                 with self.assertRaises(ValueError): load_cards(path)
@@ -509,17 +515,17 @@ def run_self_test() -> int:
             report = build_report(self.cards,self.comps,build_candidates(self.cards,self.comps),"urology")
             self.assertEqual(report.usiphus_version,VERSION)
         def test_duplicate_card_ids_rejected(self):
-            with tempfile.TemporaryDirectory() as directory:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as directory:
                 path=Path(directory)/"cards.json"
                 path.write_text(json.dumps([{"id":"x","prompt":"Q"},{"id":"X","prompt":"Q2"}]),encoding="utf-8")
                 with self.assertRaises(ValueError): load_cards(path)
         def test_non_finite_weight_rejected(self):
-            with tempfile.TemporaryDirectory() as directory:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as directory:
                 path=Path(directory)/"curriculum.json"
                 path.write_text(json.dumps({"specialty":"urology","competencies":[{"id":"X","title":"Example","weight":float("nan")}]}),encoding="utf-8")
                 with self.assertRaises(ValueError): load_competencies(path)
         def test_required_must_be_boolean(self):
-            with tempfile.TemporaryDirectory() as directory:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as directory:
                 path=Path(directory)/"curriculum.json"
                 path.write_text(json.dumps({"specialty":"urology","competencies":[{"id":"X","title":"Example","required":"false"}]}),encoding="utf-8")
                 with self.assertRaises(ValueError): load_competencies(path)
@@ -531,7 +537,7 @@ def run_self_test() -> int:
             self.assertEqual(report.uncovered_required_competencies,1)
             self.assertEqual(report.uncovered_competency_ids,["X"])
         def test_output_files(self):
-            with tempfile.TemporaryDirectory() as directory:
+            with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as directory:
                 report=build_report(self.cards,self.comps,build_candidates(self.cards,self.comps),"urology")
                 out=Path(directory)
                 write_outputs(report,out)
