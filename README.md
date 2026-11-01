@@ -44,7 +44,7 @@ For a no-API local export from an existing card JSON file:
 
     python usiphus_auto_deck.py --cards ophthalmology_cards.json --formats both --output-dir build/ophthalmology
 
-The generator writes the shared card source, quality report, Anki package and PowerPoint. Generated clinical material remains unreviewed until a qualified faculty member verifies every claim, answer and reference. Token limits are not a hard API spending cap.
+The generator writes the shared card source, quality report, Anki package and PowerPoint. Generated clinical material remains unreviewed until a qualified faculty member verifies every claim, answer and reference. The default is at most 11 billable topic requests and 2,500 output tokens per request; override with `--max-api-calls` and `--max-output-tokens`. These are request/token ceilings, not a hard dollar spending cap.
 
 ## Recommended workflows
 
