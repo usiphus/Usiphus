@@ -194,6 +194,40 @@ def review_cards(
     return 0
 
 
+def validate_distinct_paths(
+    cards_path: Path,
+    store_path: Path,
+    export_path: Path | None,
+) -> None:
+    """Reject aliases between input, review store, and export before any I/O."""
+    paths = {
+        "cards input": Path(cards_path),
+        "review store": Path(store_path),
+    }
+    if export_path is not None:
+        paths["export"] = Path(export_path)
+
+    resolved = {
+        name: path.resolve(strict=False)
+        for name, path in paths.items()
+    }
+    names = list(resolved)
+
+    for index, first in enumerate(names):
+        for second in names[index + 1:]:
+            a, b = resolved[first], resolved[second]
+            same = os.path.normcase(str(a)) == os.path.normcase(str(b))
+            if not same and a.exists() and b.exists():
+                try:
+                    same = a.samefile(b)
+                except OSError:
+                    pass
+            if same:
+                raise ReviewError(
+                    f"Path collision: {first} and {second} refer to the same file ({a})"
+                )
+
+
 def run(
     cards_path: Path,
     reviewer_id: str,
@@ -201,6 +235,7 @@ def run(
     export_path: Path | None,
     redo: bool = False,
 ) -> int:
+    validate_distinct_paths(cards_path, store_path, export_path)
     reviewer_id = reviewer_id.strip()
     if not reviewer_id or len(reviewer_id) > 120:
         raise ReviewError("reviewer ID must be 1–120 characters")

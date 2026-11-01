@@ -89,16 +89,25 @@ def conflicts(current: Mapping[str, frozenset[str]], ledger: Mapping[str, Any], 
                 prior = frozenset(prior_list)
                 if prior == members:
                     continue
-                if prior < members and 0 < len(members - prior) < k:
-                    flagged[cid] = (f"Cross-release differencing protection: fewer than {k} learners differ from the cohort "
-                                    f"published for '{prior_cid}' in release {when}")
-                elif members < prior and 0 < len(prior - members) < k:
-                    flagged[cid] = (f"Cross-release differencing protection: this cohort is within fewer than {k} learners of "
-                                    f"the larger cohort published for '{prior_cid}' in release {when}")
-                elif (mode == "strict" and prior_cid == cid
-                        and 0 < len(members - prior) < k and 0 < len(prior - members) < k):
-                    flagged[cid] = (f"Cross-release differencing protection (strict): fewer than {k} learners joined and "
-                                    f"fewer than {k} left since release {when}")
+
+                shared = prior & members
+                prior_only = prior - members
+                current_only = members - prior
+
+                if (mode == "strict" and prior_cid == cid and shared
+                        and 0 < len(current_only) < k and 0 < len(prior_only) < k):
+                    flagged[cid] = (
+                        f"Cross-release differencing protection (strict): fewer than {k} "
+                        f"learners joined and fewer than {k} left since release {when}"
+                    )
+                elif shared and (
+                        0 < len(current_only) < k
+                        or 0 < len(prior_only) < k):
+                    flagged[cid] = (
+                        f"Cross-release differencing protection: fewer than {k} learners "
+                        f"differ from the overlapping cohort published for '{prior_cid}' "
+                        f"in release {when}"
+                    )
                 if cid in flagged:
                     break
             if cid in flagged:

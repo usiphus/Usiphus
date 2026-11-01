@@ -1,4 +1,5 @@
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -65,6 +66,43 @@ class CardReviewTests(unittest.TestCase):
                 loaded["reviewer_profiles"]["reviewer-a"]["decisions"]["OPH-001"]["decision"],
                 "keep",
             )
+
+    def test_run_rejects_all_path_collisions_before_writing(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            shared = root / "shared.json"
+            shared.write_text(json.dumps(self.cards), encoding="utf-8")
+            original = shared.read_text(encoding="utf-8")
+            other = root / "other.json"
+            other.write_text(json.dumps({"schema_version": 1, "reviewer_profiles": {}}), encoding="utf-8")
+
+            cases = [
+                (shared, shared, root / "export.json"),
+                (shared, other, shared),
+                (other, shared, shared),
+            ]
+            for cards_path, store_path, export_path in cases:
+                with self.subTest(cards=cards_path, store=store_path, export=export_path):
+                    with self.assertRaises(usiphus_review.ReviewError):
+                        usiphus_review.run(
+                            cards_path, "reviewer-a", store_path, export_path
+                        )
+                    self.assertEqual(shared.read_text(encoding="utf-8"), original)
+
+    def test_run_rejects_hard_link_path_aliases(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            cards_path = root / "cards.json"
+            store_path = root / "store.json"
+            export_path = root / "export.json"
+            cards_path.write_text(json.dumps(self.cards), encoding="utf-8")
+            try:
+                os.link(cards_path, store_path)
+            except (OSError, NotImplementedError):
+                self.skipTest("Hard links are not supported in this environment")
+            with self.assertRaises(usiphus_review.ReviewError):
+                usiphus_review.run(cards_path, "reviewer-a", store_path, export_path)
+
 
     def test_invalid_edits_are_rejected(self):
         with self.assertRaises(usiphus_review.ReviewError):
