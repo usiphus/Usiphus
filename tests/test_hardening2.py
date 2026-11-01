@@ -41,11 +41,15 @@ def backends():
 
 
 class SigningBackends(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        if not backends():
+            raise unittest.SkipTest(
+                "Ed25519 tests require optional cryptography or OpenSSL 3.x"
+            )
+
     def tearDown(self):
         sg._FORCE_OPENSSL = False
-
-    def test_at_least_one_backend_available(self):
-        self.assertTrue(backends(), "install `cryptography` or provide the openssl command line tool")
 
     def test_sign_verify_roundtrip_each_backend_with_and_without_passphrase(self):
         for force in backends():
