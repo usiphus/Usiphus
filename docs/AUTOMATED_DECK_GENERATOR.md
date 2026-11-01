@@ -9,8 +9,12 @@ Usiphus can draft one canonical ophthalmology card set and export it to **Anki**
 - No API call is made unless `--generate` is supplied.
 - Set `OPENAI_API_KEY` in the shell environment. Never paste the key into JSON,
   source code, a commit, or a prompt.
-- Each topic is one API request. Keep `card_count` modest and choose the model
-  explicitly. Token limits reduce request size but are **not a hard dollar cap**.
+- Each topic is one API request. The default curriculum has 11 topics; the default
+  ceiling is 11 requests. `--max-api-calls` blocks a larger curriculum before any
+  network request. `--max-output-tokens` defaults to 2,500 per topic request.
+- These request/token ceilings reduce exposure but are **not a hard dollar cap**;
+  input tokens and model pricing also affect cost. Check API usage and billing limits
+  in your OpenAI Platform account before generation.
 - For a no-API workflow, provide an existing Usiphus cards JSON file with
   `--cards`; export still runs locally.
 - Do not send patient-identifiable data. Use synthetic teaching cases only.
@@ -39,7 +43,8 @@ Linux/macOS:
 export OPENAI_API_KEY="your-key"
 python usiphus_auto_deck.py --generate \
   --curriculum examples/ophthalmology/curriculum.json \
-  --formats both --output-dir build/ophthalmology
+  --formats both --max-api-calls 11 --max-output-tokens 2500 \\
+  --output-dir build/ophthalmology
 ```
 
 Windows PowerShell:
