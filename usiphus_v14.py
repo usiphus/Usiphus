@@ -311,7 +311,15 @@ def _run_release_locked(cfg,config_path,target):
             stages.append({"stage":"V15 evidence governance","status":"passed" if v15_status=="checks_passed" else "blocked"})
         v15_blocked = v15_status == "blocked"
         if v15_blocked and cfg.get("v15_block_on_failure",True):
-            raise ReleaseError("V15 evidence governance blocked this release; previous published bundle was preserved")
+            details=[]
+            for finding in v15_result["findings"]:
+                details.append(f"{finding['kind']} {finding['id']}: {'; '.join(finding['issues'])}")
+            detail_text=" | ".join(details[:8])
+            if len(details)>8: detail_text += f" | ... {len(details)-8} additional finding(s)"
+            raise ReleaseError(
+                f"V15 evidence governance blocked this release ({len(details)} finding(s)): "
+                f"{detail_text}. Previous published bundle was preserved."
+            )
         ready=v12_ready and v15_status in (None,"checks_passed")
         status="ready" if ready else ("ready_with_warnings" if v15_blocked else "blocked")
         now=datetime.now(timezone.utc).isoformat().replace("+00:00","Z")
