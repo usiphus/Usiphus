@@ -27,7 +27,7 @@ class V16GovernedReleaseTests(V14EndToEndTests):
     def test_legacy_migration_is_explicit_and_manifested(self):
         self.configure_v15(mode="legacy",sources=[],claims=[{
             "claim_id":"C1","card_id":"TEST-001","claim":"Synthetic",
-            "references":[{"legacy_reference":"Old free-text reference"}],"status":"draft"}])
+            "reference":"Old free-text reference","status":"draft"}])
         result=self.run_cli()
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
         summary=json.loads((self.output/"release_summary.json").read_text())
@@ -93,6 +93,8 @@ class V16GovernedReleaseTests(V14EndToEndTests):
         source_before=source_path.read_bytes(); claims_before=claims_path.read_bytes()
         first=self.run_cli()
         self.assertEqual(first.returncode,0,first.stdout+first.stderr)
+        self.assertEqual(source_path.read_bytes(),source_before)
+        self.assertEqual(claims_path.read_bytes(),claims_before)
         manifest_before=(self.output/"v14_manifest.json").read_bytes()
         payload=json.loads(source_path.read_text()); payload["sources"][0]["status"]="withdrawn"
         write_json(source_path,payload)
