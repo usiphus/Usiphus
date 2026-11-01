@@ -181,30 +181,36 @@ def interval_for(mastery: float, settings: dict[str,Any]) -> int:
     return settings["interval_days"][bisect.bisect_right(settings["mastery_thresholds"],mastery)]
 
 def apply_complementary_suppression(cohort: list[dict[str,Any]], cohort_values: Mapping[str,list[dict[str,Any]]], k: int) -> int:
-    """Suppress published cohorts that allow subtraction-based disclosure within one release.
+    """Suppress one cohort from every overlapping pair with a small symmetric difference.
 
-    If published cohort B is a proper subset of published cohort A and fewer than k learners
-    are in A but not B, then (sum over A) - (sum over B) exposes that small remainder.
-    The smaller cohort is suppressed, repeatedly, until no such pair remains.
-    Returns the number of rows suppressed. Does NOT address differencing across separate releases.
+    Published counts and means can be differenced after multiplying mean by count.
+    This checks overlapping, non-nested cohorts as well as strict subsets. One member
+    of each unsafe pair is suppressed; this is not differential privacy.
     """
     index={row["competency_id"]:i for i,row in enumerate(cohort)}
     members={cid:frozenset(v["lid"] for v in cohort_values.get(cid,[])) for cid in index}
     suppressed=0
     while True:
-        live=sorted((cid for cid in index if not cohort[index[cid]].get("suppressed")),key=lambda c:(len(members[c]),c))
+        live=sorted((cid for cid in index if not cohort[index[cid]].get("suppressed")),
+                    key=lambda c:(len(members[c]),c))
         victim=None
-        for i,small in enumerate(live):
-            for big in live[i+1:]:
-                if members[small]<members[big] and 0<len(members[big]-members[small])<k:
-                    victim=(small,big); break
-            if victim: break
-        if not victim: return suppressed
-        small,big=victim; row=cohort[index[small]]
-        cohort[index[small]]={"competency_id":small,"title":row["title"],"domain":row["domain"],"suppressed":True,
-            "suppression_reason":f"Complementary suppression: subtracting an overlapping published cohort would reveal fewer than {k} learners"}
+        for i,left in enumerate(live):
+            for right in live[i+1:]:
+                a,b=members[left],members[right]
+                if not (a & b) or a == b:
+                    continue
+                if len(a-b) < k or len(b-a) < k:
+                    victim=left
+                    break
+            if victim:
+                break
+        if victim is None:
+            return suppressed
+        row=cohort[index[victim]]
+        cohort[index[victim]]={"competency_id":victim,"title":row["title"],"domain":row["domain"],
+            "suppressed":True,
+            "suppression_reason":f"Complementary suppression: an overlapping cohort pair differs by fewer than {k} learners"}
         suppressed+=1
-
 
 def coarsen(value: float, resolution: float) -> float:
     """Round to a multiple of `resolution` (coarser published means leak less about individuals)."""

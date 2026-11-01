@@ -425,7 +425,8 @@ def validate_bundle(input_dir: Path, output_dir: Path, report_path: Path,
             "Validates structure, consistency, integrity, and selected privacy safeguards.",
             "Does not establish clinical truth, educational validity, learner competence, or legal compliance.",
             "UUIDv4 format is not proof of anonymization or protection against re-identification.",
-            "Input files contain sensitive pseudonymous educational records and require access controls."
+            "Input files contain sensitive pseudonymous educational records and require access controls.",
+            "When require_release_ledger is enabled, V13 checks only the cohort report used boolean; it does not independently verify a persisted ledger or report provenance."
         ],
     }
 

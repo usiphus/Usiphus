@@ -66,6 +66,8 @@ def migrate_settings(payload: dict[str, Any], apply_suggestions: bool = False) -
         raise ValueError("Settings must be a JSON object")
     out: dict[str, Any] = {}
     unknown: list[dict[str, Any]] = []
+    applied_suggestions: list[dict[str, str]] = []
+    suggestion_collisions: list[dict[str, str]] = []
     for key, value in payload.items():
         if key in SETTINGS_KEYS:
             out[key] = value
@@ -73,10 +75,22 @@ def migrate_settings(payload: dict[str, Any], apply_suggestions: bool = False) -
         matches = difflib.get_close_matches(key, sorted(SETTINGS_KEYS), n=1, cutoff=0.6)
         suggestion = matches[0] if matches else None
         unknown.append({"key": key, "suggestion": suggestion})
-        if apply_suggestions and suggestion and suggestion not in payload and suggestion not in out:
-            out[suggestion] = value
-    unresolved = [u["key"] for u in unknown if not (apply_suggestions and u["suggestion"])]
-    return out, {"unknown_keys": unknown, "applied": bool(apply_suggestions), "still_unresolved": unresolved}
+        if apply_suggestions and suggestion:
+            if suggestion in payload or suggestion in out:
+                out[key] = value
+                suggestion_collisions.append({"key": key, "suggestion": suggestion})
+            else:
+                out[suggestion] = value
+                applied_suggestions.append({"key": key, "renamed_to": suggestion})
+        else:
+            out[key] = value
+    unresolved = [u["key"] for u in unknown
+                  if not (apply_suggestions and u["suggestion"]
+                          and not any(c["key"] == u["key"] for c in suggestion_collisions))]
+    return out, {"unknown_keys": unknown, "applied": bool(apply_suggestions),
+                 "applied_suggestions": applied_suggestions,
+                 "suggestion_collisions": suggestion_collisions,
+                 "still_unresolved": unresolved}
 
 
 def migrate_events(payload: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:

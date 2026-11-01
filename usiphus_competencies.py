@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import math
 import re
 import urllib.parse
 from pathlib import Path
@@ -169,8 +170,8 @@ def validate_competencies(
             raise generation.GenerationError(f"Generated competency {index} has unsupported level: {level}")
         if not isinstance(required, bool):
             raise generation.GenerationError(f"Generated competency {index} required must be boolean")
-        if isinstance(weight, bool) or not isinstance(weight, (int, float)) or weight <= 0:
-            raise generation.GenerationError(f"Generated competency {index} weight must be a positive number")
+        if isinstance(weight, bool) or not isinstance(weight, (int, float)) or not math.isfinite(weight) or weight <= 0:
+            raise generation.GenerationError(f"Generated competency {index} weight must be finite and positive")
         if (
             not isinstance(objectives, list)
             or not objectives

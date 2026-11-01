@@ -178,6 +178,14 @@ def read_current(target):
     if not release.is_dir(): raise ReleaseError(f"Release directory missing: {release}")
     return release
 
+def published_manifest_path(target, mode):
+    live = read_current(target) if mode == "pointer" else Path(target)
+    manifest = live / "v14_manifest.json"
+    if not manifest.is_file():
+        raise ReleaseError(f"Published manifest not found: {manifest}")
+    return manifest
+
+
 def publish_pointer(stage,target,keep):
     """Immutable releases + atomically replaced current.json pointer. Works on every OS because the only
     cross-reader step is os.replace on one small file."""
@@ -310,7 +318,7 @@ def _run_release_locked(cfg,config_path,target):
         write_json(stage/"v14_manifest.json",manifest)
         mode=publish(stage,target,cfg.get("publish_mode","auto"),cfg.get("keep_releases",5)); LOG.info("Published release bundle (%s)",mode)
         summary["output_dir"]=str(target)
-        summary["manifest"]=str(target/"v14_manifest.json")
+        summary["manifest"]=str(published_manifest_path(target,mode))
         return summary
 
 def self_test():

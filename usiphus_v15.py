@@ -389,6 +389,7 @@ def analyze(sources: list[dict[str, Any]], claims: list[dict[str, Any]], *,
         "impact_index": {sid: sorted(cards) for sid, cards in sorted(impacted.items())},
         "release_policy": {
             "minimum_approving_reviewers": minimum_reviewers,
+            "reviewer_identity_assurance": "Reviewer IDs are user-supplied labels; quorum counts distinct labels only and does not authenticate people or establish independent human review.",
             "require_registered_sources": require_registered_sources,
             "require_signed_audit": require_signed_audit,
             "require_audit_anchor": require_audit_anchor,
