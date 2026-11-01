@@ -34,6 +34,15 @@ class V20Tests(unittest.TestCase):
     def test_version_diff_is_explicit(self):
         p=fixture(); p["artifacts"].append({"artifact_id":"CARD-1","version":"1.1.0","artifact_type":"card","title":"Synthetic card","status":"in_review","content":{"body":"Revised"}})
         self.assertEqual(v20.build_report(p)["version_diffs"][0]["changed_fields"],["body"])
+    def test_numeric_version_order_is_not_lexicographic(self):
+        p=fixture()
+        p["artifacts"].extend([
+            {"artifact_id":"CARD-1","version":"1.10.0","artifact_type":"card","title":"Synthetic card","status":"draft","content":{"body":"ten"}},
+            {"artifact_id":"CARD-1","version":"1.2.0","artifact_type":"card","title":"Synthetic card","status":"draft","content":{"body":"two"}}
+        ])
+        diffs=v20.build_report(p)["version_diffs"]
+        pair=next(x for x in diffs if x["from_version"]=="1.2.0")
+        self.assertEqual(pair["to_version"],"1.10.0")
     def test_comments_must_reference_exact_version(self):
         p=fixture(); p["comments"][0]["version"]="9.9"
         self.assertEqual(v20.build_report(p)["publication_gate"],"blocked")

@@ -167,6 +167,12 @@ def validate_actions(actions: list[dict[str, Any]], feedback_index: dict[str, An
             issues.append(issue("action", ident, "warning", "possible personal data in action evidence/outcome; redact before use"))
     return index
 
+def version_key(item: dict[str, Any]) -> tuple[Any, ...]:
+    value = clean(item.get("version"))
+    if re.fullmatch(r"v?\\d+(?:\\.\\d+){1,3}", value):
+        return (0, tuple(int(part) for part in value.lstrip("v").split(".")))
+    return (1, value.casefold())
+
 def validate_authoring(artifacts: list[dict[str, Any]], comments: list[dict[str, Any]],
                        issues: list[dict[str, str]]) -> tuple[dict[str, list[dict[str, Any]]], list[dict[str, Any]]]:
     grouped: dict[str, list[dict[str, Any]]] = {}
@@ -199,7 +205,7 @@ def validate_authoring(artifacts: list[dict[str, Any]], comments: list[dict[str,
         grouped.setdefault(aid, []).append(artifact)
     diffs = []
     for aid, versions in grouped.items():
-        ordered = sorted(versions, key=lambda x: clean(x.get("version")))
+        ordered = sorted(versions, key=version_key)
         for previous, current in zip(ordered, ordered[1:]):
             old = previous.get("content")
             new = current.get("content")
@@ -259,7 +265,7 @@ def build_report(payload: dict[str, Any]) -> dict[str, Any]:
     queue = sorted(issues, key=lambda x: (0 if x["severity"] == "error" else 1, x["kind"], x["record_id"]))
     preview = []
     for aid, versions in sorted(grouped.items()):
-        latest = sorted(versions, key=lambda x: clean(x.get("version")))[-1]
+        latest = sorted(versions, key=version_key)[-1]
         preview.append({"artifact_id": aid, "version": clean(latest.get("version")),
                         "artifact_type": clean(latest.get("artifact_type")),
                         "title": clean(latest.get("title")), "status": clean(latest.get("status") or "draft"),
