@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Usiphus V18 evidence lifecycle inputs",
+  "type": "object",
+  "properties": {
+    "sources": {"type":"array","items":{"$ref":"#/$defs/source"}},
+    "claims": {"type":"array","items":{"$ref":"#/$defs/claim"}},
+    "releases": {"type":"array","items":{"$ref":"#/$defs/release"}},
+    "decisions": {"type":"array","items":{"$ref":"#/$defs/decision"}},
+    "schema_version": {"type":"integer"}
+  },
+  "$defs": {
+    "source": {
+      "type":"object","required":["source_id","title","source_type","jurisdiction"],
+      "properties":{
+        "source_id":{"type":"string","minLength":1},
+        "canonical_id":{"type":"string"},
+        "doi":{"type":"string"},
+        "identifier":{"type":"string"},
+        "superseded_by":{"type":"string"},
+        "title":{"type":"string","minLength":1},
+        "source_type":{"type":"string","minLength":1},
+        "publisher":{"type":"string"},
+        "authority":{"type":"string","description":"Publisher/authority metadata only; not a quality grade."},
+        "jurisdiction":{"type":"string","minLength":1},
+        "version":{"type":"string"},
+        "published_on":{"type":"string","format":"date"},
+        "retrieved_at":{"type":"string","format":"date-time"},
+        "last_reviewed_at":{"type":"string","format":"date-time"},
+        "review_due_days":{"type":"integer","minimum":1},
+        "status":{"enum":["active","superseded","withdrawn"]},
+        "superseded_by":{"type":"string"},
+        "url":{"type":"string","format":"uri"},
+        "content_path":{"type":"string"},
+        "content_sha256":{"type":"string","pattern":"^[a-fA-F0-9]{64}$"}
+      }
+    },
+    "claim": {
+      "type":"object","required":["claim_id","card_id","claim"],
+      "properties":{
+        "claim_id":{"type":"string","minLength":1},
+        "card_id":{"type":"string","minLength":1},
+        "claim":{"type":"string","minLength":1},
+        "references":{"type":"array","items":{"type":"object","properties":{
+          "source_id":{"type":"string"},"version":{"type":"string"},"jurisdiction":{"type":"string"}
+        }}}
+      }
+    },
+    "release": {"type":"object","required":["release_id","artifact_ids"],"properties":{"release_id":{"type":"string","minLength":1},"artifact_ids":{"type":"array","items":{"type":"string"}}}},
+    "decision": {
+      "type":"object","required":["target_type","target_id","decision","reviewer_label","rationale","decided_at"],
+      "properties":{
+        "target_type":{"enum":["source","claim","change"]},
+        "target_id":{"type":"string","minLength":1},
+        "decision":{"enum":["accepted","rejected","deferred"]},
+        "reviewer_label":{"type":"string","minLength":1},
+        "rationale":{"type":"string","minLength":1},
+        "decided_at":{"type":"string","format":"date-time"}
+      }
+    }
+  }
+}
