@@ -386,13 +386,13 @@ class PlatformExchange(unittest.TestCase):
         lib = mock.Mock(); lib.renamex_np.return_value = 0
         with mock.patch.object(v14.sys, "platform", "darwin"), mock.patch.object(v14.ctypes, "CDLL", return_value=lib):
             self.assertTrue(v14._exchange(Path("/x/a"), Path("/x/b")))
-        lib.renamex_np.assert_called_once_with(os.fsencode("/x/a"), os.fsencode("/x/b"), 2)   # RENAME_SWAP
+        lib.renamex_np.assert_called_once_with(os.fsencode(str(Path("/x/a"))), os.fsencode(str(Path("/x/b"))), 2)   # RENAME_SWAP
 
     def test_linux_uses_renameat2_exchange_flag(self):
         lib = mock.Mock(); lib.renameat2.return_value = 0
         with mock.patch.object(v14.sys, "platform", "linux"), mock.patch.object(v14.ctypes, "CDLL", return_value=lib):
             self.assertTrue(v14._exchange(Path("/x/a"), Path("/x/b")))
-        lib.renameat2.assert_called_once_with(-100, os.fsencode("/x/a"), -100, os.fsencode("/x/b"), 2)   # RENAME_EXCHANGE
+        lib.renameat2.assert_called_once_with(-100, os.fsencode(str(Path("/x/a"))), -100, os.fsencode(str(Path("/x/b"))), 2)   # RENAME_EXCHANGE
 
     def test_failure_or_missing_symbol_or_windows_falls_back(self):
         failing = mock.Mock(); failing.renamex_np.return_value = -1
