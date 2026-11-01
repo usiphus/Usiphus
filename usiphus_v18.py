@@ -163,7 +163,9 @@ def source_fingerprint(source: dict[str, Any], source_root: Path) -> dict[str, A
     return {
         "source_id": clean(source.get("source_id")),
         "title": clean(source.get("title")),
-        "publisher": clean(source.get("publisher") or source.get("authority")),
+        "publisher": clean(source.get("publisher")),
+        "authority": clean(source.get("authority")),
+        "retrieved_at": clean(source.get("retrieved_at")),
         "jurisdiction": clean(source.get("jurisdiction")),
         "source_type": clean(source.get("source_type")),
         "version": clean(source.get("version")),
@@ -197,6 +199,11 @@ def validate_source(source: dict[str, Any], index: int) -> list[str]:
     due = source.get("review_due_days", 365)
     if isinstance(due, bool) or not isinstance(due, int) or due < 1:
         issues.append("review_due_days must be a positive integer")
+    if source.get("retrieved_at"):
+        try:
+            parse_timestamp(source.get("retrieved_at"), f"source row {index + 1} retrieved_at", optional=False)
+        except V18Error as exc:
+            issues.append(str(exc))
     if source.get("last_reviewed_at") or source.get("reviewed_at"):
         try:
             parse_timestamp(source.get("last_reviewed_at") or source.get("reviewed_at"),
@@ -351,8 +358,8 @@ def analyze(sources: list[dict[str, Any]], claims: list[dict[str, Any]], *,
                                   "fields": ["source_registered"], "before": {}, "after": fingerprint})
             continue
         changed = []
-        for field in ("title", "publisher", "jurisdiction", "source_type", "version",
-                      "status", "canonical_url", "content_sha256", "published_on"):
+        for field in ("title", "publisher", "authority", "jurisdiction", "source_type", "version",
+                      "status", "canonical_url", "content_sha256", "published_on", "retrieved_at"):
             if clean(old.get(field)) != clean(fingerprint.get(field)):
                 changed.append(field)
         if changed:
@@ -445,6 +452,15 @@ def analyze(sources: list[dict[str, Any]], claims: list[dict[str, Any]], *,
         add_node("source:" + sid, "source", clean(source_by_id.get(sid, {}).get("title") or sid))
         for cid in sorted(claim_ids):
             add_node("claim:" + cid, "claim", cid)
+            claim_decision = decision_map.get("claim:" + cid)
+            if claim_decision:
+                graph_nodes["claim:" + cid]["faculty_decision"] = {
+                    "decision": clean(claim_decision.get("decision")).casefold(),
+                    "reviewer_label": clean(claim_decision.get("reviewer_label")),
+                    "rationale": clean(claim_decision.get("rationale")),
+                    "decided_at": clean(claim_decision.get("decided_at")),
+                    "identity_assurance": "Reviewer label is user-supplied and not authenticated by V18.",
+                }
             add_edge("source:" + sid, "claim:" + cid, "supports")
             card_id = claim_card.get(cid, "")
             if card_id:
@@ -491,7 +507,10 @@ def analyze(sources: list[dict[str, Any]], claims: list[dict[str, Any]], *,
         "source_changes": change_events, "duplicate_source_candidates": duplicate_candidates,
         "review_queue": queue, "source_impact": downstream,
         "impact_graph": {"nodes": list(graph_nodes.values()), "edges": graph_edges},
-        "faculty_decisions": decision_rows, "decision_audit_events": audit_events,
+        "faculty_decisions": decision_rows,
+        "claim_decisions": {key.split(":", 1)[1]: value for key, value in decision_map.items()
+                            if key.startswith("claim:")},
+        "decision_audit_events": audit_events,
         "next_state": {"schema_version": 1, "sources": current_state},
         "findings": findings,
         "policy": {
@@ -668,8 +687,6 @@ def self_test() -> int:
             result = self.analyze_now(decisions=decisions)
             self.assertEqual(result["decision_audit_events"][0]["previous_hash"], "0" * 64)
             self.assertEqual(len(result["decision_audit_events"][0]["event_hash"]), 64)
-    if __name__ == "__main__":
-        unittest.main()
     suite = unittest.defaultTestLoader.loadTestsFromTestCase(V18Tests)
     result = unittest.TextTestRunner(verbosity=2).run(suite)
     return 0 if result.wasSuccessful() else 1
