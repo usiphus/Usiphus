@@ -28,6 +28,24 @@ Usiphus helps structure medical teaching material and provides explicit workflow
 
 Requires Python 3.11 or later. The core project uses the Python standard library only. CI is configured for Python 3.11–3.13 on Linux, macOS and Windows; see the workflow in .github/workflows/ci.yml. Configuring a matrix does not mean every job has already passed.
 
+## Automated multi-format deck generation
+
+Generate one canonical specialty card set and export it to **Anki (.apkg) and PowerPoint (.pptx)** in one run. See [the full generator guide](docs/AUTOMATED_DECK_GENERATOR.md) and the [ophthalmology curriculum example](examples/ophthalmology/curriculum.json).
+
+Optional exporters:
+
+    python -m pip install genanki python-pptx
+
+OpenAI generation is explicitly opt-in and separately billable from ChatGPT. Set `OPENAI_API_KEY` in the environment; never commit it. Then:
+
+    python usiphus_auto_deck.py --generate --curriculum examples/ophthalmology/curriculum.json --formats both --output-dir build/ophthalmology
+
+For a no-API local export from an existing card JSON file:
+
+    python usiphus_auto_deck.py --cards ophthalmology_cards.json --formats both --output-dir build/ophthalmology
+
+The generator writes the shared card source, quality report, Anki package and PowerPoint. Generated clinical material remains unreviewed until a qualified faculty member verifies every claim, answer and reference. The default is at most 11 billable topic requests and 2,500 output tokens per request; override with `--max-api-calls` and `--max-output-tokens`. These are request/token ceilings, not a hard dollar spending cap.
+
 ## Recommended workflows
 
 **Governed release (V16):**
