@@ -6,9 +6,9 @@ from pathlib import Path, PurePosixPath
 
 
 HEADER = re.compile(
-    r"(?m)^=+\\r?\\nFILE: (?P<path>[^\\r\\n]+)\\r?\\n=+\\r?\\n"
+    r"(?m)^=+\r?\nFILE: (?P<path>[^\r\n]+)\r?\n=+\r?\n"
 )
-NEXT_FILE = re.compile(r"(?m)^=+\\r?\\nFILE: ")
+NEXT_FILE = re.compile(r"(?m)^=+\r?\nFILE: ")
 ROOT_TEST_COPIES = {
     "test_hardening2.py",
     "test_regressions.py",
@@ -23,19 +23,26 @@ def _relative_path(raw_path: str, project_root_name: str = "usiphus") -> Path:
     Supports Windows and POSIX absolute paths as well as relative paths. For
     absolute paths, the project-root directory must appear as a path component.
     """
-    parts = PurePosixPath(raw_path.replace("\\\\", "/")).parts
+    normalized = raw_path.replace("\\", "/")
+    parsed = PurePosixPath(normalized)
+    parts = parsed.parts
     if not parts:
         raise ValueError("Empty file path in dump header")
-    root_positions = [i for i, part in enumerate(parts) if part.casefold() == project_root_name.casefold()]
+    root_positions = [
+        i for i, part in enumerate(parts)
+        if part.casefold() == project_root_name.casefold()
+    ]
     if root_positions:
         parts = parts[root_positions[-1] + 1 :]
-    elif PurePosixPath(raw_path.replace("\\\\", "/")).is_absolute():
+    elif parsed.is_absolute():
         raise ValueError(
             f"Absolute path does not contain project root {project_root_name!r}: {raw_path}"
         )
     relative = Path(*parts)
     if not parts or relative == Path("."):
-        raise ValueError(f"Header does not identify a file below {project_root_name!r}: {raw_path}")
+        raise ValueError(
+            f"Header does not identify a file below {project_root_name!r}: {raw_path}"
+        )
     if relative.is_absolute() or ".." in relative.parts:
         raise ValueError(f"Unsafe output path: {raw_path}")
     return relative
@@ -64,12 +71,12 @@ def extract(
     for header, relative in headers:
         next_header = NEXT_FILE.search(text, header.end())
         end = next_header.start() if next_header else len(text)
-        content = text[header.end() : end].rstrip("\\r\\n") + "\\n"
+        content = text[header.end() : end].rstrip("\r\n") + "\n"
         target = (root / relative).resolve()
         if not target.is_relative_to(root):
             raise ValueError(f"Unsafe output path: {relative}")
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(content, encoding="utf-8", newline="\\n")
+        target.write_text(content, encoding="utf-8", newline="\n")
         written.append(target)
     return written
 
