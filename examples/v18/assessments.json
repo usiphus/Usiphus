@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "item_id": "URO-MCQ-001",
+      "competency_ids": [
+        "URO-EM-01"
+      ]
+    }
+  ]
+}

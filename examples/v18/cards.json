@@ -1,0 +1,10 @@
+{
+  "cards": [
+    {
+      "card_id": "URO-CARD-001",
+      "competency_ids": [
+        "URO-EM-01"
+      ]
+    }
+  ]
+}

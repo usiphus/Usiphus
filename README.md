@@ -20,6 +20,7 @@ Usiphus helps structure medical teaching material and provides explicit workflow
 | **V15** | Evidence-source registry, supersession checks, reviewer quorum, hash-chained audit events, and source-to-card impact index |
 | **V16** | One governed release: V15 evidence governance integrated into V14 orchestration |
 | **V17** | Stable data contracts, explicit migrations, curriculum quality intelligence, change-impact reports, dashboard and faculty pilot workflow |
+| **V18** | Evidence lifecycle operations, source-change detection, prioritized faculty review, and evidence-to-learning impact graph |
 
 ## Quick start
 
@@ -60,6 +61,13 @@ Run all engine self-tests and unit/integration tests:
     python usiphus_v15.py --self-test
     python usiphus_v17.py --self-test
     python -m unittest discover -s tests -v
+
+## V18 — Evidence lifecycle operations
+
+    python usiphus_v18.py --self-test
+    python usiphus_v18.py --sources examples/v18/sources.json --claims examples/v18/claims.json --cards examples/v18/cards.json --assessments examples/v18/assessments.json --osce examples/v18/osce.json --as-of 2026-11-01T00:00:00Z --output-dir build-v18
+
+V18 detects source metadata/content changes, duplicate-source candidates, stale reviews and jurisdiction mismatches; prioritizes human review; and traces source-to-claim-to-card-to-competency-to-assessment/OSCE impact. It is offline by default and never auto-edits clinical content.
 
 ## V17 outputs
 
