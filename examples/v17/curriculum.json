@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "specialty": "urology",
+  "competencies": [
+    {
+      "id": "URO-EM-01",
+      "title": "Assess acute urinary retention",
+      "domain": "Emergency urology",
+      "level": "apply",
+      "required": true,
+      "weight": 2,
+      "learning_objectives": [
+        "Identify acute retention",
+        "Recognize red flags"
+      ]
+    },
+    {
+      "id": "URO-ONC-02",
+      "title": "Evaluate visible haematuria",
+      "domain": "Uro-oncology",
+      "level": "analyze",
+      "required": true,
+      "weight": 2,
+      "learning_objectives": [
+        "Construct a haematuria differential"
+      ]
+    },
+    {
+      "id": "URO-ENDO-03",
+      "title": "Explain urinary stone disease",
+      "domain": "Endourology",
+      "level": "understand",
+      "required": true,
+      "weight": 1,
+      "learning_objectives": [
+        "Explain stone formation"
+      ]
+    }
+  ]
+}

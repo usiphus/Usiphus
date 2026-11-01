@@ -1,0 +1,10 @@
+{
+  "stations": [
+    {
+      "station_id": "URO-OSCE-001",
+      "competency_ids": [
+        "URO-EM-01"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "items": [
+    {
+      "item_id": "URO-MCQ-001",
+      "competency_ids": [
+        "URO-EM-01"
+      ],
+      "question": "Synthetic assessment item placeholder"
+    }
+  ]
+}

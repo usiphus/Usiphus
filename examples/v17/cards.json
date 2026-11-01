@@ -1,0 +1,14 @@
+{
+  "cards": [
+    {
+      "card_id": "URO-CARD-001",
+      "specialty": "urology",
+      "prompt": "Initial assessment of acute urinary retention"
+    },
+    {
+      "card_id": "URO-CARD-002",
+      "specialty": "urology",
+      "prompt": "Approach to visible haematuria"
+    }
+  ]
+}
