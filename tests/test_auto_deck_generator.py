@@ -314,7 +314,13 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             self.assertEqual(len(cards), 2)
             payload = json.loads(request.call_args.args[0].data.decode())
             user_payload = json.loads(payload["messages"][1]["content"])
-            self.assertEqual(user_payload["cards_to_write"], [{"slot": 1, "type": "mcq"}])
+            self.assertEqual(user_payload["cards_to_write"], [{
+                "slot": 1,
+                "type": "mcq",
+                "objective_id": "cataract-objective-01",
+                "learning_objective": "Recognize cataract",
+                "cognitive_level": "apply",
+            }])
             saved = json.loads(checkpoint.read_text(encoding="utf-8"))
             self.assertEqual(set(saved["slots"]), {"0", "1"})
 
@@ -352,6 +358,45 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
             with self.assertRaisesRegex(RuntimeError, "not installed"):
                 generator.check_ollama_model("http://localhost:11434", "llama3.1:8b", 10)
+
+    def test_blueprint_distributes_slots_across_weighted_objectives(self):
+        topic = {
+            "id": "glaucoma",
+            "name": "Glaucoma",
+            "learning_objectives": [
+                {"id": "mechanism", "title": "Explain mechanisms", "weight": 2},
+                {"id": "management", "title": "Select management", "weight": 1},
+            ],
+            "card_mix": {"basic": 2, "mcq": 1},
+        }
+        slots = generator.build_topic_blueprint(topic, 3)
+        self.assertEqual([slot["objective_id"] for slot in slots],
+                         ["mechanism", "management", "mechanism"])
+        self.assertEqual([slot["cognitive_level"] for slot in slots],
+                         ["understand", "understand", "apply"])
+
+    def test_blueprint_rejects_invalid_objective_weights(self):
+        with self.assertRaisesRegex(ValueError, "finite positive"):
+            generator.build_topic_blueprint({
+                "name": "Glaucoma",
+                "learning_objectives": [{"title": "Explain", "weight": 0}],
+            }, 1)
+
+    def test_compiled_curriculum_blueprint_counts_every_mapped_slot(self):
+        blueprint = generator.compile_curriculum_blueprint({
+            "specialty": "ophthalmology",
+            "curriculum_version": "test",
+            "topics": [{
+                "id": "cataract",
+                "name": "Cataract",
+                "card_count": 3,
+                "learning_objectives": ["Define cataract", "Recognize complications"],
+            }],
+        }, default_count=2)
+        self.assertEqual(blueprint["cards"], 3)
+        self.assertEqual(blueprint["objective_mapped_cards"], 3)
+        self.assertEqual(blueprint["topic_plans"][0]["objective_count"], 2)
+        self.assertEqual(sum(blueprint["topic_plans"][0]["objective_card_counts"].values()), 3)
 
 if __name__ == "__main__":
     unittest.main()
