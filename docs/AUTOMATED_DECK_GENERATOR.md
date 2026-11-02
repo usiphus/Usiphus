@@ -179,6 +179,37 @@ python usiphus_auto_deck.py --cards path/to/ophthalmology_cards.json \
   --formats both --output-dir build/ophthalmology
 ```
 
+## Generation quality and coverage gates
+
+For mapped multi-domain specialty curricula, generation now performs a preflight
+before making any Ollama request. Every topic must have a stable unique ID,
+a valid domain, at least three distinct learning objectives, coverage tags,
+exam emphasis and enough planned cards to cover each objective.
+
+Each generated topic batch is checked **before it is checkpointed**. The gate
+requires the exact requested card count and exam-format mix, exact mapping to
+the supplied learning-objective wording, coverage-tag traceability, distinct
+prompts, valid difficulty/cognitive labels, and format-specific structure:
+four or five distinct MCQ options with a listed key and rationale, a
+self-contained clinical vignette, a structured viva answer, and at least three
+observable OSCE checklist items. Model-supplied references are rejected unless
+they match faculty-supplied references; when none are supplied, the generator
+must not invent any.
+
+The run writes `coverage_report.json` with planned/generated topics,
+objectives covered, actual card-format mix, missing topic IDs and topics with
+no faculty references. `quality_report.json` includes the same coverage
+summary alongside the existing structural report. A failed topic gate blocks
+the deck export rather than silently accepting an incomplete batch. Resume
+checkpoints are revalidated against the same rules before reuse.
+
+These checks make the generator more predictable and make curriculum coverage
+auditable. They are **not** a clinical fact-checker: lexical mapping, structure,
+format counts and source-reference matching cannot prove that a diagnosis,
+investigation, management recommendation, dose, MCQ key or OSCE action is
+clinically correct or current. Cards remain unreviewed drafts until qualified
+specialty faculty verify each claim against current, appropriate evidence.
+
 ## Curriculum and clinical governance
 
 See `examples/ophthalmology/curriculum.json`. Every topic has a stable ID,
