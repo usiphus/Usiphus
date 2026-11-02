@@ -111,6 +111,24 @@ class DiscoveryTests(unittest.TestCase):
         self.assertIn("anki_shared_decks", report["topic_coverage"][0]["source_families_without_metadata_results"])
         self.assertFalse(report["governance"]["content_downloaded"])
 
+    def test_discovery_searches_each_learning_objective(self):
+        topic = fixture()["topics"][0]
+        seen = []
+        def fake_pubmed(query, limit, **kwargs):
+            seen.append(query)
+            return [discovery._record(
+                "pubmed", query, "https://example.org/" + str(len(seen)),
+                abstract=query,
+            )]
+        with patch.object(discovery, "search_pubmed", side_effect=fake_pubmed):
+            resources, errors = discovery.discover_topic(
+                topic, providers=("pubmed",), delay=0
+            )
+        self.assertIn("Diabetic retinopathy", seen)
+        self.assertIn(topic["learning_objectives"][0], seen)
+        objective_id = "retina-01-LO01"
+        self.assertTrue(any(objective_id in item["matched_objective_ids"] for item in resources))
+
     def test_invalid_provider_scheme_rejected(self):
         with self.assertRaises(discovery.DiscoveryError):
             discovery._request_json("http://example.org/api")
