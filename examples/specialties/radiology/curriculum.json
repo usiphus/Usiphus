@@ -1,0 +1,677 @@
+{
+  "specialty": "radiology",
+  "display_name": "Radiology and Diagnostic Imaging",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive radiology and diagnostic imaging curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "imaging-foundations",
+      "name": "Imaging foundations and safety",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in imaging foundations and safety. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "chest-cardiac",
+      "name": "Chest, cardiac and vascular imaging",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in chest, cardiac and vascular imaging. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "abdomen-msk",
+      "name": "Abdominal, pelvic and musculoskeletal imaging",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in abdominal, pelvic and musculoskeletal imaging. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "neuro-intervention",
+      "name": "Neuroradiology, breast and image-guided procedures",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in neuroradiology, breast and image-guided procedures. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Imaging foundations and safety",
+    "Chest, cardiac and vascular imaging",
+    "Abdominal, pelvic and musculoskeletal imaging",
+    "Neuroradiology, breast and image-guided procedures"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "imaging-foundations-01",
+      "domain_id": "imaging-foundations",
+      "domain": "Imaging foundations and safety",
+      "name": "Radiation physics, protection and contrast safety",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for radiation physics, protection and contrast safety.",
+        "Assess a patient with suspected radiation physics, protection and contrast safety, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "radiation physics, protection and contrast safety",
+        "radiology and diagnostic imaging assessment",
+        "radiology and diagnostic imaging investigations",
+        "radiology and diagnostic imaging management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Radiation physics, protection and contrast safety",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for radiation physics, protection and contrast safety.",
+        "Assess a patient with suspected radiation physics, protection and contrast safety, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Radiation physics, protection and contrast safety MCQ",
+        "Radiation physics, protection and contrast safety clinical case",
+        "Radiation physics, protection and contrast safety OSCE",
+        "Radiation physics, protection and contrast safety viva",
+        "Radiation physics, protection and contrast safety review guideline"
+      ]
+    },
+    {
+      "id": "imaging-foundations-02",
+      "domain_id": "imaging-foundations",
+      "domain": "Imaging foundations and safety",
+      "name": "Imaging selection, appropriateness and limitations",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for imaging selection, appropriateness and limitations.",
+        "Assess a patient with suspected imaging selection, appropriateness and limitations, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "imaging selection, appropriateness and limitations",
+        "radiology and diagnostic imaging assessment",
+        "radiology and diagnostic imaging investigations",
+        "radiology and diagnostic imaging management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Imaging selection, appropriateness and limitations",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for imaging selection, appropriateness and limitations.",
+        "Assess a patient with suspected imaging selection, appropriateness and limitations, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Imaging selection, appropriateness and limitations MCQ",
+        "Imaging selection, appropriateness and limitations clinical case",
+        "Imaging selection, appropriateness and limitations OSCE",
+        "Imaging selection, appropriateness and limitations viva",
+        "Imaging selection, appropriateness and limitations review guideline"
+      ]
+    },
+    {
+      "id": "imaging-foundations-03",
+      "domain_id": "imaging-foundations",
+      "domain": "Imaging foundations and safety",
+      "name": "Normal anatomy across radiographic, CT, MRI and ultrasound modalities",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for normal anatomy across radiographic, ct, mri and ultrasound modalities.",
+        "Assess a patient with suspected normal anatomy across radiographic, ct, mri and ultrasound modalities, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "normal anatomy across radiographic, ct, mri and ultrasound modalities",
+        "radiology and diagnostic imaging assessment",
+        "radiology and diagnostic imaging investigations",
+        "radiology and diagnostic imaging management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Normal anatomy across radiographic, CT, MRI and ultrasound modalities",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for normal anatomy across radiographic, ct, mri and ultrasound modalities.",
+        "Assess a patient with suspected normal anatomy across radiographic, ct, mri and ultrasound modalities, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Normal anatomy across radiographic, CT, MRI and ultrasound modalities MCQ",
+        "Normal anatomy across radiographic, CT, MRI and ultrasound modalities clinical case",
+        "Normal anatomy across radiographic, CT, MRI and ultrasound modalities OSCE",
+        "Normal anatomy across radiographic, CT, MRI and ultrasound modalities viva",
+        "Normal anatomy across radiographic, CT, MRI and ultrasound modalities review guideline"
+      ]
+    },
+    {
+      "id": "chest-cardiac-01",
+      "domain_id": "chest-cardiac",
+      "domain": "Chest, cardiac and vascular imaging",
+      "name": "Chest radiograph and thoracic CT interpretation",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for chest radiograph and thoracic ct interpretation.",
+        "Assess a patient with suspected chest radiograph and thoracic ct interpretation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "chest radiograph and thoracic ct interpretation",
+        "radiology and diagnostic imaging assessment",
+        "radiology and diagnostic imaging investigations",
+        "radiology and diagnostic imaging management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Chest radiograph and thoracic CT interpretation",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for chest radiograph and thoracic ct interpretation.",
+        "Assess a patient with suspected chest radiograph and thoracic ct interpretation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Chest radiograph and thoracic CT interpretation MCQ",
+        "Chest radiograph and thoracic CT interpretation clinical case",
+        "Chest radiograph and thoracic CT interpretation OSCE",
+        "Chest radiograph and thoracic CT interpretation viva",
+        "Chest radiograph and thoracic CT interpretation review guideline"
+      ]
+    },
+    {
+      "id": "chest-cardiac-02",
+      "domain_id": "chest-cardiac",
+      "domain": "Chest, cardiac and vascular imaging",
+      "name": "Cardiac, aortic and vascular imaging",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cardiac, aortic and vascular imaging.",
+        "Assess a patient with suspected cardiac, aortic and vascular imaging, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "cardiac, aortic and vascular imaging",
+        "radiology and diagnostic imaging assessment",
+        "radiology and diagnostic imaging investigations",
+        "radiology and diagnostic imaging management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Cardiac, aortic and vascular imaging",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cardiac, aortic and vascular imaging.",
+        "Assess a patient with suspected cardiac, aortic and vascular imaging, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Cardiac, aortic and vascular imaging MCQ",
+        "Cardiac, aortic and vascular imaging clinical case",
+        "Cardiac, aortic and vascular imaging OSCE",
+        "Cardiac, aortic and vascular imaging viva",
+        "Cardiac, aortic and vascular imaging review guideline"
+      ]
+    },
+    {
+      "id": "chest-cardiac-03",
+      "domain_id": "chest-cardiac",
+      "domain": "Chest, cardiac and vascular imaging",
+      "name": "Pulmonary, pleural and mediastinal pathology",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pulmonary, pleural and mediastinal pathology.",
+        "Assess a patient with suspected pulmonary, pleural and mediastinal pathology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "pulmonary, pleural and mediastinal pathology",
+        "radiology and diagnostic imaging assessment",
+        "radiology and diagnostic imaging investigations",
+        "radiology and diagnostic imaging management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Pulmonary, pleural and mediastinal pathology",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pulmonary, pleural and mediastinal pathology.",
+        "Assess a patient with suspected pulmonary, pleural and mediastinal pathology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Pulmonary, pleural and mediastinal pathology MCQ",
+        "Pulmonary, pleural and mediastinal pathology clinical case",
+        "Pulmonary, pleural and mediastinal pathology OSCE",
+        "Pulmonary, pleural and mediastinal pathology viva",
+        "Pulmonary, pleural and mediastinal pathology review guideline"
+      ]
+    },
+    {
+      "id": "abdomen-msk-01",
+      "domain_id": "abdomen-msk",
+      "domain": "Abdominal, pelvic and musculoskeletal imaging",
+      "name": "Acute abdomen and hepatobiliary imaging",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for acute abdomen and hepatobiliary imaging.",
+        "Assess a patient with suspected acute abdomen and hepatobiliary imaging, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "acute abdomen and hepatobiliary imaging",
+        "radiology and diagnostic imaging assessment",
+        "radiology and diagnostic imaging investigations",
+        "radiology and diagnostic imaging management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Acute abdomen and hepatobiliary imaging",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for acute abdomen and hepatobiliary imaging.",
+        "Assess a patient with suspected acute abdomen and hepatobiliary imaging, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Acute abdomen and hepatobiliary imaging MCQ",
+        "Acute abdomen and hepatobiliary imaging clinical case",
+        "Acute abdomen and hepatobiliary imaging OSCE",
+        "Acute abdomen and hepatobiliary imaging viva",
+        "Acute abdomen and hepatobiliary imaging review guideline"
+      ]
+    },
+    {
+      "id": "abdomen-msk-02",
+      "domain_id": "abdomen-msk",
+      "domain": "Abdominal, pelvic and musculoskeletal imaging",
+      "name": "Genitourinary, pelvic and obstetric imaging",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for genitourinary, pelvic and obstetric imaging.",
+        "Assess a patient with suspected genitourinary, pelvic and obstetric imaging, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "genitourinary, pelvic and obstetric imaging",
+        "radiology and diagnostic imaging assessment",
+        "radiology and diagnostic imaging investigations",
+        "radiology and diagnostic imaging management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Genitourinary, pelvic and obstetric imaging",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for genitourinary, pelvic and obstetric imaging.",
+        "Assess a patient with suspected genitourinary, pelvic and obstetric imaging, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Genitourinary, pelvic and obstetric imaging MCQ",
+        "Genitourinary, pelvic and obstetric imaging clinical case",
+        "Genitourinary, pelvic and obstetric imaging OSCE",
+        "Genitourinary, pelvic and obstetric imaging viva",
+        "Genitourinary, pelvic and obstetric imaging review guideline"
+      ]
+    },
+    {
+      "id": "abdomen-msk-03",
+      "domain_id": "abdomen-msk",
+      "domain": "Abdominal, pelvic and musculoskeletal imaging",
+      "name": "Musculoskeletal trauma, tumors and infection",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for musculoskeletal trauma, tumors and infection.",
+        "Assess a patient with suspected musculoskeletal trauma, tumors and infection, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "musculoskeletal trauma, tumors and infection",
+        "radiology and diagnostic imaging assessment",
+        "radiology and diagnostic imaging investigations",
+        "radiology and diagnostic imaging management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Musculoskeletal trauma, tumors and infection",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for musculoskeletal trauma, tumors and infection.",
+        "Assess a patient with suspected musculoskeletal trauma, tumors and infection, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Musculoskeletal trauma, tumors and infection MCQ",
+        "Musculoskeletal trauma, tumors and infection clinical case",
+        "Musculoskeletal trauma, tumors and infection OSCE",
+        "Musculoskeletal trauma, tumors and infection viva",
+        "Musculoskeletal trauma, tumors and infection review guideline"
+      ]
+    },
+    {
+      "id": "neuro-intervention-01",
+      "domain_id": "neuro-intervention",
+      "domain": "Neuroradiology, breast and image-guided procedures",
+      "name": "Brain, spine and head-and-neck imaging",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for brain, spine and head-and-neck imaging.",
+        "Assess a patient with suspected brain, spine and head-and-neck imaging, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "brain, spine and head-and-neck imaging",
+        "radiology and diagnostic imaging assessment",
+        "radiology and diagnostic imaging investigations",
+        "radiology and diagnostic imaging management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Brain, spine and head-and-neck imaging",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for brain, spine and head-and-neck imaging.",
+        "Assess a patient with suspected brain, spine and head-and-neck imaging, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Brain, spine and head-and-neck imaging MCQ",
+        "Brain, spine and head-and-neck imaging clinical case",
+        "Brain, spine and head-and-neck imaging OSCE",
+        "Brain, spine and head-and-neck imaging viva",
+        "Brain, spine and head-and-neck imaging review guideline"
+      ]
+    },
+    {
+      "id": "neuro-intervention-02",
+      "domain_id": "neuro-intervention",
+      "domain": "Neuroradiology, breast and image-guided procedures",
+      "name": "Breast imaging and screening principles",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for breast imaging and screening principles.",
+        "Assess a patient with suspected breast imaging and screening principles, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "breast imaging and screening principles",
+        "radiology and diagnostic imaging assessment",
+        "radiology and diagnostic imaging investigations",
+        "radiology and diagnostic imaging management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Breast imaging and screening principles",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for breast imaging and screening principles.",
+        "Assess a patient with suspected breast imaging and screening principles, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Breast imaging and screening principles MCQ",
+        "Breast imaging and screening principles clinical case",
+        "Breast imaging and screening principles OSCE",
+        "Breast imaging and screening principles viva",
+        "Breast imaging and screening principles review guideline"
+      ]
+    },
+    {
+      "id": "neuro-intervention-03",
+      "domain_id": "neuro-intervention",
+      "domain": "Neuroradiology, breast and image-guided procedures",
+      "name": "Image-guided biopsy, drainage and interventional radiology",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for image-guided biopsy, drainage and interventional radiology.",
+        "Assess a patient with suspected image-guided biopsy, drainage and interventional radiology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "image-guided biopsy, drainage and interventional radiology",
+        "radiology and diagnostic imaging assessment",
+        "radiology and diagnostic imaging investigations",
+        "radiology and diagnostic imaging management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Image-guided biopsy, drainage and interventional radiology",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for image-guided biopsy, drainage and interventional radiology.",
+        "Assess a patient with suspected image-guided biopsy, drainage and interventional radiology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Image-guided biopsy, drainage and interventional radiology MCQ",
+        "Image-guided biopsy, drainage and interventional radiology clinical case",
+        "Image-guided biopsy, drainage and interventional radiology OSCE",
+        "Image-guided biopsy, drainage and interventional radiology viva",
+        "Image-guided biopsy, drainage and interventional radiology review guideline"
+      ]
+    }
+  ]
+}
