@@ -9,11 +9,11 @@ import re
 from typing import Any
 
 RISK_PATTERNS = {
-    "drug_dose": re.compile(r"\\b(?:mg|mcg|µg|g|ml|mL|units?)\\s*/?\\s*(?:kg|day|dose|hour|hr)?\\b", re.I),
-    "contraindication": re.compile(r"\\bcontraindicat(?:ed|ion|ions)\\b", re.I),
-    "emergency_action": re.compile(r"\\b(?:immediate|urgent|emergency|first[- ]line|resuscitat)\\b", re.I),
-    "threshold": re.compile(r"\\b(?:cut[- ]?off|threshold|greater than|less than|\\d+\\s*(?:mmhg|mmol|cm|%) )\\b", re.I),
-    "red_flag": re.compile(r"\\b(?:red flag|danger sign|life[- ]threatening|must not miss)\\b", re.I),
+    "drug_dose": re.compile(r"\b(?:mg|mcg|µg|g|ml|mL|units?)\s*/?\s*(?:kg|day|dose|hour|hr)?\b", re.I),
+    "contraindication": re.compile(r"\bcontraindicat(?:ed|ion|ions)\b", re.I),
+    "emergency_action": re.compile(r"\b(?:immediate|urgent|emergency|first[- ]line|resuscitat)\b", re.I),
+    "threshold": re.compile(r"\b(?:cut[- ]?off|threshold|greater than|less than|\d+\s*(?:mmhg|mmol|cm|%) )\b", re.I),
+    "red_flag": re.compile(r"\b(?:red flag|danger sign|life[- ]threatening|must not miss)\b", re.I),
 }
 
 REQUIRED_SOURCE_FIELDS = (
