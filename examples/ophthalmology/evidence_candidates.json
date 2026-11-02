@@ -1,0 +1,393 @@
+{
+  "schema_version": 1,
+  "specialty": "ophthalmology",
+  "generated_on": "2026-11-03",
+  "status": "identified_unreviewed_guideline_candidates",
+  "source_count": 19,
+  "topic_count": 17,
+  "records": [
+    {
+      "id": "aao-ppp-candidate-01",
+      "topic_id": "clinical-skills-01",
+      "title": "AAO Comprehensive Adult Medical Eye Evaluation PPP 2025",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/comprehensive-adult-medical-eye-evaluation-ppp",
+      "date": "2025; published/updated February 2026",
+      "objectives": [
+        "clinical-skills-01-LO01",
+        "clinical-skills-01-LO02",
+        "clinical-skills-01-LO03"
+      ],
+      "scope_note": "Comprehensive adult history, examination, detection and referral.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-02",
+      "topic_id": "ocular-surface-cornea-02",
+      "title": "AAO Dry Eye Syndrome PPP 2023",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/dry-eye-syndrome-ppp-2023",
+      "date": "2023; published February 2024",
+      "objectives": [
+        "ocular-surface-cornea-02-LO01",
+        "ocular-surface-cornea-02-LO02"
+      ],
+      "scope_note": "Dry-eye and ocular-surface assessment; not a source for all conjunctival disorders.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-03",
+      "topic_id": "ocular-surface-cornea-03",
+      "title": "AAO Corneal Ectasia PPP 2023",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/corneal-ectasia-ppp-2023",
+      "date": "2023; published February 2024",
+      "objectives": [
+        "ocular-surface-cornea-03-LO01",
+        "ocular-surface-cornea-03-LO02",
+        "ocular-surface-cornea-03-LO03"
+      ],
+      "scope_note": "Ectasia, keratoconus and corneal imaging.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-04",
+      "topic_id": "ocular-surface-cornea-04",
+      "title": "AAO Bacterial Keratitis PPP 2023",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/bacterial-keratitis-ppp-2023",
+      "date": "2023; published February 2024",
+      "objectives": [
+        "ocular-surface-cornea-04-LO01",
+        "ocular-surface-cornea-04-LO02",
+        "ocular-surface-cornea-04-LO03"
+      ],
+      "scope_note": "Bacterial keratitis and corneal ulcer; does not comprehensively cover fungal, viral or Acanthamoeba disease.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-05",
+      "topic_id": "lens-refractive-01",
+      "title": "AAO Cataract in the Adult Eye PPP 2021",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/cataract-in-adult-eye-ppp-2021-in-press",
+      "date": "2021; verify superseding revision before clinical use",
+      "objectives": [
+        "lens-refractive-01-LO01",
+        "lens-refractive-01-LO02",
+        "lens-refractive-01-LO03"
+      ],
+      "scope_note": "Adult cataract; age/version requires currency check.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-06",
+      "topic_id": "glaucoma-01",
+      "title": "AAO Primary Open-Angle Glaucoma PPP 2025",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/primary-open-angle-glaucoma-ppp",
+      "date": "2025; journal version published February 2026",
+      "objectives": [
+        "glaucoma-01-LO01",
+        "glaucoma-01-LO02"
+      ],
+      "scope_note": "Primary open-angle glaucoma; supplement secondary glaucoma.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-07",
+      "topic_id": "glaucoma-01",
+      "title": "AAO Primary Angle-Closure Disease PPP 2025",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/primary-angle-closure-disease-ppp",
+      "date": "2025; published February 2026",
+      "objectives": [
+        "glaucoma-01-LO01",
+        "glaucoma-01-LO03"
+      ],
+      "scope_note": "Angle-closure classification and acute angle-closure.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-08",
+      "topic_id": "glaucoma-02",
+      "title": "AAO Primary Open-Angle Glaucoma Suspect PPP 2025",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/primary-open-angle-glaucoma-suspect-ppp",
+      "date": "2025; journal version published February 2026",
+      "objectives": [
+        "glaucoma-02-LO01",
+        "glaucoma-02-LO02",
+        "glaucoma-02-LO03"
+      ],
+      "scope_note": "Glaucoma risk, diagnostic testing and monitoring.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-09",
+      "topic_id": "glaucoma-03",
+      "title": "AAO Primary Open-Angle Glaucoma PPP 2025",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/primary-open-angle-glaucoma-ppp",
+      "date": "2025; journal version published February 2026",
+      "objectives": [
+        "glaucoma-03-LO01",
+        "glaucoma-03-LO02",
+        "glaucoma-03-LO03"
+      ],
+      "scope_note": "Medical, laser and surgical management; supplement procedural detail.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-10",
+      "topic_id": "medical-retina-01",
+      "title": "AAO Age-Related Macular Degeneration PPP 2024 (updated 2026)",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/age-related-macular-degeneration-ppp",
+      "date": "2024; updated December 2025/2026 page label",
+      "objectives": [
+        "medical-retina-01-LO01",
+        "medical-retina-01-LO02",
+        "medical-retina-01-LO03"
+      ],
+      "scope_note": "AMD phenotypes, macular disease and imaging.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-11",
+      "topic_id": "medical-retina-02",
+      "title": "AAO Diabetic Retinopathy PPP 2024",
+      "url": "https://www.aaojournal.org/article/S0161-6420%2824%2900784-X/fulltext",
+      "date": "Published online February 7, 2025",
+      "doi": "10.1016/j.ophtha.2024.12.020",
+      "objectives": [
+        "medical-retina-02-LO01",
+        "medical-retina-02-LO02",
+        "medical-retina-02-LO03"
+      ],
+      "scope_note": "Diabetic retinopathy grading, macular edema and treatment.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-12",
+      "topic_id": "medical-retina-03",
+      "title": "AAO Retinal and Ophthalmic Artery Occlusions PPP 2024",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/retinal-ophthalmic-artery-occlusions-ppp",
+      "date": "2024; verify page revision date",
+      "objectives": [
+        "medical-retina-03-LO01",
+        "medical-retina-03-LO02",
+        "medical-retina-03-LO03"
+      ],
+      "scope_note": "Retinal arterial occlusion and urgent stroke/systemic evaluation.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-13",
+      "topic_id": "medical-retina-03",
+      "title": "AAO Retinal Vein Occlusions PPP 2024 (updated 2026)",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/retinal-vein-occlusions-ppp",
+      "date": "2024; updated June 2026",
+      "objectives": [
+        "medical-retina-03-LO01",
+        "medical-retina-03-LO02",
+        "medical-retina-03-LO03"
+      ],
+      "scope_note": "Retinal vein occlusion classification, complications and treatment.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-14",
+      "topic_id": "vitreoretinal-01",
+      "title": "AAO Posterior Vitreous Detachment, Retinal Breaks, and Lattice Degeneration PPP 2024",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/posterior-vitreous-detachment-retinal-breaks-latti",
+      "date": "2024; AAO page crawled February 2025",
+      "objectives": [
+        "vitreoretinal-01-LO01",
+        "vitreoretinal-01-LO02",
+        "vitreoretinal-01-LO03"
+      ],
+      "scope_note": "PVD, retinal tear and vitreous symptom assessment.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-15",
+      "topic_id": "vitreoretinal-02",
+      "title": "AAO Posterior Vitreous Detachment, Retinal Breaks, and Lattice Degeneration PPP 2024",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/posterior-vitreous-detachment-retinal-breaks-latti",
+      "date": "2024; AAO page crawled February 2025",
+      "objectives": [
+        "vitreoretinal-02-LO01",
+        "vitreoretinal-02-LO02"
+      ],
+      "scope_note": "Retinal breaks and detachment urgency; supplement with surgical technique sources.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-16",
+      "topic_id": "pediatric-01",
+      "title": "AAO Pediatric Eye Evaluations PPP 2022 (updated February 2026)",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/pediatric-eye-evaluations-ppp-2022",
+      "date": "2022; correction update February 2026",
+      "objectives": [
+        "pediatric-01-LO01",
+        "pediatric-01-LO02",
+        "pediatric-01-LO03"
+      ],
+      "scope_note": "Age-appropriate assessment, screening and childhood visual development.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-17",
+      "topic_id": "pediatric-02",
+      "title": "AAO Amblyopia PPP 2022 (updated 2024)",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/amblyopia-ppp-2022",
+      "date": "2022; updated February 2024",
+      "objectives": [
+        "pediatric-02-LO01",
+        "pediatric-02-LO02",
+        "pediatric-02-LO03"
+      ],
+      "scope_note": "Amblyopia classification and treatment; add a dedicated strabismus guideline.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-18",
+      "topic_id": "surgery-rehabilitation-03",
+      "title": "AAO Vision Rehabilitation PPP 2022",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/vision-rehabilitation-ppp-2022",
+      "date": "December 2022",
+      "objectives": [
+        "surgery-rehabilitation-03-LO01",
+        "surgery-rehabilitation-03-LO02",
+        "surgery-rehabilitation-03-LO03"
+      ],
+      "scope_note": "Low-vision assessment, rehabilitation and participation.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    },
+    {
+      "id": "aao-ppp-candidate-19",
+      "topic_id": "systemic-pharmacology-01",
+      "title": "AAO Comprehensive Adult Medical Eye Evaluation PPP 2025",
+      "url": "https://www.aao.org/education/preferred-practice-pattern/comprehensive-adult-medical-eye-evaluation-ppp",
+      "date": "2025; published/updated February 2026",
+      "objectives": [
+        "systemic-pharmacology-01-LO01",
+        "systemic-pharmacology-01-LO02",
+        "systemic-pharmacology-01-LO03"
+      ],
+      "scope_note": "Systemic risk factors and ocular manifestations in comprehensive adult assessment; not disease-specific systemic guidance.",
+      "organization": "American Academy of Ophthalmology",
+      "source_type": "professional_society_clinical_guideline",
+      "evidence_role": "guideline_or_consensus",
+      "access_status": "public_guideline_page_link_only",
+      "licence": "link_only; AAO copyright applies; do not reproduce guideline text without permission",
+      "review_status": "identified_unreviewed",
+      "retrieved_at": "2026-11-03"
+    }
+  ],
+  "curation_policy": {
+    "objective_mapping": "Candidate relevance mapping for faculty triage only; it does not prove the guideline supports every listed objective.",
+    "reuse": "No excerpts or guideline text stored. Verify permissions before any reproduction.",
+    "currency": "Verify current version, supersession and local applicability before clinical use.",
+    "strict_generation": "These links do not count as usable evidence excerpts; evidence-required generation remains blocked."
+  }
+}
