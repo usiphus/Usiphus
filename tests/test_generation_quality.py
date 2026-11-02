@@ -1,5 +1,6 @@
 import unittest
 
+from usiphus_auto_deck import generate_validated_topic_cards
 from usiphus_generation_quality import (
     build_generation_coverage_report,
     validate_curriculum_blueprint,
@@ -129,6 +130,25 @@ class GenerationQualityTests(unittest.TestCase):
                 topic(), rows, specialty="urology",
                 requested_mix={"basic": 1, "mcq": 2, "clinical_case": 1, "viva": 1, "osce": 1},
             )
+
+
+    def test_generator_retries_with_specific_quality_feedback(self):
+        invalid = cards()
+        invalid[0]["learning_objective"] = "An unrelated objective."
+        valid = cards()
+        with unittest.mock.patch(
+            "usiphus_auto_deck.generate_topic_cards",
+            side_effect=[invalid, valid],
+        ) as generate:
+            generated, report = generate_validated_topic_cards(
+                topic(), specialty="urology", level="medical students",
+                model="test-model", ollama_url="http://localhost:11434",
+                count=6, max_output_tokens=2048,
+            )
+        self.assertTrue(report["coverage_complete"])
+        self.assertEqual(len(generated), 6)
+        self.assertEqual(generate.call_count, 2)
+        self.assertIn("_quality_feedback", generate.call_args_list[1].args[0])
 
     def test_coverage_report_identifies_missing_curriculum_topics(self):
         curriculum = {"specialty": "urology", "topics": [topic(), {**topic(), "id": "urology-02"}]}
