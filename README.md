@@ -156,3 +156,26 @@ Learner progress, item-level response data and review schedules can be sensitive
 - V15 evidence governance: docs/V15_EVIDENCE_GOVERNANCE.md
 - V14 unified release platform: docs/V14_UNIFIED_RELEASE_PLATFORM.md
 - Safety, privacy, and security checklist: docs/SAFETY_AND_PRIVACY.md
+
+## Curriculum-aware resource discovery
+
+Usiphus now includes a public-metadata discovery engine that maps scholarly
+resources to each curriculum topic and learning objective. It queries PubMed
+(NCBI E-utilities), PubMed Central/open-access records and Cureus-indexed
+articles (Europe PMC), and Crossref. It also creates topic-specific public
+search links for AnkiWeb, DoctorDE, Geeky Medics, TeachMeSeries, professional
+guidelines, DOAJ and open educational resources where a documented public API
+is not available.
+
+```bash
+python usiphus_resource_discovery.py \
+  --curriculum examples/ophthalmology/curriculum.json \
+  --output-dir build/ophthalmology-discovery
+```
+
+The output contains `resources.json` and `coverage_report.json`, including
+topic/objective mappings, source-family coverage gaps and provider errors.
+The engine stores metadata and links only; it does not scrape gated websites,
+download decks or article bodies, or reproduce proprietary exam questions.
+All records start unreviewed, and relevance ranking is not a clinical quality
+grade. See [the discovery engine guide](docs/RESOURCE_DISCOVERY_ENGINE.md).
