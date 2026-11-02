@@ -37,6 +37,12 @@ class EvidenceTests(unittest.TestCase):
         result = evidence.validate_evidence_packet(value)
         self.assertFalse(result["evidence_ready"])
 
+    def test_open_access_flag_without_full_text_review_is_not_evidence(self):
+        value = packet()
+        value["sources"][0]["access_status"] = "open_access_flag_article_licence_check_required"
+        result = evidence.validate_evidence_packet(value)
+        self.assertFalse(result["evidence_ready"])
+
     def test_claim_must_match_source_and_locator(self):
         card = {"prompt": "What is the principle?", "answer": "A sufficiently detailed educational answer.",
                 "evidence_claims": [{"claim_id": "c1", "text": "The stated recommendation.",
