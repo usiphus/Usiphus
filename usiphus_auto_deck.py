@@ -25,6 +25,7 @@ from usiphus_generation_quality import (
     validate_curriculum_blueprint,
     validate_topic_cards,
 )
+from usiphus_evidence import validate_card_evidence, validate_evidence_packet
 from usiphus_v7 import export_apkg
 
 DEFAULT_OLLAMA_MODEL = "llama3.1:8b"
@@ -102,6 +103,7 @@ def generate_topic_cards(
         "learning_objectives": objectives,
         "exam_emphasis": topic.get("exam_emphasis", []),
         "faculty_supplied_reference_sources": source_refs,
+        "curated_evidence_packet": topic.get("evidence_packet"),
         "requested_card_count": count,
         "requested_card_mix": card_mix,
         "quality_feedback": topic.get("_quality_feedback", ""),
@@ -115,12 +117,13 @@ def generate_topic_cards(
         "Create accurate, appropriately qualified educational drafts, not clinical advice. "
         "Do not invent references, DOI values, guideline dates, statistics, or quotations. "
         "Use only faculty-supplied references; if none are supplied, return references as []. "
+        "When curated_evidence_packet is supplied, map each clinically material factual claim to exact snippet IDs using evidence_claims objects with claim_id, text, source_id, snippet_id and locator. Never cite search results or metadata as evidence. If the packet lacks support, state the gap rather than inventing a claim. "
         "If quality_feedback is present, correct every listed issue in this attempt. "
         "Flag uncertain or guideline-dependent claims in the answer for faculty verification. "
         "Return ONLY a JSON object with a cards array. Each card must have card_id, "
         "specialty, card_type (basic, mcq, viva, osce, clinical_case), difficulty, "
         "prompt, answer, options, correct_option, learning_objective, tags, references, "
-        "cognitive_level, exam_domain, rubric, evidence_status. Every prompt must end in '?' or ':'. "
+        "cognitive_level, exam_domain, rubric, evidence_status, evidence_claims. Every prompt must end in '?' or ':'. "
         "Exactly one correct MCQ option. "
         "Follow requested_card_mix exactly where possible and return exactly requested_card_count cards. "
         "For MCQs use 4-5 plausible options, one unambiguous key, and explain why the key is correct "
@@ -278,6 +281,33 @@ def generate_validated_topic_cards(
             report = validate_topic_cards(
                 topic, cards, specialty=specialty, requested_mix=mix
             )
+            packet = topic.get("evidence_packet")
+            if packet is not None:
+                packet_report = validate_evidence_packet(packet)
+                if not packet_report["evidence_ready"]:
+                    raise ValueError(
+                        "Evidence packet has no eligible reviewed snippets; "
+                        "metadata/search results cannot ground clinical claims"
+                    )
+                evidence_reports = [
+                    validate_card_evidence(card, packet) for card in cards
+                ]
+                invalid = [
+                    f"card {index}: {item['errors']}"
+                    for index, item in enumerate(evidence_reports, 1)
+                    if not item["valid"]
+                ]
+                if invalid:
+                    raise ValueError("Claim-level evidence validation failed: " + "; ".join(invalid))
+                report["evidence_claims_mapped"] = sum(
+                    item["claim_count"] for item in evidence_reports
+                )
+                report["high_risk_claim_flags"] = [
+                    flag for item in evidence_reports for flag in item["high_risk_flags"]
+                ]
+                report["evidence_status"] = "evidence_mapped_unreviewed"
+            else:
+                report["evidence_status"] = "unreviewed_source_gap"
             return cards, report
         except ValueError as exc:
             last_error = exc
