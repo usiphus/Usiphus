@@ -194,7 +194,9 @@ This catches common setup errors before a long run starts:
 ```bash
 python usiphus_auto_deck.py --generate \
   --curriculum examples/ophthalmology/curriculum.json \
-  --model phi4-mini --preflight --plan-only
+  --model phi4-mini --preflight --cards-per-topic 3 \
+  --override-curriculum-card-counts --formats anki \
+  --output-dir build/ophthalmology --resume
 ```
 
 The generator also writes `generation_metrics.json` with per-topic elapsed
