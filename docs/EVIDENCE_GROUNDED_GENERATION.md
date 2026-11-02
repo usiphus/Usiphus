@@ -86,3 +86,6 @@ the structured source records and provenance fields.
 Do not publish or teach from generated cards solely because their status is
 source-linked. The workflow deliberately keeps faculty verification separate
 from source discovery and automated traceability.
+
+
+See [OPHTHALMOLOGY_EVIDENCE_PACKS.md](OPHTHALMOLOGY_EVIDENCE_PACKS.md) for the topic-by-topic discovery layer, source hierarchy, licensing safeguards and faculty completion workflow.
