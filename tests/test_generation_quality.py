@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 
 from usiphus_auto_deck import generate_validated_topic_cards
 from usiphus_generation_quality import (
@@ -136,7 +137,7 @@ class GenerationQualityTests(unittest.TestCase):
         invalid = cards()
         invalid[0]["learning_objective"] = "An unrelated objective."
         valid = cards()
-        with unittest.mock.patch(
+        with patch(
             "usiphus_auto_deck.generate_topic_cards",
             side_effect=[invalid, valid],
         ) as generate:
