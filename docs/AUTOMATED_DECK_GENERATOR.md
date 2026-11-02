@@ -147,8 +147,9 @@ per request. Adjust it with `--max-output-tokens`. The legacy
 `--max-ollama-calls` option limits topic count (default 500), not repair calls.
 Total cards are controlled by topic card counts.
 
-Outputs include the Anki package, PowerPoint, `generated_cards.json` and
-`quality_report.json`.
+Outputs include the Anki package, PowerPoint, `generated_cards.json`,
+`quality_report.json` and `generation_metrics.json`. Partial-topic and
+completed-topic recovery files are kept under `.checkpoints/`.
 
 ### Slow local computers, timeouts and safe resume
 
