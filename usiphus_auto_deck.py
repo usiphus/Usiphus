@@ -413,7 +413,11 @@ def build(args: argparse.Namespace) -> int:
             cards = None
             if args.resume and checkpoint_path.exists():
                 saved = load_json(checkpoint_path)
-                if saved.get("signature") == signature and isinstance(saved.get("cards"), list):
+                if (
+                    saved.get("signature") == signature
+                    and isinstance(saved.get("cards"), list)
+                    and len(saved["cards"]) == count
+                ):
                     cards = saved["cards"]
                     print(f"[Resume] {index}/{topic_count}: {topic.get('name') or topic.get('topic')} — loaded {len(cards)} saved cards")
                 else:
