@@ -92,13 +92,14 @@ class GenerationQualityTests(unittest.TestCase):
             validate_curriculum_blueprint(curriculum)
 
     def test_topic_validation_enforces_mix_and_objective_coverage(self):
+        rows = cards()
         result = validate_topic_cards(
-            topic(), cards(), specialty="urology",
+            topic(), rows, specialty="urology",
             requested_mix={"basic": 1, "mcq": 2, "clinical_case": 1, "viva": 1, "osce": 1},
         )
         self.assertTrue(result["coverage_complete"])
         self.assertEqual(result["objectives_covered"], 3)
-        self.assertTrue(all(card["evidence_status"] == "unreviewed" for card in cards()))
+        self.assertTrue(all(card["evidence_status"] == "unreviewed" for card in rows))
 
     def test_topic_validation_rejects_missing_objective_coverage(self):
         rows = cards()
