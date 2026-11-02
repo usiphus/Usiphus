@@ -115,6 +115,19 @@ python -m pip install genanki python-pptx
 Ensure the Ollama server is running. If it is not started automatically, run
 `ollama serve`.
 
+## Preview the workload before generating
+
+Use `--plan-only` to see the number of topics, total cards, per-topic card
+mix, model, formats and output directory without contacting Ollama or creating
+the output directory. This is especially useful when testing
+`--cards-per-topic` and `--override-curriculum-card-counts`.
+
+```bash
+python usiphus_auto_deck.py --generate \
+  --curriculum examples/ophthalmology/curriculum.json \
+  --cards-per-topic 3 --override-curriculum-card-counts --plan-only
+```
+
 ## Generate both formats
 
 Run from the repository root:
