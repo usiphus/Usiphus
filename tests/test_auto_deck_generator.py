@@ -47,7 +47,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         args = generator.parse_args(["--generate", "--curriculum", "curriculum.json"])
         self.assertIsNone(args.specialty)
         self.assertIsNone(args.level)
-        self.assertEqual(args.max_ollama_calls, 25)
+        self.assertEqual(args.max_ollama_calls, 50)
         self.assertEqual(args.max_output_tokens, 3500)
         self.assertEqual(args.model, "llama3.1:8b")
         self.assertEqual(args.ollama_url, "http://localhost:11434")
@@ -117,6 +117,41 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "max-ollama-calls"):
                     generator.build(args)
                 request.assert_not_called()
+
+    def test_full_ophthalmology_blueprint_covers_all_domains(self):
+        path = Path(__file__).resolve().parents[1] / "examples" / "ophthalmology" / "curriculum.json"
+        curriculum = generator.load_curriculum(path)
+        domains = curriculum["curriculum_domains"]
+        topics = curriculum["topics"]
+        domain_ids = {item["id"] for item in domains}
+        self.assertEqual(len(domains), 14)
+        self.assertEqual(len(topics), 42)
+        self.assertEqual(curriculum["planned_card_count"], 252)
+        self.assertEqual(len({topic["id"] for topic in topics}), len(topics))
+        self.assertTrue(all(topic["domain_id"] in domain_ids for topic in topics))
+        self.assertTrue(all(len(topic["learning_objectives"]) >= 3 for topic in topics))
+        self.assertTrue(all(topic["coverage_tags"] for topic in topics))
+
+    def test_generation_payload_includes_curriculum_domain_and_coverage(self):
+        response = {"message": {"content": json.dumps({"cards": [
+            {"prompt": "Name a cause of retinal detachment?", "answer": "A retinal break."}
+        ]})}}
+        class FakeResponse:
+            def __enter__(self): return self
+            def __exit__(self, *args): return False
+            def read(self, _limit): return json.dumps(response).encode()
+        topic = {"id": "vitreoretinal-02", "domain_id": "vitreoretinal",
+                 "domain": "Vitreoretinal disease and surgery", "name": "Retinal detachment",
+                 "coverage_tags": ["retinal detachment"], "learning_objectives": ["Recognize detachment"]}
+        with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()) as request:
+            generator.generate_topic_cards(
+                topic, specialty="ophthalmology", level="residents", model="test-model",
+                ollama_url="http://localhost:11434", count=1, max_output_tokens=1024)
+        sent = json.loads(request.call_args.args[0].data.decode())
+        payload = json.loads(sent["messages"][1]["content"])
+        self.assertEqual(payload["curriculum_domain"], "Vitreoretinal disease and surgery")
+        self.assertEqual(payload["domain_id"], "vitreoretinal")
+        self.assertEqual(payload["coverage_tags"], ["retinal detachment"])
 
 
 if __name__ == "__main__":
