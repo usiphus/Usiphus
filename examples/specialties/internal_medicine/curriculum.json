@@ -1,0 +1,677 @@
+{
+  "specialty": "internal_medicine",
+  "display_name": "Internal Medicine",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive internal medicine curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "acute-general-medicine",
+      "name": "Acute and general internal medicine",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in acute and general internal medicine. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "cardiorespiratory",
+      "name": "Cardiovascular and respiratory medicine",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in cardiovascular and respiratory medicine. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "systems-medicine",
+      "name": "System-based medical specialties",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in system-based medical specialties. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "longitudinal-medicine",
+      "name": "Longitudinal and multisystem medicine",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in longitudinal and multisystem medicine. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Acute and general internal medicine",
+    "Cardiovascular and respiratory medicine",
+    "System-based medical specialties",
+    "Longitudinal and multisystem medicine"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "acute-general-medicine-01",
+      "domain_id": "acute-general-medicine",
+      "domain": "Acute and general internal medicine",
+      "name": "Approach to undifferentiated medical presentations",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for approach to undifferentiated medical presentations.",
+        "Assess a patient with suspected approach to undifferentiated medical presentations, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "approach to undifferentiated medical presentations",
+        "internal medicine assessment",
+        "internal medicine investigations",
+        "internal medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Approach to undifferentiated medical presentations",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for approach to undifferentiated medical presentations.",
+        "Assess a patient with suspected approach to undifferentiated medical presentations, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Approach to undifferentiated medical presentations MCQ",
+        "Approach to undifferentiated medical presentations clinical case",
+        "Approach to undifferentiated medical presentations OSCE",
+        "Approach to undifferentiated medical presentations viva",
+        "Approach to undifferentiated medical presentations review guideline"
+      ]
+    },
+    {
+      "id": "acute-general-medicine-02",
+      "domain_id": "acute-general-medicine",
+      "domain": "Acute and general internal medicine",
+      "name": "Sepsis and septic shock",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for sepsis and septic shock.",
+        "Assess a patient with suspected sepsis and septic shock, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "sepsis and septic shock",
+        "internal medicine assessment",
+        "internal medicine investigations",
+        "internal medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Sepsis and septic shock",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for sepsis and septic shock.",
+        "Assess a patient with suspected sepsis and septic shock, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Sepsis and septic shock MCQ",
+        "Sepsis and septic shock clinical case",
+        "Sepsis and septic shock OSCE",
+        "Sepsis and septic shock viva",
+        "Sepsis and septic shock review guideline"
+      ]
+    },
+    {
+      "id": "acute-general-medicine-03",
+      "domain_id": "acute-general-medicine",
+      "domain": "Acute and general internal medicine",
+      "name": "Fluid, electrolyte and acid–base disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for fluid, electrolyte and acid–base disorders.",
+        "Assess a patient with suspected fluid, electrolyte and acid–base disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "fluid, electrolyte and acid–base disorders",
+        "internal medicine assessment",
+        "internal medicine investigations",
+        "internal medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Fluid, electrolyte and acid–base disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for fluid, electrolyte and acid–base disorders.",
+        "Assess a patient with suspected fluid, electrolyte and acid–base disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Fluid, electrolyte and acid–base disorders MCQ",
+        "Fluid, electrolyte and acid–base disorders clinical case",
+        "Fluid, electrolyte and acid–base disorders OSCE",
+        "Fluid, electrolyte and acid–base disorders viva",
+        "Fluid, electrolyte and acid–base disorders review guideline"
+      ]
+    },
+    {
+      "id": "cardiorespiratory-01",
+      "domain_id": "cardiorespiratory",
+      "domain": "Cardiovascular and respiratory medicine",
+      "name": "Hypertension and cardiovascular risk",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hypertension and cardiovascular risk.",
+        "Assess a patient with suspected hypertension and cardiovascular risk, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "hypertension and cardiovascular risk",
+        "internal medicine assessment",
+        "internal medicine investigations",
+        "internal medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Hypertension and cardiovascular risk",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hypertension and cardiovascular risk.",
+        "Assess a patient with suspected hypertension and cardiovascular risk, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Hypertension and cardiovascular risk MCQ",
+        "Hypertension and cardiovascular risk clinical case",
+        "Hypertension and cardiovascular risk OSCE",
+        "Hypertension and cardiovascular risk viva",
+        "Hypertension and cardiovascular risk review guideline"
+      ]
+    },
+    {
+      "id": "cardiorespiratory-02",
+      "domain_id": "cardiorespiratory",
+      "domain": "Cardiovascular and respiratory medicine",
+      "name": "Heart failure and acute coronary syndromes",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for heart failure and acute coronary syndromes.",
+        "Assess a patient with suspected heart failure and acute coronary syndromes, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "heart failure and acute coronary syndromes",
+        "internal medicine assessment",
+        "internal medicine investigations",
+        "internal medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Heart failure and acute coronary syndromes",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for heart failure and acute coronary syndromes.",
+        "Assess a patient with suspected heart failure and acute coronary syndromes, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Heart failure and acute coronary syndromes MCQ",
+        "Heart failure and acute coronary syndromes clinical case",
+        "Heart failure and acute coronary syndromes OSCE",
+        "Heart failure and acute coronary syndromes viva",
+        "Heart failure and acute coronary syndromes review guideline"
+      ]
+    },
+    {
+      "id": "cardiorespiratory-03",
+      "domain_id": "cardiorespiratory",
+      "domain": "Cardiovascular and respiratory medicine",
+      "name": "Asthma, COPD and respiratory failure",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for asthma, copd and respiratory failure.",
+        "Assess a patient with suspected asthma, copd and respiratory failure, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "asthma, copd and respiratory failure",
+        "internal medicine assessment",
+        "internal medicine investigations",
+        "internal medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Asthma, COPD and respiratory failure",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for asthma, copd and respiratory failure.",
+        "Assess a patient with suspected asthma, copd and respiratory failure, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Asthma, COPD and respiratory failure MCQ",
+        "Asthma, COPD and respiratory failure clinical case",
+        "Asthma, COPD and respiratory failure OSCE",
+        "Asthma, COPD and respiratory failure viva",
+        "Asthma, COPD and respiratory failure review guideline"
+      ]
+    },
+    {
+      "id": "systems-medicine-01",
+      "domain_id": "systems-medicine",
+      "domain": "System-based medical specialties",
+      "name": "Diabetes and endocrine emergencies",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for diabetes and endocrine emergencies.",
+        "Assess a patient with suspected diabetes and endocrine emergencies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "diabetes and endocrine emergencies",
+        "internal medicine assessment",
+        "internal medicine investigations",
+        "internal medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Diabetes and endocrine emergencies",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for diabetes and endocrine emergencies.",
+        "Assess a patient with suspected diabetes and endocrine emergencies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Diabetes and endocrine emergencies MCQ",
+        "Diabetes and endocrine emergencies clinical case",
+        "Diabetes and endocrine emergencies OSCE",
+        "Diabetes and endocrine emergencies viva",
+        "Diabetes and endocrine emergencies review guideline"
+      ]
+    },
+    {
+      "id": "systems-medicine-02",
+      "domain_id": "systems-medicine",
+      "domain": "System-based medical specialties",
+      "name": "Acute kidney injury and chronic kidney disease",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for acute kidney injury and chronic kidney disease.",
+        "Assess a patient with suspected acute kidney injury and chronic kidney disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "acute kidney injury and chronic kidney disease",
+        "internal medicine assessment",
+        "internal medicine investigations",
+        "internal medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Acute kidney injury and chronic kidney disease",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for acute kidney injury and chronic kidney disease.",
+        "Assess a patient with suspected acute kidney injury and chronic kidney disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Acute kidney injury and chronic kidney disease MCQ",
+        "Acute kidney injury and chronic kidney disease clinical case",
+        "Acute kidney injury and chronic kidney disease OSCE",
+        "Acute kidney injury and chronic kidney disease viva",
+        "Acute kidney injury and chronic kidney disease review guideline"
+      ]
+    },
+    {
+      "id": "systems-medicine-03",
+      "domain_id": "systems-medicine",
+      "domain": "System-based medical specialties",
+      "name": "Gastrointestinal bleeding and chronic liver disease",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for gastrointestinal bleeding and chronic liver disease.",
+        "Assess a patient with suspected gastrointestinal bleeding and chronic liver disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "gastrointestinal bleeding and chronic liver disease",
+        "internal medicine assessment",
+        "internal medicine investigations",
+        "internal medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Gastrointestinal bleeding and chronic liver disease",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for gastrointestinal bleeding and chronic liver disease.",
+        "Assess a patient with suspected gastrointestinal bleeding and chronic liver disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Gastrointestinal bleeding and chronic liver disease MCQ",
+        "Gastrointestinal bleeding and chronic liver disease clinical case",
+        "Gastrointestinal bleeding and chronic liver disease OSCE",
+        "Gastrointestinal bleeding and chronic liver disease viva",
+        "Gastrointestinal bleeding and chronic liver disease review guideline"
+      ]
+    },
+    {
+      "id": "longitudinal-medicine-01",
+      "domain_id": "longitudinal-medicine",
+      "domain": "Longitudinal and multisystem medicine",
+      "name": "Infectious diseases and antimicrobial stewardship",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for infectious diseases and antimicrobial stewardship.",
+        "Assess a patient with suspected infectious diseases and antimicrobial stewardship, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "infectious diseases and antimicrobial stewardship",
+        "internal medicine assessment",
+        "internal medicine investigations",
+        "internal medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Infectious diseases and antimicrobial stewardship",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for infectious diseases and antimicrobial stewardship.",
+        "Assess a patient with suspected infectious diseases and antimicrobial stewardship, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Infectious diseases and antimicrobial stewardship MCQ",
+        "Infectious diseases and antimicrobial stewardship clinical case",
+        "Infectious diseases and antimicrobial stewardship OSCE",
+        "Infectious diseases and antimicrobial stewardship viva",
+        "Infectious diseases and antimicrobial stewardship review guideline"
+      ]
+    },
+    {
+      "id": "longitudinal-medicine-02",
+      "domain_id": "longitudinal-medicine",
+      "domain": "Longitudinal and multisystem medicine",
+      "name": "Haematology, thrombosis and common malignancies",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for haematology, thrombosis and common malignancies.",
+        "Assess a patient with suspected haematology, thrombosis and common malignancies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "haematology, thrombosis and common malignancies",
+        "internal medicine assessment",
+        "internal medicine investigations",
+        "internal medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Haematology, thrombosis and common malignancies",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for haematology, thrombosis and common malignancies.",
+        "Assess a patient with suspected haematology, thrombosis and common malignancies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Haematology, thrombosis and common malignancies MCQ",
+        "Haematology, thrombosis and common malignancies clinical case",
+        "Haematology, thrombosis and common malignancies OSCE",
+        "Haematology, thrombosis and common malignancies viva",
+        "Haematology, thrombosis and common malignancies review guideline"
+      ]
+    },
+    {
+      "id": "longitudinal-medicine-03",
+      "domain_id": "longitudinal-medicine",
+      "domain": "Longitudinal and multisystem medicine",
+      "name": "Rheumatology, connective-tissue disease and multimorbidity",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for rheumatology, connective-tissue disease and multimorbidity.",
+        "Assess a patient with suspected rheumatology, connective-tissue disease and multimorbidity, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "rheumatology, connective-tissue disease and multimorbidity",
+        "internal medicine assessment",
+        "internal medicine investigations",
+        "internal medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Rheumatology, connective-tissue disease and multimorbidity",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for rheumatology, connective-tissue disease and multimorbidity.",
+        "Assess a patient with suspected rheumatology, connective-tissue disease and multimorbidity, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Rheumatology, connective-tissue disease and multimorbidity MCQ",
+        "Rheumatology, connective-tissue disease and multimorbidity clinical case",
+        "Rheumatology, connective-tissue disease and multimorbidity OSCE",
+        "Rheumatology, connective-tissue disease and multimorbidity viva",
+        "Rheumatology, connective-tissue disease and multimorbidity review guideline"
+      ]
+    }
+  ]
+}
