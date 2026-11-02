@@ -1,0 +1,677 @@
+{
+  "specialty": "emergency_medicine",
+  "display_name": "Emergency Medicine",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive emergency medicine curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "resuscitation",
+      "name": "Resuscitation and critical presentations",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in resuscitation and critical presentations. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "medical-emergencies",
+      "name": "Medical emergencies",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in medical emergencies. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "trauma",
+      "name": "Trauma and injury",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in trauma and injury. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "emergency-practice",
+      "name": "Emergency procedures and safe disposition",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in emergency procedures and safe disposition. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Resuscitation and critical presentations",
+    "Medical emergencies",
+    "Trauma and injury",
+    "Emergency procedures and safe disposition"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "resuscitation-01",
+      "domain_id": "resuscitation",
+      "domain": "Resuscitation and critical presentations",
+      "name": "ABCDE assessment and initial stabilization",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for abcde assessment and initial stabilization.",
+        "Assess a patient with suspected abcde assessment and initial stabilization, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "abcde assessment and initial stabilization",
+        "emergency medicine assessment",
+        "emergency medicine investigations",
+        "emergency medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "ABCDE assessment and initial stabilization",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for abcde assessment and initial stabilization.",
+        "Assess a patient with suspected abcde assessment and initial stabilization, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "ABCDE assessment and initial stabilization MCQ",
+        "ABCDE assessment and initial stabilization clinical case",
+        "ABCDE assessment and initial stabilization OSCE",
+        "ABCDE assessment and initial stabilization viva",
+        "ABCDE assessment and initial stabilization review guideline"
+      ]
+    },
+    {
+      "id": "resuscitation-02",
+      "domain_id": "resuscitation",
+      "domain": "Resuscitation and critical presentations",
+      "name": "Cardiac arrest, shock and peri-arrest rhythms",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cardiac arrest, shock and peri-arrest rhythms.",
+        "Assess a patient with suspected cardiac arrest, shock and peri-arrest rhythms, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "cardiac arrest, shock and peri-arrest rhythms",
+        "emergency medicine assessment",
+        "emergency medicine investigations",
+        "emergency medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Cardiac arrest, shock and peri-arrest rhythms",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cardiac arrest, shock and peri-arrest rhythms.",
+        "Assess a patient with suspected cardiac arrest, shock and peri-arrest rhythms, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Cardiac arrest, shock and peri-arrest rhythms MCQ",
+        "Cardiac arrest, shock and peri-arrest rhythms clinical case",
+        "Cardiac arrest, shock and peri-arrest rhythms OSCE",
+        "Cardiac arrest, shock and peri-arrest rhythms viva",
+        "Cardiac arrest, shock and peri-arrest rhythms review guideline"
+      ]
+    },
+    {
+      "id": "resuscitation-03",
+      "domain_id": "resuscitation",
+      "domain": "Resuscitation and critical presentations",
+      "name": "Sepsis, anaphylaxis and acute respiratory failure",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for sepsis, anaphylaxis and acute respiratory failure.",
+        "Assess a patient with suspected sepsis, anaphylaxis and acute respiratory failure, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "sepsis, anaphylaxis and acute respiratory failure",
+        "emergency medicine assessment",
+        "emergency medicine investigations",
+        "emergency medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Sepsis, anaphylaxis and acute respiratory failure",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for sepsis, anaphylaxis and acute respiratory failure.",
+        "Assess a patient with suspected sepsis, anaphylaxis and acute respiratory failure, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Sepsis, anaphylaxis and acute respiratory failure MCQ",
+        "Sepsis, anaphylaxis and acute respiratory failure clinical case",
+        "Sepsis, anaphylaxis and acute respiratory failure OSCE",
+        "Sepsis, anaphylaxis and acute respiratory failure viva",
+        "Sepsis, anaphylaxis and acute respiratory failure review guideline"
+      ]
+    },
+    {
+      "id": "medical-emergencies-01",
+      "domain_id": "medical-emergencies",
+      "domain": "Medical emergencies",
+      "name": "Acute chest pain, dyspnoea and vascular emergencies",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for acute chest pain, dyspnoea and vascular emergencies.",
+        "Assess a patient with suspected acute chest pain, dyspnoea and vascular emergencies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "acute chest pain, dyspnoea and vascular emergencies",
+        "emergency medicine assessment",
+        "emergency medicine investigations",
+        "emergency medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Acute chest pain, dyspnoea and vascular emergencies",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for acute chest pain, dyspnoea and vascular emergencies.",
+        "Assess a patient with suspected acute chest pain, dyspnoea and vascular emergencies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Acute chest pain, dyspnoea and vascular emergencies MCQ",
+        "Acute chest pain, dyspnoea and vascular emergencies clinical case",
+        "Acute chest pain, dyspnoea and vascular emergencies OSCE",
+        "Acute chest pain, dyspnoea and vascular emergencies viva",
+        "Acute chest pain, dyspnoea and vascular emergencies review guideline"
+      ]
+    },
+    {
+      "id": "medical-emergencies-02",
+      "domain_id": "medical-emergencies",
+      "domain": "Medical emergencies",
+      "name": "Stroke, seizures and altered mental status",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for stroke, seizures and altered mental status.",
+        "Assess a patient with suspected stroke, seizures and altered mental status, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "stroke, seizures and altered mental status",
+        "emergency medicine assessment",
+        "emergency medicine investigations",
+        "emergency medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Stroke, seizures and altered mental status",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for stroke, seizures and altered mental status.",
+        "Assess a patient with suspected stroke, seizures and altered mental status, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Stroke, seizures and altered mental status MCQ",
+        "Stroke, seizures and altered mental status clinical case",
+        "Stroke, seizures and altered mental status OSCE",
+        "Stroke, seizures and altered mental status viva",
+        "Stroke, seizures and altered mental status review guideline"
+      ]
+    },
+    {
+      "id": "medical-emergencies-03",
+      "domain_id": "medical-emergencies",
+      "domain": "Medical emergencies",
+      "name": "Metabolic, toxicologic and environmental emergencies",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for metabolic, toxicologic and environmental emergencies.",
+        "Assess a patient with suspected metabolic, toxicologic and environmental emergencies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "metabolic, toxicologic and environmental emergencies",
+        "emergency medicine assessment",
+        "emergency medicine investigations",
+        "emergency medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Metabolic, toxicologic and environmental emergencies",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for metabolic, toxicologic and environmental emergencies.",
+        "Assess a patient with suspected metabolic, toxicologic and environmental emergencies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Metabolic, toxicologic and environmental emergencies MCQ",
+        "Metabolic, toxicologic and environmental emergencies clinical case",
+        "Metabolic, toxicologic and environmental emergencies OSCE",
+        "Metabolic, toxicologic and environmental emergencies viva",
+        "Metabolic, toxicologic and environmental emergencies review guideline"
+      ]
+    },
+    {
+      "id": "trauma-01",
+      "domain_id": "trauma",
+      "domain": "Trauma and injury",
+      "name": "Primary and secondary trauma surveys",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for primary and secondary trauma surveys.",
+        "Assess a patient with suspected primary and secondary trauma surveys, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "primary and secondary trauma surveys",
+        "emergency medicine assessment",
+        "emergency medicine investigations",
+        "emergency medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Primary and secondary trauma surveys",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for primary and secondary trauma surveys.",
+        "Assess a patient with suspected primary and secondary trauma surveys, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Primary and secondary trauma surveys MCQ",
+        "Primary and secondary trauma surveys clinical case",
+        "Primary and secondary trauma surveys OSCE",
+        "Primary and secondary trauma surveys viva",
+        "Primary and secondary trauma surveys review guideline"
+      ]
+    },
+    {
+      "id": "trauma-02",
+      "domain_id": "trauma",
+      "domain": "Trauma and injury",
+      "name": "Head, spinal, thoracic and abdominal trauma",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for head, spinal, thoracic and abdominal trauma.",
+        "Assess a patient with suspected head, spinal, thoracic and abdominal trauma, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "head, spinal, thoracic and abdominal trauma",
+        "emergency medicine assessment",
+        "emergency medicine investigations",
+        "emergency medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Head, spinal, thoracic and abdominal trauma",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for head, spinal, thoracic and abdominal trauma.",
+        "Assess a patient with suspected head, spinal, thoracic and abdominal trauma, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Head, spinal, thoracic and abdominal trauma MCQ",
+        "Head, spinal, thoracic and abdominal trauma clinical case",
+        "Head, spinal, thoracic and abdominal trauma OSCE",
+        "Head, spinal, thoracic and abdominal trauma viva",
+        "Head, spinal, thoracic and abdominal trauma review guideline"
+      ]
+    },
+    {
+      "id": "trauma-03",
+      "domain_id": "trauma",
+      "domain": "Trauma and injury",
+      "name": "Musculoskeletal, burns and penetrating trauma",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for musculoskeletal, burns and penetrating trauma.",
+        "Assess a patient with suspected musculoskeletal, burns and penetrating trauma, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "musculoskeletal, burns and penetrating trauma",
+        "emergency medicine assessment",
+        "emergency medicine investigations",
+        "emergency medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Musculoskeletal, burns and penetrating trauma",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for musculoskeletal, burns and penetrating trauma.",
+        "Assess a patient with suspected musculoskeletal, burns and penetrating trauma, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Musculoskeletal, burns and penetrating trauma MCQ",
+        "Musculoskeletal, burns and penetrating trauma clinical case",
+        "Musculoskeletal, burns and penetrating trauma OSCE",
+        "Musculoskeletal, burns and penetrating trauma viva",
+        "Musculoskeletal, burns and penetrating trauma review guideline"
+      ]
+    },
+    {
+      "id": "emergency-practice-01",
+      "domain_id": "emergency-practice",
+      "domain": "Emergency procedures and safe disposition",
+      "name": "Analgesia, sedation and procedural safety",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for analgesia, sedation and procedural safety.",
+        "Assess a patient with suspected analgesia, sedation and procedural safety, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "analgesia, sedation and procedural safety",
+        "emergency medicine assessment",
+        "emergency medicine investigations",
+        "emergency medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Analgesia, sedation and procedural safety",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for analgesia, sedation and procedural safety.",
+        "Assess a patient with suspected analgesia, sedation and procedural safety, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Analgesia, sedation and procedural safety MCQ",
+        "Analgesia, sedation and procedural safety clinical case",
+        "Analgesia, sedation and procedural safety OSCE",
+        "Analgesia, sedation and procedural safety viva",
+        "Analgesia, sedation and procedural safety review guideline"
+      ]
+    },
+    {
+      "id": "emergency-practice-02",
+      "domain_id": "emergency-practice",
+      "domain": "Emergency procedures and safe disposition",
+      "name": "Wound care, reduction, airway and vascular access procedures",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for wound care, reduction, airway and vascular access procedures.",
+        "Assess a patient with suspected wound care, reduction, airway and vascular access procedures, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "wound care, reduction, airway and vascular access procedures",
+        "emergency medicine assessment",
+        "emergency medicine investigations",
+        "emergency medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Wound care, reduction, airway and vascular access procedures",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for wound care, reduction, airway and vascular access procedures.",
+        "Assess a patient with suspected wound care, reduction, airway and vascular access procedures, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Wound care, reduction, airway and vascular access procedures MCQ",
+        "Wound care, reduction, airway and vascular access procedures clinical case",
+        "Wound care, reduction, airway and vascular access procedures OSCE",
+        "Wound care, reduction, airway and vascular access procedures viva",
+        "Wound care, reduction, airway and vascular access procedures review guideline"
+      ]
+    },
+    {
+      "id": "emergency-practice-03",
+      "domain_id": "emergency-practice",
+      "domain": "Emergency procedures and safe disposition",
+      "name": "Triage, observation, referral and safe discharge",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for triage, observation, referral and safe discharge.",
+        "Assess a patient with suspected triage, observation, referral and safe discharge, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "triage, observation, referral and safe discharge",
+        "emergency medicine assessment",
+        "emergency medicine investigations",
+        "emergency medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Triage, observation, referral and safe discharge",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for triage, observation, referral and safe discharge.",
+        "Assess a patient with suspected triage, observation, referral and safe discharge, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Triage, observation, referral and safe discharge MCQ",
+        "Triage, observation, referral and safe discharge clinical case",
+        "Triage, observation, referral and safe discharge OSCE",
+        "Triage, observation, referral and safe discharge viva",
+        "Triage, observation, referral and safe discharge review guideline"
+      ]
+    }
+  ]
+}
