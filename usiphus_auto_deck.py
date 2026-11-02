@@ -272,7 +272,7 @@ def generate_validated_topic_cards(
             working_topic, specialty=specialty, level=level, model=model,
             ollama_url=ollama_url, count=count,
             max_output_tokens=max_output_tokens,
-            request_timeout=request_timeout, max_retries=1,
+            request_timeout=request_timeout, max_retries=2,
         )
         try:
             report = validate_topic_cards(
