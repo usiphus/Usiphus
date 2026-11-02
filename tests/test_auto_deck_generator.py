@@ -262,5 +262,22 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         self.assertNotIn("card_id", prompt)
 
 
+    def test_plan_only_previews_workload_without_ollama(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            curriculum = Path(tmp) / "curriculum.json"
+            curriculum.write_text(json.dumps({
+                "specialty": "ophthalmology",
+                "topics": [{"id": "lens-01", "name": "Cataract", "card_count": 2}]
+            }))
+            args = generator.parse_args([
+                "--generate", "--curriculum", str(curriculum),
+                "--plan-only", "--output-dir", str(Path(tmp) / "out")
+            ])
+            with patch.object(generator.urllib.request, "urlopen") as request:
+                self.assertEqual(generator.build(args), 0)
+                request.assert_not_called()
+            self.assertFalse((Path(tmp) / "out").exists())
+
+
 if __name__ == "__main__":
     unittest.main()
