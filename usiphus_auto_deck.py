@@ -85,6 +85,7 @@ def generate_topic_cards(
     max_retries: int = 3,
     slot_checkpoint_path: Path | None = None,
     slot_checkpoint_signature: str | None = None,
+    request_metrics: list[dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     """Generate compact card content and build trusted metadata locally.
 
@@ -237,6 +238,9 @@ def generate_topic_cards(
             headers={"Content-Type": "application/json"},
             method="POST",
         )
+        request_started = time.perf_counter()
+        first_content_at: float | None = None
+        final_event: dict[str, Any] = {}
         try:
             content_parts: list[str] = []
             response_bytes = 0
@@ -252,8 +256,11 @@ def generate_topic_cards(
                         raise RuntimeError(f"Ollama generation error: {event['error']}")
                     message = event.get("message") or {}
                     if message.get("content"):
+                        if first_content_at is None:
+                            first_content_at = time.perf_counter()
                         content_parts.append(message["content"])
                     if event.get("done"):
+                        final_event = event
                         break
 
             content = "".join(content_parts)
@@ -264,6 +271,7 @@ def generate_topic_cards(
             if not isinstance(generated, list):
                 raise ValueError("Model response must contain a cards array")
 
+            accepted_before = len(accepted)
             next_pending: list[int] = []
             for offset, slot in enumerate(pending):
                 candidate = generated[offset] if offset < len(generated) else None
@@ -274,6 +282,28 @@ def generate_topic_cards(
                 accepted[slot] = candidate
                 save_slots()
             pending = next_pending
+            if request_metrics is not None:
+                elapsed = time.perf_counter() - request_started
+                eval_count = final_event.get("eval_count")
+                eval_duration = final_event.get("eval_duration")
+                request_metrics.append({
+                    "attempt": attempt,
+                    "status": "partial" if pending else "complete",
+                    "elapsed_seconds": round(elapsed, 3),
+                    "time_to_first_content_seconds": (
+                        round(first_content_at - request_started, 3)
+                        if first_content_at is not None else None
+                    ),
+                    "accepted_cards": len(accepted) - accepted_before,
+                    "eval_count": eval_count,
+                    "prompt_eval_count": final_event.get("prompt_eval_count"),
+                    "tokens_per_second": (
+                        round(float(eval_count) / (float(eval_duration) / 1_000_000_000), 2)
+                        if isinstance(eval_count, (int, float))
+                        and isinstance(eval_duration, (int, float))
+                        and eval_duration > 0 else None
+                    ),
+                })
             if pending:
                 print(
                     f"[Repair] Topic '{topic_name}': {len(accepted)}/{count} cards valid; "
@@ -282,6 +312,18 @@ def generate_topic_cards(
                 )
         except (ValueError, RuntimeError, KeyError, json.JSONDecodeError,
                 TimeoutError, socket.timeout, urllib.error.URLError) as exc:
+            if request_metrics is not None:
+                elapsed = time.perf_counter() - request_started
+                request_metrics.append({
+                    "attempt": attempt,
+                    "status": "failed",
+                    "elapsed_seconds": round(elapsed, 3),
+                    "time_to_first_content_seconds": (
+                        round(first_content_at - request_started, 3)
+                        if first_content_at is not None else None
+                    ),
+                    "error_type": type(exc).__name__,
+                })
             last_error = exc
             timed_out = isinstance(exc, (TimeoutError, socket.timeout)) or (
                 isinstance(exc, urllib.error.URLError)
@@ -624,6 +666,7 @@ def build(args: argparse.Namespace) -> int:
             if cards is None:
                 print(f"[{index}/{topic_count}] Generating {count} cards: {topic.get('name') or topic.get('topic')}", flush=True)
                 topic_started = time.perf_counter()
+                topic_request_metrics: list[dict[str, Any]] = []
                 cards = generate_topic_cards(
                     topic, specialty=specialty, level=level, model=args.model,
                     ollama_url=args.ollama_url, count=count,
@@ -631,6 +674,7 @@ def build(args: argparse.Namespace) -> int:
                     request_timeout=args.ollama_timeout,
                     slot_checkpoint_path=slot_checkpoint_path,
                     slot_checkpoint_signature=signature,
+                    request_metrics=topic_request_metrics,
                 )
                 _atomic_write_json(checkpoint_path, {
                     "signature": signature, "topic_id": topic.get("id"),
@@ -653,6 +697,7 @@ def build(args: argparse.Namespace) -> int:
                 "elapsed_seconds": round(elapsed, 3),
                 "seconds_per_card": round(elapsed / max(1, len(cards)), 3),
                 "source": "generated" if elapsed else "topic_checkpoint",
+                "requests": topic_request_metrics if elapsed else [],
             })
             _atomic_write_json(metrics_path, {
                 "model": args.model,
