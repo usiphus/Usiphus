@@ -250,6 +250,48 @@ bounded quality retry path. If no packet is supplied, generation remains
 available but is explicitly reported as `unreviewed_source_gap`; it is not
 evidence-grounded. A local model pilot and faculty evaluation are still required.
 
+
+### Loading the bundled candidate evidence packets
+
+The example ophthalmology curriculum now includes five topic-specific packet
+files under `examples/ophthalmology/evidence_packets/`:
+
+- `glaucoma-02.json` and `glaucoma-03.json` — AAO Primary Open-Angle Glaucoma PPP (2026).
+- `medical-retina-02.json` — AAO Diabetic Retinopathy PPP (2025).
+- `lens-refractive-02.json` — AAO Cataract in the Adult Eye PPP (2021; older edition; supersession check required).
+- `trauma-emergency-01.json` — AAO open-globe educational review (2020; not a formal current guideline).
+
+These are **candidate-source packets**, not approved clinical evidence. They contain
+bibliographic metadata and curator-authored section-level review prompts, not
+faculty-verified claim excerpts. Rights are deliberately marked unknown and
+source access/review statuses remain pending. The packet loader never upgrades
+these statuses automatically.
+
+Load them with:
+
+```bash
+python usiphus_auto_deck.py --generate \
+  --curriculum examples/ophthalmology/curriculum.json \
+  --evidence-dir examples/ophthalmology/evidence_packets \
+  --formats both --output-dir build/ophthalmology
+```
+
+The command intentionally stops **before any Ollama request** while the
+bundled packets remain unreviewed. This is expected fail-closed behavior, not a
+generation failure. A qualified reviewer must inspect the full source, confirm
+that the edition is current and applicable, establish the lawful access/reuse
+basis, replace curator prompts with concise verified evidence notes/snippets,
+supply exact section/page locators and objective mappings, and record the
+review in the packet. Do not simply change `review_status` to bypass the gate.
+The source validator checks metadata and traceability; it cannot prove that a
+snippet entails a claim.
+
+Topics without a packet can still be generated as explicitly ungrounded drafts
+when the evidence directory is used, but their reports must retain
+`unreviewed_source_gap`. A supplied but ineligible packet blocks that topic
+before inference. Checkpoints are also subject to the same packet preflight
+because packet contents participate in the topic signature.
+
 ## Curriculum and clinical governance
 
 See `examples/ophthalmology/curriculum.json`. Every topic has a stable ID,
