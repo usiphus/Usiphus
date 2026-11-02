@@ -135,8 +135,8 @@ def generate_topic_cards(topic: dict[str, Any], *, specialty: str, level: str,
     cards = parsed.get("cards")
     if not isinstance(cards, list) or not cards:
         raise ValueError("Model response must contain a non-empty cards array")
-    if len(cards) > count:
-        raise ValueError(f"Model returned {len(cards)} cards; requested at most {count}")
+    if len(cards) != count:
+        raise ValueError(f"Model returned {len(cards)} cards; requested exactly {count}")
     prefix = re.sub(r"[^A-Za-z0-9]+", "-", str(topic.get("name") or topic.get("topic") or "topic")).strip("-").upper()
     for index, card in enumerate(cards, 1):
         if not isinstance(card, dict):
