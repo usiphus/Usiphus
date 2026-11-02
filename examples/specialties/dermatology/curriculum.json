@@ -1,0 +1,677 @@
+{
+  "specialty": "dermatology",
+  "display_name": "Dermatology",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive dermatology curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "derm-foundations",
+      "name": "Dermatologic assessment and foundations",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in dermatologic assessment and foundations. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "infection-inflammation",
+      "name": "Infectious and inflammatory dermatoses",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in infectious and inflammatory dermatoses. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "tumors",
+      "name": "Pigmented lesions and cutaneous oncology",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in pigmented lesions and cutaneous oncology. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "systemic-procedures",
+      "name": "Systemic, pediatric and procedural dermatology",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in systemic, pediatric and procedural dermatology. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Dermatologic assessment and foundations",
+    "Infectious and inflammatory dermatoses",
+    "Pigmented lesions and cutaneous oncology",
+    "Systemic, pediatric and procedural dermatology"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "derm-foundations-01",
+      "domain_id": "derm-foundations",
+      "domain": "Dermatologic assessment and foundations",
+      "name": "Skin morphology, lesion description and examination",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for skin morphology, lesion description and examination.",
+        "Assess a patient with suspected skin morphology, lesion description and examination, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "skin morphology, lesion description and examination",
+        "dermatology assessment",
+        "dermatology investigations",
+        "dermatology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Skin morphology, lesion description and examination",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for skin morphology, lesion description and examination.",
+        "Assess a patient with suspected skin morphology, lesion description and examination, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Skin morphology, lesion description and examination MCQ",
+        "Skin morphology, lesion description and examination clinical case",
+        "Skin morphology, lesion description and examination OSCE",
+        "Skin morphology, lesion description and examination viva",
+        "Skin morphology, lesion description and examination review guideline"
+      ]
+    },
+    {
+      "id": "derm-foundations-02",
+      "domain_id": "derm-foundations",
+      "domain": "Dermatologic assessment and foundations",
+      "name": "Eczema, dermatitis and pruritus",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for eczema, dermatitis and pruritus.",
+        "Assess a patient with suspected eczema, dermatitis and pruritus, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "eczema, dermatitis and pruritus",
+        "dermatology assessment",
+        "dermatology investigations",
+        "dermatology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Eczema, dermatitis and pruritus",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for eczema, dermatitis and pruritus.",
+        "Assess a patient with suspected eczema, dermatitis and pruritus, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Eczema, dermatitis and pruritus MCQ",
+        "Eczema, dermatitis and pruritus clinical case",
+        "Eczema, dermatitis and pruritus OSCE",
+        "Eczema, dermatitis and pruritus viva",
+        "Eczema, dermatitis and pruritus review guideline"
+      ]
+    },
+    {
+      "id": "derm-foundations-03",
+      "domain_id": "derm-foundations",
+      "domain": "Dermatologic assessment and foundations",
+      "name": "Psoriasis, papulosquamous and lichenoid disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for psoriasis, papulosquamous and lichenoid disorders.",
+        "Assess a patient with suspected psoriasis, papulosquamous and lichenoid disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "psoriasis, papulosquamous and lichenoid disorders",
+        "dermatology assessment",
+        "dermatology investigations",
+        "dermatology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Psoriasis, papulosquamous and lichenoid disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for psoriasis, papulosquamous and lichenoid disorders.",
+        "Assess a patient with suspected psoriasis, papulosquamous and lichenoid disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Psoriasis, papulosquamous and lichenoid disorders MCQ",
+        "Psoriasis, papulosquamous and lichenoid disorders clinical case",
+        "Psoriasis, papulosquamous and lichenoid disorders OSCE",
+        "Psoriasis, papulosquamous and lichenoid disorders viva",
+        "Psoriasis, papulosquamous and lichenoid disorders review guideline"
+      ]
+    },
+    {
+      "id": "infection-inflammation-01",
+      "domain_id": "infection-inflammation",
+      "domain": "Infectious and inflammatory dermatoses",
+      "name": "Bacterial, viral and fungal skin infections",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for bacterial, viral and fungal skin infections.",
+        "Assess a patient with suspected bacterial, viral and fungal skin infections, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "bacterial, viral and fungal skin infections",
+        "dermatology assessment",
+        "dermatology investigations",
+        "dermatology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Bacterial, viral and fungal skin infections",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for bacterial, viral and fungal skin infections.",
+        "Assess a patient with suspected bacterial, viral and fungal skin infections, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Bacterial, viral and fungal skin infections MCQ",
+        "Bacterial, viral and fungal skin infections clinical case",
+        "Bacterial, viral and fungal skin infections OSCE",
+        "Bacterial, viral and fungal skin infections viva",
+        "Bacterial, viral and fungal skin infections review guideline"
+      ]
+    },
+    {
+      "id": "infection-inflammation-02",
+      "domain_id": "infection-inflammation",
+      "domain": "Infectious and inflammatory dermatoses",
+      "name": "Acne, rosacea, follicular and adnexal disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for acne, rosacea, follicular and adnexal disorders.",
+        "Assess a patient with suspected acne, rosacea, follicular and adnexal disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "acne, rosacea, follicular and adnexal disorders",
+        "dermatology assessment",
+        "dermatology investigations",
+        "dermatology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Acne, rosacea, follicular and adnexal disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for acne, rosacea, follicular and adnexal disorders.",
+        "Assess a patient with suspected acne, rosacea, follicular and adnexal disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Acne, rosacea, follicular and adnexal disorders MCQ",
+        "Acne, rosacea, follicular and adnexal disorders clinical case",
+        "Acne, rosacea, follicular and adnexal disorders OSCE",
+        "Acne, rosacea, follicular and adnexal disorders viva",
+        "Acne, rosacea, follicular and adnexal disorders review guideline"
+      ]
+    },
+    {
+      "id": "infection-inflammation-03",
+      "domain_id": "infection-inflammation",
+      "domain": "Infectious and inflammatory dermatoses",
+      "name": "Blistering, autoimmune and connective-tissue dermatoses",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for blistering, autoimmune and connective-tissue dermatoses.",
+        "Assess a patient with suspected blistering, autoimmune and connective-tissue dermatoses, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "blistering, autoimmune and connective-tissue dermatoses",
+        "dermatology assessment",
+        "dermatology investigations",
+        "dermatology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Blistering, autoimmune and connective-tissue dermatoses",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for blistering, autoimmune and connective-tissue dermatoses.",
+        "Assess a patient with suspected blistering, autoimmune and connective-tissue dermatoses, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Blistering, autoimmune and connective-tissue dermatoses MCQ",
+        "Blistering, autoimmune and connective-tissue dermatoses clinical case",
+        "Blistering, autoimmune and connective-tissue dermatoses OSCE",
+        "Blistering, autoimmune and connective-tissue dermatoses viva",
+        "Blistering, autoimmune and connective-tissue dermatoses review guideline"
+      ]
+    },
+    {
+      "id": "tumors-01",
+      "domain_id": "tumors",
+      "domain": "Pigmented lesions and cutaneous oncology",
+      "name": "Benign skin tumors and melanocytic naevi",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for benign skin tumors and melanocytic naevi.",
+        "Assess a patient with suspected benign skin tumors and melanocytic naevi, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "benign skin tumors and melanocytic naevi",
+        "dermatology assessment",
+        "dermatology investigations",
+        "dermatology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Benign skin tumors and melanocytic naevi",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for benign skin tumors and melanocytic naevi.",
+        "Assess a patient with suspected benign skin tumors and melanocytic naevi, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Benign skin tumors and melanocytic naevi MCQ",
+        "Benign skin tumors and melanocytic naevi clinical case",
+        "Benign skin tumors and melanocytic naevi OSCE",
+        "Benign skin tumors and melanocytic naevi viva",
+        "Benign skin tumors and melanocytic naevi review guideline"
+      ]
+    },
+    {
+      "id": "tumors-02",
+      "domain_id": "tumors",
+      "domain": "Pigmented lesions and cutaneous oncology",
+      "name": "Melanoma and non-melanoma skin cancer",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for melanoma and non-melanoma skin cancer.",
+        "Assess a patient with suspected melanoma and non-melanoma skin cancer, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "melanoma and non-melanoma skin cancer",
+        "dermatology assessment",
+        "dermatology investigations",
+        "dermatology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Melanoma and non-melanoma skin cancer",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for melanoma and non-melanoma skin cancer.",
+        "Assess a patient with suspected melanoma and non-melanoma skin cancer, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Melanoma and non-melanoma skin cancer MCQ",
+        "Melanoma and non-melanoma skin cancer clinical case",
+        "Melanoma and non-melanoma skin cancer OSCE",
+        "Melanoma and non-melanoma skin cancer viva",
+        "Melanoma and non-melanoma skin cancer review guideline"
+      ]
+    },
+    {
+      "id": "tumors-03",
+      "domain_id": "tumors",
+      "domain": "Pigmented lesions and cutaneous oncology",
+      "name": "Pre-cancerous lesions, dermoscopy and biopsy principles",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pre-cancerous lesions, dermoscopy and biopsy principles.",
+        "Assess a patient with suspected pre-cancerous lesions, dermoscopy and biopsy principles, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "pre-cancerous lesions, dermoscopy and biopsy principles",
+        "dermatology assessment",
+        "dermatology investigations",
+        "dermatology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Pre-cancerous lesions, dermoscopy and biopsy principles",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pre-cancerous lesions, dermoscopy and biopsy principles.",
+        "Assess a patient with suspected pre-cancerous lesions, dermoscopy and biopsy principles, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Pre-cancerous lesions, dermoscopy and biopsy principles MCQ",
+        "Pre-cancerous lesions, dermoscopy and biopsy principles clinical case",
+        "Pre-cancerous lesions, dermoscopy and biopsy principles OSCE",
+        "Pre-cancerous lesions, dermoscopy and biopsy principles viva",
+        "Pre-cancerous lesions, dermoscopy and biopsy principles review guideline"
+      ]
+    },
+    {
+      "id": "systemic-procedures-01",
+      "domain_id": "systemic-procedures",
+      "domain": "Systemic, pediatric and procedural dermatology",
+      "name": "Drug eruptions, urticaria and severe cutaneous reactions",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for drug eruptions, urticaria and severe cutaneous reactions.",
+        "Assess a patient with suspected drug eruptions, urticaria and severe cutaneous reactions, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "drug eruptions, urticaria and severe cutaneous reactions",
+        "dermatology assessment",
+        "dermatology investigations",
+        "dermatology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Drug eruptions, urticaria and severe cutaneous reactions",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for drug eruptions, urticaria and severe cutaneous reactions.",
+        "Assess a patient with suspected drug eruptions, urticaria and severe cutaneous reactions, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Drug eruptions, urticaria and severe cutaneous reactions MCQ",
+        "Drug eruptions, urticaria and severe cutaneous reactions clinical case",
+        "Drug eruptions, urticaria and severe cutaneous reactions OSCE",
+        "Drug eruptions, urticaria and severe cutaneous reactions viva",
+        "Drug eruptions, urticaria and severe cutaneous reactions review guideline"
+      ]
+    },
+    {
+      "id": "systemic-procedures-02",
+      "domain_id": "systemic-procedures",
+      "domain": "Systemic, pediatric and procedural dermatology",
+      "name": "Pediatric, hair, nail and genital dermatology",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pediatric, hair, nail and genital dermatology.",
+        "Assess a patient with suspected pediatric, hair, nail and genital dermatology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "pediatric, hair, nail and genital dermatology",
+        "dermatology assessment",
+        "dermatology investigations",
+        "dermatology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Pediatric, hair, nail and genital dermatology",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pediatric, hair, nail and genital dermatology.",
+        "Assess a patient with suspected pediatric, hair, nail and genital dermatology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Pediatric, hair, nail and genital dermatology MCQ",
+        "Pediatric, hair, nail and genital dermatology clinical case",
+        "Pediatric, hair, nail and genital dermatology OSCE",
+        "Pediatric, hair, nail and genital dermatology viva",
+        "Pediatric, hair, nail and genital dermatology review guideline"
+      ]
+    },
+    {
+      "id": "systemic-procedures-03",
+      "domain_id": "systemic-procedures",
+      "domain": "Systemic, pediatric and procedural dermatology",
+      "name": "Dermatologic procedures, wound care and therapeutics",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for dermatologic procedures, wound care and therapeutics.",
+        "Assess a patient with suspected dermatologic procedures, wound care and therapeutics, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "dermatologic procedures, wound care and therapeutics",
+        "dermatology assessment",
+        "dermatology investigations",
+        "dermatology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Dermatologic procedures, wound care and therapeutics",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for dermatologic procedures, wound care and therapeutics.",
+        "Assess a patient with suspected dermatologic procedures, wound care and therapeutics, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Dermatologic procedures, wound care and therapeutics MCQ",
+        "Dermatologic procedures, wound care and therapeutics clinical case",
+        "Dermatologic procedures, wound care and therapeutics OSCE",
+        "Dermatologic procedures, wound care and therapeutics viva",
+        "Dermatologic procedures, wound care and therapeutics review guideline"
+      ]
+    }
+  ]
+}
