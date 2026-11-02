@@ -514,6 +514,7 @@ def generate_topic_cards(
             **assess_card_evidence(content, evidence_bundle),
             "exam_domain": str(topic.get("exam_domain") or "knowledge"),
             "rubric": content.get("rubric", []) if card_type == "osce" else [],
+            "evidence_status": "unreviewed",
         }
         result.append(record)
     return result
@@ -871,6 +872,7 @@ def build(args: argparse.Namespace) -> int:
             "topic_id": item.get("topic_id"),
             "objective_id": item.get("objective_id"),
             "evidence_status": item.get("evidence_status", "unreviewed"),
+            "evidence_review_state": item.get("evidence_review_state", "not_assessed"),
             "claim_provenance": item.get("claim_provenance", []),
             "evidence_flags": item.get("evidence_flags", []),
             "potential_conflicts": item.get("potential_conflicts", []),
