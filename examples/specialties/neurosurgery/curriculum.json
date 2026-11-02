@@ -1,0 +1,677 @@
+{
+  "specialty": "neurosurgery",
+  "display_name": "Neurosurgery",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive neurosurgery curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "neurosurg-principles",
+      "name": "Neurosurgical assessment and perioperative principles",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in neurosurgical assessment and perioperative principles. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "cranial",
+      "name": "Cranial trauma and vascular neurosurgery",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in cranial trauma and vascular neurosurgery. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "tumors",
+      "name": "Neuro-oncology and functional neurosurgery",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in neuro-oncology and functional neurosurgery. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "spine",
+      "name": "Spine and peripheral nerve surgery",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in spine and peripheral nerve surgery. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Neurosurgical assessment and perioperative principles",
+    "Cranial trauma and vascular neurosurgery",
+    "Neuro-oncology and functional neurosurgery",
+    "Spine and peripheral nerve surgery"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "neurosurg-principles-01",
+      "domain_id": "neurosurg-principles",
+      "domain": "Neurosurgical assessment and perioperative principles",
+      "name": "Neurosurgical history, examination and imaging",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for neurosurgical history, examination and imaging.",
+        "Assess a patient with suspected neurosurgical history, examination and imaging, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "neurosurgical history, examination and imaging",
+        "neurosurgery assessment",
+        "neurosurgery investigations",
+        "neurosurgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Neurosurgical history, examination and imaging",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for neurosurgical history, examination and imaging.",
+        "Assess a patient with suspected neurosurgical history, examination and imaging, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Neurosurgical history, examination and imaging MCQ",
+        "Neurosurgical history, examination and imaging clinical case",
+        "Neurosurgical history, examination and imaging OSCE",
+        "Neurosurgical history, examination and imaging viva",
+        "Neurosurgical history, examination and imaging review guideline"
+      ]
+    },
+    {
+      "id": "neurosurg-principles-02",
+      "domain_id": "neurosurg-principles",
+      "domain": "Neurosurgical assessment and perioperative principles",
+      "name": "Raised intracranial pressure, cerebral edema and neurocritical care",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for raised intracranial pressure, cerebral edema and neurocritical care.",
+        "Assess a patient with suspected raised intracranial pressure, cerebral edema and neurocritical care, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "raised intracranial pressure, cerebral edema and neurocritical care",
+        "neurosurgery assessment",
+        "neurosurgery investigations",
+        "neurosurgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Raised intracranial pressure, cerebral edema and neurocritical care",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for raised intracranial pressure, cerebral edema and neurocritical care.",
+        "Assess a patient with suspected raised intracranial pressure, cerebral edema and neurocritical care, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Raised intracranial pressure, cerebral edema and neurocritical care MCQ",
+        "Raised intracranial pressure, cerebral edema and neurocritical care clinical case",
+        "Raised intracranial pressure, cerebral edema and neurocritical care OSCE",
+        "Raised intracranial pressure, cerebral edema and neurocritical care viva",
+        "Raised intracranial pressure, cerebral edema and neurocritical care review guideline"
+      ]
+    },
+    {
+      "id": "neurosurg-principles-03",
+      "domain_id": "neurosurg-principles",
+      "domain": "Neurosurgical assessment and perioperative principles",
+      "name": "Perioperative management, complications and rehabilitation",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for perioperative management, complications and rehabilitation.",
+        "Assess a patient with suspected perioperative management, complications and rehabilitation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "perioperative management, complications and rehabilitation",
+        "neurosurgery assessment",
+        "neurosurgery investigations",
+        "neurosurgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Perioperative management, complications and rehabilitation",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for perioperative management, complications and rehabilitation.",
+        "Assess a patient with suspected perioperative management, complications and rehabilitation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Perioperative management, complications and rehabilitation MCQ",
+        "Perioperative management, complications and rehabilitation clinical case",
+        "Perioperative management, complications and rehabilitation OSCE",
+        "Perioperative management, complications and rehabilitation viva",
+        "Perioperative management, complications and rehabilitation review guideline"
+      ]
+    },
+    {
+      "id": "cranial-01",
+      "domain_id": "cranial",
+      "domain": "Cranial trauma and vascular neurosurgery",
+      "name": "Traumatic brain injury and intracranial hematoma",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for traumatic brain injury and intracranial hematoma.",
+        "Assess a patient with suspected traumatic brain injury and intracranial hematoma, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "traumatic brain injury and intracranial hematoma",
+        "neurosurgery assessment",
+        "neurosurgery investigations",
+        "neurosurgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Traumatic brain injury and intracranial hematoma",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for traumatic brain injury and intracranial hematoma.",
+        "Assess a patient with suspected traumatic brain injury and intracranial hematoma, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Traumatic brain injury and intracranial hematoma MCQ",
+        "Traumatic brain injury and intracranial hematoma clinical case",
+        "Traumatic brain injury and intracranial hematoma OSCE",
+        "Traumatic brain injury and intracranial hematoma viva",
+        "Traumatic brain injury and intracranial hematoma review guideline"
+      ]
+    },
+    {
+      "id": "cranial-02",
+      "domain_id": "cranial",
+      "domain": "Cranial trauma and vascular neurosurgery",
+      "name": "Aneurysms, subarachnoid haemorrhage and vascular malformations",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for aneurysms, subarachnoid haemorrhage and vascular malformations.",
+        "Assess a patient with suspected aneurysms, subarachnoid haemorrhage and vascular malformations, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "aneurysms, subarachnoid haemorrhage and vascular malformations",
+        "neurosurgery assessment",
+        "neurosurgery investigations",
+        "neurosurgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Aneurysms, subarachnoid haemorrhage and vascular malformations",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for aneurysms, subarachnoid haemorrhage and vascular malformations.",
+        "Assess a patient with suspected aneurysms, subarachnoid haemorrhage and vascular malformations, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Aneurysms, subarachnoid haemorrhage and vascular malformations MCQ",
+        "Aneurysms, subarachnoid haemorrhage and vascular malformations clinical case",
+        "Aneurysms, subarachnoid haemorrhage and vascular malformations OSCE",
+        "Aneurysms, subarachnoid haemorrhage and vascular malformations viva",
+        "Aneurysms, subarachnoid haemorrhage and vascular malformations review guideline"
+      ]
+    },
+    {
+      "id": "cranial-03",
+      "domain_id": "cranial",
+      "domain": "Cranial trauma and vascular neurosurgery",
+      "name": "Hydrocephalus, CSF disorders and shunt complications",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hydrocephalus, csf disorders and shunt complications.",
+        "Assess a patient with suspected hydrocephalus, csf disorders and shunt complications, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "hydrocephalus, csf disorders and shunt complications",
+        "neurosurgery assessment",
+        "neurosurgery investigations",
+        "neurosurgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Hydrocephalus, CSF disorders and shunt complications",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hydrocephalus, csf disorders and shunt complications.",
+        "Assess a patient with suspected hydrocephalus, csf disorders and shunt complications, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Hydrocephalus, CSF disorders and shunt complications MCQ",
+        "Hydrocephalus, CSF disorders and shunt complications clinical case",
+        "Hydrocephalus, CSF disorders and shunt complications OSCE",
+        "Hydrocephalus, CSF disorders and shunt complications viva",
+        "Hydrocephalus, CSF disorders and shunt complications review guideline"
+      ]
+    },
+    {
+      "id": "tumors-01",
+      "domain_id": "tumors",
+      "domain": "Neuro-oncology and functional neurosurgery",
+      "name": "Primary brain tumors and metastatic intracranial disease",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for primary brain tumors and metastatic intracranial disease.",
+        "Assess a patient with suspected primary brain tumors and metastatic intracranial disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "primary brain tumors and metastatic intracranial disease",
+        "neurosurgery assessment",
+        "neurosurgery investigations",
+        "neurosurgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Primary brain tumors and metastatic intracranial disease",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for primary brain tumors and metastatic intracranial disease.",
+        "Assess a patient with suspected primary brain tumors and metastatic intracranial disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Primary brain tumors and metastatic intracranial disease MCQ",
+        "Primary brain tumors and metastatic intracranial disease clinical case",
+        "Primary brain tumors and metastatic intracranial disease OSCE",
+        "Primary brain tumors and metastatic intracranial disease viva",
+        "Primary brain tumors and metastatic intracranial disease review guideline"
+      ]
+    },
+    {
+      "id": "tumors-02",
+      "domain_id": "tumors",
+      "domain": "Neuro-oncology and functional neurosurgery",
+      "name": "Spinal tumors and intradural lesions",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for spinal tumors and intradural lesions.",
+        "Assess a patient with suspected spinal tumors and intradural lesions, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "spinal tumors and intradural lesions",
+        "neurosurgery assessment",
+        "neurosurgery investigations",
+        "neurosurgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Spinal tumors and intradural lesions",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for spinal tumors and intradural lesions.",
+        "Assess a patient with suspected spinal tumors and intradural lesions, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Spinal tumors and intradural lesions MCQ",
+        "Spinal tumors and intradural lesions clinical case",
+        "Spinal tumors and intradural lesions OSCE",
+        "Spinal tumors and intradural lesions viva",
+        "Spinal tumors and intradural lesions review guideline"
+      ]
+    },
+    {
+      "id": "tumors-03",
+      "domain_id": "tumors",
+      "domain": "Neuro-oncology and functional neurosurgery",
+      "name": "Functional, epilepsy and pain neurosurgery",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for functional, epilepsy and pain neurosurgery.",
+        "Assess a patient with suspected functional, epilepsy and pain neurosurgery, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "functional, epilepsy and pain neurosurgery",
+        "neurosurgery assessment",
+        "neurosurgery investigations",
+        "neurosurgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Functional, epilepsy and pain neurosurgery",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for functional, epilepsy and pain neurosurgery.",
+        "Assess a patient with suspected functional, epilepsy and pain neurosurgery, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Functional, epilepsy and pain neurosurgery MCQ",
+        "Functional, epilepsy and pain neurosurgery clinical case",
+        "Functional, epilepsy and pain neurosurgery OSCE",
+        "Functional, epilepsy and pain neurosurgery viva",
+        "Functional, epilepsy and pain neurosurgery review guideline"
+      ]
+    },
+    {
+      "id": "spine-01",
+      "domain_id": "spine",
+      "domain": "Spine and peripheral nerve surgery",
+      "name": "Degenerative spinal disease and neural compression",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for degenerative spinal disease and neural compression.",
+        "Assess a patient with suspected degenerative spinal disease and neural compression, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "degenerative spinal disease and neural compression",
+        "neurosurgery assessment",
+        "neurosurgery investigations",
+        "neurosurgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Degenerative spinal disease and neural compression",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for degenerative spinal disease and neural compression.",
+        "Assess a patient with suspected degenerative spinal disease and neural compression, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Degenerative spinal disease and neural compression MCQ",
+        "Degenerative spinal disease and neural compression clinical case",
+        "Degenerative spinal disease and neural compression OSCE",
+        "Degenerative spinal disease and neural compression viva",
+        "Degenerative spinal disease and neural compression review guideline"
+      ]
+    },
+    {
+      "id": "spine-02",
+      "domain_id": "spine",
+      "domain": "Spine and peripheral nerve surgery",
+      "name": "Spinal trauma, instability and spinal cord injury",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for spinal trauma, instability and spinal cord injury.",
+        "Assess a patient with suspected spinal trauma, instability and spinal cord injury, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "spinal trauma, instability and spinal cord injury",
+        "neurosurgery assessment",
+        "neurosurgery investigations",
+        "neurosurgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Spinal trauma, instability and spinal cord injury",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for spinal trauma, instability and spinal cord injury.",
+        "Assess a patient with suspected spinal trauma, instability and spinal cord injury, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Spinal trauma, instability and spinal cord injury MCQ",
+        "Spinal trauma, instability and spinal cord injury clinical case",
+        "Spinal trauma, instability and spinal cord injury OSCE",
+        "Spinal trauma, instability and spinal cord injury viva",
+        "Spinal trauma, instability and spinal cord injury review guideline"
+      ]
+    },
+    {
+      "id": "spine-03",
+      "domain_id": "spine",
+      "domain": "Spine and peripheral nerve surgery",
+      "name": "Spinal infection, congenital disorders and peripheral nerve lesions",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for spinal infection, congenital disorders and peripheral nerve lesions.",
+        "Assess a patient with suspected spinal infection, congenital disorders and peripheral nerve lesions, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "spinal infection, congenital disorders and peripheral nerve lesions",
+        "neurosurgery assessment",
+        "neurosurgery investigations",
+        "neurosurgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Spinal infection, congenital disorders and peripheral nerve lesions",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for spinal infection, congenital disorders and peripheral nerve lesions.",
+        "Assess a patient with suspected spinal infection, congenital disorders and peripheral nerve lesions, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Spinal infection, congenital disorders and peripheral nerve lesions MCQ",
+        "Spinal infection, congenital disorders and peripheral nerve lesions clinical case",
+        "Spinal infection, congenital disorders and peripheral nerve lesions OSCE",
+        "Spinal infection, congenital disorders and peripheral nerve lesions viva",
+        "Spinal infection, congenital disorders and peripheral nerve lesions review guideline"
+      ]
+    }
+  ]
+}
