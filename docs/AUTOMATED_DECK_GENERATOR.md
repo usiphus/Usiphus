@@ -175,15 +175,35 @@ The `--override-curriculum-card-counts` switch makes `--cards-per-topic`
 apply to every topic, even when the curriculum defines its own `card_count`.
 Without that switch, topic-level counts remain authoritative.
 
-After each successful topic, the generator atomically saves a checkpoint under
-`build/ophthalmology/.checkpoints/` and refreshes `generated_cards.json` with
-an `in_progress` status. You can inspect or back up the cards before the full
-curriculum finishes. If the run stops or the computer restarts, rerun the same
-command with `--resume` added. Matching completed topics are loaded from disk;
-changed topics/settings are regenerated. The final JSON is marked `complete`,
-then quality checks and requested exports run. Progress is printed after each
-topic. A socket inactivity timeout is not blindly retried: repeating the same
-expensive generation can waste another 15 minutes without fixing the cause.
+After every accepted card slot, the generator atomically saves a signed
+partial-topic checkpoint under `build/ophthalmology/.checkpoints/`. It also
+saves a complete-topic checkpoint and refreshes `generated_cards.json` with
+an `in_progress` status after each topic. If the process or computer stops
+mid-topic, rerun the same command with `--resume`: valid saved slots are
+restored and only missing/invalid slots are sent to Ollama. A signature binds
+the checkpoint to the topic, curriculum settings, model, learner level, card
+count and output-token ceiling; stale or corrupt slot files are ignored safely.
+Once a topic completes, its slot checkpoint is removed and the complete-topic
+checkpoint is retained. The final JSON is marked `complete`, then quality
+checks and requested exports run.
+
+Use `--preflight` to verify that the configured Ollama server is reachable and
+the exact selected model tag is installed before creating generation work.
+This catches common setup errors before a long run starts:
+
+```bash
+python usiphus_auto_deck.py --generate \
+  --curriculum examples/ophthalmology/curriculum.json \
+  --model phi4-mini --preflight --plan-only
+```
+
+The generator also writes `generation_metrics.json` with per-topic elapsed
+seconds, seconds per card, model, and whether cards were newly generated or
+loaded from a completed topic checkpoint. Use these measurements on the target
+computer to compare models/settings; they are not a speed guarantee and do not
+include a standardized hardware benchmark. A socket inactivity timeout is not
+blindly retried: repeating the same expensive generation can waste another
+15 minutes without fixing the cause.
 Instead, check Ollama/model health, available RAM/VRAM and CPU/GPU load. If the
 first token is still taking too long, first reduce the requested cards or
 `--max-output-tokens`; consider a smaller model if necessary.
