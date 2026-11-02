@@ -137,11 +137,16 @@ Outputs include the Anki package, PowerPoint, `generated_cards.json` and
 
 ### Slow local computers, timeouts and safe resume
 
-Each topic is generated in its own Ollama request. Responses are streamed
-incrementally, so the configured timeout is an inactivity timeout between
-stream chunks, not a hard limit on the total time needed to generate all cards.
-The model is kept loaded for 30 minutes between topic requests. A stalled first
-token or a stream that stops sending data still triggers a timeout.
+Each topic is generated as a compact batch. The model returns only learning
+content (question, answer and type-specific fields); Python fills IDs,
+specialty, tags, references, exam-domain metadata and evidence status. This
+avoids spending inference tokens on fields that can be assigned deterministically.
+Responses are streamed incrementally, and the model is kept loaded for 30 minutes
+between requests. If an individual card is incomplete, valid cards are retained
+and only the failed slots are regenerated. The token budget scales with the
+number of cards still pending, within the configured --max-output-tokens ceiling.
+The socket timeout measures inactivity between stream chunks, not total
+generation time.
 
 ```bash
 python usiphus_auto_deck.py --generate \
@@ -156,11 +161,13 @@ apply to every topic, even when the curriculum defines its own `card_count`.
 Without that switch, topic-level counts remain authoritative.
 
 After each successful topic, the generator atomically saves a checkpoint under
-`build/ophthalmology/.checkpoints/`. If the run stops or the computer restarts,
-rerun the same command with `--resume` added. Matching completed topics are
-loaded from disk; changed topics/settings are regenerated. The final
-`generated_cards.json` and exports are written when all topics finish. Progress
-is printed after each topic. A socket inactivity timeout is not blindly retried: repeating the same
+`build/ophthalmology/.checkpoints/` and refreshes `generated_cards.json` with
+an `in_progress` status. You can inspect or back up the cards before the full
+curriculum finishes. If the run stops or the computer restarts, rerun the same
+command with `--resume` added. Matching completed topics are loaded from disk;
+changed topics/settings are regenerated. The final JSON is marked `complete`,
+then quality checks and requested exports run. Progress is printed after each
+topic. A socket inactivity timeout is not blindly retried: repeating the same
 expensive generation can waste another 15 minutes without fixing the cause.
 Instead, check Ollama/model health, available RAM/VRAM and CPU/GPU load. If the
 first token is still taking too long, first reduce the requested cards or
