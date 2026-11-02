@@ -179,3 +179,22 @@ The engine stores metadata and links only; it does not scrape gated websites,
 download decks or article bodies, or reproduce proprietary exam questions.
 All records start unreviewed, and relevance ranking is not a clinical quality
 grade. See [the discovery engine guide](docs/RESOURCE_DISCOVERY_ENGINE.md).
+
+
+## Curriculum coverage and gap analysis
+
+After resource discovery, generate a topic- and learning-objective-level gap
+report:
+
+```bash
+python usiphus_curriculum_coverage.py \
+  --curriculum examples/ophthalmology/curriculum.json \
+  --resources build/ophthalmology-discovery/resources.json \
+  --output build/ophthalmology-discovery/curriculum_coverage_report.json
+```
+
+Run its offline checks with `python usiphus_curriculum_coverage.py --self-test`.
+The analyzer excludes search-link-only records, reports domain/topic/objective
+coverage, and produces a faculty action queue. Coverage is a discovery signal,
+not a clinical evidence grade or proof of curriculum adequacy. See
+[the analyzer guide](docs/CURRICULUM_COVERAGE_ANALYZER.md).
