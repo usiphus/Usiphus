@@ -83,82 +83,118 @@ def generate_topic_cards(
     request_timeout: int = 300,
     max_retries: int = 3,
 ) -> list[dict[str, Any]]:
+    """Generate compact card content and build trusted metadata locally.
+
+    Successful cards are retained across repair attempts. Only missing or
+    structurally incomplete slots are sent back to Ollama.
+    """
     objectives = topic.get("learning_objectives", [])
     source_refs = topic.get("reference_sources", [])
     card_mix = requested_card_mix(count, topic.get("card_mix"))
-    payload = {
-        "specialty": specialty,
-        "learner_level": level,
-        "topic": topic.get("name") or topic.get("topic"),
-        "topic_id": topic.get("id"),
-        "curriculum_domain": topic.get("domain"),
-        "domain_id": topic.get("domain_id"),
-        "coverage_tags": topic.get("coverage_tags", []),
-        "learning_objectives": objectives,
-        "exam_emphasis": topic.get("exam_emphasis", []),
-        "faculty_supplied_reference_sources": source_refs,
-        "requested_card_count": count,
-        "requested_card_mix": card_mix,
-    }
+    planned_types = [
+        kind for kind, amount in card_mix.items() for _ in range(amount)
+    ]
+    topic_name = topic.get("name") or topic.get("topic") or "topic"
+    topic_id = str(topic.get("id") or topic_name)
+    coverage_tags = topic.get("coverage_tags", [])
+    domain = topic.get("domain") or "General"
+    base_url = ollama_url.rstrip("/")
+    prefix = re.sub(r"[^A-Za-z0-9]+", "-", str(topic_id)).strip("-").upper()
+    prefix = prefix[:24] or "TOPIC"
+
+    # The model writes only pedagogical content. IDs, provenance, tags,
+    # evidence state, specialty, and curriculum mapping are deterministic.
     system = (
-        "You are an educational drafting assistant for medical faculty. "
-        "Respect the supplied curriculum domain, topic ID, coverage tags and learning objectives. "
-        "Cover the full scope of the named topic rather than drifting into adjacent topics. "
-        "Create accurate, appropriately qualified educational drafts, not clinical advice. "
-        "Do not invent references, DOI values, guideline dates, statistics, or quotations. "
-        "Use only faculty-supplied references; if none are supplied, return references as []. "
-        "Flag uncertain or guideline-dependent claims in the answer for faculty verification. "
-        "Return ONLY a JSON object with a cards array. Each card must have card_id, "
-        "specialty, card_type (basic, mcq, viva, osce, clinical_case), difficulty, "
-        "prompt, answer, options, correct_option, learning_objective, tags, references, "
-        "cognitive_level, exam_domain, rubric, evidence_status. Exactly one correct MCQ option. "
-        "Follow requested_card_mix exactly where possible and return exactly requested_card_count cards. "
-        "For MCQs use 4-5 plausible options, one unambiguous key, and explain why the key is correct "
-        "and why distractors are wrong. Clinical cases must include age/context, focused findings, "
-        "a reasoning question and a safe first-step approach; avoid unsupported drug doses. "
-        "Viva answers should be structured and exam-ready. OSCE cards need candidate instructions, "
-        "expected steps and a concise checklist rubric. Include red flags, differential diagnosis, "
-        "investigations and management principles when relevant to the objective. "
-        "Use original wording; do not copy textbook passages. evidence_status must be unreviewed."
+        "Draft original medical education cards for faculty review. "
+        "Be clinically cautious; flag uncertainty in the answer. "
+        "Never invent references, guideline dates, statistics, or drug doses. "
+        "Return JSON only: {\"cards\":[...]}. Each card has prompt and answer. "
+        "MCQ cards also need 4-5 options and one correct_option letter A-E; "
+        "explain the key and distractors in answer. OSCE cards need a concise "
+        "rubric list. Clinical cases need context, focused findings, a reasoning "
+        "question, and a safe first-step approach. Do not add metadata."
     )
 
-    base_url = ollama_url.rstrip("/")
-    last_error = None
-    topic_name = topic.get("name") or topic.get("topic") or "topic"
+    def valid_content(card: Any, card_type: str) -> bool:
+        if not isinstance(card, dict):
+            return False
+        prompt = card.get("prompt")
+        answer = card.get("answer")
+        if not isinstance(prompt, str) or len(prompt.strip()) < 8:
+            return False
+        if not isinstance(answer, str) or len(answer.strip()) < 15:
+            return False
+        if card_type == "mcq":
+            options = card.get("options")
+            correct = str(card.get("correct_option") or "").strip().upper()
+            if not isinstance(options, list) or not 4 <= len(options) <= 5:
+                return False
+            if any(not isinstance(option, str) or not option.strip() for option in options):
+                return False
+            if correct not in {"A", "B", "C", "D", "E"}:
+                return False
+            if ord(correct) - ord("A") >= len(options):
+                return False
+        if card_type == "osce":
+            rubric = card.get("rubric")
+            if not isinstance(rubric, list) or not rubric:
+                return False
+        return True
 
-    # Retry loop to gracefully handle formatting issues or incorrect card counts
+    pending = list(range(count))
+    accepted: dict[int, dict[str, Any]] = {}
+    last_error: Exception | None = None
+
     for attempt in range(1, max_retries + 1):
-        user_content = json.dumps(payload, ensure_ascii=False)
+        if not pending:
+            break
+        slot_types = [planned_types[index] for index in pending]
+        payload = {
+            "topic": topic_name,
+            "specialty": specialty,
+            "learner_level": level,
+            "curriculum_domain": domain,
+            "learning_objectives": objectives,
+            "coverage": coverage_tags,
+            "cards_to_write": [
+                {"slot": slot, "type": card_type}
+                for slot, card_type in zip(pending, slot_types)
+            ],
+            "requirements": {
+                "one_card_per_slot_in_order": True,
+                "original_wording": True,
+                "references": "Do not generate references; application adds supplied references.",
+            },
+        }
         if attempt > 1:
-            user_content += (
-                f"\n\nCRITICAL REMINDER: Your previous attempt failed validation. "
-                f"You MUST return a JSON object with EXACTLY {count} cards in the 'cards' array."
+            payload["repair_instruction"] = (
+                "Previous output had invalid or missing slots. Return only the "
+                "requested slots, in order. Keep each card focused and complete."
             )
 
+        # Scale the token budget to the remaining work, not the original topic.
+        token_budget = min(
+            max_output_tokens,
+            max(512, 256 + len(pending) * 560),
+        )
         request_body = {
             "model": model,
-            # Keep the model loaded between specialty topics and stream tokens so
-            # long generations do not need to wait for one giant response body.
             "keep_alive": "30m",
             "stream": True,
             "format": "json",
-            "options": {"temperature": 0.2, "num_predict": max_output_tokens},
+            "options": {"temperature": 0.2, "num_predict": token_budget},
             "messages": [
                 {"role": "system", "content": system},
-                {"role": "user", "content": user_content},
+                {"role": "user", "content": json.dumps(payload, ensure_ascii=False)},
             ],
         }
-
         req = urllib.request.Request(
             f"{base_url}/api/chat",
             data=json.dumps(request_body).encode("utf-8"),
             headers={"Content-Type": "application/json"},
             method="POST",
         )
-
         try:
-            # Ollama streams newline-delimited JSON. The socket timeout now
-            # measures inactivity between chunks rather than total generation time.
             content_parts: list[str] = []
             response_bytes = 0
             with urllib.request.urlopen(req, timeout=request_timeout) as response:
@@ -181,31 +217,27 @@ def generate_topic_cards(
             if not content:
                 raise ValueError("Ollama returned an empty streamed response")
             parsed = _extract_json(content)
-            cards = parsed.get("cards")
+            generated = parsed.get("cards") if isinstance(parsed, dict) else None
+            if not isinstance(generated, list):
+                raise ValueError("Model response must contain a cards array")
 
-            if not isinstance(cards, list) or not cards:
-                raise ValueError("Model response must contain a non-empty cards array")
-
-            if len(cards) != count:
-                raise ValueError(
-                    f"Model returned {len(cards)} cards; requested exactly {count}"
+            next_pending: list[int] = []
+            for offset, slot in enumerate(pending):
+                candidate = generated[offset] if offset < len(generated) else None
+                card_type = planned_types[slot]
+                if not valid_content(candidate, card_type):
+                    next_pending.append(slot)
+                    continue
+                accepted[slot] = candidate
+            pending = next_pending
+            if pending:
+                print(
+                    f"[Repair] Topic '{topic_name}': {len(accepted)}/{count} cards valid; "
+                    f"retrying {len(pending)} incomplete card(s)",
+                    file=sys.stderr,
                 )
-
-            # If we reach here, validation succeeded!
-            prefix = re.sub(r"[^A-Za-z0-9]+", "-", str(topic_name)).strip("-").upper()
-            for index, card in enumerate(cards, 1):
-                if not isinstance(card, dict):
-                    raise ValueError("Every generated card must be an object")
-                card["card_id"] = f"OLLAMA-{prefix[:20]}-{index:03d}"
-                card["specialty"] = specialty
-                card["evidence_status"] = "unreviewed"
-                card.setdefault(
-                    "source", "AI-generated draft; faculty verification required"
-                )
-
-            return cards
-
-        except (ValueError, RuntimeError, KeyError, json.JSONDecodeError, TimeoutError, socket.timeout, urllib.error.URLError) as exc:
+        except (ValueError, RuntimeError, KeyError, json.JSONDecodeError,
+                TimeoutError, socket.timeout, urllib.error.URLError) as exc:
             last_error = exc
             timed_out = isinstance(exc, (TimeoutError, socket.timeout)) or (
                 isinstance(exc, urllib.error.URLError)
@@ -214,29 +246,65 @@ def generate_topic_cards(
             if timed_out:
                 detail = (
                     f"No Ollama stream data arrived for {request_timeout}s. "
-                    "Streaming prevents a slow overall generation from hitting a total-response timeout, "
-                    "but a stalled model or very slow first token still needs local diagnosis."
+                    "A slow first token or stalled local model needs local diagnosis."
                 )
             elif isinstance(exc, urllib.error.URLError):
                 detail = f"Could not reach Ollama at {base_url}: {exc.reason}"
             else:
                 detail = str(exc)
-            last_error = RuntimeError(detail)
             print(
                 f"[Warning] Topic '{topic_name}' attempt {attempt}/{max_retries} failed: {detail}",
                 file=sys.stderr,
             )
-            # Retrying an identical request after a socket inactivity timeout
-            # repeats the same expensive generation and can waste another 15 minutes.
             if timed_out:
                 break
+            # A malformed batch does not invalidate cards accepted in earlier attempts.
+            last_error = RuntimeError(detail)
 
-    raise RuntimeError(
-        f"Failed to generate {count} cards for topic '{topic_name}' after {max_retries} attempts. "
-        f"Last error: {last_error}. Check that Ollama is running, the model is available, "
-        "and your computer has enough RAM/VRAM. Try a smaller --max-output-tokens value, "
-        "a smaller card count, or a smaller model before increasing --ollama-timeout."
-    )
+    if pending:
+        raise RuntimeError(
+            f"Could not complete {len(pending)} card(s) for topic '{topic_name}' "
+            f"after {max_retries} attempt(s). Last error: {last_error or 'incomplete card output'}. "
+            "Try a smaller card count, a smaller model, or lower --max-output-tokens."
+        )
+
+    result: list[dict[str, Any]] = []
+    cognitive_by_type = {
+        "basic": "understand",
+        "mcq": "apply",
+        "clinical_case": "analyze",
+        "viva": "understand",
+        "osce": "apply",
+    }
+    for slot in range(count):
+        content = accepted[slot]
+        card_type = planned_types[slot]
+        objective = content.get("learning_objective")
+        if not isinstance(objective, str) or not objective.strip():
+            objective = objectives[slot % len(objectives)] if objectives else topic_name
+        tags = [str(tag) for tag in coverage_tags if str(tag).strip()]
+        if topic_id not in tags:
+            tags.append(topic_id)
+        record = {
+            "card_id": f"OLLAMA-{prefix}-{slot + 1:03d}",
+            "specialty": specialty,
+            "card_type": card_type,
+            "difficulty": str(topic.get("difficulty") or "intermediate"),
+            "prompt": content["prompt"].strip(),
+            "answer": content["answer"].strip(),
+            "options": content.get("options", []) if card_type == "mcq" else [],
+            "correct_option": content.get("correct_option", "") if card_type == "mcq" else "",
+            "learning_objective": objective,
+            "tags": tags,
+            "source": "AI-generated draft; faculty verification required",
+            "references": source_refs if isinstance(source_refs, list) else [],
+            "cognitive_level": cognitive_by_type.get(card_type, "understand"),
+            "exam_domain": str(topic.get("exam_domain") or domain),
+            "rubric": content.get("rubric", []) if card_type == "osce" else [],
+            "evidence_status": "unreviewed",
+        }
+        result.append(record)
+    return result
 
 
 def load_curriculum(path: Path) -> dict[str, Any]:
