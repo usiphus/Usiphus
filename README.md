@@ -203,3 +203,5 @@ not a clinical evidence grade or proof of curriculum adequacy. See
 ### Evidence-grounded generation
 
 Curated source excerpts can be mapped to individual generated claims, with unsupported links and potential conflicts routed to faculty review. This is traceability—not automated clinical verification. See [Evidence-grounded generation](docs/EVIDENCE_GROUNDED_GENERATION.md).
+
+The ophthalmology example now includes topic-mapped evidence discovery packs for all 52 topics. See [Ophthalmology evidence packs](docs/OPHTHALMOLOGY_EVIDENCE_PACKS.md) for coverage, source hierarchy and faculty curation requirements. These are discovery links and unreviewed source collections, not approved evidence excerpts.
