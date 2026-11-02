@@ -22,7 +22,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
                 generator.load_curriculum(path)
 
     def test_json_extraction_handles_fences(self):
-        value = generator._extract_json('\\`\\`\\`json\\n{"cards": []}\\n\\`\\`\\`')
+        value = generator._extract_json(" ```json\\n{\\"cards\\": []}\\n```".strip())
         self.assertEqual(value, {"cards": []})
 
     def test_topic_cards_get_stable_ids_and_unreviewed_status(self):
