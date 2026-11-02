@@ -514,6 +514,19 @@ def build(args: argparse.Namespace) -> int:
                 else:
                     print(f"[Resume] {index}/{topic_count}: checkpoint changed; regenerating topic")
             topic_quality_report = None
+            if cards is not None and curriculum.get("curriculum_domains"):
+                try:
+                    topic_quality_report = validate_topic_cards(
+                        topic, cards, specialty=specialty,
+                        requested_mix=requested_card_mix(count, topic.get("card_mix")),
+                    )
+                except ValueError as exc:
+                    print(
+                        f"[Resume] Saved topic failed current quality gates; regenerating: {exc}",
+                        file=sys.stderr,
+                    )
+                    cards = None
+                    loaded_checkpoint = False
             if cards is None:
                 print(f"[{index}/{topic_count}] Generating {count} cards: {topic.get('name') or topic.get('topic')}", flush=True)
                 if curriculum.get("curriculum_domains"):
