@@ -5,13 +5,13 @@ Ollama model and exports it to Anki (`.apkg`) and PowerPoint (`.pptx`).
 
 ## Comprehensive specialty curriculum blueprint
 
-The example curriculum is organized into **14 domains and 42 topic units**, with
-six planned cards per topic (**252 draft cards**). Each topic has a stable ID,
+The example curriculum is organized into **16 domains and 52 topic units**, with
+six planned cards per topic (**312 draft cards**). Each topic has a stable ID,
 domain assignment, three learning objectives, exam-emphasis prompts and coverage
 tags. The domain is passed into the local generation prompt so topic selection
 and card drafting remain traceable to the curriculum map.
 
-The 14 domains span:
+The 16 domains span:
 
 1. Foundations and visual sciences
 2. Clinical assessment and diagnostic skills
@@ -38,8 +38,8 @@ relevant training stage, local outcomes, case exposure and assessment weighting.
 Each six-card topic uses a mixed blueprint by default: one basic recall/understanding
 card, two MCQs, one clinical case, one viva and one OSCE task. Topics may override
 this with a `card_mix` object whose non-negative counts must sum to that topic's
-`card_count`. The 42-topic example makes 42 local Ollama requests; the default
-request ceiling is 50. These are workload limits, not a promise of completion
+`card_count`. The 52-topic example makes 52 local Ollama requests; the default
+request ceiling is 60. These are workload limits, not a promise of completion
 time or a financial cap.
 
 ## Local generation
