@@ -131,7 +131,27 @@
         "embryology and congenital anomalies",
         "clinical anatomy"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Ocular anatomy, embryology and histology",
+        "Describe globe, adnexa, coats, chambers and key microscopic structures",
+        "Explain ocular embryology and common congenital developmental errors",
+        "Relate anatomy and development to clinical signs and surgical planes",
+        "gross and microscopic anatomy",
+        "embryology and congenital anomalies",
+        "clinical anatomy"
+      ]
     },
     {
       "id": "foundations-02",
@@ -154,7 +174,27 @@
         "retinal physiology",
         "visual pathway physiology"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Ocular physiology and visual neuroscience",
+        "Explain tear film, corneal function, aqueous dynamics and lens physiology",
+        "Describe phototransduction, retinal processing and visual pathways",
+        "Relate ocular physiology to common disease mechanisms",
+        "aqueous humour dynamics",
+        "retinal physiology",
+        "visual pathway physiology"
+      ]
     },
     {
       "id": "foundations-03",
@@ -177,7 +217,27 @@
         "optical correction",
         "low-vision rehabilitation"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Clinical optics, refraction and low vision",
+        "Apply geometric optics, accommodation and refractive principles",
+        "Assess myopia, hyperopia, astigmatism, presbyopia and anisometropia",
+        "Explain low-vision assessment, aids and rehabilitation",
+        "refraction and retinoscopy",
+        "optical correction",
+        "low-vision rehabilitation"
+      ]
     },
     {
       "id": "clinical-skills-01",
@@ -200,7 +260,27 @@
         "complete eye examination",
         "red flags and referral"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Ophthalmic history and comprehensive examination",
+        "Take a structured history including visual symptoms, pain, trauma, medications and systemic risks",
+        "Perform visual acuity, pupils, fields, motility, external and red-reflex examinations",
+        "Document findings and identify urgent referral features",
+        "structured ophthalmic history",
+        "complete eye examination",
+        "red flags and referral"
+      ]
     },
     {
       "id": "clinical-skills-02",
@@ -223,7 +303,27 @@
         "tonometry and gonioscopy",
         "fluorescein and seidel testing"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Slit-lamp, tonometry and clinical techniques",
+        "Describe slit-lamp examination of anterior and posterior segments",
+        "Compare tonometry methods and recognize measurement limitations",
+        "Perform or explain fluorescein, Seidel, gonioscopy and fundus examination principles",
+        "slit-lamp technique",
+        "tonometry and gonioscopy",
+        "fluorescein and Seidel testing"
+      ]
     },
     {
       "id": "clinical-skills-03",
@@ -246,7 +346,27 @@
         "visual fields and optic nerve tests",
         "ocular ultrasound and angiography"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Ophthalmic investigations and interpretation",
+        "Select visual fields, OCT, angiography, ultrasound and electrophysiology appropriately",
+        "Interpret common imaging patterns while recognizing artefacts and limitations",
+        "Integrate test results with history and examination",
+        "OCT and retinal imaging",
+        "visual fields and optic nerve tests",
+        "ocular ultrasound and angiography"
+      ]
     },
     {
       "id": "ocular-surface-cornea-01",
@@ -269,7 +389,27 @@
         "lid malposition",
         "blepharitis and meibomian disease"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Lids, lashes and meibomian gland disease",
+        "Recognize blepharitis, meibomian dysfunction, chalazion and hordeolum",
+        "Assess entropion, ectropion, trichiasis, ptosis and lid retraction",
+        "Identify lid lesions requiring biopsy or urgent referral",
+        "lid lesions and lumps",
+        "lid malposition",
+        "blepharitis and meibomian disease"
+      ]
     },
     {
       "id": "ocular-surface-cornea-02",
@@ -292,7 +432,27 @@
         "dry eye and tear film",
         "conjunctival lesions"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Conjunctiva, tear film and ocular surface",
+        "Differentiate allergic, viral, bacterial and cicatrizing conjunctival disease",
+        "Assess dry eye, exposure, toxicity and ocular surface failure",
+        "Recognize pterygium, pinguecula and conjunctival degenerations",
+        "red eye differential",
+        "dry eye and tear film",
+        "conjunctival lesions"
+      ]
     },
     {
       "id": "ocular-surface-cornea-03",
@@ -315,7 +475,27 @@
         "corneal dystrophies",
         "topography and pachymetry"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Corneal disease, ectasia and dystrophies",
+        "Recognize corneal dystrophies, degenerations, scars and ectatic disorders",
+        "Assess keratoconus and corneal biomechanics and describe cross-linking principles",
+        "Interpret corneal topography and pachymetry in context",
+        "keratoconus and ectasia",
+        "corneal dystrophies",
+        "topography and pachymetry"
+      ]
     },
     {
       "id": "ocular-surface-cornea-04",
@@ -338,7 +518,27 @@
         "corneal ulcer assessment",
         "herpetic and peripheral corneal disease"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Infectious and inflammatory corneal disease",
+        "Differentiate bacterial, fungal, viral and Acanthamoeba keratitis",
+        "Assess corneal ulcer severity and identify microbial sampling indications",
+        "Recognize herpetic disease, neurotrophic keratopathy and peripheral ulcerative keratitis",
+        "microbial keratitis",
+        "corneal ulcer assessment",
+        "herpetic and peripheral corneal disease"
+      ]
     },
     {
       "id": "ocular-surface-cornea-05",
@@ -361,7 +561,27 @@
         "necrotizing scleritis",
         "systemic associations"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Scleral and episcleral disorders",
+        "Differentiate episcleritis, scleritis and peripheral ulcerative disease",
+        "Recognize infectious, autoimmune and necrotizing scleritis patterns",
+        "Identify systemic associations and sight-threatening complications",
+        "episcleritis versus scleritis",
+        "necrotizing scleritis",
+        "systemic associations"
+      ]
     },
     {
       "id": "lens-refractive-01",
@@ -384,7 +604,27 @@
         "preoperative assessment",
         "lens-induced complications"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Lens disorders and cataract",
+        "Classify age-related, congenital, traumatic and secondary cataracts",
+        "Assess cataract-related visual disability and surgical indications",
+        "Recognize lens-induced glaucoma, dislocation and postoperative complications",
+        "cataract classification",
+        "preoperative assessment",
+        "lens-induced complications"
+      ]
     },
     {
       "id": "lens-refractive-02",
@@ -407,7 +647,27 @@
         "phacoemulsification principles",
         "cataract surgery complications"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Cataract surgery and perioperative care",
+        "Explain phacoemulsification, intraocular lens choices and surgical steps",
+        "Assess biometry, astigmatism, consent and perioperative risks",
+        "Recognize posterior capsule rupture, endophthalmitis, cystoid macular oedema and other complications",
+        "biometry and IOL selection",
+        "phacoemulsification principles",
+        "cataract surgery complications"
+      ]
     },
     {
       "id": "lens-refractive-03",
@@ -430,7 +690,27 @@
         "patient selection",
         "post-refractive complications"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Refractive surgery and corneal procedures",
+        "Compare spectacles, contact lenses, corneal laser and lens-based refractive options",
+        "Assess eligibility, contraindications and informed consent principles",
+        "Recognize ectasia, dry eye, infection and refractive surgery complications",
+        "refractive surgery options",
+        "patient selection",
+        "post-refractive complications"
+      ]
     },
     {
       "id": "glaucoma-01",
@@ -453,7 +733,27 @@
         "pathophysiology and risk factors",
         "acute angle closure"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Glaucoma mechanisms and classification",
+        "Differentiate primary open-angle, angle-closure, secondary and congenital glaucoma",
+        "Explain optic neuropathy, risk factors and pressure-independent contributors",
+        "Recognize acute angle closure and other urgent presentations",
+        "glaucoma classification",
+        "pathophysiology and risk factors",
+        "acute angle closure"
+      ]
     },
     {
       "id": "glaucoma-02",
@@ -476,7 +776,27 @@
         "visual field interpretation",
         "oct and progression"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Glaucoma diagnostics and progression",
+        "Interpret optic disc, retinal nerve fibre layer and visual field findings",
+        "Explain gonioscopy, pachymetry, IOP measurement and target pressure",
+        "Assess progression and distinguish artefact from true change",
+        "optic nerve assessment",
+        "visual field interpretation",
+        "OCT and progression"
+      ]
     },
     {
       "id": "glaucoma-03",
@@ -499,7 +819,27 @@
         "laser procedures",
         "filtering and drainage surgery"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Glaucoma therapeutics, laser and surgery",
+        "Compare major topical drug classes, contraindications and adverse effects",
+        "Describe laser trabeculoplasty, iridotomy and cyclodestructive procedures",
+        "Outline trabeculectomy, drainage devices and postoperative complication management",
+        "glaucoma medications",
+        "laser procedures",
+        "filtering and drainage surgery"
+      ]
     },
     {
       "id": "uveitis-01",
@@ -522,7 +862,27 @@
         "slit-lamp and vitreous findings",
         "infectious versus non-infectious"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Anatomical and clinical uveitis",
+        "Classify anterior, intermediate, posterior and panuveitis",
+        "Differentiate infectious from non-infectious intraocular inflammation",
+        "Recognize hypopyon, synechiae, vitritis and sight-threatening complications",
+        "uveitis classification",
+        "slit-lamp and vitreous findings",
+        "infectious versus non-infectious"
+      ]
     },
     {
       "id": "uveitis-02",
@@ -545,7 +905,27 @@
         "masquerade syndromes",
         "targeted investigation"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Systemic inflammatory and masquerade syndromes",
+        "Relate uveitis to autoimmune, inflammatory and infectious systemic disease",
+        "Recognize masquerade syndromes including intraocular lymphoma",
+        "Select investigations based on phenotype rather than indiscriminate testing",
+        "systemic associations",
+        "masquerade syndromes",
+        "targeted investigation"
+      ]
     },
     {
       "id": "uveitis-03",
@@ -568,7 +948,27 @@
         "immunomodulatory monitoring",
         "uveitis complications"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Uveitis treatment and complications",
+        "Explain corticosteroid and steroid-sparing treatment principles and monitoring",
+        "Recognize treatment-related cataract, glaucoma and infection risks",
+        "Describe referral and multidisciplinary care for complex uveitis",
+        "topical and systemic therapy principles",
+        "immunomodulatory monitoring",
+        "uveitis complications"
+      ]
     },
     {
       "id": "medical-retina-01",
@@ -591,7 +991,27 @@
         "macular oedema",
         "oct interpretation"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Macular disease and age-related macular degeneration",
+        "Differentiate dry, neovascular and atrophic AMD",
+        "Recognize diabetic and non-diabetic macular oedema patterns",
+        "Interpret OCT and angiographic findings in common macular disease",
+        "AMD classification",
+        "macular oedema",
+        "OCT interpretation"
+      ]
     },
     {
       "id": "medical-retina-02",
@@ -614,7 +1034,27 @@
         "diabetic macular oedema",
         "screening and treatment pathways"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Diabetic retinopathy and diabetic eye disease",
+        "Grade non-proliferative and proliferative diabetic retinopathy",
+        "Assess diabetic macular oedema and sight-threatening features",
+        "Explain screening, laser, intravitreal and systemic risk-factor principles",
+        "DR grading",
+        "diabetic macular oedema",
+        "screening and treatment pathways"
+      ]
     },
     {
       "id": "medical-retina-03",
@@ -637,7 +1077,27 @@
         "retinal vein occlusion",
         "hypertensive retinopathy"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Retinal vascular and hypertensive disorders",
+        "Recognize central and branch retinal artery and vein occlusions",
+        "Differentiate hypertensive, inflammatory and embolic retinal changes",
+        "Identify systemic urgency and appropriate stroke/cardiovascular evaluation",
+        "retinal artery occlusion",
+        "retinal vein occlusion",
+        "hypertensive retinopathy"
+      ]
     },
     {
       "id": "medical-retina-04",
@@ -660,7 +1120,27 @@
         "infectious and inflammatory retinitis",
         "toxic retinopathy and genetics"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Inherited, inflammatory and toxic retinal disease",
+        "Recognize inherited retinal dystrophies and common phenotypes",
+        "Describe retinal manifestations of inflammatory, infectious and toxic disease",
+        "Explain indications and limitations of electrophysiology and genetic testing",
+        "retinal dystrophies",
+        "infectious and inflammatory retinitis",
+        "toxic retinopathy and genetics"
+      ]
     },
     {
       "id": "vitreoretinal-01",
@@ -683,7 +1163,27 @@
         "retinal breaks",
         "vitreous haemorrhage"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Vitreous, posterior vitreous detachment and retinal breaks",
+        "Differentiate posterior vitreous detachment, retinal tear and vitreous haemorrhage",
+        "Assess flashes, floaters and field loss and identify urgent features",
+        "Explain peripheral retinal examination and follow-up principles",
+        "flashes and floaters",
+        "retinal breaks",
+        "vitreous haemorrhage"
+      ]
     },
     {
       "id": "vitreoretinal-02",
@@ -706,7 +1206,27 @@
         "macular status and urgency",
         "repair options"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Retinal detachment and vitreoretinal emergencies",
+        "Differentiate rhegmatogenous, tractional and exudative retinal detachment",
+        "Recognize proliferative vitreoretinopathy and macula-on versus macula-off status",
+        "Describe urgency and principles of pneumatic, buckle and vitrectomy repair",
+        "retinal detachment types",
+        "macular status and urgency",
+        "repair options"
+      ]
     },
     {
       "id": "vitreoretinal-03",
@@ -729,7 +1249,27 @@
         "tamponade and complications",
         "intravitreal injection safety"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Medical and surgical vitreoretinal management",
+        "Explain vitrectomy indications, tamponade agents and postoperative positioning principles",
+        "Recognize endophthalmitis, dropped lens fragments and postoperative retinal complications",
+        "Describe intravitreal injection safety and monitoring",
+        "vitrectomy principles",
+        "tamponade and complications",
+        "intravitreal injection safety"
+      ]
     },
     {
       "id": "neuro-ophthalmology-01",
@@ -752,7 +1292,27 @@
         "optic neuropathies",
         "papilloedema"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Optic nerve and afferent visual pathway",
+        "Localize visual field defects along the afferent visual pathway",
+        "Differentiate optic neuritis, ischemic optic neuropathy and compressive optic neuropathy",
+        "Recognize papilloedema and urgent causes of optic disc swelling",
+        "visual field localization",
+        "optic neuropathies",
+        "papilloedema"
+      ]
     },
     {
       "id": "neuro-ophthalmology-02",
@@ -775,7 +1335,27 @@
         "horner and third nerve syndromes",
         "neuro-ophthalmic red flags"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Pupils, eyelids and neuro-ophthalmic syndromes",
+        "Assess anisocoria, relative afferent pupillary defect and light-near dissociation",
+        "Recognize Horner syndrome, third nerve palsy and abnormal eyelid signs",
+        "Identify neurological red flags and appropriate urgent investigation",
+        "pupil examination",
+        "Horner and third nerve syndromes",
+        "neuro-ophthalmic red flags"
+      ]
     },
     {
       "id": "neuro-ophthalmology-03",
@@ -798,7 +1378,27 @@
         "ocular motility and nystagmus",
         "cover tests and strabismus"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Ocular motility, diplopia, nystagmus and strabismus",
+        "Differentiate monocular and binocular diplopia and localize motility deficits",
+        "Assess cranial nerve palsies, restrictive disease, nystagmus and myasthenia patterns",
+        "Explain cover tests, prism measurement and basic strabismus assessment",
+        "diplopia localization",
+        "ocular motility and nystagmus",
+        "cover tests and strabismus"
+      ]
     },
     {
       "id": "pediatric-01",
@@ -821,7 +1421,27 @@
         "red reflex and leukocoria",
         "visual development"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Pediatric eye assessment and visual development",
+        "Perform age-appropriate visual assessment and red-reflex screening",
+        "Recognize refractive error, congenital cataract, glaucoma and leukocoria",
+        "Explain visual development and amblyopia risk factors",
+        "pediatric visual assessment",
+        "red reflex and leukocoria",
+        "visual development"
+      ]
     },
     {
       "id": "pediatric-02",
@@ -844,7 +1464,27 @@
         "amblyopia management",
         "binocular vision"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Amblyopia, strabismus and binocular vision",
+        "Classify esotropia, exotropia, vertical and paralytic deviations",
+        "Assess amblyopia, suppression, stereopsis and binocular vision",
+        "Describe treatment principles including refractive correction, occlusion and surgery",
+        "strabismus classification",
+        "amblyopia management",
+        "binocular vision"
+      ]
     },
     {
       "id": "pediatric-03",
@@ -867,7 +1507,27 @@
         "retinopathy of prematurity",
         "genetic and systemic pediatric eye disease"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Congenital, genetic and neonatal ophthalmology",
+        "Recognize congenital ocular anomalies and inherited childhood eye disease",
+        "Describe retinopathy of prematurity screening and referral principles",
+        "Identify pediatric ocular signs of systemic and genetic disorders",
+        "congenital anomalies",
+        "retinopathy of prematurity",
+        "genetic and systemic pediatric eye disease"
+      ]
     },
     {
       "id": "oculoplastics-orbit-01",
@@ -890,7 +1550,27 @@
         "eyelid tumours and reconstruction",
         "exposure and facial palsy"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Oculoplastic eyelid surgery and reconstruction",
+        "Assess ptosis, lid malposition, facial nerve palsy and exposure",
+        "Describe principles of eyelid lesion assessment, biopsy and reconstruction",
+        "Recognize postoperative lid and ocular surface complications",
+        "ptosis and lid malposition",
+        "eyelid tumours and reconstruction",
+        "exposure and facial palsy"
+      ]
     },
     {
       "id": "oculoplastics-orbit-02",
@@ -913,7 +1593,27 @@
         "thyroid eye disease",
         "orbital cellulitis and compartment syndrome"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Orbital disease, thyroid eye disease and trauma",
+        "Differentiate inflammatory, infectious, vascular and neoplastic orbital disease",
+        "Assess proptosis, orbital compartment syndrome and thyroid eye disease",
+        "Select imaging and recognize indications for urgent decompression",
+        "proptosis differential",
+        "thyroid eye disease",
+        "orbital cellulitis and compartment syndrome"
+      ]
     },
     {
       "id": "oculoplastics-orbit-03",
@@ -936,7 +1636,27 @@
         "dacryocystitis",
         "dcr and lacrimal procedures"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Lacrimal drainage and lacrimal surgery",
+        "Describe tear production, drainage anatomy and lacrimal testing",
+        "Differentiate epiphora, nasolacrimal obstruction and dacryocystitis",
+        "Explain principles of probing, intubation and dacryocystorhinostomy",
+        "lacrimal anatomy and tests",
+        "dacryocystitis",
+        "DCR and lacrimal procedures"
+      ]
     },
     {
       "id": "ocular-oncology-01",
@@ -959,7 +1679,27 @@
         "conjunctival neoplasia",
         "biopsy and histopathology"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Ocular surface and eyelid neoplasia",
+        "Recognize benign and malignant eyelid and conjunctival lesions",
+        "Identify ocular surface squamous neoplasia and melanoma warning signs",
+        "Explain biopsy, histopathology and referral principles",
+        "eyelid malignancy",
+        "conjunctival neoplasia",
+        "biopsy and histopathology"
+      ]
     },
     {
       "id": "ocular-oncology-02",
@@ -982,7 +1722,27 @@
         "uveal melanoma",
         "choroidal metastases"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Intraocular tumours and masquerade lesions",
+        "Recognize retinoblastoma, uveal melanoma and choroidal metastasis patterns",
+        "Differentiate tumour from inflammatory and degenerative mimics",
+        "Describe imaging, staging and multidisciplinary referral principles",
+        "retinoblastoma",
+        "uveal melanoma",
+        "choroidal metastases"
+      ]
     },
     {
       "id": "ocular-oncology-03",
@@ -1005,7 +1765,27 @@
         "ocular microbiology",
         "genetic diagnosis"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Ocular pathology, genetics and laboratory diagnosis",
+        "Relate histopathology to common corneal, lens, retinal and tumour disorders",
+        "Explain microbiology sampling and interpretation in ocular infection",
+        "Describe genetic counselling and testing principles for inherited eye disease",
+        "ocular histopathology",
+        "ocular microbiology",
+        "genetic diagnosis"
+      ]
     },
     {
       "id": "trauma-emergency-01",
@@ -1028,7 +1808,27 @@
         "chemical injury first aid",
         "blunt trauma and hyphema"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Blunt, penetrating and chemical ocular trauma",
+        "Recognize open-globe injury, hyphema, orbital fracture and intraocular foreign body",
+        "Outline immediate chemical injury irrigation and pH reassessment",
+        "Avoid pressure, tonometry and harmful manipulation when open globe is suspected",
+        "open globe and penetrating injury",
+        "chemical injury first aid",
+        "blunt trauma and hyphema"
+      ]
     },
     {
       "id": "trauma-emergency-02",
@@ -1051,7 +1851,27 @@
         "sudden visual loss",
         "time-critical emergencies"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Acute red eye, sudden visual loss and painful eye",
+        "Triage painful red eye and sudden visual loss using key history and examination",
+        "Differentiate acute angle closure, keratitis, uveitis, endophthalmitis and retinal vascular events",
+        "Prioritize time-critical referral and safe initial actions",
+        "acute red eye triage",
+        "sudden visual loss",
+        "time-critical emergencies"
+      ]
     },
     {
       "id": "trauma-emergency-03",
@@ -1074,7 +1894,27 @@
         "orbital and systemic emergencies",
         "handover and escalation"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Ophthalmic emergency pathways and postoperative complications",
+        "Recognize postoperative endophthalmitis, suprachoroidal haemorrhage and wound complications",
+        "Identify orbital cellulitis, giant cell arteritis and neurological emergencies affecting vision",
+        "Communicate urgency, handover and escalation clearly",
+        "postoperative emergencies",
+        "orbital and systemic emergencies",
+        "handover and escalation"
+      ]
     },
     {
       "id": "infection-01",
@@ -1097,7 +1937,27 @@
         "preseptal versus orbital cellulitis",
         "infection control"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "External ocular and adnexal infections",
+        "Differentiate blepharitis, conjunctivitis, preseptal and orbital cellulitis",
+        "Recognize viral, bacterial, fungal and parasitic ocular infection patterns",
+        "Apply infection prevention and antimicrobial stewardship principles",
+        "conjunctivitis and adnexal infection",
+        "preseptal versus orbital cellulitis",
+        "infection control"
+      ]
     },
     {
       "id": "infection-02",
@@ -1120,7 +1980,27 @@
         "sampling and urgent treatment principles",
         "prevention and risk factors"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Intraocular infection and endophthalmitis",
+        "Recognize acute postoperative, post-traumatic and endogenous endophthalmitis",
+        "Explain urgent sampling and treatment principles without unsupported dosing",
+        "Identify risk factors, prevention and visual prognosis considerations",
+        "endophthalmitis recognition",
+        "sampling and urgent treatment principles",
+        "prevention and risk factors"
+      ]
     },
     {
       "id": "infection-03",
@@ -1143,7 +2023,27 @@
         "opportunistic ocular infection",
         "immunosuppression"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Systemic infection, immunosuppression and the eye",
+        "Recognize ocular manifestations of HIV, tuberculosis, syphilis and opportunistic infection",
+        "Assess infection risk in immunosuppressed patients",
+        "Select targeted systemic evaluation with appropriate specialist collaboration",
+        "systemic infection manifestations",
+        "opportunistic ocular infection",
+        "immunosuppression"
+      ]
     },
     {
       "id": "systemic-pharmacology-01",
@@ -1166,7 +2066,27 @@
         "thyroid and autoimmune disease",
         "drug-related ocular disease"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Systemic disease and ocular manifestations",
+        "Recognize ocular manifestations of diabetes, hypertension, thyroid and renal disease",
+        "Relate autoimmune, rheumatological and neurological disease to eye findings",
+        "Identify medication-associated ocular adverse effects and systemic red flags",
+        "diabetes and hypertension",
+        "thyroid and autoimmune disease",
+        "drug-related ocular disease"
+      ]
     },
     {
       "id": "systemic-pharmacology-02",
@@ -1189,7 +2109,27 @@
         "anti-infective and retinal therapies",
         "drug safety and counselling"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Ophthalmic pharmacology and therapeutics",
+        "Compare major topical and systemic ophthalmic drug classes and mechanisms",
+        "Recognize contraindications, interactions, adverse effects and monitoring needs",
+        "Explain safe prescribing, administration and patient counselling principles",
+        "glaucoma and anti-inflammatory drugs",
+        "anti-infective and retinal therapies",
+        "drug safety and counselling"
+      ]
     },
     {
       "id": "systemic-pharmacology-03",
@@ -1212,7 +2152,27 @@
         "perioperative assessment",
         "surgical safety"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Ocular anaesthesia, perioperative medicine and patient safety",
+        "Compare topical, local, regional and general anaesthesia principles in eye care",
+        "Assess perioperative risks, anticoagulation considerations and consent",
+        "Apply surgical safety, sterile technique and complication escalation principles",
+        "ocular anaesthesia",
+        "perioperative assessment",
+        "surgical safety"
+      ]
     },
     {
       "id": "surgery-rehabilitation-01",
@@ -1235,7 +2195,27 @@
         "intravitreal injection technique",
         "procedure complications"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Ophthalmic lasers, injections and office procedures",
+        "Explain indications and safety principles for common ophthalmic lasers",
+        "Describe intravitreal injection, minor procedures and aseptic technique",
+        "Recognize procedure-related complications and follow-up requirements",
+        "retinal and anterior segment lasers",
+        "intravitreal injection technique",
+        "procedure complications"
+      ]
     },
     {
       "id": "surgery-rehabilitation-02",
@@ -1258,7 +2238,27 @@
         "cataract and retinal surgical principles",
         "simulation and skills assessment"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Ophthalmic microsurgery and surgical skills",
+        "Describe microscope ergonomics, instrument handling and microsurgical principles",
+        "Explain core steps and complication awareness for common ophthalmic operations",
+        "Use simulation, deliberate practice and structured skills assessment appropriately",
+        "microsurgical fundamentals",
+        "cataract and retinal surgical principles",
+        "simulation and skills assessment"
+      ]
     },
     {
       "id": "surgery-rehabilitation-03",
@@ -1281,7 +2281,27 @@
         "screening and prevention",
         "community ophthalmology"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Low vision, rehabilitation, community ophthalmology and prevention",
+        "Assess functional vision and select low-vision aids and rehabilitation pathways",
+        "Explain preventable blindness, screening and community eye health principles",
+        "Recognize accessibility, social impact and multidisciplinary support needs",
+        "low-vision rehabilitation",
+        "screening and prevention",
+        "community ophthalmology"
+      ]
     },
     {
       "id": "surgery-rehabilitation-04",
@@ -1304,7 +2324,228 @@
         "ethics and consent",
         "communication and research literacy"
       ],
-      "reference_sources": []
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Evidence-based practice, ethics, communication and research",
+        "Critically appraise ophthalmic evidence and distinguish guidelines from local policy",
+        "Apply consent, capacity, confidentiality, safeguarding and professional ethics",
+        "Communicate risk, uncertainty, shared decisions and research limitations",
+        "evidence appraisal",
+        "ethics and consent",
+        "communication and research literacy"
+      ]
     }
-  ]
+  ],
+  "source_discovery": {
+    "purpose": "Discover, catalogue and map external learning resources to every curriculum topic and objective. Discovery is separate from clinical approval.",
+    "discovery_modes": [
+      "search_public_web",
+      "official_api_or_feed_when_available",
+      "curated_directory",
+      "faculty_submission",
+      "learner_submission_for_moderation"
+    ],
+    "source_catalog": [
+      {
+        "id": "anki_shared_decks",
+        "name": "Public Anki shared decks",
+        "kind": "community_flashcard_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "access": "Public listing or user-provided export; availability varies",
+        "use": "Identify relevant existing flashcard coverage and gaps; link to the original deck or import only when its licence and format permit.",
+        "cautions": [
+          "User-generated content may contain errors, outdated recommendations or poor explanations",
+          "Check licence, author attribution and redistribution permission",
+          "Do not assume public visibility grants permission to copy or republish"
+        ]
+      },
+      {
+        "id": "doctorde_challenges",
+        "name": "DoctorDE free medical web challenges",
+        "kind": "interactive_medical_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "access": "Free web-based challenge material where publicly accessible",
+        "use": "Discover topic-relevant question/challenge themes and link learners to the original activity.",
+        "cautions": [
+          "Respect site terms, robots rules and access restrictions",
+          "Do not scrape gated content or reproduce question text without permission",
+          "Capture only permitted metadata, links and independently authored learning objectives"
+        ]
+      },
+      {
+        "id": "cureus_open_access",
+        "name": "Cureus open-access medical journal",
+        "kind": "peer_reviewed_journal",
+        "examples": [
+          "Cureus"
+        ],
+        "access": "Open-access articles; article-specific licence applies",
+        "use": "Find clinical studies, reviews and case reports that add evidence, controversies or clinical context to a topic.",
+        "cautions": [
+          "Record article DOI, publication date, article type and licence",
+          "Peer review does not guarantee guideline-level authority or freedom from limitations",
+          "Prefer systematic reviews and robust primary studies where appropriate"
+        ]
+      },
+      {
+        "id": "pubmed_central",
+        "name": "PubMed Central",
+        "kind": "open_access_full_text_repository",
+        "examples": [
+          "PubMed Central (PMC)"
+        ],
+        "access": "Free full-text archive; reuse rights vary by article",
+        "use": "Find full-text biomedical research and reviews; filter for relevant article types and licences.",
+        "cautions": [
+          "Check each article's reuse licence",
+          "Distinguish repository availability from permission to redistribute"
+        ]
+      },
+      {
+        "id": "pubmed",
+        "name": "PubMed",
+        "kind": "bibliographic_database",
+        "examples": [
+          "PubMed"
+        ],
+        "access": "Free bibliographic search; full text may be elsewhere",
+        "use": "Discover peer-reviewed literature, abstracts, reviews and guideline-linked publications.",
+        "cautions": [
+          "An abstract is not a substitute for full-text appraisal",
+          "Record PMID/DOI and link to publisher or repository"
+        ]
+      },
+      {
+        "id": "doaj",
+        "name": "Directory of Open Access Journals",
+        "kind": "open_access_journal_directory",
+        "examples": [
+          "DOAJ"
+        ],
+        "access": "Free directory; journal/article licences vary",
+        "use": "Discover relevant open-access journals and articles, then verify the article-level licence.",
+        "cautions": [
+          "Directory inclusion is a discovery signal, not a substitute for article appraisal"
+        ]
+      },
+      {
+        "id": "public_exam_prep",
+        "name": "Public medical exam-preparation and teaching sites",
+        "kind": "public_exam_preparation",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "other openly accessible specialty teaching and exam-preparation sites"
+        ],
+        "access": "Public pages where accessible without bypassing restrictions",
+        "use": "Identify commonly examined concepts, question formats, OSCE tasks, explanations and revision gaps.",
+        "cautions": [
+          "Check authorship, update date, references and educational level",
+          "Do not copy proprietary questions, diagrams or explanations without permission",
+          "Use as exam-practice signals, not sole clinical evidence"
+        ]
+      },
+      {
+        "id": "professional_guidelines",
+        "name": "Professional society guidelines and consensus statements",
+        "kind": "clinical_guideline",
+        "examples": [
+          "Relevant national and international specialty societies"
+        ],
+        "access": "Publicly accessible guidance where available",
+        "use": "Anchor current clinical recommendations, standard-of-care summaries and practice pathways.",
+        "cautions": [
+          "Record issuing body, jurisdiction, publication/update date and version",
+          "Guidelines may conflict or differ by jurisdiction; faculty adjudication required"
+        ]
+      },
+      {
+        "id": "open_textbooks_resources",
+        "name": "Open textbooks and university teaching resources",
+        "kind": "open_educational_resource",
+        "examples": [
+          "Openly licensed university notes, teaching modules and textbooks"
+        ],
+        "access": "Open pages or resources with explicit reuse terms",
+        "use": "Support foundational anatomy, physiology, mechanisms and structured teaching.",
+        "cautions": [
+          "Verify licence and version",
+          "Check clinical currency for management content"
+        ]
+      }
+    ],
+    "topic_matching": {
+      "match_fields": [
+        "specialty",
+        "domain_id",
+        "topic_id",
+        "topic_name",
+        "learning_objectives",
+        "exam_emphasis",
+        "coverage_tags",
+        "learner_level"
+      ],
+      "required_metadata": [
+        "source_id",
+        "title",
+        "canonical_url",
+        "source_type",
+        "author_or_organization",
+        "publication_or_update_date_if_available",
+        "access_status",
+        "licence_or_reuse_status",
+        "retrieved_at",
+        "matched_topic_ids",
+        "matched_objective_ids",
+        "evidence_role",
+        "review_status"
+      ],
+      "evidence_roles": [
+        "foundational_learning",
+        "exam_practice_signal",
+        "clinical_evidence",
+        "guideline_or_consensus",
+        "case_based_learning",
+        "procedural_or_osce_learning"
+      ],
+      "ranking_signals": [
+        "topic_and_objective_relevance",
+        "source_authority_for_the_claim_type",
+        "recency",
+        "methodological_quality",
+        "learner_level_fit",
+        "licence_and_access_clarity"
+      ],
+      "safeguards": [
+        "Never treat search rank, popularity, deck downloads or challenge scores as evidence quality",
+        "Never let an exam-prep page or community Anki deck independently establish clinical recommendations",
+        "Preserve provenance and link to the original source",
+        "Do not bypass paywalls, logins, robots rules, rate limits or terms of service",
+        "Do not store or redistribute full third-party content unless reuse rights explicitly allow it",
+        "If a source is unavailable or its licence is unclear, retain a link and mark it link_only or rights_unknown",
+        "All clinical claims and generated answers remain pending qualified faculty review"
+      ]
+    },
+    "source_coverage_policy": {
+      "target": "At least two independent resource types should be discoverable for each topic where feasible; absence is a visible coverage gap, not a reason to invent sources.",
+      "required_distinction": "Separate learning resources, exam-practice resources and clinical evidence; do not collapse them into one undifferentiated source score.",
+      "freshness": "Store publication/update and retrieval dates; flag time-sensitive clinical material for review.",
+      "conflict_handling": "Conflicting recommendations create a faculty-review item with jurisdiction and date context; do not auto-resolve clinical disagreement."
+    }
+  }
 }
