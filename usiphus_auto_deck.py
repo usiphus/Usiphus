@@ -14,6 +14,7 @@ import re
 import socket
 import sys
 import hashlib
+import math
 import time
 import urllib.error
 import urllib.request
@@ -72,6 +73,108 @@ def requested_card_mix(
     return {kind: amount for kind, amount in mix.items() if amount}
 
 
+def build_topic_blueprint(topic: dict[str, Any], count: int) -> list[dict[str, Any]]:
+    """Allocate every card slot to an objective and assessment mode deterministically.
+
+    Objective weights are relative priorities. A weighted least-filled allocator
+    spreads slots across objectives while assigning extra slots to higher-weight
+    objectives. The result is stable for identical curriculum input.
+    """
+    card_mix = requested_card_mix(count, topic.get("card_mix"))
+    card_types = [kind for kind, amount in card_mix.items() for _ in range(amount)]
+    raw_objectives = topic.get("learning_objectives", [])
+    if not isinstance(raw_objectives, list):
+        raise ValueError("learning_objectives must be a list")
+
+    topic_id = str(topic.get("id") or topic.get("name") or topic.get("topic") or "topic")
+    objectives: list[dict[str, Any]] = []
+    for index, raw in enumerate(raw_objectives, 1):
+        if isinstance(raw, str):
+            label, objective_id, weight = raw.strip(), f"{topic_id}-objective-{index:02d}", 1.0
+        elif isinstance(raw, dict):
+            label = str(raw.get("name") or raw.get("title") or raw.get("objective") or raw.get("description") or "").strip()
+            objective_id = str(raw.get("id") or f"{topic_id}-objective-{index:02d}")
+            weight = raw.get("weight", raw.get("priority", 1.0))
+        else:
+            raise ValueError(f"Learning objective {index} must be a string or object")
+        if not label:
+            raise ValueError(f"Learning objective {index} has no usable text")
+        if isinstance(weight, bool) or not isinstance(weight, (int, float)) or not math.isfinite(float(weight)) or weight <= 0:
+            raise ValueError(f"Learning objective {index} weight must be a finite positive number")
+        objectives.append({"objective_id": objective_id, "learning_objective": label, "weight": float(weight)})
+
+    if not objectives:
+        objectives = [{
+            "objective_id": f"{topic_id}-overview",
+            "learning_objective": str(topic.get("name") or topic.get("topic") or "Core topic"),
+            "weight": 1.0,
+        }]
+
+    assigned = [0] * len(objectives)
+    cognitive_by_type = {
+        "basic": "understand",
+        "mcq": "apply",
+        "clinical_case": "analyze",
+        "viva": "understand",
+        "osce": "apply",
+    }
+    slots: list[dict[str, Any]] = []
+    for slot, card_type in enumerate(card_types):
+        objective_index = min(
+            range(len(objectives)),
+            key=lambda index: (assigned[index] / objectives[index]["weight"], index),
+        )
+        objective = objectives[objective_index]
+        assigned[objective_index] += 1
+        slots.append({
+            "slot": slot,
+            "type": card_type,
+            "objective_id": objective["objective_id"],
+            "learning_objective": objective["learning_objective"],
+            "cognitive_level": cognitive_by_type[card_type],
+        })
+    return slots
+
+
+def compile_curriculum_blueprint(
+    curriculum: dict[str, Any], default_count: int, override_counts: bool = False
+) -> dict[str, Any]:
+    """Compile a complete objective-level deck plan without calling a model."""
+    topic_plans = []
+    total_cards = 0
+    for topic in curriculum["topics"]:
+        count = default_count if override_counts else int(topic.get("card_count", default_count))
+        if count < 1 or count > 50:
+            raise ValueError("Each topic card_count must be between 1 and 50")
+        slots = build_topic_blueprint(topic, count)
+        objective_counts: dict[str, int] = {}
+        for slot in slots:
+            key = slot["objective_id"]
+            objective_counts[key] = objective_counts.get(key, 0) + 1
+        topic_plans.append({
+            "topic_id": topic.get("id"),
+            "topic": topic.get("name") or topic.get("topic"),
+            "domain_id": topic.get("domain_id"),
+            "domain": topic.get("domain"),
+            "card_count": count,
+            "objective_count": len(objective_counts),
+            "objective_card_counts": objective_counts,
+            "slots": slots,
+        })
+        total_cards += count
+    return {
+        "schema_version": 1,
+        "specialty": curriculum["specialty"],
+        "learner_level": curriculum.get("learner_level", "medical students"),
+        "curriculum_version": curriculum.get("curriculum_version"),
+        "topics": len(topic_plans),
+        "cards": total_cards,
+        "objective_mapped_cards": total_cards,
+        "topic_plans": topic_plans,
+        "generation_notice": "Blueprint only; generated content remains unreviewed until faculty approval.",
+    }
+
+
 def generate_topic_cards(
     topic: dict[str, Any],
     *,
@@ -95,10 +198,8 @@ def generate_topic_cards(
     """
     objectives = topic.get("learning_objectives", [])
     source_refs = topic.get("reference_sources", [])
-    card_mix = requested_card_mix(count, topic.get("card_mix"))
-    planned_types = [
-        kind for kind, amount in card_mix.items() for _ in range(amount)
-    ]
+    planned_slots = build_topic_blueprint(topic, count)
+    planned_types = [slot["type"] for slot in planned_slots]
     topic_name = topic.get("name") or topic.get("topic") or "topic"
     topic_id = str(topic.get("id") or topic_name)
     coverage_tags = topic.get("coverage_tags", [])
@@ -202,8 +303,14 @@ def generate_topic_cards(
             "exam_emphasis": topic.get("exam_emphasis", []),
             "coverage_tags": coverage_tags,
             "cards_to_write": [
-                {"slot": slot, "type": card_type}
-                for slot, card_type in zip(pending, slot_types)
+                {
+                    "slot": slot,
+                    "type": planned_slots[slot]["type"],
+                    "objective_id": planned_slots[slot]["objective_id"],
+                    "learning_objective": planned_slots[slot]["learning_objective"],
+                    "cognitive_level": planned_slots[slot]["cognitive_level"],
+                }
+                for slot in pending
             ],
             "requirements": {
                 "one_card_per_slot_in_order": True,
@@ -356,19 +463,13 @@ def generate_topic_cards(
         )
 
     result: list[dict[str, Any]] = []
-    cognitive_by_type = {
-        "basic": "understand",
-        "mcq": "apply",
-        "clinical_case": "analyze",
-        "viva": "understand",
-        "osce": "apply",
-    }
     for slot in range(count):
         content = accepted[slot]
-        card_type = planned_types[slot]
-        objective = content.get("learning_objective")
-        if not isinstance(objective, str) or not objective.strip():
-            objective = objectives[slot % len(objectives)] if objectives else topic_name
+        slot_plan = planned_slots[slot]
+        card_type = slot_plan["type"]
+        # Curriculum mapping is authoritative: never let model-generated metadata
+        # silently move a card to a different objective or cognitive level.
+        objective = slot_plan["learning_objective"]
         tags = [str(tag) for tag in coverage_tags if str(tag).strip()]
         if topic_id not in tags:
             tags.append(topic_id)
@@ -382,10 +483,14 @@ def generate_topic_cards(
             "options": content.get("options", []) if card_type == "mcq" else [],
             "correct_option": content.get("correct_option", "") if card_type == "mcq" else "",
             "learning_objective": objective,
+            "objective_id": slot_plan["objective_id"],
+            "topic_id": topic_id,
+            "curriculum_domain_id": topic.get("domain_id"),
+            "blueprint_slot": slot,
             "tags": tags,
             "source": "AI-generated draft; faculty verification required",
             "references": source_refs if isinstance(source_refs, list) else [],
-            "cognitive_level": cognitive_by_type.get(card_type, "understand"),
+            "cognitive_level": slot_plan["cognitive_level"],
             "exam_domain": str(topic.get("exam_domain") or "knowledge"),
             "rubric": content.get("rubric", []) if card_type == "osce" else [],
             "evidence_status": "unreviewed",
@@ -601,34 +706,15 @@ def build(args: argparse.Namespace) -> int:
         if args.ollama_timeout < 1:
             raise ValueError("--ollama-timeout must be at least 1 second")
         if args.plan_only:
-            planned_topics = []
-            planned_total = 0
-            for topic in curriculum["topics"]:
-                planned_count = (
-                    args.cards_per_topic
-                    if args.override_curriculum_card_counts
-                    else int(topic.get("card_count", args.cards_per_topic))
-                )
-                if planned_count < 1 or planned_count > 50:
-                    raise ValueError("Each topic card_count must be between 1 and 50")
-                planned_mix = requested_card_mix(planned_count, topic.get("card_mix"))
-                planned_topics.append({
-                    "topic": topic.get("name") or topic.get("topic"),
-                    "card_count": planned_count,
-                    "card_mix": planned_mix,
-                })
-                planned_total += planned_count
+            blueprint = compile_curriculum_blueprint(
+                curriculum, args.cards_per_topic, args.override_curriculum_card_counts
+            )
             print(json.dumps({
                 "mode": "plan_only",
-                "specialty": specialty,
-                "learner_level": level,
                 "model": args.model,
-                "topics": topic_count,
-                "cards": planned_total,
-                "initial_topic_batches": topic_count,
                 "formats": args.formats,
                 "output_dir": args.output_dir,
-                "topics_detail": planned_topics,
+                **blueprint,
             }, ensure_ascii=False, indent=2))
             return 0
         out = Path(args.output_dir)
@@ -636,6 +722,10 @@ def build(args: argparse.Namespace) -> int:
             check_ollama_model(args.ollama_url, args.model, args.ollama_timeout)
         checkpoint_dir = out / ".checkpoints"
         checkpoint_dir.mkdir(parents=True, exist_ok=True)
+        deck_blueprint = compile_curriculum_blueprint(
+            curriculum, args.cards_per_topic, args.override_curriculum_card_counts
+        )
+        _atomic_write_json(out / "deck_blueprint.json", deck_blueprint)
         total_cards = 0
         for index, topic in enumerate(curriculum["topics"], 1):
             count = (
