@@ -1,3 +1,13 @@
+## Comprehensive ophthalmology curriculum
+
+The automated deck example now maps 14 curriculum domains and 42 specialty
+topics (252 planned draft cards), spanning clinical and surgical subspecialties,
+diagnostics, emergencies, rehabilitation and professional practice. See
+`examples/ophthalmology/curriculum.json` and
+`docs/AUTOMATED_DECK_GENERATOR.md` for the domain-by-domain blueprint.
+This is a broad specialty map that still requires faculty mapping to local
+training outcomes and examination requirements.
+
 # Usiphus
 
 **A local-first medical education content, curriculum, evidence-governance, and release toolkit.**
