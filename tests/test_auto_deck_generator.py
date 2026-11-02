@@ -81,11 +81,26 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             def __exit__(self, *args): return False
             def read(self, _limit): return json.dumps(response).encode()
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
-            with self.assertRaisesRegex(ValueError, "requested at most 1"):
+            with self.assertRaisesRegex(ValueError, "requested exactly 1"):
                 generator.generate_topic_cards(
                     {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
                     model="test-model", ollama_url="http://localhost:11434",
                     count=1, max_output_tokens=1024)
+
+    def test_generation_rejects_fewer_cards_than_requested(self):
+        response = {"message": {"content": json.dumps({"cards": [
+            {"prompt": "Q1?", "answer": "A sufficiently detailed answer."}
+        ]})}}
+        class FakeResponse:
+            def __enter__(self): return self
+            def __exit__(self, *args): return False
+            def read(self, _limit): return json.dumps(response).encode()
+        with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
+            with self.assertRaisesRegex(ValueError, "requested exactly 2"):
+                generator.generate_topic_cards(
+                    {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
+                    model="test-model", ollama_url="http://localhost:11434",
+                    count=2, max_output_tokens=1024)
 
     def test_ollama_call_limit_blocks_before_network_request(self):
         with tempfile.TemporaryDirectory() as tmp:
