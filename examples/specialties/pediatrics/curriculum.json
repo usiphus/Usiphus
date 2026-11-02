@@ -1,0 +1,677 @@
+{
+  "specialty": "pediatrics",
+  "display_name": "Pediatrics",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive pediatrics curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "pediatric-foundations",
+      "name": "Pediatric foundations and preventive care",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in pediatric foundations and preventive care. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "neonatal",
+      "name": "Neonatology and early-life emergencies",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in neonatology and early-life emergencies. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "acute-pediatrics",
+      "name": "Acute pediatric medicine",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in acute pediatric medicine. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "chronic-pediatrics",
+      "name": "System-based and chronic pediatric disease",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in system-based and chronic pediatric disease. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Pediatric foundations and preventive care",
+    "Neonatology and early-life emergencies",
+    "Acute pediatric medicine",
+    "System-based and chronic pediatric disease"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "pediatric-foundations-01",
+      "domain_id": "pediatric-foundations",
+      "domain": "Pediatric foundations and preventive care",
+      "name": "Growth, development and developmental assessment",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for growth, development and developmental assessment.",
+        "Assess a patient with suspected growth, development and developmental assessment, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "growth, development and developmental assessment",
+        "pediatrics assessment",
+        "pediatrics investigations",
+        "pediatrics management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Growth, development and developmental assessment",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for growth, development and developmental assessment.",
+        "Assess a patient with suspected growth, development and developmental assessment, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Growth, development and developmental assessment MCQ",
+        "Growth, development and developmental assessment clinical case",
+        "Growth, development and developmental assessment OSCE",
+        "Growth, development and developmental assessment viva",
+        "Growth, development and developmental assessment review guideline"
+      ]
+    },
+    {
+      "id": "pediatric-foundations-02",
+      "domain_id": "pediatric-foundations",
+      "domain": "Pediatric foundations and preventive care",
+      "name": "Nutrition, breastfeeding and common deficiencies",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for nutrition, breastfeeding and common deficiencies.",
+        "Assess a patient with suspected nutrition, breastfeeding and common deficiencies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "nutrition, breastfeeding and common deficiencies",
+        "pediatrics assessment",
+        "pediatrics investigations",
+        "pediatrics management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Nutrition, breastfeeding and common deficiencies",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for nutrition, breastfeeding and common deficiencies.",
+        "Assess a patient with suspected nutrition, breastfeeding and common deficiencies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Nutrition, breastfeeding and common deficiencies MCQ",
+        "Nutrition, breastfeeding and common deficiencies clinical case",
+        "Nutrition, breastfeeding and common deficiencies OSCE",
+        "Nutrition, breastfeeding and common deficiencies viva",
+        "Nutrition, breastfeeding and common deficiencies review guideline"
+      ]
+    },
+    {
+      "id": "pediatric-foundations-03",
+      "domain_id": "pediatric-foundations",
+      "domain": "Pediatric foundations and preventive care",
+      "name": "Immunization, screening and preventive pediatrics",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for immunization, screening and preventive pediatrics.",
+        "Assess a patient with suspected immunization, screening and preventive pediatrics, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "immunization, screening and preventive pediatrics",
+        "pediatrics assessment",
+        "pediatrics investigations",
+        "pediatrics management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Immunization, screening and preventive pediatrics",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for immunization, screening and preventive pediatrics.",
+        "Assess a patient with suspected immunization, screening and preventive pediatrics, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Immunization, screening and preventive pediatrics MCQ",
+        "Immunization, screening and preventive pediatrics clinical case",
+        "Immunization, screening and preventive pediatrics OSCE",
+        "Immunization, screening and preventive pediatrics viva",
+        "Immunization, screening and preventive pediatrics review guideline"
+      ]
+    },
+    {
+      "id": "neonatal-01",
+      "domain_id": "neonatal",
+      "domain": "Neonatology and early-life emergencies",
+      "name": "Newborn examination and neonatal adaptation",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for newborn examination and neonatal adaptation.",
+        "Assess a patient with suspected newborn examination and neonatal adaptation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "newborn examination and neonatal adaptation",
+        "pediatrics assessment",
+        "pediatrics investigations",
+        "pediatrics management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Newborn examination and neonatal adaptation",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for newborn examination and neonatal adaptation.",
+        "Assess a patient with suspected newborn examination and neonatal adaptation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Newborn examination and neonatal adaptation MCQ",
+        "Newborn examination and neonatal adaptation clinical case",
+        "Newborn examination and neonatal adaptation OSCE",
+        "Newborn examination and neonatal adaptation viva",
+        "Newborn examination and neonatal adaptation review guideline"
+      ]
+    },
+    {
+      "id": "neonatal-02",
+      "domain_id": "neonatal",
+      "domain": "Neonatology and early-life emergencies",
+      "name": "Prematurity, respiratory distress and neonatal sepsis",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for prematurity, respiratory distress and neonatal sepsis.",
+        "Assess a patient with suspected prematurity, respiratory distress and neonatal sepsis, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "prematurity, respiratory distress and neonatal sepsis",
+        "pediatrics assessment",
+        "pediatrics investigations",
+        "pediatrics management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Prematurity, respiratory distress and neonatal sepsis",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for prematurity, respiratory distress and neonatal sepsis.",
+        "Assess a patient with suspected prematurity, respiratory distress and neonatal sepsis, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Prematurity, respiratory distress and neonatal sepsis MCQ",
+        "Prematurity, respiratory distress and neonatal sepsis clinical case",
+        "Prematurity, respiratory distress and neonatal sepsis OSCE",
+        "Prematurity, respiratory distress and neonatal sepsis viva",
+        "Prematurity, respiratory distress and neonatal sepsis review guideline"
+      ]
+    },
+    {
+      "id": "neonatal-03",
+      "domain_id": "neonatal",
+      "domain": "Neonatology and early-life emergencies",
+      "name": "Neonatal jaundice, feeding problems and congenital conditions",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for neonatal jaundice, feeding problems and congenital conditions.",
+        "Assess a patient with suspected neonatal jaundice, feeding problems and congenital conditions, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "neonatal jaundice, feeding problems and congenital conditions",
+        "pediatrics assessment",
+        "pediatrics investigations",
+        "pediatrics management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Neonatal jaundice, feeding problems and congenital conditions",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for neonatal jaundice, feeding problems and congenital conditions.",
+        "Assess a patient with suspected neonatal jaundice, feeding problems and congenital conditions, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Neonatal jaundice, feeding problems and congenital conditions MCQ",
+        "Neonatal jaundice, feeding problems and congenital conditions clinical case",
+        "Neonatal jaundice, feeding problems and congenital conditions OSCE",
+        "Neonatal jaundice, feeding problems and congenital conditions viva",
+        "Neonatal jaundice, feeding problems and congenital conditions review guideline"
+      ]
+    },
+    {
+      "id": "acute-pediatrics-01",
+      "domain_id": "acute-pediatrics",
+      "domain": "Acute pediatric medicine",
+      "name": "Pediatric resuscitation and the unwell child",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pediatric resuscitation and the unwell child.",
+        "Assess a patient with suspected pediatric resuscitation and the unwell child, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "pediatric resuscitation and the unwell child",
+        "pediatrics assessment",
+        "pediatrics investigations",
+        "pediatrics management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Pediatric resuscitation and the unwell child",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pediatric resuscitation and the unwell child.",
+        "Assess a patient with suspected pediatric resuscitation and the unwell child, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Pediatric resuscitation and the unwell child MCQ",
+        "Pediatric resuscitation and the unwell child clinical case",
+        "Pediatric resuscitation and the unwell child OSCE",
+        "Pediatric resuscitation and the unwell child viva",
+        "Pediatric resuscitation and the unwell child review guideline"
+      ]
+    },
+    {
+      "id": "acute-pediatrics-02",
+      "domain_id": "acute-pediatrics",
+      "domain": "Acute pediatric medicine",
+      "name": "Respiratory, gastrointestinal and infectious presentations",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for respiratory, gastrointestinal and infectious presentations.",
+        "Assess a patient with suspected respiratory, gastrointestinal and infectious presentations, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "respiratory, gastrointestinal and infectious presentations",
+        "pediatrics assessment",
+        "pediatrics investigations",
+        "pediatrics management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Respiratory, gastrointestinal and infectious presentations",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for respiratory, gastrointestinal and infectious presentations.",
+        "Assess a patient with suspected respiratory, gastrointestinal and infectious presentations, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Respiratory, gastrointestinal and infectious presentations MCQ",
+        "Respiratory, gastrointestinal and infectious presentations clinical case",
+        "Respiratory, gastrointestinal and infectious presentations OSCE",
+        "Respiratory, gastrointestinal and infectious presentations viva",
+        "Respiratory, gastrointestinal and infectious presentations review guideline"
+      ]
+    },
+    {
+      "id": "acute-pediatrics-03",
+      "domain_id": "acute-pediatrics",
+      "domain": "Acute pediatric medicine",
+      "name": "Seizures, altered consciousness and neurologic emergencies",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for seizures, altered consciousness and neurologic emergencies.",
+        "Assess a patient with suspected seizures, altered consciousness and neurologic emergencies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "seizures, altered consciousness and neurologic emergencies",
+        "pediatrics assessment",
+        "pediatrics investigations",
+        "pediatrics management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Seizures, altered consciousness and neurologic emergencies",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for seizures, altered consciousness and neurologic emergencies.",
+        "Assess a patient with suspected seizures, altered consciousness and neurologic emergencies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Seizures, altered consciousness and neurologic emergencies MCQ",
+        "Seizures, altered consciousness and neurologic emergencies clinical case",
+        "Seizures, altered consciousness and neurologic emergencies OSCE",
+        "Seizures, altered consciousness and neurologic emergencies viva",
+        "Seizures, altered consciousness and neurologic emergencies review guideline"
+      ]
+    },
+    {
+      "id": "chronic-pediatrics-01",
+      "domain_id": "chronic-pediatrics",
+      "domain": "System-based and chronic pediatric disease",
+      "name": "Congenital heart disease and pediatric cardiology",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for congenital heart disease and pediatric cardiology.",
+        "Assess a patient with suspected congenital heart disease and pediatric cardiology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "congenital heart disease and pediatric cardiology",
+        "pediatrics assessment",
+        "pediatrics investigations",
+        "pediatrics management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Congenital heart disease and pediatric cardiology",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for congenital heart disease and pediatric cardiology.",
+        "Assess a patient with suspected congenital heart disease and pediatric cardiology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Congenital heart disease and pediatric cardiology MCQ",
+        "Congenital heart disease and pediatric cardiology clinical case",
+        "Congenital heart disease and pediatric cardiology OSCE",
+        "Congenital heart disease and pediatric cardiology viva",
+        "Congenital heart disease and pediatric cardiology review guideline"
+      ]
+    },
+    {
+      "id": "chronic-pediatrics-02",
+      "domain_id": "chronic-pediatrics",
+      "domain": "System-based and chronic pediatric disease",
+      "name": "Pediatric renal, endocrine and hematologic disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pediatric renal, endocrine and hematologic disorders.",
+        "Assess a patient with suspected pediatric renal, endocrine and hematologic disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "pediatric renal, endocrine and hematologic disorders",
+        "pediatrics assessment",
+        "pediatrics investigations",
+        "pediatrics management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Pediatric renal, endocrine and hematologic disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pediatric renal, endocrine and hematologic disorders.",
+        "Assess a patient with suspected pediatric renal, endocrine and hematologic disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Pediatric renal, endocrine and hematologic disorders MCQ",
+        "Pediatric renal, endocrine and hematologic disorders clinical case",
+        "Pediatric renal, endocrine and hematologic disorders OSCE",
+        "Pediatric renal, endocrine and hematologic disorders viva",
+        "Pediatric renal, endocrine and hematologic disorders review guideline"
+      ]
+    },
+    {
+      "id": "chronic-pediatrics-03",
+      "domain_id": "chronic-pediatrics",
+      "domain": "System-based and chronic pediatric disease",
+      "name": "Developmental, behavioral and safeguarding concerns",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for developmental, behavioral and safeguarding concerns.",
+        "Assess a patient with suspected developmental, behavioral and safeguarding concerns, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "developmental, behavioral and safeguarding concerns",
+        "pediatrics assessment",
+        "pediatrics investigations",
+        "pediatrics management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Developmental, behavioral and safeguarding concerns",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for developmental, behavioral and safeguarding concerns.",
+        "Assess a patient with suspected developmental, behavioral and safeguarding concerns, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Developmental, behavioral and safeguarding concerns MCQ",
+        "Developmental, behavioral and safeguarding concerns clinical case",
+        "Developmental, behavioral and safeguarding concerns OSCE",
+        "Developmental, behavioral and safeguarding concerns viva",
+        "Developmental, behavioral and safeguarding concerns review guideline"
+      ]
+    }
+  ]
+}
