@@ -43,12 +43,48 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         self.assertEqual(cards[0]["card_id"], "OLLAMA-CATARACT-001")
         self.assertEqual(cards[0]["evidence_status"], "unreviewed")
 
+    def test_cli_exposes_timeout_override_resume_and_card_count_override(self):
+        args = generator.parse_args([
+            "--generate", "--curriculum", "curriculum.json",
+            "--cards-per-topic", "3", "--override-curriculum-card-counts",
+            "--ollama-timeout", "900", "--resume",
+        ])
+        self.assertEqual(args.cards_per_topic, 3)
+        self.assertTrue(args.override_curriculum_card_counts)
+        self.assertEqual(args.ollama_timeout, 900)
+        self.assertTrue(args.resume)
+
+    def test_generation_passes_configured_timeout_to_ollama(self):
+        response = {"message": {"content": json.dumps({"cards": [
+            {"prompt": "What is cataract?", "answer": "An opacity of the crystalline lens."}
+        ]})}}
+        class FakeResponse:
+            def __enter__(self): return self
+            def __exit__(self, *args): return False
+            def read(self, _limit): return json.dumps(response).encode()
+        with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()) as request:
+            generator.generate_topic_cards(
+                {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
+                model="test-model", ollama_url="http://localhost:11434",
+                count=1, max_output_tokens=1024, request_timeout=777)
+        self.assertEqual(request.call_args.kwargs["timeout"], 777)
+
+    def test_generation_retries_timeout_and_reports_local_ollama_hint(self):
+        with patch.object(generator.urllib.request, "urlopen", side_effect=TimeoutError("timed out")) as request:
+            with self.assertRaisesRegex(RuntimeError, "Increase --ollama-timeout"):
+                generator.generate_topic_cards(
+                    {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
+                    model="test-model", ollama_url="http://localhost:11434",
+                    count=1, max_output_tokens=1024, request_timeout=17)
+        self.assertEqual(request.call_count, 3)
+        self.assertEqual(request.call_args.kwargs["timeout"], 17)
+
     def test_cli_uses_local_defaults_without_credentials(self):
         args = generator.parse_args(["--generate", "--curriculum", "curriculum.json"])
         self.assertIsNone(args.specialty)
         self.assertIsNone(args.level)
-        self.assertEqual(args.max_ollama_calls, 60)
-        self.assertEqual(args.max_output_tokens, 3500)
+        self.assertEqual(args.max_ollama_calls, 500)
+        self.assertEqual(args.max_output_tokens, 4096)
         self.assertEqual(args.model, "llama3.1:8b")
         self.assertEqual(args.ollama_url, "http://localhost:11434")
 

@@ -11,7 +11,9 @@ import argparse
 import json
 import os
 import re
+import socket
 import sys
+import hashlib
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -78,6 +80,7 @@ def generate_topic_cards(
     ollama_url: str,
     count: int,
     max_output_tokens: int,
+    request_timeout: int = 300,
     max_retries: int = 3,
 ) -> list[dict[str, Any]]:
     objectives = topic.get("learning_objectives", [])
@@ -151,7 +154,7 @@ def generate_topic_cards(
         )
 
         try:
-            with urllib.request.urlopen(req, timeout=300) as response:
+            with urllib.request.urlopen(req, timeout=request_timeout) as response:
                 raw = response.read(MAX_RESPONSE_BYTES + 1)
 
             if len(raw) > MAX_RESPONSE_BYTES:
@@ -184,16 +187,27 @@ def generate_topic_cards(
 
             return cards
 
-        except (ValueError, RuntimeError, KeyError, json.JSONDecodeError) as exc:
+        except (ValueError, RuntimeError, KeyError, json.JSONDecodeError, TimeoutError, socket.timeout, urllib.error.URLError) as exc:
             last_error = exc
+            if isinstance(exc, (TimeoutError, socket.timeout)) or (
+                isinstance(exc, urllib.error.URLError)
+                and isinstance(getattr(exc, "reason", None), (TimeoutError, socket.timeout))
+            ):
+                detail = f"Ollama request timed out after {request_timeout}s"
+            elif isinstance(exc, urllib.error.URLError):
+                detail = f"Could not reach Ollama at {base_url}: {exc.reason}"
+            else:
+                detail = str(exc)
+            last_error = RuntimeError(detail)
             print(
-                f"[Warning] Topic '{topic_name}' attempt {attempt}/{max_retries} failed: {exc}",
+                f"[Warning] Topic '{topic_name}' attempt {attempt}/{max_retries} failed: {detail}",
                 file=sys.stderr,
             )
 
     raise RuntimeError(
-        f"Failed to generate {count} cards for topic '{topic_name}' after {max_retries} retries. "
-        f"Last error: {last_error}"
+        f"Failed to generate {count} cards for topic '{topic_name}' after {max_retries} attempts. "
+        f"Last error: {last_error}. Check that Ollama is running, the model is available, "
+        "and your computer has enough RAM/VRAM. Increase --ollama-timeout for slower hardware."
     )
 
 
@@ -321,6 +335,36 @@ def export_powerpoint(
     prs.save(destination)
 
 
+def _atomic_write_json(path: Path, payload: Any) -> None:
+    """Write JSON atomically so an interrupted run cannot leave a partial checkpoint."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    temporary.replace(path)
+
+
+def _checkpoint_key(index: int, topic: dict[str, Any]) -> str:
+    identity = str(topic.get("id") or topic.get("name") or topic.get("topic") or f"topic-{index}")
+    slug = re.sub(r"[^A-Za-z0-9_-]+", "-", identity).strip("-")[:48] or f"topic-{index}"
+    return f"{index:03d}-{slug}"
+
+
+def _topic_signature(
+    topic: dict[str, Any], *, specialty: str, level: str, model: str,
+    count: int, max_output_tokens: int,
+) -> str:
+    material = {
+        "topic": topic, "specialty": specialty, "level": level,
+        "model": model, "count": count, "max_output_tokens": max_output_tokens,
+    }
+    encoded = json.dumps(material, sort_keys=True, ensure_ascii=False).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+
 def build(args: argparse.Namespace) -> int:
     if args.generate and args.cards:
         raise ValueError(
@@ -344,21 +388,57 @@ def build(args: argparse.Namespace) -> int:
             )
         if not 256 <= args.max_output_tokens <= 16000:
             raise ValueError("--max-output-tokens must be between 256 and 16000")
-        for topic in curriculum["topics"]:
-            count = int(topic.get("card_count", args.cards_per_topic))
+        if args.cards_per_topic < 1 or args.cards_per_topic > 50:
+            raise ValueError("--cards-per-topic must be between 1 and 50")
+        if args.ollama_timeout < 1:
+            raise ValueError("--ollama-timeout must be at least 1 second")
+        out = Path(args.output_dir)
+        checkpoint_dir = out / ".checkpoints"
+        checkpoint_dir.mkdir(parents=True, exist_ok=True)
+        total_cards = 0
+        for index, topic in enumerate(curriculum["topics"], 1):
+            count = (
+                args.cards_per_topic
+                if args.override_curriculum_card_counts
+                else int(topic.get("card_count", args.cards_per_topic))
+            )
             if count < 1 or count > 50:
                 raise ValueError("Each topic card_count must be between 1 and 50")
-            raw_cards.extend(
-                generate_topic_cards(
-                    topic,
-                    specialty=specialty,
-                    level=level,
-                    model=args.model,
-                    ollama_url=args.ollama_url,
-                    count=count,
-                    max_output_tokens=args.max_output_tokens,
-                )
+            key = _checkpoint_key(index, topic)
+            checkpoint_path = checkpoint_dir / f"{key}.json"
+            signature = _topic_signature(
+                topic, specialty=specialty, level=level, model=args.model,
+                count=count, max_output_tokens=args.max_output_tokens,
             )
+            cards = None
+            if args.resume and checkpoint_path.exists():
+                saved = load_json(checkpoint_path)
+                if (
+                    saved.get("signature") == signature
+                    and isinstance(saved.get("cards"), list)
+                    and len(saved["cards"]) == count
+                ):
+                    cards = saved["cards"]
+                    print(f"[Resume] {index}/{topic_count}: {topic.get('name') or topic.get('topic')} — loaded {len(cards)} saved cards")
+                else:
+                    print(f"[Resume] {index}/{topic_count}: checkpoint changed; regenerating topic")
+            if cards is None:
+                print(f"[{index}/{topic_count}] Generating {count} cards: {topic.get('name') or topic.get('topic')}", flush=True)
+                cards = generate_topic_cards(
+                    topic, specialty=specialty, level=level, model=args.model,
+                    ollama_url=args.ollama_url, count=count,
+                    max_output_tokens=args.max_output_tokens,
+                    request_timeout=args.ollama_timeout,
+                )
+                _atomic_write_json(checkpoint_path, {
+                    "signature": signature, "topic_id": topic.get("id"),
+                    "topic_name": topic.get("name") or topic.get("topic"),
+                    "cards": cards,
+                })
+                print(f"[{index}/{topic_count}] Saved checkpoint ({len(cards)} cards)", flush=True)
+            raw_cards.extend(cards)
+            total_cards += len(cards)
+            print(f"[Progress] {index}/{topic_count} topics complete; {total_cards} cards ready", flush=True)
     elif args.cards:
         payload = load_json(Path(args.cards))
         raw_cards = (
@@ -467,6 +547,22 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=int,
         default=500,
         help="Maximum local generation requests (default: 500)",
+    )
+    p.add_argument(
+        "--ollama-timeout",
+        type=int,
+        default=300,
+        help="Seconds to wait for each local Ollama request (default: 300)",
+    )
+    p.add_argument(
+        "--override-curriculum-card-counts",
+        action="store_true",
+        help="Use --cards-per-topic for every topic, overriding topic-level card_count",
+    )
+    p.add_argument(
+        "--resume",
+        action="store_true",
+        help="Reuse matching per-topic checkpoints from a previous interrupted run",
     )
     p.add_argument(
         "--max-output-tokens",

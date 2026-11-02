@@ -135,6 +135,36 @@ card counts.
 Outputs include the Anki package, PowerPoint, `generated_cards.json` and
 `quality_report.json`.
 
+### Slow local computers, timeouts and safe resume
+
+Each topic is generated in its own Ollama request. The default request timeout is
+300 seconds; increase it for slower CPUs or models that need longer to produce
+the requested cards:
+
+```bash
+python usiphus_auto_deck.py --generate \
+  --curriculum examples/ophthalmology/curriculum.json \
+  --model phi4-mini --cards-per-topic 3 --override-curriculum-card-counts \
+  --ollama-timeout 900 --max-output-tokens 2048 \
+  --formats anki --output-dir build/ophthalmology
+```
+
+The `--override-curriculum-card-counts` switch makes `--cards-per-topic`
+apply to every topic, even when the curriculum defines its own `card_count`.
+Without that switch, topic-level counts remain authoritative.
+
+After each successful topic, the generator atomically saves a checkpoint under
+`build/ophthalmology/.checkpoints/`. If the run stops or the computer restarts,
+rerun the same command with `--resume` added. Matching completed topics are
+loaded from disk; changed topics/settings are regenerated. The final
+`generated_cards.json` and exports are written when all topics finish. Progress
+is printed after each topic. A timeout is retried up to three times; if it
+continues, the error explains how to check Ollama and increase the timeout.
+
+For a quick smoke test, use a one-topic curriculum copy and set
+`--cards-per-topic 3 --override-curriculum-card-counts` before starting the
+full specialty run.
+
 ## Export existing cards without Ollama
 
 This workflow makes no model request and needs no running Ollama server:
