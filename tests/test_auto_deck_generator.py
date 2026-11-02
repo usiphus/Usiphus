@@ -109,7 +109,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "non-negative integers"):
             generator.requested_card_mix(1, {"mcq": True})
 
-    def test_generation_rejects_more_cards_than_requested(self):
+    def test_generation_ignores_extra_model_cards_after_requested_slots(self):
         response = {"message": {"content": json.dumps({"cards": [
             {"prompt": "Q1?", "answer": "Answer one is sufficiently long."},
             {"prompt": "Q2?", "answer": "Answer two is sufficiently long."}
@@ -120,11 +120,11 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             def __iter__(self):
                 yield (json.dumps({"message": response["message"], "done": True}) + "\n").encode()
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
-            with self.assertRaisesRegex(RuntimeError, "Could not complete"):
-                generator.generate_topic_cards(
-                    {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
-                    model="test-model", ollama_url="http://localhost:11434",
-                    count=1, max_output_tokens=1024)
+            cards = generator.generate_topic_cards(
+                {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
+                model="test-model", ollama_url="http://localhost:11434",
+                count=1, max_output_tokens=1024)
+        self.assertEqual(len(cards), 1)
 
     def test_generation_rejects_fewer_cards_than_requested(self):
         response = {"message": {"content": json.dumps({"cards": [
