@@ -1,7 +1,7 @@
 ## Comprehensive ophthalmology curriculum
 
-The automated deck example now maps 14 curriculum domains and 42 specialty
-topics (252 planned draft cards), spanning clinical and surgical subspecialties,
+The automated deck example now maps 16 curriculum domains and 52 specialty
+topics (312 planned draft cards), spanning clinical and surgical subspecialties,
 diagnostics, emergencies, rehabilitation and professional practice. See
 `examples/ophthalmology/curriculum.json` and
 `docs/AUTOMATED_DECK_GENERATOR.md` for the domain-by-domain blueprint.
