@@ -1,10 +1,12 @@
 # Curriculum-aware resource discovery engine
 
-Usiphus resource discovery searches curriculum topics and learning objectives
+Usiphus resource discovery searches each curriculum topic's canonical phrase
 against public scholarly metadata APIs, creates source-specific public search
 links for educational sites without a documented API, and reports topic-level
-coverage gaps. It is a discovery/indexing tool, not a content scraper or clinical
-evidence approval system.
+coverage gaps. Returned titles and abstracts are then lexically matched against
+the topic's learning objectives. The current engine does not issue a separate
+provider query for every objective. It is a discovery/indexing tool, not a
+content scraper or clinical evidence approval system.
 
 ## Supported discovery paths
 
