@@ -1,0 +1,46 @@
+{
+  "packet_schema_version": "1.0",
+  "packet_id": "ophthalmology-glaucoma-03-aaopp-2026-candidate",
+  "specialty": "ophthalmology",
+  "topic_id": "glaucoma-03",
+  "packet_status": "candidate_sources_pending_faculty_review",
+  "sources": [
+    {
+      "source_id": "aao-poag-ppp-2026",
+      "canonical_url": "https://www.aaojournal.org/article/S0161-6420%25252825%25252900815-2/fulltext",
+      "title": "Primary Open-Angle Glaucoma Preferred Practice Pattern",
+      "source_type": "professional_guideline",
+      "published_on": "2026-02-09",
+      "guideline_version": "AAO PPP 2026",
+      "licence_or_reuse_status": "rights_unknown; metadata and link only until terms are checked",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "American Academy of Ophthalmology",
+      "currency_note": "Check for superseding guidance before use."
+    }
+  ],
+  "snippets": [
+    {
+      "snippet_id": "poag-2026-scope-01",
+      "source_id": "aao-poag-ppp-2026",
+      "text": "Curator note for review: confirm the guideline's diagnostic features, including gonioscopy, optic nerve structure, retinal nerve fibre layer and visual-field findings.",
+      "locator": "Highlighted Findings and Recommendations for Care",
+      "matched_objective_ids": [
+        "glaucoma-03-LO01",
+        "glaucoma-03-LO02"
+      ]
+    },
+    {
+      "snippet_id": "poag-2026-scope-02",
+      "source_id": "aao-poag-ppp-2026",
+      "text": "Curator note for review: extract and verify the guideline's approach to individualized target intraocular pressure, monitoring progression and treatment options.",
+      "locator": "Clinical Objectives; Care Process",
+      "matched_objective_ids": [
+        "glaucoma-03-LO01",
+        "glaucoma-03-LO02",
+        "glaucoma-03-LO03"
+      ]
+    }
+  ],
+  "curation_notice": "Candidate bibliography and curator-authored review prompts only. No source has been faculty-reviewed, rights-cleared or approved for clinical claim grounding."
+}
