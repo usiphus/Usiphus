@@ -20,6 +20,11 @@ from pathlib import Path
 from typing import Any
 
 from usiphus_core import coerce_record, evaluate_quality, report_to_dict
+from usiphus_generation_quality import (
+    build_generation_coverage_report,
+    validate_curriculum_blueprint,
+    validate_topic_cards,
+)
 from usiphus_v7 import export_apkg
 
 DEFAULT_OLLAMA_MODEL = "llama3.1:8b"
@@ -193,10 +198,12 @@ def generate_topic_cards(
 
             # If we reach here, validation succeeded!
             prefix = re.sub(r"[^A-Za-z0-9]+", "-", str(topic_name)).strip("-").upper()
+            topic_identity = topic.get("id") or topic_name
+            prefix = re.sub(r"[^A-Za-z0-9]+", "-", str(topic_identity)).strip("-").upper()
             for index, card in enumerate(cards, 1):
                 if not isinstance(card, dict):
                     raise ValueError("Every generated card must be an object")
-                card["card_id"] = f"OLLAMA-{prefix[:20]}-{index:03d}"
+                card["card_id"] = f"OLLAMA-{prefix[:32]}-{index:03d}"
                 card["specialty"] = specialty
                 card["evidence_status"] = "unreviewed"
                 card.setdefault(
@@ -405,6 +412,10 @@ def build(args: argparse.Namespace) -> int:
         if not args.curriculum:
             raise ValueError("--curriculum is required with --generate")
         curriculum = load_curriculum(Path(args.curriculum))
+        blueprint_summary = (
+            validate_curriculum_blueprint(curriculum)
+            if curriculum.get("curriculum_domains") else None
+        )
         specialty = specialty or curriculum["specialty"]
         level = level or curriculum.get("learner_level", "medical students")
         topic_count = len(curriculum["topics"])
@@ -424,6 +435,7 @@ def build(args: argparse.Namespace) -> int:
         checkpoint_dir = out / ".checkpoints"
         checkpoint_dir.mkdir(parents=True, exist_ok=True)
         total_cards = 0
+        topic_quality_reports: list[dict[str, Any]] = []
         for index, topic in enumerate(curriculum["topics"], 1):
             count = (
                 args.cards_per_topic
@@ -458,6 +470,13 @@ def build(args: argparse.Namespace) -> int:
                     max_output_tokens=args.max_output_tokens,
                     request_timeout=args.ollama_timeout,
                 )
+            if curriculum.get("curriculum_domains"):
+                topic_quality_reports.append(validate_topic_cards(
+                    topic, cards, specialty=specialty,
+                    requested_mix=requested_card_mix(count, topic.get("card_mix")),
+                ))
+            if not (args.resume and checkpoint_path.exists() and cards is not None and
+                    load_json(checkpoint_path).get("signature") == signature):
                 _atomic_write_json(checkpoint_path, {
                     "signature": signature, "topic_id": topic.get("id"),
                     "topic_name": topic.get("name") or topic.get("topic"),
