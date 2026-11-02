@@ -104,6 +104,7 @@ def generate_topic_cards(
         "faculty_supplied_reference_sources": source_refs,
         "requested_card_count": count,
         "requested_card_mix": card_mix,
+        "quality_feedback": topic.get("_quality_feedback", ""),
     }
     system = (
         "You are an educational drafting assistant for medical faculty. "
@@ -114,6 +115,7 @@ def generate_topic_cards(
         "Create accurate, appropriately qualified educational drafts, not clinical advice. "
         "Do not invent references, DOI values, guideline dates, statistics, or quotations. "
         "Use only faculty-supplied references; if none are supplied, return references as []. "
+        "If quality_feedback is present, correct every listed issue in this attempt. "
         "Flag uncertain or guideline-dependent claims in the answer for faculty verification. "
         "Return ONLY a JSON object with a cards array. Each card must have card_id, "
         "specialty, card_type (basic, mcq, viva, osce, clinical_case), difficulty, "
@@ -244,6 +246,49 @@ def generate_topic_cards(
         f"Last error: {last_error}. Check that Ollama is running, the model is available, "
         "and your computer has enough RAM/VRAM. Try a smaller --max-output-tokens value, "
         "a smaller card count, or a smaller model before increasing --ollama-timeout."
+    )
+
+
+
+def generate_validated_topic_cards(
+    topic: dict[str, Any],
+    *,
+    specialty: str,
+    level: str,
+    model: str,
+    ollama_url: str,
+    count: int,
+    max_output_tokens: int,
+    request_timeout: int = 300,
+    quality_attempts: int = 3,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Regenerate bounded batches with actionable feedback until topic gates pass."""
+    working_topic = dict(topic)
+    last_error: Exception | None = None
+    mix = requested_card_mix(count, topic.get("card_mix"))
+    for attempt in range(1, quality_attempts + 1):
+        cards = generate_topic_cards(
+            working_topic, specialty=specialty, level=level, model=model,
+            ollama_url=ollama_url, count=count,
+            max_output_tokens=max_output_tokens,
+            request_timeout=request_timeout, max_retries=1,
+        )
+        try:
+            report = validate_topic_cards(
+                topic, cards, specialty=specialty, requested_mix=mix
+            )
+            return cards, report
+        except ValueError as exc:
+            last_error = exc
+            working_topic["_quality_feedback"] = str(exc)
+            print(
+                f"[Quality retry] {topic.get('id') or topic.get('name')} "
+                f"attempt {attempt}/{quality_attempts}: {exc}",
+                file=sys.stderr,
+            )
+    raise RuntimeError(
+        f"Topic {topic.get('id') or topic.get('name')} failed quality validation "
+        f"after {quality_attempts} attempts: {last_error}"
     )
 
 
@@ -467,19 +512,30 @@ def build(args: argparse.Namespace) -> int:
                     print(f"[Resume] {index}/{topic_count}: {topic.get('name') or topic.get('topic')} — loaded {len(cards)} saved cards")
                 else:
                     print(f"[Resume] {index}/{topic_count}: checkpoint changed; regenerating topic")
+            topic_quality_report = None
             if cards is None:
                 print(f"[{index}/{topic_count}] Generating {count} cards: {topic.get('name') or topic.get('topic')}", flush=True)
-                cards = generate_topic_cards(
-                    topic, specialty=specialty, level=level, model=args.model,
-                    ollama_url=args.ollama_url, count=count,
-                    max_output_tokens=args.max_output_tokens,
-                    request_timeout=args.ollama_timeout,
-                )
+                if curriculum.get("curriculum_domains"):
+                    cards, topic_quality_report = generate_validated_topic_cards(
+                        topic, specialty=specialty, level=level, model=args.model,
+                        ollama_url=args.ollama_url, count=count,
+                        max_output_tokens=args.max_output_tokens,
+                        request_timeout=args.ollama_timeout,
+                    )
+                else:
+                    cards = generate_topic_cards(
+                        topic, specialty=specialty, level=level, model=args.model,
+                        ollama_url=args.ollama_url, count=count,
+                        max_output_tokens=args.max_output_tokens,
+                        request_timeout=args.ollama_timeout,
+                    )
             if curriculum.get("curriculum_domains"):
-                topic_quality_reports.append(validate_topic_cards(
-                    topic, cards, specialty=specialty,
-                    requested_mix=requested_card_mix(count, topic.get("card_mix")),
-                ))
+                if topic_quality_report is None:
+                    topic_quality_report = validate_topic_cards(
+                        topic, cards, specialty=specialty,
+                        requested_mix=requested_card_mix(count, topic.get("card_mix")),
+                    )
+                topic_quality_reports.append(topic_quality_report)
             if not loaded_checkpoint:
                 _atomic_write_json(checkpoint_path, {
                     "signature": signature, "topic_id": topic.get("id"),
