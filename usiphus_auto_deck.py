@@ -14,6 +14,7 @@ import re
 import socket
 import sys
 import hashlib
+import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -82,6 +83,8 @@ def generate_topic_cards(
     max_output_tokens: int,
     request_timeout: int = 300,
     max_retries: int = 3,
+    slot_checkpoint_path: Path | None = None,
+    slot_checkpoint_signature: str | None = None,
 ) -> list[dict[str, Any]]:
     """Generate compact card content and build trusted metadata locally.
 
@@ -148,6 +151,40 @@ def generate_topic_cards(
     pending = list(range(count))
     accepted: dict[int, dict[str, Any]] = {}
     last_error: Exception | None = None
+
+    # Slot checkpoints survive a process crash in the middle of a topic.
+    # A signature mismatch invalidates the file rather than risking stale cards.
+    if slot_checkpoint_path and slot_checkpoint_path.exists():
+        try:
+            saved = load_json(slot_checkpoint_path)
+            if saved.get("signature") == slot_checkpoint_signature:
+                slots = saved.get("slots", {})
+                if isinstance(slots, dict):
+                    for raw_slot, card in slots.items():
+                        try:
+                            slot = int(raw_slot)
+                        except (TypeError, ValueError):
+                            continue
+                        if 0 <= slot < count and valid_content(card, planned_types[slot]):
+                            accepted[slot] = card
+                pending = [slot for slot in range(count) if slot not in accepted]
+                print(
+                    f"[Resume] Topic '{topic_name}': restored {len(accepted)}/{count} card slots",
+                    file=sys.stderr,
+                )
+            else:
+                print(f"[Resume] Topic '{topic_name}': slot checkpoint signature changed; ignoring it", file=sys.stderr)
+        except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
+            print(f"[Resume] Topic '{topic_name}': ignoring unreadable slot checkpoint: {exc}", file=sys.stderr)
+
+    def save_slots() -> None:
+        if slot_checkpoint_path:
+            _atomic_write_json(slot_checkpoint_path, {
+                "schema_version": 1,
+                "signature": slot_checkpoint_signature,
+                "topic_id": topic_id,
+                "slots": {str(slot): card for slot, card in sorted(accepted.items())},
+            })
 
     for attempt in range(1, max_retries + 1):
         if not pending:
@@ -235,6 +272,7 @@ def generate_topic_cards(
                     next_pending.append(slot)
                     continue
                 accepted[slot] = candidate
+                save_slots()
             pending = next_pending
             if pending:
                 print(
@@ -467,6 +505,30 @@ def _topic_signature(
 
 
 
+def check_ollama_model(ollama_url: str, model: str, timeout: int = 10) -> list[str]:
+    """Fail early with an actionable message if the requested local model is absent."""
+    url = ollama_url.rstrip("/") + "/api/tags"
+    request = urllib.request.Request(url, headers={"Accept": "application/json"}, method="GET")
+    try:
+        with urllib.request.urlopen(request, timeout=min(timeout, 30)) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except (OSError, urllib.error.URLError, TimeoutError, json.JSONDecodeError) as exc:
+        raise RuntimeError(
+            f"Ollama preflight failed at {url}: {exc}. Start Ollama and verify --ollama-url."
+        ) from exc
+    models = payload.get("models", []) if isinstance(payload, dict) else []
+    names = [str(item.get("name", "")) for item in models if isinstance(item, dict)]
+    requested = model.strip()
+    if requested not in names and not any(name.split(":")[0] == requested.split(":")[0] for name in names):
+        available = ", ".join(names[:12]) or "none reported"
+        raise RuntimeError(
+            f"Model '{requested}' is not installed at {ollama_url}. "
+            f"Available models: {available}. Pull it with `ollama pull {requested}`."
+        )
+    print(f"[Preflight] Ollama reachable; model '{requested}' is installed.", flush=True)
+    return names
+
+
 def build(args: argparse.Namespace) -> int:
     if args.generate and args.cards:
         raise ValueError(
@@ -526,6 +588,8 @@ def build(args: argparse.Namespace) -> int:
             }, ensure_ascii=False, indent=2))
             return 0
         out = Path(args.output_dir)
+        if args.preflight:
+            check_ollama_model(args.ollama_url, args.model, args.ollama_timeout)
         checkpoint_dir = out / ".checkpoints"
         checkpoint_dir.mkdir(parents=True, exist_ok=True)
         total_cards = 0
@@ -543,6 +607,7 @@ def build(args: argparse.Namespace) -> int:
                 topic, specialty=specialty, level=level, model=args.model,
                 count=count, max_output_tokens=args.max_output_tokens,
             )
+            slot_checkpoint_path = checkpoint_dir / f"{key}.slots.json"
             cards = None
             if args.resume and checkpoint_path.exists():
                 saved = load_json(checkpoint_path)
@@ -557,17 +622,40 @@ def build(args: argparse.Namespace) -> int:
                     print(f"[Resume] {index}/{topic_count}: checkpoint changed; regenerating topic")
             if cards is None:
                 print(f"[{index}/{topic_count}] Generating {count} cards: {topic.get('name') or topic.get('topic')}", flush=True)
+                topic_started = time.perf_counter()
                 cards = generate_topic_cards(
                     topic, specialty=specialty, level=level, model=args.model,
                     ollama_url=args.ollama_url, count=count,
                     max_output_tokens=args.max_output_tokens,
                     request_timeout=args.ollama_timeout,
+                    slot_checkpoint_path=slot_checkpoint_path,
+                    slot_checkpoint_signature=signature,
                 )
+                elapsed = time.perf_counter() - topic_started
+                metrics_path = out / "generation_metrics.json"
+                previous_metrics = load_json(metrics_path).get("topics", []) if metrics_path.exists() else []
+                _atomic_write_json(metrics_path, {
+                    "model": args.model,
+                    "specialty": specialty,
+                    "updated_at_epoch": time.time(),
+                    "topics": [
+                        *previous_metrics,
+                        {
+                            "topic_id": topic.get("id"),
+                            "topic": topic.get("name") or topic.get("topic"),
+                            "cards": len(cards),
+                            "elapsed_seconds": round(elapsed, 3),
+                            "seconds_per_card": round(elapsed / max(1, len(cards)), 3),
+                        },
+                    ],
+                })
                 _atomic_write_json(checkpoint_path, {
                     "signature": signature, "topic_id": topic.get("id"),
                     "topic_name": topic.get("name") or topic.get("topic"),
                     "cards": cards,
                 })
+                if slot_checkpoint_path.exists():
+                    slot_checkpoint_path.unlink()
                 print(f"[{index}/{topic_count}] Saved checkpoint ({len(cards)} cards)", flush=True)
             raw_cards.extend(cards)
             total_cards += len(cards)
@@ -705,6 +793,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=int,
         default=4096,
         help="Maximum generated tokens per topic request (default: 4096)",
+    )
+    p.add_argument(
+        "--preflight",
+        action="store_true",
+        help="Check that the selected model is available from Ollama before generation",
     )
     p.add_argument(
         "--plan-only",
