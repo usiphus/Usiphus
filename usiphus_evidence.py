@@ -124,6 +124,8 @@ def validate_card_evidence(card: dict[str, Any], packet: dict[str, Any]) -> dict
             errors.append(f"claim {claim['claim_id']} source/locator does not match snippet provenance")
     combined = _text(card.get("prompt")) + " " + _text(card.get("answer"))
     risk_flags = detect_high_risk_claims(combined)
+    if not claims:
+        errors.append("each evidence-grounded card requires at least one claim-level evidence mapping")
     if risk_flags and not claims:
         errors.append("high-risk clinical content requires claim-level evidence mapping")
     return {
