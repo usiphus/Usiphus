@@ -47,16 +47,16 @@ Optional exporters:
 
     python -m pip install genanki python-pptx
 
-Card generation uses a locally running Ollama model; no cloud AI service, account, or API key is required. The generator supports configurable request timeouts, per-topic checkpoints, `--resume`, and `--override-curriculum-card-counts`; see `docs/AUTOMATED_DECK_GENERATOR.md`. The expanded undergraduate ophthalmology blueprint covers 22 domains and plans 132 mixed-format draft cards. The default model is `llama3.1:8b`:
+Card generation uses a locally running Ollama model; no cloud AI service, account, or API key is required. The generator supports streamed responses, compact prompts, selective card repair, atomic card-slot and topic checkpoints, `--resume`, optional `--preflight`, `--plan-only`, progressive JSON snapshots and per-request performance metrics; see `docs/AUTOMATED_DECK_GENERATOR.md`. The multi-level ophthalmology example maps 16 domains and 52 topics, with 312 planned draft cards. It starts with 52 topic batches; incomplete slots can require additional repair requests. The default model is `llama3.1:8b`:
 
     ollama pull llama3.1:8b
-    python usiphus_auto_deck.py --generate --curriculum examples/ophthalmology/curriculum.json --model llama3.1:8b --formats both --output-dir build/ophthalmology
+    python usiphus_auto_deck.py --generate --curriculum examples/ophthalmology/curriculum.json --model llama3.1:8b --preflight --formats both --output-dir build/ophthalmology --resume
 
 For a fully offline export from existing cards (no Ollama required):
 
     python usiphus_auto_deck.py --cards ophthalmology_cards.json --formats both --output-dir build/ophthalmology
 
-Install optional exporters with `python -m pip install genanki python-pptx`. The generator writes the shared card source, quality report, Anki package and PowerPoint. Generated clinical material remains unreviewed until a qualified faculty member verifies every claim, answer and reference. The default is at most 25 local model requests and 3,500 output tokens per topic; this curriculum uses 22 requests. Override with `--max-ollama-calls` and `--max-output-tokens`. Local generation uses your computer's resources and model storage.
+Install optional exporters with `python -m pip install genanki python-pptx`. The generator writes the canonical card source, quality report, generation metrics, Anki package and PowerPoint. Generated clinical material remains unreviewed until a qualified faculty member verifies every claim, answer and reference. The default output ceiling is 4,096 tokens per Ollama request. `--max-ollama-calls` guards accepted curriculum topic count (not repair-request count), and `--max-output-tokens` changes the per-request output ceiling. Local generation uses your computer's resources and model storage.
 
 ## Recommended workflows
 
@@ -198,3 +198,10 @@ The analyzer excludes search-link-only records, reports domain/topic/objective
 coverage, and produces a faculty action queue. Coverage is a discovery signal,
 not a clinical evidence grade or proof of curriculum adequacy. See
 [the analyzer guide](docs/CURRICULUM_COVERAGE_ANALYZER.md).
+
+
+### Evidence-grounded generation
+
+Curated source excerpts can be mapped to individual generated claims, with unsupported links and potential conflicts routed to faculty review. This is traceability—not automated clinical verification. See [Evidence-grounded generation](docs/EVIDENCE_GROUNDED_GENERATION.md).
+
+The ophthalmology example now includes topic-mapped evidence discovery packs for all 52 topics. See [Ophthalmology evidence packs](docs/OPHTHALMOLOGY_EVIDENCE_PACKS.md) for coverage, source hierarchy and faculty curation requirements. These are discovery links and unreviewed source collections, not approved evidence excerpts.

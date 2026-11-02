@@ -39,9 +39,11 @@ curriculum JSON with the same stable domain/topic/objective structure.
 Each six-card topic uses a mixed blueprint by default: one basic
 recall/understanding card, two MCQs, one clinical case, one viva and one OSCE
 task. Topic-level card counts and mixes can be adjusted to match learner level
-and local examination priorities. The example makes 52 local Ollama requests;
-the default request ceiling is 60. These are workload limits, not a promise of
-completion time or a financial cap.
+and local examination priorities. The example has 52 topic-level generation batches. A batch can make additional
+repair requests if some card slots are incomplete. The legacy
+`--max-ollama-calls` setting guards the number of curriculum topics accepted
+in one run (default 500); it is not a hard cap on repair requests. These are
+workload controls, not a promise of completion time or a financial cap.
 
 ## External source discovery
 
@@ -115,6 +117,19 @@ python -m pip install genanki python-pptx
 Ensure the Ollama server is running. If it is not started automatically, run
 `ollama serve`.
 
+## Preview the workload before generating
+
+Use `--plan-only` to see the number of topics, total cards, per-topic card
+mix, model, formats and output directory without contacting Ollama or creating
+the output directory. This is especially useful when testing
+`--cards-per-topic` and `--override-curriculum-card-counts`.
+
+```bash
+python usiphus_auto_deck.py --generate \
+  --curriculum examples/ophthalmology/curriculum.json \
+  --cards-per-topic 3 --override-curriculum-card-counts --plan-only
+```
+
 ## Generate both formats
 
 Run from the repository root:
@@ -126,22 +141,28 @@ python usiphus_auto_deck.py --generate \
   --output-dir build/ophthalmology
 ```
 
-The 52-topic example makes 52 local generation requests. The default request
-ceiling is 60 and the default output ceiling is 3,500 tokens per topic. Adjust
-them with `--max-ollama-calls` and `--max-output-tokens`. Topic count
-determines the number of model requests; total cards are controlled by topic
-card counts.
+The 52-topic example starts with 52 local generation batches; repair calls
+occur only for incomplete cards. The default output ceiling is 4,096 tokens
+per request. Adjust it with `--max-output-tokens`. The legacy
+`--max-ollama-calls` option limits topic count (default 500), not repair calls.
+Total cards are controlled by topic card counts.
 
-Outputs include the Anki package, PowerPoint, `generated_cards.json` and
-`quality_report.json`.
+Outputs include the Anki package, PowerPoint, `generated_cards.json`,
+`quality_report.json` and `generation_metrics.json`. Partial-topic and
+completed-topic recovery files are kept under `.checkpoints/`.
 
 ### Slow local computers, timeouts and safe resume
 
-Each topic is generated in its own Ollama request. Responses are streamed
-incrementally, so the configured timeout is an inactivity timeout between
-stream chunks, not a hard limit on the total time needed to generate all cards.
-The model is kept loaded for 30 minutes between topic requests. A stalled first
-token or a stream that stops sending data still triggers a timeout.
+Each topic is generated as a compact batch. The model returns only learning
+content (question, answer and type-specific fields); Python fills IDs,
+specialty, tags, references, exam-domain metadata and evidence status. This
+avoids spending inference tokens on fields that can be assigned deterministically.
+Responses are streamed incrementally, and the model is kept loaded for 30 minutes
+between requests. If an individual card is incomplete, valid cards are retained
+and only the failed slots are regenerated. The token budget scales with the
+number of cards still pending, within the configured --max-output-tokens ceiling.
+The socket timeout measures inactivity between stream chunks, not total
+generation time.
 
 ```bash
 python usiphus_auto_deck.py --generate \
@@ -155,13 +176,39 @@ The `--override-curriculum-card-counts` switch makes `--cards-per-topic`
 apply to every topic, even when the curriculum defines its own `card_count`.
 Without that switch, topic-level counts remain authoritative.
 
-After each successful topic, the generator atomically saves a checkpoint under
-`build/ophthalmology/.checkpoints/`. If the run stops or the computer restarts,
-rerun the same command with `--resume` added. Matching completed topics are
-loaded from disk; changed topics/settings are regenerated. The final
-`generated_cards.json` and exports are written when all topics finish. Progress
-is printed after each topic. A socket inactivity timeout is not blindly retried: repeating the same
-expensive generation can waste another 15 minutes without fixing the cause.
+After every accepted card slot, the generator atomically saves a signed
+partial-topic checkpoint under `build/ophthalmology/.checkpoints/`. It also
+saves a complete-topic checkpoint and refreshes `generated_cards.json` with
+an `in_progress` status after each topic. If the process or computer stops
+mid-topic, rerun the same command with `--resume`: valid saved slots are
+restored and only missing/invalid slots are sent to Ollama. A signature binds
+the checkpoint to the topic, curriculum settings, model, learner level, card
+count and output-token ceiling; stale or corrupt slot files are ignored safely.
+Once a topic completes, its slot checkpoint is removed and the complete-topic
+checkpoint is retained. The final JSON is marked `complete`, then quality
+checks and requested exports run.
+
+Use `--preflight` to verify that the configured Ollama server is reachable and
+the exact selected model tag is installed before creating generation work.
+This catches common setup errors before a long run starts:
+
+```bash
+python usiphus_auto_deck.py --generate \
+  --curriculum examples/ophthalmology/curriculum.json \
+  --model phi4-mini --preflight --cards-per-topic 3 \
+  --override-curriculum-card-counts --formats anki \
+  --output-dir build/ophthalmology --resume
+```
+
+The generator also writes `generation_metrics.json` with per-topic elapsed
+seconds, seconds per card, model, and whether cards were newly generated or
+loaded from a completed topic checkpoint. Each Ollama request records time to
+first content, elapsed time, prompt/evaluation token counts when Ollama reports
+them, estimated generation tokens/second, accepted cards and failure status.
+Use these measurements on the target computer to compare models/settings; they
+are not a speed guarantee and do not include a standardized hardware benchmark. A socket inactivity timeout is not
+blindly retried: repeating the same expensive generation can waste another
+15 minutes without fixing the cause.
 Instead, check Ollama/model health, available RAM/VRAM and CPU/GPU load. If the
 first token is still taking too long, first reduce the requested cards or
 `--max-output-tokens`; consider a smaller model if necessary.

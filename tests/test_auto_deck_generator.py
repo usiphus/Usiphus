@@ -64,16 +64,20 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             def __exit__(self, *args): return False
             def __iter__(self):
                 yield (json.dumps({"message": response["message"], "done": True}) + "\n").encode()
+        metrics = []
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()) as request:
             generator.generate_topic_cards(
                 {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
                 model="test-model", ollama_url="http://localhost:11434",
-                count=1, max_output_tokens=1024, request_timeout=777)
+                count=1, max_output_tokens=1024, request_timeout=777,
+                request_metrics=metrics)
         self.assertEqual(request.call_args.kwargs["timeout"], 777)
+        self.assertEqual(metrics[0]["status"], "complete")
+        self.assertIsNotNone(metrics[0]["time_to_first_content_seconds"])
 
     def test_generation_retries_timeout_and_reports_local_ollama_hint(self):
         with patch.object(generator.urllib.request, "urlopen", side_effect=TimeoutError("timed out")) as request:
-            with self.assertRaisesRegex(RuntimeError, "Try a smaller --max-output-tokens"):
+            with self.assertRaisesRegex(RuntimeError, "Try a smaller card count"):
                 generator.generate_topic_cards(
                     {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
                     model="test-model", ollama_url="http://localhost:11434",
@@ -109,7 +113,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "non-negative integers"):
             generator.requested_card_mix(1, {"mcq": True})
 
-    def test_generation_rejects_more_cards_than_requested(self):
+    def test_generation_ignores_extra_model_cards_after_requested_slots(self):
         response = {"message": {"content": json.dumps({"cards": [
             {"prompt": "Q1?", "answer": "Answer one is sufficiently long."},
             {"prompt": "Q2?", "answer": "Answer two is sufficiently long."}
@@ -120,11 +124,11 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             def __iter__(self):
                 yield (json.dumps({"message": response["message"], "done": True}) + "\n").encode()
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
-            with self.assertRaisesRegex(ValueError, "requested exactly 1"):
-                generator.generate_topic_cards(
-                    {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
-                    model="test-model", ollama_url="http://localhost:11434",
-                    count=1, max_output_tokens=1024)
+            cards = generator.generate_topic_cards(
+                {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
+                model="test-model", ollama_url="http://localhost:11434",
+                count=1, max_output_tokens=1024)
+        self.assertEqual(len(cards), 1)
 
     def test_generation_rejects_fewer_cards_than_requested(self):
         response = {"message": {"content": json.dumps({"cards": [
@@ -136,7 +140,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             def __iter__(self):
                 yield (json.dumps({"message": response["message"], "done": True}) + "\n").encode()
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
-            with self.assertRaisesRegex(ValueError, "requested exactly 2"):
+            with self.assertRaisesRegex(RuntimeError, "Could not complete"):
                 generator.generate_topic_cards(
                     {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
                     model="test-model", ollama_url="http://localhost:11434",
@@ -173,8 +177,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         self.assertTrue(all(topic["coverage_tags"] for topic in topics))
 
     def test_generation_payload_includes_curriculum_domain_and_coverage(self):
-        response = {"message": {"content": json.dumps({"cards": [
-            {"prompt": "Name a cause of retinal detachment?", "answer": "A retinal break."}
+        response = {"message": {"content": json.dumps({"cards": [            {"prompt": "Name a cause of retinal detachment?", "answer": "A retinal break."}
         ]})}}
         class FakeResponse:
             def __enter__(self): return self
@@ -192,7 +195,9 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         payload = json.loads(sent["messages"][1]["content"])
         self.assertEqual(payload["curriculum_domain"], "Vitreoretinal disease and surgery")
         self.assertEqual(payload["domain_id"], "vitreoretinal")
-        self.assertEqual(payload["coverage_tags"], ["retinal detachment"])\n        self.assertTrue(sent["stream"])\n        self.assertEqual(sent["keep_alive"], "30m")
+        self.assertEqual(payload["coverage_tags"], ["retinal detachment"])
+        self.assertTrue(sent["stream"])
+        self.assertEqual(sent["keep_alive"], "30m")
 
     def test_curriculum_rejects_topic_with_unknown_domain(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -206,6 +211,190 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "unknown curriculum domain"):
                 generator.load_curriculum(path)
 
+
+    def test_partial_generation_repairs_only_invalid_slots_and_fills_metadata(self):
+        first = {"cards": [
+            {"prompt": "Define cataract?", "answer": "Opacity of the crystalline lens causing visual impairment."},
+            {"prompt": "Incomplete MCQ", "answer": "Too short"}
+        ]}
+        repair = {"cards": [
+            {"prompt": "Which finding suggests cataract?", "answer": "Lens opacity causes reduced red reflex. A is correct because it directly identifies lens opacity; the other options describe unrelated findings.", "options": ["Lens opacity", "Corneal ulcer", "Retinal tear", "Optic neuritis"], "correct_option": "A"}
+        ]}
+        events = [first, repair]
+        class FakeResponse:
+            def __init__(self, payload): self.payload = payload
+            def __enter__(self): return self
+            def __exit__(self, *args): return False
+            def __iter__(self):
+                yield (json.dumps({"message": {"content": json.dumps(self.payload)}, "done": True}) + "\n").encode()
+        with patch.object(generator.urllib.request, "urlopen", side_effect=[FakeResponse(x) for x in events]) as request:
+            cards = generator.generate_topic_cards(
+                {"id": "lens-01", "name": "Cataract", "coverage_tags": ["lens opacity"],
+                 "learning_objectives": ["Recognize cataract"], "reference_sources": ["Faculty handbook"],
+                 "card_mix": {"basic": 1, "mcq": 1}},
+                specialty="ophthalmology", level="medical students", model="test-model",
+                ollama_url="http://localhost:11434", count=2, max_output_tokens=2048)
+        self.assertEqual(request.call_count, 2)
+        repair_payload = json.loads(request.call_args_list[1].args[0].data.decode())
+        repair_user = json.loads(repair_payload["messages"][1]["content"])
+        self.assertEqual([{key: item[key] for key in ("slot", "type")} for item in repair_user["cards_to_write"]], [{"slot": 1, "type": "mcq"}])
+        self.assertEqual(cards[0]["card_type"], "basic")
+        self.assertEqual(cards[1]["card_type"], "mcq")
+        self.assertEqual(cards[0]["card_id"], "OLLAMA-LENS-01-001")
+        self.assertEqual(cards[0]["tags"], ["lens opacity", "lens-01"])
+        self.assertEqual(cards[0]["references"], ["Faculty handbook"])
+        self.assertEqual(cards[0]["evidence_status"], "unreviewed")
+
+    def test_compact_prompt_does_not_delegate_metadata_to_model(self):
+        response = {"cards": [
+            {"prompt": "Define cataract?", "answer": "Opacity of the crystalline lens causing visual impairment."}
+        ]}
+        class FakeResponse:
+            def __enter__(self): return self
+            def __exit__(self, *args): return False
+            def __iter__(self):
+                yield (json.dumps({"message": {"content": json.dumps(response)}, "done": True}) + "\n").encode()
+        with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()) as request:
+            generator.generate_topic_cards(
+                {"name": "Cataract", "coverage_tags": ["lens"], "learning_objectives": ["Recognize cataract"]},
+                specialty="ophthalmology", level="medical students", model="test-model",
+                ollama_url="http://localhost:11434", count=1, max_output_tokens=1024)
+        body = json.loads(request.call_args.args[0].data.decode())
+        prompt = body["messages"][0]["content"]
+        self.assertIn("Do not add metadata", prompt)
+        self.assertNotIn("card_id", prompt)
+
+
+    def test_plan_only_previews_workload_without_ollama(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            curriculum = Path(tmp) / "curriculum.json"
+            curriculum.write_text(json.dumps({
+                "specialty": "ophthalmology",
+                "topics": [{"id": "lens-01", "name": "Cataract", "card_count": 2}]
+            }))
+            args = generator.parse_args([
+                "--generate", "--curriculum", str(curriculum),
+                "--plan-only", "--output-dir", str(Path(tmp) / "out")
+            ])
+            with patch.object(generator.urllib.request, "urlopen") as request:
+                self.assertEqual(generator.build(args), 0)
+                request.assert_not_called()
+            self.assertFalse((Path(tmp) / "out").exists())
+
+
+    def test_slot_checkpoint_restores_valid_cards_and_requests_only_missing_slots(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            checkpoint = Path(tmp) / "slots.json"
+            topic = {"id": "lens-01", "name": "Cataract", "card_mix": {"basic": 1, "mcq": 1}}
+            signature = "stable-signature"
+            generator._atomic_write_json(checkpoint, {
+                "schema_version": 1,
+                "signature": signature,
+                "slots": {
+                    "0": {"prompt": "Define cataract?", "answer": "Opacity of the crystalline lens causing visual impairment."}
+                },
+            })
+            repair = {"cards": [{
+                "prompt": "Which finding suggests cataract?",
+                "answer": "Lens opacity reduces the red reflex. A is correct because it directly identifies the affected structure.",
+                "options": ["Lens opacity", "Corneal ulcer", "Retinal tear", "Optic neuritis"],
+                "correct_option": "A",
+            }]}
+            class FakeResponse:
+                def __enter__(self): return self
+                def __exit__(self, *args): return False
+                def __iter__(self):
+                    yield (json.dumps({"message": {"content": json.dumps(repair)}, "done": True}) + "\n").encode()
+            with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()) as request:
+                cards = generator.generate_topic_cards(
+                    topic, specialty="ophthalmology", level="students", model="test-model",
+                    ollama_url="http://localhost:11434", count=2, max_output_tokens=1024,
+                    slot_checkpoint_path=checkpoint, slot_checkpoint_signature=signature, resume_slots=True)
+            self.assertEqual(len(cards), 2)
+            payload = json.loads(request.call_args.args[0].data.decode())
+            user_payload = json.loads(payload["messages"][1]["content"])
+            self.assertEqual(user_payload["cards_to_write"], [{
+                "slot": 1,
+                "type": "mcq",
+                "objective_id": "lens-01-overview",
+                "learning_objective": "Cataract",
+                "cognitive_level": "apply",
+            }])
+            saved = json.loads(checkpoint.read_text(encoding="utf-8"))
+            self.assertEqual(set(saved["slots"]), {"0", "1"})
+
+    def test_corrupt_slot_checkpoint_is_ignored_safely(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            checkpoint = Path(tmp) / "slots.json"
+            checkpoint.write_text("{not valid json", encoding="utf-8")
+            response = {"cards": [{
+                "prompt": "Define cataract?",
+                "answer": "Opacity of the crystalline lens causing visual impairment."
+            }]}
+            class FakeResponse:
+                def __enter__(self): return self
+                def __exit__(self, *args): return False
+                def __iter__(self):
+                    yield (json.dumps({"message": {"content": json.dumps(response)}, "done": True}) + "\n").encode()
+            with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()) as request:
+                cards = generator.generate_topic_cards(
+                    {"name": "Cataract"}, specialty="ophthalmology", level="students",
+                    model="test-model", ollama_url="http://localhost:11434",
+                    count=1, max_output_tokens=1024, slot_checkpoint_path=checkpoint,
+                    slot_checkpoint_signature="sig", resume_slots=True)
+            self.assertEqual(len(cards), 1)
+            request.assert_called_once()
+
+    def test_ollama_preflight_requires_selected_model(self):
+        class FakeResponse:
+            def __enter__(self): return self
+            def __exit__(self, *args): return False
+            def read(self):
+                return json.dumps({"models": [{"name": "phi4-mini:latest"}]}).encode()
+        with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
+            self.assertIn("phi4-mini:latest", generator.check_ollama_model(
+                "http://localhost:11434", "phi4-mini", 10))
+        with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
+            with self.assertRaisesRegex(RuntimeError, "not installed"):
+                generator.check_ollama_model("http://localhost:11434", "llama3.1:8b", 10)
+    def test_blueprint_distributes_slots_across_weighted_objectives(self):
+        topic = {
+            "id": "glaucoma",
+            "name": "Glaucoma",
+            "learning_objectives": [
+                {"id": "mechanism", "title": "Explain mechanisms", "weight": 2},
+                {"id": "management", "title": "Select management", "weight": 1},
+            ],
+            "card_mix": {"basic": 2, "mcq": 1},
+        }
+        slots = generator.build_topic_blueprint(topic, 3)
+        self.assertEqual([slot["objective_id"] for slot in slots],
+                         ["mechanism", "management", "mechanism"])
+        self.assertEqual([slot["cognitive_level"] for slot in slots],
+                         ["understand", "understand", "apply"])
+
+    def test_blueprint_rejects_invalid_objective_weights(self):
+        with self.assertRaisesRegex(ValueError, "finite positive"):
+            generator.build_topic_blueprint({
+                "name": "Glaucoma",
+                "learning_objectives": [{"title": "Explain", "weight": 0}],
+            }, 1)
+
+    def test_compiled_curriculum_blueprint_counts_every_mapped_slot(self):
+        blueprint = generator.compile_curriculum_blueprint({
+            "specialty": "ophthalmology",
+            "curriculum_version": "test",
+            "topics": [{
+                "id": "cataract",
+                "name": "Cataract",
+                "card_count": 3,
+                "learning_objectives": ["Define cataract", "Recognize complications"],
+            }],
+        }, default_count=2)
+        self.assertEqual(blueprint["cards"], 3)
+        self.assertEqual(blueprint["objective_mapped_cards"], 3)
+        self.assertEqual(blueprint["topic_plans"][0]["objective_count"], 2)
+        self.assertEqual(sum(blueprint["topic_plans"][0]["objective_card_counts"].values()), 3)
 
 if __name__ == "__main__":
     unittest.main()
