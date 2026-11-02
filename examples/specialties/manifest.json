@@ -1,0 +1,191 @@
+{
+  "schema_version": "1.0",
+  "collection": "Usiphus comprehensive specialty curriculum blueprints",
+  "status": "draft_for_faculty_review",
+  "scope_note": "Standalone specialty maps built from general specialty education domains and topic structures. No institutional bylaw or local curriculum is used as a source. The existing ophthalmology blueprint remains in its own directory and is not overwritten.",
+  "shared_source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "specialties": [
+    {
+      "id": "ophthalmology",
+      "path": "examples/ophthalmology/curriculum.json",
+      "status": "existing_blueprint_not_modified"
+    },
+    {
+      "id": "internal_medicine",
+      "name": "Internal Medicine",
+      "path": "examples/specialties/internal_medicine/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "general_surgery",
+      "name": "General Surgery",
+      "path": "examples/specialties/general_surgery/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "pediatrics",
+      "name": "Pediatrics",
+      "path": "examples/specialties/pediatrics/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "obstetrics_gynaecology",
+      "name": "Obstetrics and Gynaecology",
+      "path": "examples/specialties/obstetrics_gynaecology/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "emergency_medicine",
+      "name": "Emergency Medicine",
+      "path": "examples/specialties/emergency_medicine/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "family_medicine",
+      "name": "Family Medicine",
+      "path": "examples/specialties/family_medicine/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "psychiatry",
+      "name": "Psychiatry",
+      "path": "examples/specialties/psychiatry/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "dermatology",
+      "name": "Dermatology",
+      "path": "examples/specialties/dermatology/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "otorhinolaryngology",
+      "name": "Otorhinolaryngology (ENT)",
+      "path": "examples/specialties/otorhinolaryngology/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "orthopaedics",
+      "name": "Orthopaedics and Trauma",
+      "path": "examples/specialties/orthopaedics/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "urology",
+      "name": "Urology",
+      "path": "examples/specialties/urology/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "neurology",
+      "name": "Neurology",
+      "path": "examples/specialties/neurology/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "neurosurgery",
+      "name": "Neurosurgery",
+      "path": "examples/specialties/neurosurgery/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "anaesthesiology",
+      "name": "Anaesthesiology and Critical Care",
+      "path": "examples/specialties/anaesthesiology/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "radiology",
+      "name": "Radiology and Diagnostic Imaging",
+      "path": "examples/specialties/radiology/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "pathology",
+      "name": "Pathology and Laboratory Medicine",
+      "path": "examples/specialties/pathology/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "cardiothoracic_surgery",
+      "name": "Cardiothoracic Surgery",
+      "path": "examples/specialties/cardiothoracic_surgery/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "plastic_surgery",
+      "name": "Plastic, Reconstructive and Burns Surgery",
+      "path": "examples/specialties/plastic_surgery/curriculum.json",
+      "status": "draft_for_faculty_review"
+    },
+    {
+      "id": "community_medicine",
+      "name": "Community and Public Health Medicine",
+      "path": "examples/specialties/community_medicine/curriculum.json",
+      "status": "draft_for_faculty_review"
+    }
+  ],
+  "validation_policy": "Validate JSON structure, unique topic IDs, domain references, objective presence, discovery families and planned card totals. Source candidates must be separately retrieved and reviewed; no source is approved by inclusion in this manifest."
+}
