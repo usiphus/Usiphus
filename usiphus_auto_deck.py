@@ -23,6 +23,7 @@ from typing import Any
 
 from usiphus_core import coerce_record, evaluate_quality, report_to_dict
 from usiphus_v7 import export_apkg
+from usiphus_evidence import assess_card_evidence, build_evidence_bundle, evidence_prompt_sources
 
 DEFAULT_OLLAMA_MODEL = "llama3.1:8b"
 DEFAULT_OLLAMA_URL = "http://localhost:11434"
@@ -190,6 +191,7 @@ def generate_topic_cards(
     slot_checkpoint_signature: str | None = None,
     resume_slots: bool = False,
     request_metrics: list[dict[str, Any]] | None = None,
+    require_evidence: bool = False,
 ) -> list[dict[str, Any]]:
     """Generate compact card content and build trusted metadata locally.
 
@@ -198,6 +200,8 @@ def generate_topic_cards(
     """
     objectives = topic.get("learning_objectives", [])
     source_refs = topic.get("reference_sources", [])
+    evidence_bundle = build_evidence_bundle(source_refs, require_evidence=require_evidence)
+    evidence_sources = evidence_prompt_sources(evidence_bundle)
     planned_slots = build_topic_blueprint(topic, count)
     planned_types = [slot["type"] for slot in planned_slots]
     topic_name = topic.get("name") or topic.get("topic") or "topic"
@@ -219,7 +223,13 @@ def generate_topic_cards(
         "explain the key and distractors in answer. OSCE cards need a concise "
         "rubric list and candidate task. Clinical cases need context, focused findings, "
         "a reasoning question, and a safe first-step approach. Viva answers should be "
-        "structured and exam-ready. Do not add metadata."
+        "structured and exam-ready. Do not add metadata. "
+        "When source excerpts are supplied, include a claims array. Each item must "
+        "contain the atomic clinical claim and source_ids drawn only from supplied "
+        "excerpt IDs. Do not cite a source that does not directly inform the claim. "
+        "If support is absent, leave source_ids empty and flag uncertainty. Include "
+        "potential_conflicts as a list when supplied excerpts appear to disagree. "
+        "Source-ID matching is not proof of semantic support; faculty review remains required."
     )
 
     def valid_content(card: Any, card_type: str) -> bool:
@@ -247,8 +257,7 @@ def generate_topic_cards(
                 return False
         if card_type == "osce":
             rubric = card.get("rubric")
-            if not isinstance(rubric, list) or not rubric:
-                return False
+            if not isinstance(rubric, list) or not rubric:                return False
         return True
 
     pending = list(range(count))
@@ -302,6 +311,14 @@ def generate_topic_cards(
             "learning_objectives": objectives,
             "exam_emphasis": topic.get("exam_emphasis", []),
             "coverage_tags": coverage_tags,
+            "evidence_sources": evidence_sources,
+            "evidence_policy": {
+                "mode": "required" if require_evidence else "assisted",
+                "source_ids_must_come_from_supplied_excerpts": True,
+                "never_invent_references": True,
+                "claim_level_mapping_required_when_sources_exist": True,
+                "report_potential_conflicts": True,
+            },
             "cards_to_write": [
                 {
                     "slot": slot,
@@ -491,13 +508,13 @@ def generate_topic_cards(
             "source": "AI-generated draft; faculty verification required",
             "references": source_refs if isinstance(source_refs, list) else [],
             "cognitive_level": slot_plan["cognitive_level"],
+            **assess_card_evidence(content, evidence_bundle),
             "exam_domain": str(topic.get("exam_domain") or "knowledge"),
             "rubric": content.get("rubric", []) if card_type == "osce" else [],
             "evidence_status": "unreviewed",
         }
         result.append(record)
     return result
-
 
 def load_curriculum(path: Path) -> dict[str, Any]:
     data = load_json(path)
@@ -705,6 +722,9 @@ def build(args: argparse.Namespace) -> int:
             raise ValueError("--cards-per-topic must be between 1 and 50")
         if args.ollama_timeout < 1:
             raise ValueError("--ollama-timeout must be at least 1 second")
+        if args.require_evidence:
+            for topic in curriculum["topics"]:
+                build_evidence_bundle(topic.get("reference_sources", []), require_evidence=True)
         if args.plan_only:
             blueprint = compile_curriculum_blueprint(
                 curriculum, args.cards_per_topic, args.override_curriculum_card_counts
@@ -747,8 +767,7 @@ def build(args: argparse.Namespace) -> int:
             if args.resume and checkpoint_path.exists():
                 saved = load_json(checkpoint_path)
                 if (
-                    saved.get("signature") == signature
-                    and isinstance(saved.get("cards"), list)
+                    saved.get("signature") == signature                    and isinstance(saved.get("cards"), list)
                     and len(saved["cards"]) == count
                 ):
                     cards = saved["cards"]
@@ -767,6 +786,7 @@ def build(args: argparse.Namespace) -> int:
                     slot_checkpoint_signature=signature,
                     resume_slots=args.resume,
                     request_metrics=topic_request_metrics,
+                    require_evidence=args.require_evidence,
                 )
                 elapsed = time.perf_counter() - topic_started
                 _atomic_write_json(checkpoint_path, {
@@ -950,6 +970,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--deck-name")
     p.add_argument("--deck-title")
     p.add_argument("--require-reviewed", action="store_true")
+    p.add_argument(
+        "--require-evidence", action="store_true",
+        help="Require at least one curated source excerpt for every topic before generation",
+    )
     p.add_argument(
         "--force",
         action="store_true",
