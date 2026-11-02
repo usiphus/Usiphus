@@ -39,8 +39,12 @@ def validate_evidence_source(source: dict[str, Any]) -> list[str]:
         errors.append("canonical_url must use HTTPS")
     if source.get("review_status") != "faculty_reviewed":
         errors.append("source is not faculty_reviewed")
-    if source.get("access_status") in {"search_link_only", "metadata_only"}:
-        errors.append("metadata/search links are not claim-level evidence")
+    eligible_access = {
+        "full_text_reviewed", "guideline_full_text_reviewed",
+        "faculty_provided_full_text", "licensed_full_text_reviewed",
+    }
+    if source.get("access_status") not in eligible_access:
+        errors.append("source full text has not been reviewed through an eligible access path")
     if source.get("licence_or_reuse_status") in {"", "not_verified", "rights_unknown"}:
         errors.append("reuse/access rights are not verified")
     return errors
