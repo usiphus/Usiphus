@@ -69,7 +69,7 @@ def assess_card_evidence(card: dict[str, Any], bundle: dict[str, Any]) -> dict[s
     """Validate provenance IDs and surface review flags; never assert semantic support."""
     if not bundle["evidence_available"]:
         return {
-            "evidence_status": "unverified_no_source_excerpt",
+            "evidence_review_state": "unverified_no_source_excerpt",
             "claim_provenance": [],
             "evidence_flags": ["No source excerpt supplied; all clinical claims require independent review."],
             "potential_conflicts": [],
@@ -122,7 +122,7 @@ def assess_card_evidence(card: dict[str, Any], bundle: dict[str, Any]) -> dict[s
     else:
         status = "source_linked_pending_human_verification"
     return {
-        "evidence_status": status,
+        "evidence_review_state": status,
         "claim_provenance": provenance,
         "evidence_flags": flags,
         "potential_conflicts": conflicts,
