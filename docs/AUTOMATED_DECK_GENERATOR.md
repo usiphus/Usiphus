@@ -26,7 +26,9 @@ The 16 domains span:
 11. Oculoplastics, orbit and lacrimal system
 12. Ocular oncology and pathology
 13. Ocular trauma and emergency ophthalmology
-14. Ocular infection, systemic disease, therapeutics, surgery, rehabilitation and professional practice
+14. Ocular infection and endophthalmitis
+15. Systemic disease, pharmacology and perioperative medicine
+16. Ophthalmic procedures, microsurgery, rehabilitation and professional practice
 
 Coverage includes clinical and surgical subspecialties, diagnostics, emergencies,
 procedures, perioperative care, low vision, community ophthalmology and ethics.
