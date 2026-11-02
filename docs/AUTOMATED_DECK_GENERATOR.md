@@ -199,9 +199,11 @@ python usiphus_auto_deck.py --generate \
 
 The generator also writes `generation_metrics.json` with per-topic elapsed
 seconds, seconds per card, model, and whether cards were newly generated or
-loaded from a completed topic checkpoint. Use these measurements on the target
-computer to compare models/settings; they are not a speed guarantee and do not
-include a standardized hardware benchmark. A socket inactivity timeout is not
+loaded from a completed topic checkpoint. Each Ollama request records time to
+first content, elapsed time, prompt/evaluation token counts when Ollama reports
+them, estimated generation tokens/second, accepted cards and failure status.
+Use these measurements on the target computer to compare models/settings; they
+are not a speed guarantee and do not include a standardized hardware benchmark. A socket inactivity timeout is not
 blindly retried: repeating the same expensive generation can waste another
 15 minutes without fixing the cause.
 Instead, check Ollama/model health, available RAM/VRAM and CPU/GPU load. If the
