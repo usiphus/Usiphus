@@ -118,11 +118,10 @@ def _api_url(base: str, params: dict[str, Any]) -> str:
 
 
 def _query_for(topic: dict[str, Any]) -> str:
-    terms = [_clean(topic.get("name") or topic.get("topic"))]
-    terms.extend(_clean(x) for x in topic.get("learning_objectives", []) if _clean(x))
-    terms.extend(_clean(x) for x in topic.get("exam_emphasis", []) if _clean(x))
-    # Keep query bounded and avoid turning every learning objective into a huge request.
-    return " ".join(dict.fromkeys(" ".join(terms).split()))[:700]
+    # Search the canonical topic phrase for high recall. Learning objectives,
+    # exam emphasis and coverage tags are applied during local matching rather
+    # than AND-combined into provider syntax, which can suppress useful results.
+    return _clean(topic.get("name") or topic.get("topic"))[:240]
 
 
 def _record(source_id: str, title: str, url: str, *, publisher: str = "",
