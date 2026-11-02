@@ -1,0 +1,677 @@
+{
+  "specialty": "anaesthesiology",
+  "display_name": "Anaesthesiology and Critical Care",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive anaesthesiology and critical care curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "anesthesia-foundations",
+      "name": "Anesthesia foundations and preoperative assessment",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in anesthesia foundations and preoperative assessment. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "anesthesia-techniques",
+      "name": "Anesthetic techniques and perioperative care",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in anesthetic techniques and perioperative care. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "critical-care",
+      "name": "Critical care and resuscitation",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in critical care and resuscitation. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "special-populations",
+      "name": "Special populations and anesthesia emergencies",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in special populations and anesthesia emergencies. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Anesthesia foundations and preoperative assessment",
+    "Anesthetic techniques and perioperative care",
+    "Critical care and resuscitation",
+    "Special populations and anesthesia emergencies"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "anesthesia-foundations-01",
+      "domain_id": "anesthesia-foundations",
+      "domain": "Anesthesia foundations and preoperative assessment",
+      "name": "Preoperative evaluation, risk and optimization",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for preoperative evaluation, risk and optimization.",
+        "Assess a patient with suspected preoperative evaluation, risk and optimization, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "preoperative evaluation, risk and optimization",
+        "anaesthesiology and critical care assessment",
+        "anaesthesiology and critical care investigations",
+        "anaesthesiology and critical care management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Preoperative evaluation, risk and optimization",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for preoperative evaluation, risk and optimization.",
+        "Assess a patient with suspected preoperative evaluation, risk and optimization, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Preoperative evaluation, risk and optimization MCQ",
+        "Preoperative evaluation, risk and optimization clinical case",
+        "Preoperative evaluation, risk and optimization OSCE",
+        "Preoperative evaluation, risk and optimization viva",
+        "Preoperative evaluation, risk and optimization review guideline"
+      ]
+    },
+    {
+      "id": "anesthesia-foundations-02",
+      "domain_id": "anesthesia-foundations",
+      "domain": "Anesthesia foundations and preoperative assessment",
+      "name": "Airway assessment, airway management and ventilation",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for airway assessment, airway management and ventilation.",
+        "Assess a patient with suspected airway assessment, airway management and ventilation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "airway assessment, airway management and ventilation",
+        "anaesthesiology and critical care assessment",
+        "anaesthesiology and critical care investigations",
+        "anaesthesiology and critical care management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Airway assessment, airway management and ventilation",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for airway assessment, airway management and ventilation.",
+        "Assess a patient with suspected airway assessment, airway management and ventilation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Airway assessment, airway management and ventilation MCQ",
+        "Airway assessment, airway management and ventilation clinical case",
+        "Airway assessment, airway management and ventilation OSCE",
+        "Airway assessment, airway management and ventilation viva",
+        "Airway assessment, airway management and ventilation review guideline"
+      ]
+    },
+    {
+      "id": "anesthesia-foundations-03",
+      "domain_id": "anesthesia-foundations",
+      "domain": "Anesthesia foundations and preoperative assessment",
+      "name": "Anesthetic pharmacology, monitoring and equipment",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for anesthetic pharmacology, monitoring and equipment.",
+        "Assess a patient with suspected anesthetic pharmacology, monitoring and equipment, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "anesthetic pharmacology, monitoring and equipment",
+        "anaesthesiology and critical care assessment",
+        "anaesthesiology and critical care investigations",
+        "anaesthesiology and critical care management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Anesthetic pharmacology, monitoring and equipment",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for anesthetic pharmacology, monitoring and equipment.",
+        "Assess a patient with suspected anesthetic pharmacology, monitoring and equipment, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Anesthetic pharmacology, monitoring and equipment MCQ",
+        "Anesthetic pharmacology, monitoring and equipment clinical case",
+        "Anesthetic pharmacology, monitoring and equipment OSCE",
+        "Anesthetic pharmacology, monitoring and equipment viva",
+        "Anesthetic pharmacology, monitoring and equipment review guideline"
+      ]
+    },
+    {
+      "id": "anesthesia-techniques-01",
+      "domain_id": "anesthesia-techniques",
+      "domain": "Anesthetic techniques and perioperative care",
+      "name": "General anesthesia, induction and maintenance",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for general anesthesia, induction and maintenance.",
+        "Assess a patient with suspected general anesthesia, induction and maintenance, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "general anesthesia, induction and maintenance",
+        "anaesthesiology and critical care assessment",
+        "anaesthesiology and critical care investigations",
+        "anaesthesiology and critical care management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "General anesthesia, induction and maintenance",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for general anesthesia, induction and maintenance.",
+        "Assess a patient with suspected general anesthesia, induction and maintenance, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "General anesthesia, induction and maintenance MCQ",
+        "General anesthesia, induction and maintenance clinical case",
+        "General anesthesia, induction and maintenance OSCE",
+        "General anesthesia, induction and maintenance viva",
+        "General anesthesia, induction and maintenance review guideline"
+      ]
+    },
+    {
+      "id": "anesthesia-techniques-02",
+      "domain_id": "anesthesia-techniques",
+      "domain": "Anesthetic techniques and perioperative care",
+      "name": "Regional anesthesia, neuraxial techniques and acute pain",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for regional anesthesia, neuraxial techniques and acute pain.",
+        "Assess a patient with suspected regional anesthesia, neuraxial techniques and acute pain, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "regional anesthesia, neuraxial techniques and acute pain",
+        "anaesthesiology and critical care assessment",
+        "anaesthesiology and critical care investigations",
+        "anaesthesiology and critical care management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Regional anesthesia, neuraxial techniques and acute pain",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for regional anesthesia, neuraxial techniques and acute pain.",
+        "Assess a patient with suspected regional anesthesia, neuraxial techniques and acute pain, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Regional anesthesia, neuraxial techniques and acute pain MCQ",
+        "Regional anesthesia, neuraxial techniques and acute pain clinical case",
+        "Regional anesthesia, neuraxial techniques and acute pain OSCE",
+        "Regional anesthesia, neuraxial techniques and acute pain viva",
+        "Regional anesthesia, neuraxial techniques and acute pain review guideline"
+      ]
+    },
+    {
+      "id": "anesthesia-techniques-03",
+      "domain_id": "anesthesia-techniques",
+      "domain": "Anesthetic techniques and perioperative care",
+      "name": "Perioperative fluids, blood management and postoperative care",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for perioperative fluids, blood management and postoperative care.",
+        "Assess a patient with suspected perioperative fluids, blood management and postoperative care, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "perioperative fluids, blood management and postoperative care",
+        "anaesthesiology and critical care assessment",
+        "anaesthesiology and critical care investigations",
+        "anaesthesiology and critical care management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Perioperative fluids, blood management and postoperative care",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for perioperative fluids, blood management and postoperative care.",
+        "Assess a patient with suspected perioperative fluids, blood management and postoperative care, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Perioperative fluids, blood management and postoperative care MCQ",
+        "Perioperative fluids, blood management and postoperative care clinical case",
+        "Perioperative fluids, blood management and postoperative care OSCE",
+        "Perioperative fluids, blood management and postoperative care viva",
+        "Perioperative fluids, blood management and postoperative care review guideline"
+      ]
+    },
+    {
+      "id": "critical-care-01",
+      "domain_id": "critical-care",
+      "domain": "Critical care and resuscitation",
+      "name": "Mechanical ventilation and respiratory failure",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for mechanical ventilation and respiratory failure.",
+        "Assess a patient with suspected mechanical ventilation and respiratory failure, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "mechanical ventilation and respiratory failure",
+        "anaesthesiology and critical care assessment",
+        "anaesthesiology and critical care investigations",
+        "anaesthesiology and critical care management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Mechanical ventilation and respiratory failure",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for mechanical ventilation and respiratory failure.",
+        "Assess a patient with suspected mechanical ventilation and respiratory failure, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Mechanical ventilation and respiratory failure MCQ",
+        "Mechanical ventilation and respiratory failure clinical case",
+        "Mechanical ventilation and respiratory failure OSCE",
+        "Mechanical ventilation and respiratory failure viva",
+        "Mechanical ventilation and respiratory failure review guideline"
+      ]
+    },
+    {
+      "id": "critical-care-02",
+      "domain_id": "critical-care",
+      "domain": "Critical care and resuscitation",
+      "name": "Shock, sepsis and hemodynamic support",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for shock, sepsis and hemodynamic support.",
+        "Assess a patient with suspected shock, sepsis and hemodynamic support, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "shock, sepsis and hemodynamic support",
+        "anaesthesiology and critical care assessment",
+        "anaesthesiology and critical care investigations",
+        "anaesthesiology and critical care management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Shock, sepsis and hemodynamic support",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for shock, sepsis and hemodynamic support.",
+        "Assess a patient with suspected shock, sepsis and hemodynamic support, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Shock, sepsis and hemodynamic support MCQ",
+        "Shock, sepsis and hemodynamic support clinical case",
+        "Shock, sepsis and hemodynamic support OSCE",
+        "Shock, sepsis and hemodynamic support viva",
+        "Shock, sepsis and hemodynamic support review guideline"
+      ]
+    },
+    {
+      "id": "critical-care-03",
+      "domain_id": "critical-care",
+      "domain": "Critical care and resuscitation",
+      "name": "Renal, neurologic and metabolic critical illness",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for renal, neurologic and metabolic critical illness.",
+        "Assess a patient with suspected renal, neurologic and metabolic critical illness, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "renal, neurologic and metabolic critical illness",
+        "anaesthesiology and critical care assessment",
+        "anaesthesiology and critical care investigations",
+        "anaesthesiology and critical care management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Renal, neurologic and metabolic critical illness",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for renal, neurologic and metabolic critical illness.",
+        "Assess a patient with suspected renal, neurologic and metabolic critical illness, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Renal, neurologic and metabolic critical illness MCQ",
+        "Renal, neurologic and metabolic critical illness clinical case",
+        "Renal, neurologic and metabolic critical illness OSCE",
+        "Renal, neurologic and metabolic critical illness viva",
+        "Renal, neurologic and metabolic critical illness review guideline"
+      ]
+    },
+    {
+      "id": "special-populations-01",
+      "domain_id": "special-populations",
+      "domain": "Special populations and anesthesia emergencies",
+      "name": "Pediatric, obstetric and geriatric anesthesia",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pediatric, obstetric and geriatric anesthesia.",
+        "Assess a patient with suspected pediatric, obstetric and geriatric anesthesia, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "pediatric, obstetric and geriatric anesthesia",
+        "anaesthesiology and critical care assessment",
+        "anaesthesiology and critical care investigations",
+        "anaesthesiology and critical care management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Pediatric, obstetric and geriatric anesthesia",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pediatric, obstetric and geriatric anesthesia.",
+        "Assess a patient with suspected pediatric, obstetric and geriatric anesthesia, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Pediatric, obstetric and geriatric anesthesia MCQ",
+        "Pediatric, obstetric and geriatric anesthesia clinical case",
+        "Pediatric, obstetric and geriatric anesthesia OSCE",
+        "Pediatric, obstetric and geriatric anesthesia viva",
+        "Pediatric, obstetric and geriatric anesthesia review guideline"
+      ]
+    },
+    {
+      "id": "special-populations-02",
+      "domain_id": "special-populations",
+      "domain": "Special populations and anesthesia emergencies",
+      "name": "Trauma, burns and emergency anesthesia",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for trauma, burns and emergency anesthesia.",
+        "Assess a patient with suspected trauma, burns and emergency anesthesia, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "trauma, burns and emergency anesthesia",
+        "anaesthesiology and critical care assessment",
+        "anaesthesiology and critical care investigations",
+        "anaesthesiology and critical care management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Trauma, burns and emergency anesthesia",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for trauma, burns and emergency anesthesia.",
+        "Assess a patient with suspected trauma, burns and emergency anesthesia, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Trauma, burns and emergency anesthesia MCQ",
+        "Trauma, burns and emergency anesthesia clinical case",
+        "Trauma, burns and emergency anesthesia OSCE",
+        "Trauma, burns and emergency anesthesia viva",
+        "Trauma, burns and emergency anesthesia review guideline"
+      ]
+    },
+    {
+      "id": "special-populations-03",
+      "domain_id": "special-populations",
+      "domain": "Special populations and anesthesia emergencies",
+      "name": "Malignant hyperthermia, anaphylaxis and anesthesia complications",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for malignant hyperthermia, anaphylaxis and anesthesia complications.",
+        "Assess a patient with suspected malignant hyperthermia, anaphylaxis and anesthesia complications, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "malignant hyperthermia, anaphylaxis and anesthesia complications",
+        "anaesthesiology and critical care assessment",
+        "anaesthesiology and critical care investigations",
+        "anaesthesiology and critical care management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Malignant hyperthermia, anaphylaxis and anesthesia complications",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for malignant hyperthermia, anaphylaxis and anesthesia complications.",
+        "Assess a patient with suspected malignant hyperthermia, anaphylaxis and anesthesia complications, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Malignant hyperthermia, anaphylaxis and anesthesia complications MCQ",
+        "Malignant hyperthermia, anaphylaxis and anesthesia complications clinical case",
+        "Malignant hyperthermia, anaphylaxis and anesthesia complications OSCE",
+        "Malignant hyperthermia, anaphylaxis and anesthesia complications viva",
+        "Malignant hyperthermia, anaphylaxis and anesthesia complications review guideline"
+      ]
+    }
+  ]
+}
