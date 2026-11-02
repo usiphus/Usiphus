@@ -306,6 +306,8 @@ def generate_validated_topic_cards(
                     flag for item in evidence_reports for flag in item["high_risk_flags"]
                 ]
                 report["evidence_status"] = "evidence_mapped_unreviewed"
+                for card in cards:
+                    card["evidence_status"] = "evidence_mapped_unreviewed"
             else:
                 report["evidence_status"] = "unreviewed_source_gap"
             return cards, report
