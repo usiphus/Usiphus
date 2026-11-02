@@ -64,12 +64,16 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             def __exit__(self, *args): return False
             def __iter__(self):
                 yield (json.dumps({"message": response["message"], "done": True}) + "\n").encode()
+        metrics = []
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()) as request:
             generator.generate_topic_cards(
                 {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
                 model="test-model", ollama_url="http://localhost:11434",
-                count=1, max_output_tokens=1024, request_timeout=777)
+                count=1, max_output_tokens=1024, request_timeout=777,
+                request_metrics=metrics)
         self.assertEqual(request.call_args.kwargs["timeout"], 777)
+        self.assertEqual(metrics[0]["status"], "complete")
+        self.assertIsNotNone(metrics[0]["time_to_first_content_seconds"])
 
     def test_generation_retries_timeout_and_reports_local_ollama_hint(self):
         with patch.object(generator.urllib.request, "urlopen", side_effect=TimeoutError("timed out")) as request:
