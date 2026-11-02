@@ -65,7 +65,7 @@ def requested_card_mix(
         if sum(mix.values()) != count:
             raise ValueError(f"card_mix must sum to card_count ({count})")
         return mix
-    mix = {kind: 0 for kind in VALID_CARD_MIX_TYPES}
+    mix = {kind: 0 for kind in ("basic", "mcq", "clinical_case", "viva", "osce")}
     for index in range(count):
         mix[CARD_TYPE_CYCLE[index % len(CARD_TYPE_CYCLE)]] += 1
     return {kind: amount for kind, amount in mix.items() if amount}
