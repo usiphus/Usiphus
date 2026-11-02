@@ -35,7 +35,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             def __enter__(self): return self
             def __exit__(self, *args): return False
             def __iter__(self):
-                yield (json.dumps({"message": response["message"], "done": True}) + "\\n").encode()
+                yield (json.dumps({"message": response["message"], "done": True}) + "\n").encode()
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
             cards = generator.generate_topic_cards(
                 {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
@@ -63,7 +63,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             def __enter__(self): return self
             def __exit__(self, *args): return False
             def __iter__(self):
-                yield (json.dumps({"message": response["message"], "done": True}) + "\\n").encode()
+                yield (json.dumps({"message": response["message"], "done": True}) + "\n").encode()
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()) as request:
             generator.generate_topic_cards(
                 {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
@@ -118,7 +118,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             def __enter__(self): return self
             def __exit__(self, *args): return False
             def __iter__(self):
-                yield (json.dumps({"message": response["message"], "done": True}) + "\\n").encode()
+                yield (json.dumps({"message": response["message"], "done": True}) + "\n").encode()
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
             with self.assertRaisesRegex(ValueError, "requested exactly 1"):
                 generator.generate_topic_cards(
@@ -134,7 +134,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             def __enter__(self): return self
             def __exit__(self, *args): return False
             def __iter__(self):
-                yield (json.dumps({"message": response["message"], "done": True}) + "\\n").encode()
+                yield (json.dumps({"message": response["message"], "done": True}) + "\n").encode()
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
             with self.assertRaisesRegex(ValueError, "requested exactly 2"):
                 generator.generate_topic_cards(
@@ -180,7 +180,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             def __enter__(self): return self
             def __exit__(self, *args): return False
             def __iter__(self):
-                yield (json.dumps({"message": response["message"], "done": True}) + "\\n").encode()
+                yield (json.dumps({"message": response["message"], "done": True}) + "\n").encode()
         topic = {"id": "vitreoretinal-02", "domain_id": "vitreoretinal",
                  "domain": "Vitreoretinal disease and surgery", "name": "Retinal detachment",
                  "coverage_tags": ["retinal detachment"], "learning_objectives": ["Recognize detachment"]}
