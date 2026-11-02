@@ -317,8 +317,8 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             self.assertEqual(user_payload["cards_to_write"], [{
                 "slot": 1,
                 "type": "mcq",
-                "objective_id": "cataract-objective-01",
-                "learning_objective": "Recognize cataract",
+                "objective_id": "lens-01-overview",
+                "learning_objective": "Cataract",
                 "cognitive_level": "apply",
             }])
             saved = json.loads(checkpoint.read_text(encoding="utf-8"))
