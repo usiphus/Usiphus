@@ -137,9 +137,11 @@ Outputs include the Anki package, PowerPoint, `generated_cards.json` and
 
 ### Slow local computers, timeouts and safe resume
 
-Each topic is generated in its own Ollama request. The default request timeout is
-300 seconds; increase it for slower CPUs or models that need longer to produce
-the requested cards:
+Each topic is generated in its own Ollama request. Responses are streamed
+incrementally, so the configured timeout is an inactivity timeout between
+stream chunks, not a hard limit on the total time needed to generate all cards.
+The model is kept loaded for 30 minutes between topic requests. A stalled first
+token or a stream that stops sending data still triggers a timeout.
 
 ```bash
 python usiphus_auto_deck.py --generate \
@@ -158,8 +160,11 @@ After each successful topic, the generator atomically saves a checkpoint under
 rerun the same command with `--resume` added. Matching completed topics are
 loaded from disk; changed topics/settings are regenerated. The final
 `generated_cards.json` and exports are written when all topics finish. Progress
-is printed after each topic. A timeout is retried up to three times; if it
-continues, the error explains how to check Ollama and increase the timeout.
+is printed after each topic. A socket inactivity timeout is not blindly retried: repeating the same
+expensive generation can waste another 15 minutes without fixing the cause.
+Instead, check Ollama/model health, available RAM/VRAM and CPU/GPU load. If the
+first token is still taking too long, first reduce the requested cards or
+`--max-output-tokens`; consider a smaller model if necessary.
 
 For a quick smoke test, use a one-topic curriculum copy and set
 `--cards-per-topic 3 --override-curriculum-card-counts` before starting the

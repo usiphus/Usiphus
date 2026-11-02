@@ -34,7 +34,8 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         class FakeResponse:
             def __enter__(self): return self
             def __exit__(self, *args): return False
-            def read(self, _limit): return json.dumps(response).encode()
+            def __iter__(self):
+                yield (json.dumps({"message": response["message"], "done": True}) + "\n").encode()
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
             cards = generator.generate_topic_cards(
                 {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
@@ -61,7 +62,8 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         class FakeResponse:
             def __enter__(self): return self
             def __exit__(self, *args): return False
-            def read(self, _limit): return json.dumps(response).encode()
+            def __iter__(self):
+                yield (json.dumps({"message": response["message"], "done": True}) + "\n").encode()
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()) as request:
             generator.generate_topic_cards(
                 {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
@@ -71,12 +73,12 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
 
     def test_generation_retries_timeout_and_reports_local_ollama_hint(self):
         with patch.object(generator.urllib.request, "urlopen", side_effect=TimeoutError("timed out")) as request:
-            with self.assertRaisesRegex(RuntimeError, "Increase --ollama-timeout"):
+            with self.assertRaisesRegex(RuntimeError, "Try a smaller --max-output-tokens"):
                 generator.generate_topic_cards(
                     {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
                     model="test-model", ollama_url="http://localhost:11434",
                     count=1, max_output_tokens=1024, request_timeout=17)
-        self.assertEqual(request.call_count, 3)
+        self.assertEqual(request.call_count, 1)
         self.assertEqual(request.call_args.kwargs["timeout"], 17)
 
     def test_cli_uses_local_defaults_without_credentials(self):
@@ -115,7 +117,8 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         class FakeResponse:
             def __enter__(self): return self
             def __exit__(self, *args): return False
-            def read(self, _limit): return json.dumps(response).encode()
+            def __iter__(self):
+                yield (json.dumps({"message": response["message"], "done": True}) + "\n").encode()
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
             with self.assertRaisesRegex(ValueError, "requested exactly 1"):
                 generator.generate_topic_cards(
@@ -130,7 +133,8 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         class FakeResponse:
             def __enter__(self): return self
             def __exit__(self, *args): return False
-            def read(self, _limit): return json.dumps(response).encode()
+            def __iter__(self):
+                yield (json.dumps({"message": response["message"], "done": True}) + "\n").encode()
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
             with self.assertRaisesRegex(ValueError, "requested exactly 2"):
                 generator.generate_topic_cards(
@@ -175,7 +179,8 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         class FakeResponse:
             def __enter__(self): return self
             def __exit__(self, *args): return False
-            def read(self, _limit): return json.dumps(response).encode()
+            def __iter__(self):
+                yield (json.dumps({"message": response["message"], "done": True}) + "\n").encode()
         topic = {"id": "vitreoretinal-02", "domain_id": "vitreoretinal",
                  "domain": "Vitreoretinal disease and surgery", "name": "Retinal detachment",
                  "coverage_tags": ["retinal detachment"], "learning_objectives": ["Recognize detachment"]}
@@ -187,7 +192,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         payload = json.loads(sent["messages"][1]["content"])
         self.assertEqual(payload["curriculum_domain"], "Vitreoretinal disease and surgery")
         self.assertEqual(payload["domain_id"], "vitreoretinal")
-        self.assertEqual(payload["coverage_tags"], ["retinal detachment"])
+        self.assertEqual(payload["coverage_tags"], ["retinal detachment"])\n        self.assertTrue(sent["stream"])\n        self.assertEqual(sent["keep_alive"], "30m")
 
     def test_curriculum_rejects_topic_with_unknown_domain(self):
         with tempfile.TemporaryDirectory() as tmp:
