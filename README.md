@@ -6,6 +6,17 @@ Usiphus helps structure medical teaching material and provides explicit workflow
 
 > Automated checks assess structure, metadata, workflow state, and selected consistency/privacy properties. They do not establish clinical truth, current guideline recommendations, educational effectiveness, learner competence, anonymization, or legal compliance. Clinical material requires qualified human review.
 
+
+## Comprehensive ophthalmology curriculum
+
+The automated deck example now maps 16 curriculum domains and 52 specialty
+topics (312 planned draft cards), spanning clinical and surgical subspecialties,
+diagnostics, emergencies, rehabilitation and professional practice. See
+`examples/ophthalmology/curriculum.json` and
+`docs/AUTOMATED_DECK_GENERATOR.md` for the domain-by-domain blueprint.
+This is a broad specialty map that still requires faculty mapping to local
+training outcomes and examination requirements.
+
 ## Version map
 
 | Version | Capability |
@@ -36,16 +47,16 @@ Optional exporters:
 
     python -m pip install genanki python-pptx
 
-Card generation uses a locally running Ollama model; no cloud AI service, account, or API key is required. Install Ollama and download a model (default: `qwen2.5:7b`):
+Card generation uses a locally running Ollama model; no cloud AI service, account, or API key is required. The expanded undergraduate ophthalmology blueprint covers 22 domains and plans 132 mixed-format draft cards. The default model is `llama3.1:8b`:
 
-    ollama pull qwen2.5:7b
-    python usiphus_auto_deck.py --generate --curriculum examples/ophthalmology/curriculum.json --formats both --output-dir build/ophthalmology
+    ollama pull llama3.1:8b
+    python usiphus_auto_deck.py --generate --curriculum examples/ophthalmology/curriculum.json --model llama3.1:8b --formats both --output-dir build/ophthalmology
 
 For a fully offline export from existing cards (no Ollama required):
 
     python usiphus_auto_deck.py --cards ophthalmology_cards.json --formats both --output-dir build/ophthalmology
 
-Install optional exporters with `python -m pip install genanki python-pptx`. The generator writes the shared card source, quality report, Anki package and PowerPoint. Generated clinical material remains unreviewed until a qualified faculty member verifies every claim, answer and reference. The default is at most 11 local model requests and 2,500 output tokens per topic; override with `--max-ollama-calls` and `--max-output-tokens`. Local generation uses your computer's resources and model storage.
+Install optional exporters with `python -m pip install genanki python-pptx`. The generator writes the shared card source, quality report, Anki package and PowerPoint. Generated clinical material remains unreviewed until a qualified faculty member verifies every claim, answer and reference. The default is at most 25 local model requests and 3,500 output tokens per topic; this curriculum uses 22 requests. Override with `--max-ollama-calls` and `--max-output-tokens`. Local generation uses your computer's resources and model storage.
 
 ## Recommended workflows
 
@@ -145,3 +156,45 @@ Learner progress, item-level response data and review schedules can be sensitive
 - V15 evidence governance: docs/V15_EVIDENCE_GOVERNANCE.md
 - V14 unified release platform: docs/V14_UNIFIED_RELEASE_PLATFORM.md
 - Safety, privacy, and security checklist: docs/SAFETY_AND_PRIVACY.md
+
+## Curriculum-aware resource discovery
+
+Usiphus now includes a public-metadata discovery engine that maps scholarly
+resources to each curriculum topic and learning objective. It queries PubMed
+(NCBI E-utilities), PubMed Central/open-access records and Cureus-indexed
+articles (Europe PMC), and Crossref. It also creates topic-specific public
+search links for AnkiWeb, DoctorDE, Geeky Medics, TeachMeSeries, professional
+guidelines, DOAJ and open educational resources where a documented public API
+is not available.
+
+```bash
+python usiphus_resource_discovery.py \
+  --curriculum examples/ophthalmology/curriculum.json \
+  --output-dir build/ophthalmology-discovery
+```
+
+The output contains `resources.json` and `coverage_report.json`, including
+topic/objective mappings, source-family coverage gaps and provider errors.
+The engine stores metadata and links only; it does not scrape gated websites,
+download decks or article bodies, or reproduce proprietary exam questions.
+All records start unreviewed, and relevance ranking is not a clinical quality
+grade. See [the discovery engine guide](docs/RESOURCE_DISCOVERY_ENGINE.md).
+
+
+## Curriculum coverage and gap analysis
+
+After resource discovery, generate a topic- and learning-objective-level gap
+report:
+
+```bash
+python usiphus_curriculum_coverage.py \
+  --curriculum examples/ophthalmology/curriculum.json \
+  --resources build/ophthalmology-discovery/resources.json \
+  --output build/ophthalmology-discovery/curriculum_coverage_report.json
+```
+
+Run its offline checks with `python usiphus_curriculum_coverage.py --self-test`.
+The analyzer excludes search-link-only records, reports domain/topic/objective
+coverage, and produces a faculty action queue. Coverage is a discovery signal,
+not a clinical evidence grade or proof of curriculum adequacy. See
+[the analyzer guide](docs/CURRICULUM_COVERAGE_ANALYZER.md).

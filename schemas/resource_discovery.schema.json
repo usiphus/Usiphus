@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Usiphus resource discovery output",
+  "type": "object",
+  "required": ["schema_version", "resources"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "resources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["resource_id", "source_id", "title", "canonical_url", "access_status", "evidence_role", "review_status", "matched_topic_ids", "matched_objective_ids", "relevance_score"],
+        "properties": {
+          "resource_id": {"type": "string", "minLength": 1},
+          "source_id": {"type": "string", "minLength": 1},
+          "title": {"type": "string"},
+          "canonical_url": {"type": "string", "format": "uri"},
+          "source_type": {"type": "string"},
+          "publisher": {"type": "string"},
+          "authors": {"type": "array", "items": {"type": "string"}},
+          "published_on": {"type": "string"},
+          "doi": {"type": "string"},
+          "pmid": {"type": "string"},
+          "pmcid": {"type": "string"},
+          "abstract": {"type": "string"},
+          "licence_or_reuse_status": {"type": "string"},
+          "access_status": {"type": "string"},
+          "article_type": {"type": "string"},
+          "discovery_provider": {"type": "string"},
+          "evidence_role": {"type": "string"},
+          "review_status": {"enum": ["unreviewed", "in_review", "approved", "rejected"]},
+          "matched_topic_ids": {"type": "array", "items": {"type": "string"}},
+          "matched_objective_ids": {"type": "array", "items": {"type": "string"}},
+          "matched_terms": {"type": "array", "items": {"type": "string"}},
+          "relevance_score": {"type": "number", "minimum": 0, "maximum": 1},
+          "retrieved_at": {"type": "string", "format": "date-time"}
+        }
+      }
+    }
+  }
+}

@@ -19,9 +19,11 @@ from typing import Any
 from usiphus_core import coerce_record, evaluate_quality, report_to_dict
 from usiphus_v7 import export_apkg
 
-DEFAULT_OLLAMA_MODEL = "qwen2.5:7b"
+DEFAULT_OLLAMA_MODEL = "llama3.1:8b"
 DEFAULT_OLLAMA_URL = "http://localhost:11434"
 MAX_RESPONSE_BYTES = 2_000_000
+CARD_TYPE_CYCLE = ("basic", "mcq", "mcq", "clinical_case", "viva", "osce")
+VALID_CARD_MIX_TYPES = {"basic", "mcq", "clinical_case", "viva", "osce"}
 
 
 def load_json(path: Path) -> Any:
@@ -40,20 +42,53 @@ def _extract_json(text: str) -> Any:
     return json.loads(text[start:end + 1])
 
 
+def requested_card_mix(count: int, overrides: dict[str, Any] | None = None) -> dict[str, int]:
+    """Return a validated per-topic card-type blueprint summing to count."""
+    if count < 1:
+        raise ValueError("Card count must be positive")
+    if overrides is not None:
+        if not isinstance(overrides, dict):
+            raise ValueError("card_mix must be a JSON object")
+        mix: dict[str, int] = {}
+        for card_type, amount in overrides.items():
+            if card_type not in VALID_CARD_MIX_TYPES:
+                raise ValueError(f"Unsupported card_mix type: {card_type}")
+            if isinstance(amount, bool) or not isinstance(amount, int) or amount < 0:
+                raise ValueError("card_mix values must be non-negative integers")
+            if amount:
+                mix[card_type] = amount
+        if sum(mix.values()) != count:
+            raise ValueError(f"card_mix must sum to card_count ({count})")
+        return mix
+    mix = {kind: 0 for kind in VALID_CARD_MIX_TYPES}
+    for index in range(count):
+        mix[CARD_TYPE_CYCLE[index % len(CARD_TYPE_CYCLE)]] += 1
+    return {kind: amount for kind, amount in mix.items() if amount}
+
+
 def generate_topic_cards(topic: dict[str, Any], *, specialty: str, level: str,
                          model: str, ollama_url: str, count: int,
                          max_output_tokens: int) -> list[dict[str, Any]]:
     objectives = topic.get("learning_objectives", [])
     source_refs = topic.get("reference_sources", [])
+    card_mix = requested_card_mix(count, topic.get("card_mix"))
     payload = {
         "specialty": specialty, "learner_level": level,
         "topic": topic.get("name") or topic.get("topic"),
+        "topic_id": topic.get("id"),
+        "curriculum_domain": topic.get("domain"),
+        "domain_id": topic.get("domain_id"),
+        "coverage_tags": topic.get("coverage_tags", []),
         "learning_objectives": objectives,
+        "exam_emphasis": topic.get("exam_emphasis", []),
         "faculty_supplied_reference_sources": source_refs,
         "requested_card_count": count,
+        "requested_card_mix": card_mix,
     }
     system = (
         "You are an educational drafting assistant for medical faculty. "
+        "Respect the supplied curriculum domain, topic ID, coverage tags and learning objectives. "
+        "Cover the full scope of the named topic rather than drifting into adjacent topics. "
         "Create accurate, appropriately qualified educational drafts, not clinical advice. "
         "Do not invent references, DOI values, guideline dates, statistics, or quotations. "
         "Use only faculty-supplied references; if none are supplied, return references as []. "
@@ -62,6 +97,13 @@ def generate_topic_cards(topic: dict[str, Any], *, specialty: str, level: str,
         "specialty, card_type (basic, mcq, viva, osce, clinical_case), difficulty, "
         "prompt, answer, options, correct_option, learning_objective, tags, references, "
         "cognitive_level, exam_domain, rubric, evidence_status. Exactly one correct MCQ option. "
+        "Follow requested_card_mix exactly where possible and return exactly requested_card_count cards. "
+        "For MCQs use 4-5 plausible options, one unambiguous key, and explain why the key is correct "
+        "and why distractors are wrong. Clinical cases must include age/context, focused findings, "
+        "a reasoning question and a safe first-step approach; avoid unsupported drug doses. "
+        "Viva answers should be structured and exam-ready. OSCE cards need candidate instructions, "
+        "expected steps and a concise checklist rubric. Include red flags, differential diagnosis, "
+        "investigations and management principles when relevant to the objective. "
         "Use original wording; do not copy textbook passages. evidence_status must be unreviewed."
     )
     request_body = {
@@ -99,8 +141,8 @@ def generate_topic_cards(topic: dict[str, Any], *, specialty: str, level: str,
     cards = parsed.get("cards")
     if not isinstance(cards, list) or not cards:
         raise ValueError("Model response must contain a non-empty cards array")
-    if len(cards) > count:
-        raise ValueError(f"Model returned {len(cards)} cards; requested at most {count}")
+    if len(cards) != count:
+        raise ValueError(f"Model returned {len(cards)} cards; requested exactly {count}")
     prefix = re.sub(r"[^A-Za-z0-9]+", "-", str(topic.get("name") or topic.get("topic") or "topic")).strip("-").upper()
     for index, card in enumerate(cards, 1):
         if not isinstance(card, dict):
@@ -121,6 +163,27 @@ def load_curriculum(path: Path) -> dict[str, Any]:
     for item in data["topics"]:
         if not isinstance(item, dict) or not (item.get("name") or item.get("topic")):
             raise ValueError("Each topic needs a name")
+    domains = data.get("curriculum_domains")
+    if domains is not None:
+        if not isinstance(domains, list) or not domains:
+            raise ValueError("curriculum_domains must be a non-empty list")
+        domain_ids = [item.get("id") for item in domains if isinstance(item, dict)]
+        if len(domain_ids) != len(domains) or any(not value for value in domain_ids):
+            raise ValueError("Every curriculum domain needs an id")
+        if len(set(domain_ids)) != len(domain_ids):
+            raise ValueError("Curriculum domain IDs must be unique")
+        topic_ids = []
+        for item in data["topics"]:
+            topic_id = item.get("id")
+            if not topic_id or not item.get("domain_id"):
+                raise ValueError("Mapped topics need unique id and domain_id fields")
+            if item["domain_id"] not in domain_ids:
+                raise ValueError(f"Topic {topic_id} references an unknown curriculum domain")
+            if not isinstance(item.get("coverage_tags"), list) or not item["coverage_tags"]:
+                raise ValueError(f"Topic {topic_id} needs coverage_tags")
+            topic_ids.append(topic_id)
+        if len(set(topic_ids)) != len(topic_ids):
+            raise ValueError("Curriculum topic IDs must be unique")
     return data
 
 
@@ -257,10 +320,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--ollama-url", default=os.getenv("OLLAMA_HOST", DEFAULT_OLLAMA_URL),
                    help="Ollama server base URL (default: http://localhost:11434)")
     p.add_argument("--cards-per-topic", type=int, default=6)
-    p.add_argument("--max-ollama-calls", type=int, default=11,
-                   help="Maximum local generation requests (default: 11)")
-    p.add_argument("--max-output-tokens", type=int, default=2500,
-                   help="Maximum generated tokens per topic request (default: 2500)")
+    p.add_argument("--max-ollama-calls", type=int, default=60,
+                   help="Maximum local generation requests (default: 25)")
+    p.add_argument("--max-output-tokens", type=int, default=3500,
+                   help="Maximum generated tokens per topic request (default: 3500)")
     p.add_argument("--formats", choices=("both", "anki", "powerpoint"), default="both")
     p.add_argument("--output-dir", default="build/ophthalmology")
     p.add_argument("--deck-name")
