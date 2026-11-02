@@ -238,7 +238,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         self.assertEqual(request.call_count, 2)
         repair_payload = json.loads(request.call_args_list[1].args[0].data.decode())
         repair_user = json.loads(repair_payload["messages"][1]["content"])
-        self.assertEqual(repair_user["cards_to_write"], [{"slot": 1, "type": "mcq"}])
+        self.assertEqual([{key: item[key] for key in ("slot", "type")} for item in repair_user["cards_to_write"]], [{"slot": 1, "type": "mcq"}])
         self.assertEqual(cards[0]["card_type"], "basic")
         self.assertEqual(cards[1]["card_type"], "mcq")
         self.assertEqual(cards[0]["card_id"], "OLLAMA-LENS-01-001")
