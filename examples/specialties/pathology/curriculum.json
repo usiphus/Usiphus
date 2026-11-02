@@ -1,0 +1,677 @@
+{
+  "specialty": "pathology",
+  "display_name": "Pathology and Laboratory Medicine",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive pathology and laboratory medicine curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "pathology-foundations",
+      "name": "General pathology and laboratory foundations",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in general pathology and laboratory foundations. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "systemic-pathology",
+      "name": "Systemic and organ pathology",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in systemic and organ pathology. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "lab-medicine",
+      "name": "Clinical laboratory and diagnostic medicine",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in clinical laboratory and diagnostic medicine. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "diagnostic-practice",
+      "name": "Diagnostic practice and laboratory governance",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in diagnostic practice and laboratory governance. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "General pathology and laboratory foundations",
+    "Systemic and organ pathology",
+    "Clinical laboratory and diagnostic medicine",
+    "Diagnostic practice and laboratory governance"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "pathology-foundations-01",
+      "domain_id": "pathology-foundations",
+      "domain": "General pathology and laboratory foundations",
+      "name": "Cell injury, adaptation, inflammation and repair",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cell injury, adaptation, inflammation and repair.",
+        "Assess a patient with suspected cell injury, adaptation, inflammation and repair, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "cell injury, adaptation, inflammation and repair",
+        "pathology and laboratory medicine assessment",
+        "pathology and laboratory medicine investigations",
+        "pathology and laboratory medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Cell injury, adaptation, inflammation and repair",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cell injury, adaptation, inflammation and repair.",
+        "Assess a patient with suspected cell injury, adaptation, inflammation and repair, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Cell injury, adaptation, inflammation and repair MCQ",
+        "Cell injury, adaptation, inflammation and repair clinical case",
+        "Cell injury, adaptation, inflammation and repair OSCE",
+        "Cell injury, adaptation, inflammation and repair viva",
+        "Cell injury, adaptation, inflammation and repair review guideline"
+      ]
+    },
+    {
+      "id": "pathology-foundations-02",
+      "domain_id": "pathology-foundations",
+      "domain": "General pathology and laboratory foundations",
+      "name": "Hemodynamic disorders, thrombosis and shock",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hemodynamic disorders, thrombosis and shock.",
+        "Assess a patient with suspected hemodynamic disorders, thrombosis and shock, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "hemodynamic disorders, thrombosis and shock",
+        "pathology and laboratory medicine assessment",
+        "pathology and laboratory medicine investigations",
+        "pathology and laboratory medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Hemodynamic disorders, thrombosis and shock",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hemodynamic disorders, thrombosis and shock.",
+        "Assess a patient with suspected hemodynamic disorders, thrombosis and shock, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Hemodynamic disorders, thrombosis and shock MCQ",
+        "Hemodynamic disorders, thrombosis and shock clinical case",
+        "Hemodynamic disorders, thrombosis and shock OSCE",
+        "Hemodynamic disorders, thrombosis and shock viva",
+        "Hemodynamic disorders, thrombosis and shock review guideline"
+      ]
+    },
+    {
+      "id": "pathology-foundations-03",
+      "domain_id": "pathology-foundations",
+      "domain": "General pathology and laboratory foundations",
+      "name": "Neoplasia, carcinogenesis and tumor biology",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for neoplasia, carcinogenesis and tumor biology.",
+        "Assess a patient with suspected neoplasia, carcinogenesis and tumor biology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "neoplasia, carcinogenesis and tumor biology",
+        "pathology and laboratory medicine assessment",
+        "pathology and laboratory medicine investigations",
+        "pathology and laboratory medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Neoplasia, carcinogenesis and tumor biology",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for neoplasia, carcinogenesis and tumor biology.",
+        "Assess a patient with suspected neoplasia, carcinogenesis and tumor biology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Neoplasia, carcinogenesis and tumor biology MCQ",
+        "Neoplasia, carcinogenesis and tumor biology clinical case",
+        "Neoplasia, carcinogenesis and tumor biology OSCE",
+        "Neoplasia, carcinogenesis and tumor biology viva",
+        "Neoplasia, carcinogenesis and tumor biology review guideline"
+      ]
+    },
+    {
+      "id": "systemic-pathology-01",
+      "domain_id": "systemic-pathology",
+      "domain": "Systemic and organ pathology",
+      "name": "Cardiovascular, respiratory and gastrointestinal pathology",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cardiovascular, respiratory and gastrointestinal pathology.",
+        "Assess a patient with suspected cardiovascular, respiratory and gastrointestinal pathology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "cardiovascular, respiratory and gastrointestinal pathology",
+        "pathology and laboratory medicine assessment",
+        "pathology and laboratory medicine investigations",
+        "pathology and laboratory medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Cardiovascular, respiratory and gastrointestinal pathology",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cardiovascular, respiratory and gastrointestinal pathology.",
+        "Assess a patient with suspected cardiovascular, respiratory and gastrointestinal pathology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Cardiovascular, respiratory and gastrointestinal pathology MCQ",
+        "Cardiovascular, respiratory and gastrointestinal pathology clinical case",
+        "Cardiovascular, respiratory and gastrointestinal pathology OSCE",
+        "Cardiovascular, respiratory and gastrointestinal pathology viva",
+        "Cardiovascular, respiratory and gastrointestinal pathology review guideline"
+      ]
+    },
+    {
+      "id": "systemic-pathology-02",
+      "domain_id": "systemic-pathology",
+      "domain": "Systemic and organ pathology",
+      "name": "Renal, endocrine and reproductive pathology",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for renal, endocrine and reproductive pathology.",
+        "Assess a patient with suspected renal, endocrine and reproductive pathology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "renal, endocrine and reproductive pathology",
+        "pathology and laboratory medicine assessment",
+        "pathology and laboratory medicine investigations",
+        "pathology and laboratory medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Renal, endocrine and reproductive pathology",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for renal, endocrine and reproductive pathology.",
+        "Assess a patient with suspected renal, endocrine and reproductive pathology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Renal, endocrine and reproductive pathology MCQ",
+        "Renal, endocrine and reproductive pathology clinical case",
+        "Renal, endocrine and reproductive pathology OSCE",
+        "Renal, endocrine and reproductive pathology viva",
+        "Renal, endocrine and reproductive pathology review guideline"
+      ]
+    },
+    {
+      "id": "systemic-pathology-03",
+      "domain_id": "systemic-pathology",
+      "domain": "Systemic and organ pathology",
+      "name": "Neuropathology, musculoskeletal and dermatopathology",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for neuropathology, musculoskeletal and dermatopathology.",
+        "Assess a patient with suspected neuropathology, musculoskeletal and dermatopathology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "neuropathology, musculoskeletal and dermatopathology",
+        "pathology and laboratory medicine assessment",
+        "pathology and laboratory medicine investigations",
+        "pathology and laboratory medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Neuropathology, musculoskeletal and dermatopathology",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for neuropathology, musculoskeletal and dermatopathology.",
+        "Assess a patient with suspected neuropathology, musculoskeletal and dermatopathology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Neuropathology, musculoskeletal and dermatopathology MCQ",
+        "Neuropathology, musculoskeletal and dermatopathology clinical case",
+        "Neuropathology, musculoskeletal and dermatopathology OSCE",
+        "Neuropathology, musculoskeletal and dermatopathology viva",
+        "Neuropathology, musculoskeletal and dermatopathology review guideline"
+      ]
+    },
+    {
+      "id": "lab-medicine-01",
+      "domain_id": "lab-medicine",
+      "domain": "Clinical laboratory and diagnostic medicine",
+      "name": "Hematology, coagulation and transfusion medicine",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hematology, coagulation and transfusion medicine.",
+        "Assess a patient with suspected hematology, coagulation and transfusion medicine, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "hematology, coagulation and transfusion medicine",
+        "pathology and laboratory medicine assessment",
+        "pathology and laboratory medicine investigations",
+        "pathology and laboratory medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Hematology, coagulation and transfusion medicine",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hematology, coagulation and transfusion medicine.",
+        "Assess a patient with suspected hematology, coagulation and transfusion medicine, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Hematology, coagulation and transfusion medicine MCQ",
+        "Hematology, coagulation and transfusion medicine clinical case",
+        "Hematology, coagulation and transfusion medicine OSCE",
+        "Hematology, coagulation and transfusion medicine viva",
+        "Hematology, coagulation and transfusion medicine review guideline"
+      ]
+    },
+    {
+      "id": "lab-medicine-02",
+      "domain_id": "lab-medicine",
+      "domain": "Clinical laboratory and diagnostic medicine",
+      "name": "Clinical chemistry, endocrine and metabolic testing",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for clinical chemistry, endocrine and metabolic testing.",
+        "Assess a patient with suspected clinical chemistry, endocrine and metabolic testing, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "clinical chemistry, endocrine and metabolic testing",
+        "pathology and laboratory medicine assessment",
+        "pathology and laboratory medicine investigations",
+        "pathology and laboratory medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Clinical chemistry, endocrine and metabolic testing",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for clinical chemistry, endocrine and metabolic testing.",
+        "Assess a patient with suspected clinical chemistry, endocrine and metabolic testing, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Clinical chemistry, endocrine and metabolic testing MCQ",
+        "Clinical chemistry, endocrine and metabolic testing clinical case",
+        "Clinical chemistry, endocrine and metabolic testing OSCE",
+        "Clinical chemistry, endocrine and metabolic testing viva",
+        "Clinical chemistry, endocrine and metabolic testing review guideline"
+      ]
+    },
+    {
+      "id": "lab-medicine-03",
+      "domain_id": "lab-medicine",
+      "domain": "Clinical laboratory and diagnostic medicine",
+      "name": "Microbiology, virology, parasitology and antimicrobial susceptibility",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for microbiology, virology, parasitology and antimicrobial susceptibility.",
+        "Assess a patient with suspected microbiology, virology, parasitology and antimicrobial susceptibility, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "microbiology, virology, parasitology and antimicrobial susceptibility",
+        "pathology and laboratory medicine assessment",
+        "pathology and laboratory medicine investigations",
+        "pathology and laboratory medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Microbiology, virology, parasitology and antimicrobial susceptibility",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for microbiology, virology, parasitology and antimicrobial susceptibility.",
+        "Assess a patient with suspected microbiology, virology, parasitology and antimicrobial susceptibility, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Microbiology, virology, parasitology and antimicrobial susceptibility MCQ",
+        "Microbiology, virology, parasitology and antimicrobial susceptibility clinical case",
+        "Microbiology, virology, parasitology and antimicrobial susceptibility OSCE",
+        "Microbiology, virology, parasitology and antimicrobial susceptibility viva",
+        "Microbiology, virology, parasitology and antimicrobial susceptibility review guideline"
+      ]
+    },
+    {
+      "id": "diagnostic-practice-01",
+      "domain_id": "diagnostic-practice",
+      "domain": "Diagnostic practice and laboratory governance",
+      "name": "Histopathology, cytology and immunohistochemistry",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for histopathology, cytology and immunohistochemistry.",
+        "Assess a patient with suspected histopathology, cytology and immunohistochemistry, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "histopathology, cytology and immunohistochemistry",
+        "pathology and laboratory medicine assessment",
+        "pathology and laboratory medicine investigations",
+        "pathology and laboratory medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Histopathology, cytology and immunohistochemistry",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for histopathology, cytology and immunohistochemistry.",
+        "Assess a patient with suspected histopathology, cytology and immunohistochemistry, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Histopathology, cytology and immunohistochemistry MCQ",
+        "Histopathology, cytology and immunohistochemistry clinical case",
+        "Histopathology, cytology and immunohistochemistry OSCE",
+        "Histopathology, cytology and immunohistochemistry viva",
+        "Histopathology, cytology and immunohistochemistry review guideline"
+      ]
+    },
+    {
+      "id": "diagnostic-practice-02",
+      "domain_id": "diagnostic-practice",
+      "domain": "Diagnostic practice and laboratory governance",
+      "name": "Molecular pathology, genetics and biomarkers",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for molecular pathology, genetics and biomarkers.",
+        "Assess a patient with suspected molecular pathology, genetics and biomarkers, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "molecular pathology, genetics and biomarkers",
+        "pathology and laboratory medicine assessment",
+        "pathology and laboratory medicine investigations",
+        "pathology and laboratory medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Molecular pathology, genetics and biomarkers",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for molecular pathology, genetics and biomarkers.",
+        "Assess a patient with suspected molecular pathology, genetics and biomarkers, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Molecular pathology, genetics and biomarkers MCQ",
+        "Molecular pathology, genetics and biomarkers clinical case",
+        "Molecular pathology, genetics and biomarkers OSCE",
+        "Molecular pathology, genetics and biomarkers viva",
+        "Molecular pathology, genetics and biomarkers review guideline"
+      ]
+    },
+    {
+      "id": "diagnostic-practice-03",
+      "domain_id": "diagnostic-practice",
+      "domain": "Diagnostic practice and laboratory governance",
+      "name": "Specimen handling, quality assurance and interpretation",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for specimen handling, quality assurance and interpretation.",
+        "Assess a patient with suspected specimen handling, quality assurance and interpretation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "specimen handling, quality assurance and interpretation",
+        "pathology and laboratory medicine assessment",
+        "pathology and laboratory medicine investigations",
+        "pathology and laboratory medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Specimen handling, quality assurance and interpretation",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for specimen handling, quality assurance and interpretation.",
+        "Assess a patient with suspected specimen handling, quality assurance and interpretation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Specimen handling, quality assurance and interpretation MCQ",
+        "Specimen handling, quality assurance and interpretation clinical case",
+        "Specimen handling, quality assurance and interpretation OSCE",
+        "Specimen handling, quality assurance and interpretation viva",
+        "Specimen handling, quality assurance and interpretation review guideline"
+      ]
+    }
+  ]
+}
