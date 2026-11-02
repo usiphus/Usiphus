@@ -4,7 +4,7 @@
   "status": "draft_for_faculty_review",
   "scope_note": "Standalone specialty maps built from general specialty education domains and topic structures. No institutional bylaw or local curriculum is used as a source. The existing ophthalmology blueprint remains in its own directory and is not overwritten.",
   "shared_source_discovery_policy": {
-    "discovery_scope": "topic_and_learning_objective",
+    "discovery_scope": "topic_query_with_objective_matching",
     "source_families": [
       {
         "id": "anki_shared_decks",
@@ -61,7 +61,7 @@
         "role": "foundational explanations and structured teaching"
       }
     ],
-    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "matching_policy": "The current engine searches the canonical topic phrase through metadata APIs and topic-specific public search links, then lexically matches returned titles and abstracts against learning objectives. It does not yet issue a separate provider query for every objective. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
     "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
     "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
     "default_candidate_status": "identified_unreviewed"
