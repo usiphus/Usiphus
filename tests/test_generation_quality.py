@@ -66,7 +66,7 @@ def cards():
         if kind == "osce":
             row["prompt"] = (
                 "OSCE station: You are the candidate. Assess the patient, explain "
-                "your findings and communicate the safe next step."
+                "your findings and communicate the safe next step:
             )
             row["rubric"] = [
                 "Introduces the task and confirms the patient's identity using the scenario.",
