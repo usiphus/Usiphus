@@ -227,7 +227,7 @@ A packet has two arrays:
   curator-authored faithful evidence note, page/section/paragraph locator, and
   curator-assigned `matched_objective_ids` (for example `topic-01-LO02`).
 
-Only faculty-reviewed sources with verified rights/access status and snippets
+An open-access flag or abstract alone is insufficient: the source must have an eligible, reviewed full-text access path. Only faculty-reviewed sources with verified rights/access status and snippets
 with source and locator provenance are eligible. The module maps snippets to
 learning objectives and validates card `evidence_claims` against exact snippet,
 source and locator identifiers. Conservative risk flags route dose-like,
