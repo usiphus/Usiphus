@@ -1,0 +1,677 @@
+{
+  "specialty": "urology",
+  "display_name": "Urology",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive urology curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "urology-foundations",
+      "name": "Urologic assessment and core principles",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in urologic assessment and core principles. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "stone-obstruction",
+      "name": "Stone disease and urinary obstruction",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in stone disease and urinary obstruction. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "uro-oncology",
+      "name": "Uro-oncology and male reproductive health",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in uro-oncology and male reproductive health. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "functional-trauma",
+      "name": "Functional, reconstructive and emergency urology",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in functional, reconstructive and emergency urology. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Urologic assessment and core principles",
+    "Stone disease and urinary obstruction",
+    "Uro-oncology and male reproductive health",
+    "Functional, reconstructive and emergency urology"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "urology-foundations-01",
+      "domain_id": "urology-foundations",
+      "domain": "Urologic assessment and core principles",
+      "name": "Urologic history, examination and diagnostic investigations",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for urologic history, examination and diagnostic investigations.",
+        "Assess a patient with suspected urologic history, examination and diagnostic investigations, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "urologic history, examination and diagnostic investigations",
+        "urology assessment",
+        "urology investigations",
+        "urology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Urologic history, examination and diagnostic investigations",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for urologic history, examination and diagnostic investigations.",
+        "Assess a patient with suspected urologic history, examination and diagnostic investigations, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Urologic history, examination and diagnostic investigations MCQ",
+        "Urologic history, examination and diagnostic investigations clinical case",
+        "Urologic history, examination and diagnostic investigations OSCE",
+        "Urologic history, examination and diagnostic investigations viva",
+        "Urologic history, examination and diagnostic investigations review guideline"
+      ]
+    },
+    {
+      "id": "urology-foundations-02",
+      "domain_id": "urology-foundations",
+      "domain": "Urologic assessment and core principles",
+      "name": "Lower urinary tract symptoms and benign prostatic disease",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for lower urinary tract symptoms and benign prostatic disease.",
+        "Assess a patient with suspected lower urinary tract symptoms and benign prostatic disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "lower urinary tract symptoms and benign prostatic disease",
+        "urology assessment",
+        "urology investigations",
+        "urology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Lower urinary tract symptoms and benign prostatic disease",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for lower urinary tract symptoms and benign prostatic disease.",
+        "Assess a patient with suspected lower urinary tract symptoms and benign prostatic disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Lower urinary tract symptoms and benign prostatic disease MCQ",
+        "Lower urinary tract symptoms and benign prostatic disease clinical case",
+        "Lower urinary tract symptoms and benign prostatic disease OSCE",
+        "Lower urinary tract symptoms and benign prostatic disease viva",
+        "Lower urinary tract symptoms and benign prostatic disease review guideline"
+      ]
+    },
+    {
+      "id": "urology-foundations-03",
+      "domain_id": "urology-foundations",
+      "domain": "Urologic assessment and core principles",
+      "name": "Urinary tract infection, haematuria and antimicrobial principles",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for urinary tract infection, haematuria and antimicrobial principles.",
+        "Assess a patient with suspected urinary tract infection, haematuria and antimicrobial principles, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "urinary tract infection, haematuria and antimicrobial principles",
+        "urology assessment",
+        "urology investigations",
+        "urology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Urinary tract infection, haematuria and antimicrobial principles",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for urinary tract infection, haematuria and antimicrobial principles.",
+        "Assess a patient with suspected urinary tract infection, haematuria and antimicrobial principles, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Urinary tract infection, haematuria and antimicrobial principles MCQ",
+        "Urinary tract infection, haematuria and antimicrobial principles clinical case",
+        "Urinary tract infection, haematuria and antimicrobial principles OSCE",
+        "Urinary tract infection, haematuria and antimicrobial principles viva",
+        "Urinary tract infection, haematuria and antimicrobial principles review guideline"
+      ]
+    },
+    {
+      "id": "stone-obstruction-01",
+      "domain_id": "stone-obstruction",
+      "domain": "Stone disease and urinary obstruction",
+      "name": "Renal and ureteric stones and metabolic evaluation",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for renal and ureteric stones and metabolic evaluation.",
+        "Assess a patient with suspected renal and ureteric stones and metabolic evaluation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "renal and ureteric stones and metabolic evaluation",
+        "urology assessment",
+        "urology investigations",
+        "urology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Renal and ureteric stones and metabolic evaluation",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for renal and ureteric stones and metabolic evaluation.",
+        "Assess a patient with suspected renal and ureteric stones and metabolic evaluation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Renal and ureteric stones and metabolic evaluation MCQ",
+        "Renal and ureteric stones and metabolic evaluation clinical case",
+        "Renal and ureteric stones and metabolic evaluation OSCE",
+        "Renal and ureteric stones and metabolic evaluation viva",
+        "Renal and ureteric stones and metabolic evaluation review guideline"
+      ]
+    },
+    {
+      "id": "stone-obstruction-02",
+      "domain_id": "stone-obstruction",
+      "domain": "Stone disease and urinary obstruction",
+      "name": "Acute urinary retention and bladder outlet obstruction",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for acute urinary retention and bladder outlet obstruction.",
+        "Assess a patient with suspected acute urinary retention and bladder outlet obstruction, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "acute urinary retention and bladder outlet obstruction",
+        "urology assessment",
+        "urology investigations",
+        "urology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Acute urinary retention and bladder outlet obstruction",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for acute urinary retention and bladder outlet obstruction.",
+        "Assess a patient with suspected acute urinary retention and bladder outlet obstruction, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Acute urinary retention and bladder outlet obstruction MCQ",
+        "Acute urinary retention and bladder outlet obstruction clinical case",
+        "Acute urinary retention and bladder outlet obstruction OSCE",
+        "Acute urinary retention and bladder outlet obstruction viva",
+        "Acute urinary retention and bladder outlet obstruction review guideline"
+      ]
+    },
+    {
+      "id": "stone-obstruction-03",
+      "domain_id": "stone-obstruction",
+      "domain": "Stone disease and urinary obstruction",
+      "name": "Hydronephrosis, ureteric obstruction and congenital urinary anomalies",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hydronephrosis, ureteric obstruction and congenital urinary anomalies.",
+        "Assess a patient with suspected hydronephrosis, ureteric obstruction and congenital urinary anomalies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "hydronephrosis, ureteric obstruction and congenital urinary anomalies",
+        "urology assessment",
+        "urology investigations",
+        "urology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Hydronephrosis, ureteric obstruction and congenital urinary anomalies",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hydronephrosis, ureteric obstruction and congenital urinary anomalies.",
+        "Assess a patient with suspected hydronephrosis, ureteric obstruction and congenital urinary anomalies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Hydronephrosis, ureteric obstruction and congenital urinary anomalies MCQ",
+        "Hydronephrosis, ureteric obstruction and congenital urinary anomalies clinical case",
+        "Hydronephrosis, ureteric obstruction and congenital urinary anomalies OSCE",
+        "Hydronephrosis, ureteric obstruction and congenital urinary anomalies viva",
+        "Hydronephrosis, ureteric obstruction and congenital urinary anomalies review guideline"
+      ]
+    },
+    {
+      "id": "uro-oncology-01",
+      "domain_id": "uro-oncology",
+      "domain": "Uro-oncology and male reproductive health",
+      "name": "Prostate cancer and PSA-based assessment",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for prostate cancer and psa-based assessment.",
+        "Assess a patient with suspected prostate cancer and psa-based assessment, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "prostate cancer and psa-based assessment",
+        "urology assessment",
+        "urology investigations",
+        "urology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Prostate cancer and PSA-based assessment",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for prostate cancer and psa-based assessment.",
+        "Assess a patient with suspected prostate cancer and psa-based assessment, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Prostate cancer and PSA-based assessment MCQ",
+        "Prostate cancer and PSA-based assessment clinical case",
+        "Prostate cancer and PSA-based assessment OSCE",
+        "Prostate cancer and PSA-based assessment viva",
+        "Prostate cancer and PSA-based assessment review guideline"
+      ]
+    },
+    {
+      "id": "uro-oncology-02",
+      "domain_id": "uro-oncology",
+      "domain": "Uro-oncology and male reproductive health",
+      "name": "Bladder, upper-tract urothelial and renal malignancies",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for bladder, upper-tract urothelial and renal malignancies.",
+        "Assess a patient with suspected bladder, upper-tract urothelial and renal malignancies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "bladder, upper-tract urothelial and renal malignancies",
+        "urology assessment",
+        "urology investigations",
+        "urology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Bladder, upper-tract urothelial and renal malignancies",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for bladder, upper-tract urothelial and renal malignancies.",
+        "Assess a patient with suspected bladder, upper-tract urothelial and renal malignancies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Bladder, upper-tract urothelial and renal malignancies MCQ",
+        "Bladder, upper-tract urothelial and renal malignancies clinical case",
+        "Bladder, upper-tract urothelial and renal malignancies OSCE",
+        "Bladder, upper-tract urothelial and renal malignancies viva",
+        "Bladder, upper-tract urothelial and renal malignancies review guideline"
+      ]
+    },
+    {
+      "id": "uro-oncology-03",
+      "domain_id": "uro-oncology",
+      "domain": "Uro-oncology and male reproductive health",
+      "name": "Testicular, penile and male infertility disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for testicular, penile and male infertility disorders.",
+        "Assess a patient with suspected testicular, penile and male infertility disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "testicular, penile and male infertility disorders",
+        "urology assessment",
+        "urology investigations",
+        "urology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Testicular, penile and male infertility disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for testicular, penile and male infertility disorders.",
+        "Assess a patient with suspected testicular, penile and male infertility disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Testicular, penile and male infertility disorders MCQ",
+        "Testicular, penile and male infertility disorders clinical case",
+        "Testicular, penile and male infertility disorders OSCE",
+        "Testicular, penile and male infertility disorders viva",
+        "Testicular, penile and male infertility disorders review guideline"
+      ]
+    },
+    {
+      "id": "functional-trauma-01",
+      "domain_id": "functional-trauma",
+      "domain": "Functional, reconstructive and emergency urology",
+      "name": "Urinary incontinence, neuro-urology and functional disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for urinary incontinence, neuro-urology and functional disorders.",
+        "Assess a patient with suspected urinary incontinence, neuro-urology and functional disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "urinary incontinence, neuro-urology and functional disorders",
+        "urology assessment",
+        "urology investigations",
+        "urology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Urinary incontinence, neuro-urology and functional disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for urinary incontinence, neuro-urology and functional disorders.",
+        "Assess a patient with suspected urinary incontinence, neuro-urology and functional disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Urinary incontinence, neuro-urology and functional disorders MCQ",
+        "Urinary incontinence, neuro-urology and functional disorders clinical case",
+        "Urinary incontinence, neuro-urology and functional disorders OSCE",
+        "Urinary incontinence, neuro-urology and functional disorders viva",
+        "Urinary incontinence, neuro-urology and functional disorders review guideline"
+      ]
+    },
+    {
+      "id": "functional-trauma-02",
+      "domain_id": "functional-trauma",
+      "domain": "Functional, reconstructive and emergency urology",
+      "name": "Urologic trauma, torsion and acute scrotum",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for urologic trauma, torsion and acute scrotum.",
+        "Assess a patient with suspected urologic trauma, torsion and acute scrotum, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "urologic trauma, torsion and acute scrotum",
+        "urology assessment",
+        "urology investigations",
+        "urology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Urologic trauma, torsion and acute scrotum",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for urologic trauma, torsion and acute scrotum.",
+        "Assess a patient with suspected urologic trauma, torsion and acute scrotum, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Urologic trauma, torsion and acute scrotum MCQ",
+        "Urologic trauma, torsion and acute scrotum clinical case",
+        "Urologic trauma, torsion and acute scrotum OSCE",
+        "Urologic trauma, torsion and acute scrotum viva",
+        "Urologic trauma, torsion and acute scrotum review guideline"
+      ]
+    },
+    {
+      "id": "functional-trauma-03",
+      "domain_id": "functional-trauma",
+      "domain": "Functional, reconstructive and emergency urology",
+      "name": "Endourology, instrumentation, perioperative care and complications",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for endourology, instrumentation, perioperative care and complications.",
+        "Assess a patient with suspected endourology, instrumentation, perioperative care and complications, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "endourology, instrumentation, perioperative care and complications",
+        "urology assessment",
+        "urology investigations",
+        "urology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Endourology, instrumentation, perioperative care and complications",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for endourology, instrumentation, perioperative care and complications.",
+        "Assess a patient with suspected endourology, instrumentation, perioperative care and complications, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Endourology, instrumentation, perioperative care and complications MCQ",
+        "Endourology, instrumentation, perioperative care and complications clinical case",
+        "Endourology, instrumentation, perioperative care and complications OSCE",
+        "Endourology, instrumentation, perioperative care and complications viva",
+        "Endourology, instrumentation, perioperative care and complications review guideline"
+      ]
+    }
+  ]
+}
