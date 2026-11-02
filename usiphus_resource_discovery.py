@@ -297,36 +297,80 @@ def discover_topic(topic: dict[str, Any], *, limit: int = 5, timeout: int = DEFA
                    delay: float = 0.34, providers: tuple[str, ...] = (
                        "pubmed", "pubmed_central", "cureus_open_access", "crossref"
                    ), opener: Callable[..., Any] | None = None) -> tuple[list[dict[str, Any]], list[dict[str, str]]]:
+    """Discover at topic level and independently search each learning objective."""
     query = _query_for(topic)
     resources: list[dict[str, Any]] = []
     errors: list[dict[str, str]] = []
-    for provider in providers:
+
+    def run_provider(provider: str, search_query: str, objective_id: str = "") -> None:
         try:
             if provider == "pubmed":
-                found = search_pubmed(query, limit, timeout=timeout, opener=opener)
+                found = search_pubmed(search_query, limit, timeout=timeout, opener=opener)
             elif provider == "pubmed_central":
-                found = search_europe_pmc(query, limit, source_id="pubmed_central", timeout=timeout, opener=opener)
+                found = search_europe_pmc(search_query, limit, source_id="pubmed_central",
+                                          timeout=timeout, opener=opener)
             elif provider == "cureus_open_access":
-                found = search_europe_pmc(query, limit, source_id="cureus_open_access", timeout=timeout, opener=opener)
+                found = search_europe_pmc(search_query, limit, source_id="cureus_open_access",
+                                          timeout=timeout, opener=opener)
             elif provider == "crossref":
-                found = search_crossref(query, limit, timeout=timeout, opener=opener)
+                found = search_crossref(search_query, limit, timeout=timeout, opener=opener)
             elif provider in WEB_SEARCH_TEMPLATES:
-                found = _search_links(provider, query)
+                found = _search_links(provider, search_query)
             else:
                 errors.append({"provider": provider, "message": "Unsupported provider"})
-                continue
+                return
             for item in found:
-                resources.append(match_resource(item, topic))
+                matched = match_resource(item, topic)
+                matched["search_query_type"] = "objective" if objective_id else "topic"
+                if objective_id:
+                    title_abstract = _tokens(item.get("title", "") + " " + item.get("abstract", ""))
+                    objective = next((x for i, x in enumerate(topic.get("learning_objectives", []), 1)
+                                      if f"{topic.get('id', 'topic')}-LO{i:02d}" == objective_id), "")
+                    objective_tokens = _tokens(objective)
+                    if objective_tokens and len(objective_tokens & title_abstract) / len(objective_tokens) >= 0.15:
+                        matched["matched_objective_ids"] = sorted(
+                            set(matched.get("matched_objective_ids", [])) | {objective_id}
+                        )
+                resources.append(matched)
         except DiscoveryError as exc:
             errors.append({"provider": provider, "message": str(exc)[:300]})
         if delay:
             time.sleep(delay)
-    # Deduplicate by canonical URL; keep the strongest metadata record.
+
+    # Broad topic search preserves recall across the configured source families.
+    for provider in providers:
+        run_provider(provider, query)
+
+    # Evidence discovery is then repeated per objective through scholarly APIs.
+    # Exam-practice/search-link sources remain discovery signals, not evidence.
+    scholarly_providers = [x for x in ("pubmed", "pubmed_central", "cureus_open_access")
+                           if x in providers]
+    for index, objective in enumerate(topic.get("learning_objectives", []), 1):
+        objective_query = _clean(objective)[:240]
+        if not objective_query:
+            continue
+        objective_id = f"{topic.get('id', 'topic')}-LO{index:02d}"
+        for provider in scholarly_providers:
+            run_provider(provider, objective_query, objective_id)
+
+    # Deduplicate by canonical URL while preserving all objective mappings.
     unique: dict[str, dict[str, Any]] = {}
     for item in resources:
         key = item.get("canonical_url") or item["resource_id"]
-        if key not in unique or item.get("relevance_score", 0) > unique[key].get("relevance_score", 0):
+        if key not in unique:
             unique[key] = item
+        else:
+            current = unique[key]
+            current["matched_topic_ids"] = sorted(set(
+                current["matched_topic_ids"] + item["matched_topic_ids"]
+            ))
+            current["matched_objective_ids"] = sorted(set(
+                current["matched_objective_ids"] + item["matched_objective_ids"]
+            ))
+            if item.get("relevance_score", 0) > current.get("relevance_score", 0):
+                current["relevance_score"] = item["relevance_score"]
+            if current.get("search_query_type") != "objective" and item.get("search_query_type") == "objective":
+                current["search_query_type"] = "objective"
     return sorted(unique.values(), key=lambda x: (-x.get("relevance_score", 0), x["source_id"], x["title"])), errors
 
 
