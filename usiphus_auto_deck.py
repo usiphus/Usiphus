@@ -137,7 +137,10 @@ def generate_topic_cards(
 
         request_body = {
             "model": model,
-            "stream": False,
+            # Keep the model loaded between specialty topics and stream tokens so
+            # long generations do not need to wait for one giant response body.
+            "keep_alive": "30m",
+            "stream": True,
             "format": "json",
             "options": {"temperature": 0.2, "num_predict": max_output_tokens},
             "messages": [
@@ -154,14 +157,29 @@ def generate_topic_cards(
         )
 
         try:
+            # Ollama streams newline-delimited JSON. The socket timeout now
+            # measures inactivity between chunks rather than total generation time.
+            content_parts: list[str] = []
+            response_bytes = 0
             with urllib.request.urlopen(req, timeout=request_timeout) as response:
-                raw = response.read(MAX_RESPONSE_BYTES + 1)
+                for line in response:
+                    if not line.strip():
+                        continue
+                    response_bytes += len(line)
+                    if response_bytes > MAX_RESPONSE_BYTES:
+                        raise ValueError("Ollama response exceeded safety size limit")
+                    event = json.loads(line)
+                    if event.get("error"):
+                        raise RuntimeError(f"Ollama generation error: {event['error']}")
+                    message = event.get("message") or {}
+                    if message.get("content"):
+                        content_parts.append(message["content"])
+                    if event.get("done"):
+                        break
 
-            if len(raw) > MAX_RESPONSE_BYTES:
-                raise ValueError("Ollama response exceeded safety size limit")
-
-            result = json.loads(raw)
-            content = result["message"]["content"]
+            content = "".join(content_parts)
+            if not content:
+                raise ValueError("Ollama returned an empty streamed response")
             parsed = _extract_json(content)
             cards = parsed.get("cards")
 
@@ -189,11 +207,16 @@ def generate_topic_cards(
 
         except (ValueError, RuntimeError, KeyError, json.JSONDecodeError, TimeoutError, socket.timeout, urllib.error.URLError) as exc:
             last_error = exc
-            if isinstance(exc, (TimeoutError, socket.timeout)) or (
+            timed_out = isinstance(exc, (TimeoutError, socket.timeout)) or (
                 isinstance(exc, urllib.error.URLError)
                 and isinstance(getattr(exc, "reason", None), (TimeoutError, socket.timeout))
-            ):
-                detail = f"Ollama request timed out after {request_timeout}s"
+            )
+            if timed_out:
+                detail = (
+                    f"No Ollama stream data arrived for {request_timeout}s. "
+                    "Streaming prevents a slow overall generation from hitting a total-response timeout, "
+                    "but a stalled model or very slow first token still needs local diagnosis."
+                )
             elif isinstance(exc, urllib.error.URLError):
                 detail = f"Could not reach Ollama at {base_url}: {exc.reason}"
             else:
@@ -203,11 +226,16 @@ def generate_topic_cards(
                 f"[Warning] Topic '{topic_name}' attempt {attempt}/{max_retries} failed: {detail}",
                 file=sys.stderr,
             )
+            # Retrying an identical request after a socket inactivity timeout
+            # repeats the same expensive generation and can waste another 15 minutes.
+            if timed_out:
+                break
 
     raise RuntimeError(
         f"Failed to generate {count} cards for topic '{topic_name}' after {max_retries} attempts. "
         f"Last error: {last_error}. Check that Ollama is running, the model is available, "
-        "and your computer has enough RAM/VRAM. Increase --ollama-timeout for slower hardware."
+        "and your computer has enough RAM/VRAM. Try a smaller --max-output-tokens value, "
+        "a smaller card count, or a smaller model before increasing --ollama-timeout."
     )
 
 
