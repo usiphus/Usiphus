@@ -108,6 +108,8 @@ def generate_topic_cards(
     system = (
         "You are an educational drafting assistant for medical faculty. "
         "Respect the supplied curriculum domain, topic ID, coverage tags and learning objectives. "
+        "Map every card to one supplied learning objective using that objective's exact wording. "
+        "Include at least one supplied coverage_tags value verbatim in each card's tags. "
         "Cover the full scope of the named topic rather than drifting into adjacent topics. "
         "Create accurate, appropriately qualified educational drafts, not clinical advice. "
         "Do not invent references, DOI values, guideline dates, statistics, or quotations. "
@@ -197,7 +199,6 @@ def generate_topic_cards(
                 )
 
             # If we reach here, validation succeeded!
-            prefix = re.sub(r"[^A-Za-z0-9]+", "-", str(topic_name)).strip("-").upper()
             topic_identity = topic.get("id") or topic_name
             prefix = re.sub(r"[^A-Za-z0-9]+", "-", str(topic_identity)).strip("-").upper()
             for index, card in enumerate(cards, 1):
@@ -406,6 +407,8 @@ def build(args: argparse.Namespace) -> int:
             "Choose --generate with --curriculum, or --cards for existing cards"
         )
     raw_cards: list[dict[str, Any]] = []
+    coverage_report: dict[str, Any] | None = None
+    blueprint_summary: dict[str, Any] | None = None
     level = args.level
     specialty = args.specialty
     if args.generate:
@@ -510,6 +513,14 @@ def build(args: argparse.Namespace) -> int:
     report = evaluate_quality(cards, require_reviewed=args.require_reviewed)
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
+    if args.generate and curriculum.get("curriculum_domains"):
+        coverage_report = build_generation_coverage_report(
+            curriculum, topic_quality_reports, raw_cards
+        )
+        _atomic_write_json(out / "coverage_report.json", coverage_report)
+        if not coverage_report["all_topics_covered"]:
+            print("Coverage gate blocked export: one or more curriculum topics are incomplete", file=sys.stderr)
+            return 2
     (out / "generated_cards.json").write_text(
         json.dumps(
             {
@@ -528,6 +539,8 @@ def build(args: argparse.Namespace) -> int:
         json.dumps(
             {
                 **report_to_dict(report),
+                "curriculum_blueprint": blueprint_summary,
+                "generation_coverage": coverage_report,
                 "faculty_review_required": True,
                 "clinical_accuracy_verified": False,
             },
