@@ -1,0 +1,79 @@
+{
+  "cards": [
+    {
+      "card_id": "G-001",
+      "specialty": "urology",
+      "prompt": "Which finding indicates acute urinary retention?",
+      "answer": "Painful inability to void with a palpable bladder.",
+      "learning_objective": "Recognise acute urinary retention",
+      "tags": [
+        "emergency"
+      ],
+      "competency_ids": [
+        "U1"
+      ],
+      "faculty_approvals": [
+        {
+          "competency_id": "U1",
+          "status": "approved",
+          "reviewer": "synthetic-reviewer",
+          "reviewed_at": "2026-10-31T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "card_id": "G-002",
+      "specialty": "urology",
+      "prompt": "Which finding indicates acute urinary retention in an adult?",
+      "answer": "Painful inability to void with a palpable bladder.",
+      "learning_objective": "Recognise acute urinary retention",
+      "tags": [
+        "emergency"
+      ],
+      "competency_ids": [
+        "U1"
+      ]
+    },
+    {
+      "card_id": "G-003",
+      "specialty": "urology",
+      "prompt": "What imaging is typically first line for suspected renal colic?",
+      "answer": "Non-contrast CT or ultrasound depending on local pathway.",
+      "learning_objective": "Select imaging for renal colic",
+      "tags": [
+        "stone"
+      ],
+      "competency_ids": [
+        "U2"
+      ],
+      "faculty_approvals": [
+        {
+          "competency_id": "U2",
+          "status": "approved",
+          "reviewer": "synthetic-reviewer",
+          "reviewed_at": "2026-10-31T12:00:00Z"
+        }
+      ]
+    },
+    {
+      "card_id": "G-004",
+      "specialty": "urology",
+      "prompt": "List the components of a focused scrotal examination.",
+      "answer": "Inspection, palpation, transillumination, cremasteric reflex.",
+      "learning_objective": "Examine the scrotum",
+      "tags": [
+        "examination"
+      ]
+    },
+    {
+      "card_id": "G-006",
+      "specialty": "urology",
+      "prompt": "Describe the role of prostate specific antigen testing in the assessment of older men",
+      "answer": "Digital rectal examination plus informed PSA discussion.",
+      "learning_objective": "Assess the prostate",
+      "tags": [
+        "oncology"
+      ]
+    }
+  ]
+}

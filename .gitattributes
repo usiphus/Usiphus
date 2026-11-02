@@ -1,0 +1,5 @@
+# Golden tests record SHA-256 hashes and byte counts of these files, so they must
+# be checked out byte-identically on every OS (no CRLF conversion).
+examples/**                 text eol=lf
+tests/golden/fixtures/**    text eol=lf
+tests/golden/expected/**    text eol=lf

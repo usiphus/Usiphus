@@ -1,0 +1,132 @@
+{
+  "changes": [
+    {
+      "affected_artifacts": {
+        "assessment_items": [
+          "URO-MCQ-001"
+        ],
+        "cards": [
+          "URO-CARD-001"
+        ],
+        "claims": [
+          "SYNTH-CLAIM-001"
+        ],
+        "competencies": [
+          "URO-EM-01"
+        ],
+        "osce_stations": [
+          "URO-OSCE-001"
+        ],
+        "releases": [
+          "SYNTH-RELEASE-01"
+        ]
+      },
+      "after": {
+        "authority": "Publisher metadata only",
+        "canonical_id": "",
+        "canonical_url": "https://example.org/synthetic-urology-guideline",
+        "content_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "jurisdiction": "GB",
+        "last_reviewed_at": "2026-10-01T09:00:00Z",
+        "published_on": "2026-01-01",
+        "publisher": "Synthetic Faculty Group",
+        "retrieved_at": "2026-10-01T09:00:00Z",
+        "review_due_days": 365,
+        "source_id": "SYNTH-GUIDE-001",
+        "source_type": "guideline",
+        "status": "active",
+        "superseded_by": "",
+        "title": "Synthetic Urology Teaching Guideline",
+        "version": "2026.2"
+      },
+      "before": {
+        "authority": "Publisher metadata only",
+        "canonical_id": "",
+        "canonical_url": "https://example.org/synthetic-urology-guideline",
+        "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jurisdiction": "GB",
+        "last_reviewed_at": "2026-10-01T09:00:00Z",
+        "published_on": "2026-01-01",
+        "publisher": "Synthetic Faculty Group",
+        "retrieved_at": "2026-10-01T09:00:00Z",
+        "review_due_days": 365,
+        "source_id": "SYNTH-GUIDE-001",
+        "source_type": "guideline",
+        "status": "active",
+        "superseded_by": "",
+        "title": "Synthetic Urology Teaching Guideline",
+        "version": "2026.1"
+      },
+      "change_type": "source_content_changed",
+      "fields": [
+        "version",
+        "content_sha256"
+      ],
+      "source_id": "SYNTH-GUIDE-001"
+    },
+    {
+      "after": {
+        "authority": "Publisher metadata only",
+        "canonical_id": "",
+        "canonical_url": "https://example.org/synthetic-urology-guideline",
+        "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jurisdiction": "GB",
+        "last_reviewed_at": "2026-10-01T09:00:00Z",
+        "published_on": "2026-01-01",
+        "publisher": "Synthetic Faculty Group",
+        "retrieved_at": "2026-10-01T09:00:00Z",
+        "review_due_days": 365,
+        "source_id": "SYNTH-GUIDE-002",
+        "source_type": "guideline",
+        "status": "active",
+        "superseded_by": "",
+        "title": "Synthetic Urology Teaching Guideline (mirror)",
+        "version": "2026.1"
+      },
+      "before": {},
+      "change_type": "new_source",
+      "fields": [
+        "source_registered"
+      ],
+      "source_id": "SYNTH-GUIDE-002"
+    },
+    {
+      "after": {
+        "authority": "Publisher metadata only",
+        "canonical_id": "",
+        "canonical_url": "https://example.org/withdrawn",
+        "content_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "jurisdiction": "US",
+        "last_reviewed_at": "2026-10-01T09:00:00Z",
+        "published_on": "2026-01-01",
+        "publisher": "Synthetic Faculty Group",
+        "retrieved_at": "2026-10-01T09:00:00Z",
+        "review_due_days": 365,
+        "source_id": "SYNTH-GUIDE-003",
+        "source_type": "guideline",
+        "status": "withdrawn",
+        "superseded_by": "",
+        "title": "Synthetic Withdrawn Guideline",
+        "version": "2026.1"
+      },
+      "before": {},
+      "change_type": "new_source",
+      "fields": [
+        "source_registered"
+      ],
+      "source_id": "SYNTH-GUIDE-003"
+    }
+  ],
+  "duplicates": [
+    {
+      "candidate_type": "canonical_url",
+      "note": "Candidate only; do not merge source records or infer equivalence automatically.",
+      "review_required": true,
+      "source_ids": [
+        "SYNTH-GUIDE-001",
+        "SYNTH-GUIDE-002"
+      ]
+    }
+  ],
+  "schema_version": 1
+}

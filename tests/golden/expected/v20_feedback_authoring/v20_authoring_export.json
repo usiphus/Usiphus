@@ -1,0 +1,23 @@
+{
+  "artifacts": [
+    {
+      "artifact_id": "URO-CARD-001",
+      "artifact_type": "card",
+      "content": {
+        "body": "Synthetic educational text; faculty must add and verify evidence references.",
+        "curriculum_objectives": [
+          "URO-RET-01"
+        ],
+        "evidence_refs": [
+          "SYNTHETIC-SOURCE-001"
+        ],
+        "learning_objective": "Explain the initial assessment of a synthetic acute urinary retention case."
+      },
+      "created_by_label": "faculty-author",
+      "status": "draft",
+      "title": "Synthetic urinary retention teaching card",
+      "version": "1.0.0"
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,9 @@
+{
+  "exit_code": 0,
+  "files": [
+    "cohort_analytics.json",
+    "learner_progress.json",
+    "review_schedule.csv",
+    "v11_manifest.json"
+  ]
+}

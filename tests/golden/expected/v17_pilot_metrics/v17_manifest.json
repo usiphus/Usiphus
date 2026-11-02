@@ -1,0 +1,65 @@
+{
+  "inputs": {
+    "cards": {
+      "bytes": 285,
+      "path": "<WORK>/in/cards.json",
+      "sha256": "3e053db8593bebe759b43b4ae6ed7da98025d2aea3ad67f9c25d9923d5820cb8"
+    },
+    "curriculum": {
+      "bytes": 907,
+      "path": "<WORK>/in/curriculum.json",
+      "sha256": "b790bb34ca1d7544556a62fc27f2f972ba3f68d8a0087df75e61bf95702aee9a"
+    },
+    "pilot_metrics": {
+      "bytes": 575,
+      "path": "<WORK>/in/v17_pilot.csv",
+      "sha256": "e902e65427b50c5f99bb390a55f80e72c2d729f34d81e7a80fe2a4c29df9bf53"
+    }
+  },
+  "limitations": [
+    "This is an analysis report, not a governed V16 release.",
+    "Faculty/learner pilot validation must be performed by the institution."
+  ],
+  "outputs": {
+    "v17_curriculum_impact.json": {
+      "bytes": 189,
+      "sha256": "27e8be0690860f0dd45854e955e544b9f81cef17cfbdf191b522b11c0f4cc160"
+    },
+    "v17_curriculum_quality.json": {
+      "bytes": 5314,
+      "sha256": "99040f79e47ef33e9bbc7c1d4c718dd701cd856ed90e42d0a01c015acccce4a4"
+    },
+    "v17_dashboard.html": {
+      "bytes": 2245,
+      "sha256": "43e4aae370c9c84d680601139a8f07acbe5a642910e7d9722fd5862a0ae5d1fc"
+    },
+    "v17_faculty_review_queue.json": {
+      "bytes": 809,
+      "sha256": "4525ac06f2b8aee7f231157ba5b1f02425984157bb2834cbb5f39e2908705379"
+    },
+    "v17_pilot_metrics_summary.json": {
+      "bytes": 580,
+      "sha256": "cd78ca595763ce06588ff9fd9202f16df22c7cee97462899b1ee8b7987d33aee"
+    },
+    "v17_pilot_metrics_template.csv": {
+      "bytes": 165,
+      "sha256": "320cd2ad400566757708d95254bde278342834f98c50649817aa5de5c8c77338"
+    }
+  },
+  "schema_version": 1,
+  "summary": {
+    "assessment_items": 0,
+    "cards_evaluated": 2,
+    "competencies_evaluated": 3,
+    "exact_duplicate_groups": 0,
+    "mapping_candidates": 0,
+    "mapping_conflicts": 0,
+    "missing_required_competencies": 3,
+    "osce_stations": 0,
+    "required_competencies": 3,
+    "verified_coverage": 0.0,
+    "verified_required_competencies": 0,
+    "verified_weighted_coverage": 0.0
+  },
+  "usiphus_version": "17.0.0"
+}

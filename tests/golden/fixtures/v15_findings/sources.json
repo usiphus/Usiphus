@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "source_id": "S1",
+      "title": "G",
+      "source_type": "guideline",
+      "authority": "pub",
+      "jurisdiction": "XX",
+      "version": "1"
+    }
+  ]
+}

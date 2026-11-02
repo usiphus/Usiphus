@@ -1,0 +1,22 @@
+{
+  "input_sha256": {
+    "<WORK>/in/assessments.json": "042eec2fed2bebdf39926e090c87e29278f49d7e0e795d6086d748f1e3de56b1",
+    "<WORK>/in/cards.json": "6ea1850438515cb97b639d319d2604fb2c2264c26905c52243a8d52680a8c716",
+    "<WORK>/in/claims.json": "ed445cee7770afd7a8a0fb5d4aa322a69be51494d76c49d9aaa8aebb8d6c414e",
+    "<WORK>/in/osce.json": "d5a3a54bcd18e34c8912addbd48052801c6715846c4a22e8194fa647b7bbfc16",
+    "<WORK>/in/releases.json": "3dedf4e743d2a3820680c93864aa73cc07596cff83ef4892638e1c5756d90ce1",
+    "<WORK>/in/sources.json": "d9ddf564bf237fceaf7a1802fa38873b076d6f0b43fe07ee4f245c1feac4a354"
+  },
+  "output_sha256": {
+    "v18_decision_audit.json": "93d8a183b77f95f66133c93017cc7b838b2d30ce28a6b95d4dc4ce644535ad23",
+    "v18_evidence_lifecycle_report.json": "<SHA256 of volatile v18_evidence_lifecycle_report.json>",
+    "v18_evidence_lifecycle_report.md": "a6b92423da515a3da3ebc1a29a0fd47178edc34aa80c948c6adb7c53553818c3",
+    "v18_review_queue.csv": "fa43f082bd78a8398d78837b2da2c7ea011cc36dd731dd76f14a754514a830d5",
+    "v18_review_queue.json": "544afd64671ea1d03ada43b37b74a27f5f2ebfd36ae826361a86e4b43cef2b0b",
+    "v18_source_changes.json": "13c15ab1489486b3d2911a22f959504066f51dea8f7539a35fe212e191c51e79",
+    "v18_source_impact_graph.json": "35f79ee8a1e07aaeed933bf100153b9a39aa387034e1f50df375bfb516021bc3",
+    "v18_state.json": "85da496236760a38f9ee88558ba063b20e630e4eb5c3c1700fd067a17fe7a2a8"
+  },
+  "schema_version": 1,
+  "usiphus_version": "18.0.0"
+}

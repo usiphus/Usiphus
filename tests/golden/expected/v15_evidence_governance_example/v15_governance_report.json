@@ -1,0 +1,29 @@
+{
+  "as_of": "2026-10-31",
+  "boundary": "Metadata/workflow checks only; not clinical truth, source-quality appraisal, guideline currency certification, identity verification, privacy/legal compliance, or educational accreditation.",
+  "claim_count": 1,
+  "findings": [],
+  "governance_status": "checks_passed",
+  "impact_index": {
+    "SRC-EXAMPLE-001": [
+      "CARD-EXAMPLE-001"
+    ]
+  },
+  "legacy_reference_claims": 0,
+  "release_policy": {
+    "audit_signing": {
+      "ed25519": false,
+      "external_anchors": false,
+      "hmac": false
+    },
+    "max_review_age_days": 730,
+    "minimum_approving_reviewers": 1,
+    "require_audit_anchor": false,
+    "require_registered_sources": true,
+    "require_signed_audit": false,
+    "reviewer_identity_assurance": "Reviewer IDs are user-supplied labels; quorum counts distinct labels only and does not authenticate people or establish independent human review."
+  },
+  "schema_version": 1,
+  "source_count": 1,
+  "usiphus_version": "15.1.0"
+}

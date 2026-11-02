@@ -1,0 +1,29 @@
+{
+  "specialty": "urology",
+  "candidates": [
+    {
+      "card_id": "G-001",
+      "competency_id": "U1",
+      "status": "verified",
+      "method": "faculty-approved",
+      "reviewer": "synthetic-reviewer",
+      "reviewed_at": "2026-10-31T12:00:00Z"
+    },
+    {
+      "card_id": "G-002",
+      "competency_id": "U1",
+      "status": "verified",
+      "method": "faculty-approved",
+      "reviewer": "synthetic-reviewer",
+      "reviewed_at": "2026-10-31T12:00:00Z"
+    },
+    {
+      "card_id": "G-003",
+      "competency_id": "U2",
+      "status": "verified",
+      "method": "faculty-approved",
+      "reviewer": "synthetic-reviewer",
+      "reviewed_at": "2026-10-31T12:00:00Z"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "cards": [
+    {
+      "card_id": "TEST-001",
+      "specialty": "urology",
+      "title": "Fictional integration-test card"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "specialty": "urology",
+  "candidates": [
+    {
+      "card_id": "TEST-001",
+      "competency_id": "U1",
+      "status": "verified",
+      "method": "faculty-approved",
+      "reviewer": "synthetic-test-reviewer",
+      "reviewed_at": "2026-10-31T12:00:00Z"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+work_type,item_id,card_id,competency_id,current_status,reason
+curriculum_gap,U2,,U2,uncovered,Required competency has no faculty-verified card mapping

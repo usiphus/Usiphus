@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "source_id": "S1",
+      "title": "Synthetic guideline",
+      "source_type": "guideline",
+      "authority": "synthetic-publisher",
+      "jurisdiction": "XX",
+      "version": "1"
+    }
+  ]
+}

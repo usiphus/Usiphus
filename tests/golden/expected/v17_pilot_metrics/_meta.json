@@ -1,0 +1,12 @@
+{
+  "exit_code": 0,
+  "files": [
+    "v17_curriculum_impact.json",
+    "v17_curriculum_quality.json",
+    "v17_dashboard.html",
+    "v17_faculty_review_queue.json",
+    "v17_manifest.json",
+    "v17_pilot_metrics_summary.json",
+    "v17_pilot_metrics_template.csv"
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "claims": [
+    {
+      "claim_id": "C1",
+      "card_id": "K1",
+      "claim": "one approver",
+      "references": [
+        {
+          "source_id": "S1"
+        }
+      ],
+      "status": "approved",
+      "reviewed_on": "2026-10-31",
+      "audit_events": [
+        {
+          "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "actor": "r1",
+          "action": "submit",
+          "timestamp": "2026-10-30T10:00:00Z",
+          "details": {
+            "to": "in_review"
+          },
+          "event_hash": "3ddb30683f57bad9dc3d43c91a2f4fed92196f8b25671d8c74120c3a0fe45f1f"
+        },
+        {
+          "previous_hash": "3ddb30683f57bad9dc3d43c91a2f4fed92196f8b25671d8c74120c3a0fe45f1f",
+          "actor": "r1",
+          "action": "approve",
+          "timestamp": "2026-10-31T10:00:00Z",
+          "details": {
+            "to": "approved"
+          },
+          "event_hash": "b19abe4909392d2dd103753d00e3a3a454034e719d7f400a958312889b773c7e"
+        }
+      ],
+      "review_decisions": [
+        {
+          "reviewer_id": "R1",
+          "decision": "approve"
+        }
+      ]
+    },
+    {
+      "claim_id": "C2",
+      "card_id": "K2",
+      "claim": "two approvers",
+      "references": [
+        {
+          "source_id": "S1"
+        }
+      ],
+      "status": "approved",
+      "reviewed_on": "2026-10-31",
+      "audit_events": [
+        {
+          "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "actor": "r1",
+          "action": "submit",
+          "timestamp": "2026-10-30T10:00:00Z",
+          "details": {
+            "to": "in_review"
+          },
+          "event_hash": "3ddb30683f57bad9dc3d43c91a2f4fed92196f8b25671d8c74120c3a0fe45f1f"
+        },
+        {
+          "previous_hash": "3ddb30683f57bad9dc3d43c91a2f4fed92196f8b25671d8c74120c3a0fe45f1f",
+          "actor": "r1",
+          "action": "approve",
+          "timestamp": "2026-10-31T10:00:00Z",
+          "details": {
+            "to": "approved"
+          },
+          "event_hash": "b19abe4909392d2dd103753d00e3a3a454034e719d7f400a958312889b773c7e"
+        }
+      ],
+      "review_decisions": [
+        {
+          "reviewer_id": "R1",
+          "decision": "approve"
+        },
+        {
+          "reviewer_id": "R2",
+          "decision": "approve"
+        }
+      ]
+    },
+    {
+      "claim_id": "C3",
+      "card_id": "K3",
+      "claim": "stale review",
+      "references": [
+        {
+          "source_id": "S1"
+        }
+      ],
+      "status": "approved",
+      "reviewed_on": "2020-01-01",
+      "audit_events": [
+        {
+          "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "actor": "r1",
+          "action": "submit",
+          "timestamp": "2019-12-30T10:00:00Z",
+          "details": {
+            "to": "in_review"
+          },
+          "event_hash": "ee6e1f8f51ac6391ac38f6da336318b67dfb44f6eaceb67f7a8acff49073c6e2"
+        },
+        {
+          "previous_hash": "ee6e1f8f51ac6391ac38f6da336318b67dfb44f6eaceb67f7a8acff49073c6e2",
+          "actor": "r1",
+          "action": "approve",
+          "timestamp": "2020-01-01T10:00:00Z",
+          "details": {
+            "to": "approved"
+          },
+          "event_hash": "85a4caa12e2c4adf80105677c4f0f8423087ea0e5244cf3841108bed89b4d3c9"
+        }
+      ],
+      "review_decisions": [
+        {
+          "reviewer_id": "R1",
+          "decision": "approve"
+        },
+        {
+          "reviewer_id": "R2",
+          "decision": "approve"
+        }
+      ]
+    }
+  ]
+}

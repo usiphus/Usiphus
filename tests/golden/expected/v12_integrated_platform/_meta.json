@@ -1,0 +1,9 @@
+{
+  "exit_code": 0,
+  "files": [
+    "faculty_review_queue.csv",
+    "platform_report.json",
+    "release_checklist.json",
+    "v12_manifest.json"
+  ]
+}

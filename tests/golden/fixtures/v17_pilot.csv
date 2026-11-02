@@ -1,0 +1,6 @@
+workflow_id,participant_role,task,started_at,completed_at,mapping_corrections,evidence_traceability_issue,release_reproducible,friction_note,consented_for_aggregate
+W1,faculty,map cards,2026-10-01T09:00:00Z,2026-10-01T09:20:00Z,2,no,yes,,yes
+W2,faculty,review evidence,2026-10-02T09:00:00Z,2026-10-02T09:45:30Z,0,yes,yes,confusing queue,yes
+W3,coordinator,release,2026-10-03T10:00:00Z,2026-10-03T10:07:00Z,1,no,no,,true
+W4,coordinator,release,2026-10-04T10:00:00Z,2026-10-04T10:30:00Z,5,no,yes,,no
+W5,faculty,map cards,2026-10-05T09:00:00Z,2026-10-05T09:12:15Z,0,no,yes,,yes

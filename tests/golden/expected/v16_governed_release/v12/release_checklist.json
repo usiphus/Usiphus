@@ -1,0 +1,32 @@
+{
+  "blocking_items": [],
+  "checks": [
+    {
+      "check": "all_required_competencies_have_verified_mappings",
+      "detail": "1/1 required competencies mapped",
+      "passed": true
+    },
+    {
+      "check": "all_cards_have_current_approved_evidence",
+      "detail": "1/1 cards covered by current approved/published evidence",
+      "passed": true
+    },
+    {
+      "check": "v11_learner_progress_integrated",
+      "detail": "1 learners; 1 accepted attempts",
+      "passed": true
+    },
+    {
+      "check": "cohort_suppression_schema_valid",
+      "detail": "1 of 1 competency rows suppressed",
+      "passed": true
+    },
+    {
+      "check": "review_schedule_matches_learner_progress",
+      "detail": "1 review rows; 0 without a matching learner-progress row",
+      "passed": true
+    }
+  ],
+  "interpretation": "Software readiness is not clinical validation, educational validity, or proof of learner competence.",
+  "release_ready": true
+}

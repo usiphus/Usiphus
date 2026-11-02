@@ -1,0 +1,11 @@
+{
+  "specialty": "urology",
+  "minimum_cohort_size": 5,
+  "competencies": [
+    {
+      "competency_id": "U1",
+      "suppressed": true,
+      "suppression_reason": "Synthetic cohort below threshold"
+    }
+  ]
+}

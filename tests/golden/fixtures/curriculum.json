@@ -1,0 +1,26 @@
+{
+  "specialty": "urology",
+  "competencies": [
+    {
+      "competency_id": "U1",
+      "title": "Acute urinary retention",
+      "domain": "Emergency",
+      "weight": 2.0,
+      "required": true
+    },
+    {
+      "competency_id": "U2",
+      "title": "Renal colic",
+      "domain": "Stone",
+      "weight": 1.0,
+      "required": true
+    },
+    {
+      "competency_id": "U3",
+      "title": "Prostate assessment",
+      "domain": "Oncology",
+      "weight": 1.0,
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "sources": {
+    "SYNTH-GUIDE-001": {
+      "authority": "Publisher metadata only",
+      "canonical_id": "",
+      "canonical_url": "https://example.org/synthetic-urology-guideline",
+      "content_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "jurisdiction": "GB",
+      "last_reviewed_at": "2026-10-01T09:00:00Z",
+      "published_on": "2026-01-01",
+      "publisher": "Synthetic Faculty Group",
+      "retrieved_at": "2026-10-01T09:00:00Z",
+      "review_due_days": 365,
+      "source_id": "SYNTH-GUIDE-001",
+      "source_type": "guideline",
+      "status": "active",
+      "superseded_by": "",
+      "title": "Synthetic Urology Teaching Guideline",
+      "version": "2026.2"
+    },
+    "SYNTH-GUIDE-002": {
+      "authority": "Publisher metadata only",
+      "canonical_id": "",
+      "canonical_url": "https://example.org/synthetic-urology-guideline",
+      "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "jurisdiction": "GB",
+      "last_reviewed_at": "2026-10-01T09:00:00Z",
+      "published_on": "2026-01-01",
+      "publisher": "Synthetic Faculty Group",
+      "retrieved_at": "2026-10-01T09:00:00Z",
+      "review_due_days": 365,
+      "source_id": "SYNTH-GUIDE-002",
+      "source_type": "guideline",
+      "status": "active",
+      "superseded_by": "",
+      "title": "Synthetic Urology Teaching Guideline (mirror)",
+      "version": "2026.1"
+    },
+    "SYNTH-GUIDE-003": {
+      "authority": "Publisher metadata only",
+      "canonical_id": "",
+      "canonical_url": "https://example.org/withdrawn",
+      "content_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "jurisdiction": "US",
+      "last_reviewed_at": "2026-10-01T09:00:00Z",
+      "published_on": "2026-01-01",
+      "publisher": "Synthetic Faculty Group",
+      "retrieved_at": "2026-10-01T09:00:00Z",
+      "review_due_days": 365,
+      "source_id": "SYNTH-GUIDE-003",
+      "source_type": "guideline",
+      "status": "withdrawn",
+      "superseded_by": "",
+      "title": "Synthetic Withdrawn Guideline",
+      "version": "2026.1"
+    }
+  }
+}

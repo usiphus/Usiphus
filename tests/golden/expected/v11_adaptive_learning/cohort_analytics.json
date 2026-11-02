@@ -1,0 +1,44 @@
+{
+  "competencies": [
+    {
+      "competency_id": "U1",
+      "domain": "Emergency",
+      "learner_count": 7,
+      "mean_attempts_per_learner": 4.14,
+      "mean_mastery_estimate": 0.68,
+      "suppressed": false,
+      "title": "Acute urinary retention"
+    },
+    {
+      "competency_id": "U2",
+      "domain": "Stone",
+      "suppressed": true,
+      "suppression_reason": "Complementary suppression: an overlapping cohort pair differs by fewer than 5 learners",
+      "title": "Renal colic"
+    },
+    {
+      "competency_id": "U3",
+      "domain": "Oncology",
+      "suppressed": true,
+      "suppression_reason": "Fewer than minimum cohort size (5)",
+      "title": "Prostate assessment"
+    }
+  ],
+  "generated_at": "2026-11-01T00:00:00Z",
+  "limitations": [
+    "Small cohorts are suppressed; do not use aggregate estimates for high-stakes decisions.",
+    "Overlapping cohorts within one release are complementary-suppressed.",
+    "Differencing across separate releases (or against outside knowledge) is NOT prevented because no --release-ledger was used. Treat outputs as sensitive."
+  ],
+  "minimum_cohort_size": 5,
+  "release_ledger": {
+    "mode": null,
+    "prior_releases": 0,
+    "suppressed_by_ledger": 0,
+    "used": false
+  },
+  "schema_version": 1,
+  "specialty": "urology",
+  "suppressed_competencies": 2,
+  "usiphus_version": "11.0.0"
+}

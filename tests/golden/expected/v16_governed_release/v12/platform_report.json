@@ -1,0 +1,75 @@
+{
+  "as_of": "2026-11-01",
+  "cohort": {
+    "competency_rows": 1,
+    "minimum_cohort_size": 5,
+    "suppressed_rows": 1
+  },
+  "content": {
+    "cards": 1,
+    "cards_with_current_approved_evidence": 1,
+    "evidence_claims": 1,
+    "unmapped_cards": 0,
+    "verified_mapped_cards": 1
+  },
+  "curriculum": {
+    "competencies": 1,
+    "required": 1,
+    "uncovered_required": 0,
+    "verified_required": 1
+  },
+  "faculty_workflow": {
+    "by_type": {},
+    "open_review_items": 0
+  },
+  "generated_at": "<VOLATILE>",
+  "governance": [
+    "V12 is a local integration/reporting coordinator, not a hosted LMS or identity provider.",
+    "Faculty review queue entries are work items; V12 does not approve mappings or evidence.",
+    "Learner pseudonyms and individual V11 progress are not exported in the platform summary.",
+    "Clinical claims, curriculum mappings, and educational interpretations require qualified human review."
+  ],
+  "learning": {
+    "accepted_attempts": 1,
+    "active_learners": 1,
+    "learner_competency_rows": 1,
+    "limitations": [
+      "V11 learner-level records are not copied into V12 platform summaries."
+    ]
+  },
+  "release": {
+    "blocking_items": [],
+    "checks": [
+      {
+        "check": "all_required_competencies_have_verified_mappings",
+        "detail": "1/1 required competencies mapped",
+        "passed": true
+      },
+      {
+        "check": "all_cards_have_current_approved_evidence",
+        "detail": "1/1 cards covered by current approved/published evidence",
+        "passed": true
+      },
+      {
+        "check": "v11_learner_progress_integrated",
+        "detail": "1 learners; 1 accepted attempts",
+        "passed": true
+      },
+      {
+        "check": "cohort_suppression_schema_valid",
+        "detail": "1 of 1 competency rows suppressed",
+        "passed": true
+      },
+      {
+        "check": "review_schedule_matches_learner_progress",
+        "detail": "1 review rows; 0 without a matching learner-progress row",
+        "passed": true
+      }
+    ],
+    "interpretation": "Software readiness is not clinical validation, educational validity, or proof of learner competence.",
+    "release_ready": true
+  },
+  "schema_version": 1,
+  "specialty": "urology",
+  "usiphus_version": "12.0.0"
+}

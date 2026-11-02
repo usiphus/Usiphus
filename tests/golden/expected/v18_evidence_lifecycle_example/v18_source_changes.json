@@ -1,0 +1,32 @@
+{
+  "changes": [
+    {
+      "after": {
+        "authority": "Publisher metadata only",
+        "canonical_id": "",
+        "canonical_url": "https://example.org/synthetic-urology-guideline",
+        "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jurisdiction": "GB",
+        "last_reviewed_at": "2026-10-01T09:00:00Z",
+        "published_on": "2026-01-01",
+        "publisher": "Synthetic Faculty Group",
+        "retrieved_at": "2026-10-01T09:00:00Z",
+        "review_due_days": 365,
+        "source_id": "SYNTH-GUIDE-001",
+        "source_type": "guideline",
+        "status": "active",
+        "superseded_by": "",
+        "title": "Synthetic Urology Teaching Guideline",
+        "version": "2026.1"
+      },
+      "before": {},
+      "change_type": "new_source",
+      "fields": [
+        "source_registered"
+      ],
+      "source_id": "SYNTH-GUIDE-001"
+    }
+  ],
+  "duplicates": [],
+  "schema_version": 1
+}

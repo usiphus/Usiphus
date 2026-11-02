@@ -1,0 +1,9 @@
+{
+  "exit_code": 0,
+  "files": [
+    "curriculum_coverage.json",
+    "curriculum_coverage.md",
+    "curriculum_manifest.json",
+    "curriculum_mapping_matrix.csv"
+  ]
+}

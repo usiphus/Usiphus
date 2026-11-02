@@ -1,0 +1,2 @@
+learner_id,competency_id,next_due_at,recommended_interval_days,status
+123e4567-e89b-42d3-a456-426614174000,U1,2026-11-01T12:00:00Z,4,learning

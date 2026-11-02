@@ -1,0 +1,14 @@
+{
+  "exit_code": 0,
+  "files": [
+    "v18_decision_audit.json",
+    "v18_evidence_lifecycle_report.json",
+    "v18_evidence_lifecycle_report.md",
+    "v18_manifest.json",
+    "v18_review_queue.csv",
+    "v18_review_queue.json",
+    "v18_source_changes.json",
+    "v18_source_impact_graph.json",
+    "v18_state.json"
+  ]
+}

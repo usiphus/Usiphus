@@ -1,0 +1,11 @@
+{
+  "outputs": [
+    "learner_progress.json",
+    "cohort_analytics.json",
+    "review_schedule.csv"
+  ],
+  "privacy_note": "Outputs contain pseudonymous learner identifiers; protect as sensitive educational records.",
+  "schema_version": 1,
+  "source_files_modified": false,
+  "usiphus_version": "11.0.0"
+}

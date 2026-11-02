@@ -1,0 +1,4 @@
+priority_score,event_type,source_id,queue_id,rationale,affected_claims,affected_cards,affected_competencies,affected_assessments,affected_osce
+1060,withdrawn_source,SYNTH-GUIDE-003,33b980e7162f44f8,Source is marked withdrawn; faculty must assess affected claims and teaching artifacts.,SYNTH-CLAIM-002,URO-CARD-001,URO-EM-01,URO-MCQ-001,URO-OSCE-001
+910,jurisdiction_mismatch,SYNTH-GUIDE-001,fc887f240607122b,Claim and source jurisdiction metadata differ; applicability requires human review.,SYNTH-CLAIM-001,URO-CARD-001,URO-EM-01,URO-MCQ-001,URO-OSCE-001
+860,source_content_changed,SYNTH-GUIDE-001,b8bbcac3f3cf5498,"Source fingerprint changed in: version, content_sha256.",SYNTH-CLAIM-001,URO-CARD-001,URO-EM-01,URO-MCQ-001,URO-OSCE-001

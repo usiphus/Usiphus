@@ -1,0 +1,40 @@
+{
+  "boundary": "Software status only; not clinical approval, educational validity, competence, anonymization, or legal compliance.",
+  "generated_at": "<VOLATILE>",
+  "release_status": "ready",
+  "schema_version": 2,
+  "specialty": "urology",
+  "stages": [
+    {
+      "stage": "V8-V13 regression tests",
+      "status": "skipped"
+    },
+    {
+      "stage": "V12 integration",
+      "status": "passed"
+    },
+    {
+      "stage": "V13 validation",
+      "status": "passed"
+    },
+    {
+      "stage": "V15 evidence governance",
+      "status": "passed"
+    }
+  ],
+  "usiphus_version": "16.0.0",
+  "v12_release_ready": true,
+  "v13_validation_status": "passed",
+  "v15_block_on_failure": true,
+  "v15_evidence_mode": "strict",
+  "v15_governance": {
+    "claim_count": 1,
+    "finding_count": 0,
+    "findings": [],
+    "impact_source_count": 1,
+    "legacy_reference_claims": 0,
+    "source_count": 1,
+    "status": "checks_passed"
+  },
+  "v15_governance_status": "checks_passed"
+}

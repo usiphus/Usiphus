@@ -1,0 +1,33 @@
+{
+  "claims": [
+    {
+      "claim_id": "C1",
+      "card_id": "K1",
+      "claim": "published without audit",
+      "references": [
+        {
+          "source_id": "S1"
+        }
+      ],
+      "status": "published",
+      "reviewed_on": "2026-10-31",
+      "review_decisions": [
+        {
+          "reviewer_id": "R1",
+          "decision": "approve"
+        }
+      ]
+    },
+    {
+      "claim_id": "C2",
+      "card_id": "K2",
+      "claim": "cites unregistered source",
+      "references": [
+        {
+          "source_id": "NOPE"
+        }
+      ],
+      "status": "draft"
+    }
+  ]
+}

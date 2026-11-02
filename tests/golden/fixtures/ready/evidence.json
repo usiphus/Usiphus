@@ -1,0 +1,26 @@
+{
+  "claims": [
+    {
+      "claim_id": "TEST-E1",
+      "card_id": "TEST-001",
+      "claim": "Fictional test claim; not a clinical statement.",
+      "reference": "Fictional test reference",
+      "source_type": "guideline",
+      "status": "approved",
+      "reviewed_on": "2026-10-31",
+      "reviewer": "synthetic-test-reviewer",
+      "audit_trail": [
+        {
+          "to": "in_review",
+          "actor": "synthetic-test-reviewer",
+          "date": "2026-10-30"
+        },
+        {
+          "to": "approved",
+          "actor": "synthetic-test-reviewer",
+          "date": "2026-10-31"
+        }
+      ]
+    }
+  ]
+}

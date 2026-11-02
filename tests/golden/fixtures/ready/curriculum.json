@@ -1,0 +1,11 @@
+{
+  "specialty": "urology",
+  "competencies": [
+    {
+      "competency_id": "U1",
+      "title": "Fictional competency",
+      "required": true,
+      "weight": 1.0
+    }
+  ]
+}
