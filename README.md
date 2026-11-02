@@ -36,15 +36,16 @@ Optional exporters:
 
     python -m pip install genanki python-pptx
 
-OpenAI generation is explicitly opt-in and separately billable from ChatGPT. Set `OPENAI_API_KEY` in the environment; never commit it. Then:
+Card generation uses a locally running Ollama model; no cloud AI service, account, or API key is required. Install Ollama and download a model (default: `qwen2.5:7b`):
 
+    ollama pull qwen2.5:7b
     python usiphus_auto_deck.py --generate --curriculum examples/ophthalmology/curriculum.json --formats both --output-dir build/ophthalmology
 
-For a no-API local export from an existing card JSON file:
+For a fully offline export from existing cards (no Ollama required):
 
     python usiphus_auto_deck.py --cards ophthalmology_cards.json --formats both --output-dir build/ophthalmology
 
-The generator writes the shared card source, quality report, Anki package and PowerPoint. Generated clinical material remains unreviewed until a qualified faculty member verifies every claim, answer and reference. The default is at most 11 billable topic requests and 2,500 output tokens per request; override with `--max-api-calls` and `--max-output-tokens`. These are request/token ceilings, not a hard dollar spending cap.
+Install optional exporters with `python -m pip install genanki python-pptx`. The generator writes the shared card source, quality report, Anki package and PowerPoint. Generated clinical material remains unreviewed until a qualified faculty member verifies every claim, answer and reference. The default is at most 11 local model requests and 2,500 output tokens per topic; override with `--max-ollama-calls` and `--max-output-tokens`. Local generation uses your computer's resources and model storage.
 
 ## Recommended workflows
 
