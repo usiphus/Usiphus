@@ -519,7 +519,7 @@ def build(args: argparse.Namespace) -> int:
                 "model": args.model,
                 "topics": topic_count,
                 "cards": planned_total,
-                "ollama_requests": topic_count,
+                "initial_topic_batches": topic_count,
                 "formats": args.formats,
                 "output_dir": args.output_dir,
                 "topics_detail": planned_topics,
