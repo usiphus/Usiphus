@@ -1,0 +1,677 @@
+{
+  "specialty": "neurology",
+  "display_name": "Neurology",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive neurology curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "neuro-assessment",
+      "name": "Neurologic assessment and localization",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in neurologic assessment and localization. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "vascular-acute",
+      "name": "Cerebrovascular and acute neurology",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in cerebrovascular and acute neurology. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "chronic-neurology",
+      "name": "Chronic neurologic disorders",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in chronic neurologic disorders. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "neuromuscular",
+      "name": "Neuromuscular, inflammatory and systemic neurology",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in neuromuscular, inflammatory and systemic neurology. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Neurologic assessment and localization",
+    "Cerebrovascular and acute neurology",
+    "Chronic neurologic disorders",
+    "Neuromuscular, inflammatory and systemic neurology"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "neuro-assessment-01",
+      "domain_id": "neuro-assessment",
+      "domain": "Neurologic assessment and localization",
+      "name": "Neurologic history, examination and neuroanatomical localization",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for neurologic history, examination and neuroanatomical localization.",
+        "Assess a patient with suspected neurologic history, examination and neuroanatomical localization, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "neurologic history, examination and neuroanatomical localization",
+        "neurology assessment",
+        "neurology investigations",
+        "neurology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Neurologic history, examination and neuroanatomical localization",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for neurologic history, examination and neuroanatomical localization.",
+        "Assess a patient with suspected neurologic history, examination and neuroanatomical localization, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Neurologic history, examination and neuroanatomical localization MCQ",
+        "Neurologic history, examination and neuroanatomical localization clinical case",
+        "Neurologic history, examination and neuroanatomical localization OSCE",
+        "Neurologic history, examination and neuroanatomical localization viva",
+        "Neurologic history, examination and neuroanatomical localization review guideline"
+      ]
+    },
+    {
+      "id": "neuro-assessment-02",
+      "domain_id": "neuro-assessment",
+      "domain": "Neurologic assessment and localization",
+      "name": "Approach to weakness, sensory loss and movement disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for approach to weakness, sensory loss and movement disorders.",
+        "Assess a patient with suspected approach to weakness, sensory loss and movement disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "approach to weakness, sensory loss and movement disorders",
+        "neurology assessment",
+        "neurology investigations",
+        "neurology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Approach to weakness, sensory loss and movement disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for approach to weakness, sensory loss and movement disorders.",
+        "Assess a patient with suspected approach to weakness, sensory loss and movement disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Approach to weakness, sensory loss and movement disorders MCQ",
+        "Approach to weakness, sensory loss and movement disorders clinical case",
+        "Approach to weakness, sensory loss and movement disorders OSCE",
+        "Approach to weakness, sensory loss and movement disorders viva",
+        "Approach to weakness, sensory loss and movement disorders review guideline"
+      ]
+    },
+    {
+      "id": "neuro-assessment-03",
+      "domain_id": "neuro-assessment",
+      "domain": "Neurologic assessment and localization",
+      "name": "Neurodiagnostic tests and neuroimaging interpretation",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for neurodiagnostic tests and neuroimaging interpretation.",
+        "Assess a patient with suspected neurodiagnostic tests and neuroimaging interpretation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "neurodiagnostic tests and neuroimaging interpretation",
+        "neurology assessment",
+        "neurology investigations",
+        "neurology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Neurodiagnostic tests and neuroimaging interpretation",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for neurodiagnostic tests and neuroimaging interpretation.",
+        "Assess a patient with suspected neurodiagnostic tests and neuroimaging interpretation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Neurodiagnostic tests and neuroimaging interpretation MCQ",
+        "Neurodiagnostic tests and neuroimaging interpretation clinical case",
+        "Neurodiagnostic tests and neuroimaging interpretation OSCE",
+        "Neurodiagnostic tests and neuroimaging interpretation viva",
+        "Neurodiagnostic tests and neuroimaging interpretation review guideline"
+      ]
+    },
+    {
+      "id": "vascular-acute-01",
+      "domain_id": "vascular-acute",
+      "domain": "Cerebrovascular and acute neurology",
+      "name": "Ischemic stroke, TIA and secondary prevention",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for ischemic stroke, tia and secondary prevention.",
+        "Assess a patient with suspected ischemic stroke, tia and secondary prevention, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "ischemic stroke, tia and secondary prevention",
+        "neurology assessment",
+        "neurology investigations",
+        "neurology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Ischemic stroke, TIA and secondary prevention",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for ischemic stroke, tia and secondary prevention.",
+        "Assess a patient with suspected ischemic stroke, tia and secondary prevention, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Ischemic stroke, TIA and secondary prevention MCQ",
+        "Ischemic stroke, TIA and secondary prevention clinical case",
+        "Ischemic stroke, TIA and secondary prevention OSCE",
+        "Ischemic stroke, TIA and secondary prevention viva",
+        "Ischemic stroke, TIA and secondary prevention review guideline"
+      ]
+    },
+    {
+      "id": "vascular-acute-02",
+      "domain_id": "vascular-acute",
+      "domain": "Cerebrovascular and acute neurology",
+      "name": "Intracranial haemorrhage and subarachnoid haemorrhage",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for intracranial haemorrhage and subarachnoid haemorrhage.",
+        "Assess a patient with suspected intracranial haemorrhage and subarachnoid haemorrhage, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "intracranial haemorrhage and subarachnoid haemorrhage",
+        "neurology assessment",
+        "neurology investigations",
+        "neurology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Intracranial haemorrhage and subarachnoid haemorrhage",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for intracranial haemorrhage and subarachnoid haemorrhage.",
+        "Assess a patient with suspected intracranial haemorrhage and subarachnoid haemorrhage, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Intracranial haemorrhage and subarachnoid haemorrhage MCQ",
+        "Intracranial haemorrhage and subarachnoid haemorrhage clinical case",
+        "Intracranial haemorrhage and subarachnoid haemorrhage OSCE",
+        "Intracranial haemorrhage and subarachnoid haemorrhage viva",
+        "Intracranial haemorrhage and subarachnoid haemorrhage review guideline"
+      ]
+    },
+    {
+      "id": "vascular-acute-03",
+      "domain_id": "vascular-acute",
+      "domain": "Cerebrovascular and acute neurology",
+      "name": "Seizures, status epilepticus and acute altered consciousness",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for seizures, status epilepticus and acute altered consciousness.",
+        "Assess a patient with suspected seizures, status epilepticus and acute altered consciousness, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "seizures, status epilepticus and acute altered consciousness",
+        "neurology assessment",
+        "neurology investigations",
+        "neurology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Seizures, status epilepticus and acute altered consciousness",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for seizures, status epilepticus and acute altered consciousness.",
+        "Assess a patient with suspected seizures, status epilepticus and acute altered consciousness, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Seizures, status epilepticus and acute altered consciousness MCQ",
+        "Seizures, status epilepticus and acute altered consciousness clinical case",
+        "Seizures, status epilepticus and acute altered consciousness OSCE",
+        "Seizures, status epilepticus and acute altered consciousness viva",
+        "Seizures, status epilepticus and acute altered consciousness review guideline"
+      ]
+    },
+    {
+      "id": "chronic-neurology-01",
+      "domain_id": "chronic-neurology",
+      "domain": "Chronic neurologic disorders",
+      "name": "Epilepsy and paroxysmal disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for epilepsy and paroxysmal disorders.",
+        "Assess a patient with suspected epilepsy and paroxysmal disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "epilepsy and paroxysmal disorders",
+        "neurology assessment",
+        "neurology investigations",
+        "neurology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Epilepsy and paroxysmal disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for epilepsy and paroxysmal disorders.",
+        "Assess a patient with suspected epilepsy and paroxysmal disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Epilepsy and paroxysmal disorders MCQ",
+        "Epilepsy and paroxysmal disorders clinical case",
+        "Epilepsy and paroxysmal disorders OSCE",
+        "Epilepsy and paroxysmal disorders viva",
+        "Epilepsy and paroxysmal disorders review guideline"
+      ]
+    },
+    {
+      "id": "chronic-neurology-02",
+      "domain_id": "chronic-neurology",
+      "domain": "Chronic neurologic disorders",
+      "name": "Headache, migraine and facial pain",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for headache, migraine and facial pain.",
+        "Assess a patient with suspected headache, migraine and facial pain, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "headache, migraine and facial pain",
+        "neurology assessment",
+        "neurology investigations",
+        "neurology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Headache, migraine and facial pain",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for headache, migraine and facial pain.",
+        "Assess a patient with suspected headache, migraine and facial pain, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Headache, migraine and facial pain MCQ",
+        "Headache, migraine and facial pain clinical case",
+        "Headache, migraine and facial pain OSCE",
+        "Headache, migraine and facial pain viva",
+        "Headache, migraine and facial pain review guideline"
+      ]
+    },
+    {
+      "id": "chronic-neurology-03",
+      "domain_id": "chronic-neurology",
+      "domain": "Chronic neurologic disorders",
+      "name": "Movement disorders, dementia and cognitive impairment",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for movement disorders, dementia and cognitive impairment.",
+        "Assess a patient with suspected movement disorders, dementia and cognitive impairment, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "movement disorders, dementia and cognitive impairment",
+        "neurology assessment",
+        "neurology investigations",
+        "neurology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Movement disorders, dementia and cognitive impairment",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for movement disorders, dementia and cognitive impairment.",
+        "Assess a patient with suspected movement disorders, dementia and cognitive impairment, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Movement disorders, dementia and cognitive impairment MCQ",
+        "Movement disorders, dementia and cognitive impairment clinical case",
+        "Movement disorders, dementia and cognitive impairment OSCE",
+        "Movement disorders, dementia and cognitive impairment viva",
+        "Movement disorders, dementia and cognitive impairment review guideline"
+      ]
+    },
+    {
+      "id": "neuromuscular-01",
+      "domain_id": "neuromuscular",
+      "domain": "Neuromuscular, inflammatory and systemic neurology",
+      "name": "Multiple sclerosis and neuroinflammatory disease",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for multiple sclerosis and neuroinflammatory disease.",
+        "Assess a patient with suspected multiple sclerosis and neuroinflammatory disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "multiple sclerosis and neuroinflammatory disease",
+        "neurology assessment",
+        "neurology investigations",
+        "neurology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Multiple sclerosis and neuroinflammatory disease",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for multiple sclerosis and neuroinflammatory disease.",
+        "Assess a patient with suspected multiple sclerosis and neuroinflammatory disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Multiple sclerosis and neuroinflammatory disease MCQ",
+        "Multiple sclerosis and neuroinflammatory disease clinical case",
+        "Multiple sclerosis and neuroinflammatory disease OSCE",
+        "Multiple sclerosis and neuroinflammatory disease viva",
+        "Multiple sclerosis and neuroinflammatory disease review guideline"
+      ]
+    },
+    {
+      "id": "neuromuscular-02",
+      "domain_id": "neuromuscular",
+      "domain": "Neuromuscular, inflammatory and systemic neurology",
+      "name": "Peripheral neuropathy, neuromuscular junction and myopathy",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for peripheral neuropathy, neuromuscular junction and myopathy.",
+        "Assess a patient with suspected peripheral neuropathy, neuromuscular junction and myopathy, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "peripheral neuropathy, neuromuscular junction and myopathy",
+        "neurology assessment",
+        "neurology investigations",
+        "neurology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Peripheral neuropathy, neuromuscular junction and myopathy",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for peripheral neuropathy, neuromuscular junction and myopathy.",
+        "Assess a patient with suspected peripheral neuropathy, neuromuscular junction and myopathy, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Peripheral neuropathy, neuromuscular junction and myopathy MCQ",
+        "Peripheral neuropathy, neuromuscular junction and myopathy clinical case",
+        "Peripheral neuropathy, neuromuscular junction and myopathy OSCE",
+        "Peripheral neuropathy, neuromuscular junction and myopathy viva",
+        "Peripheral neuropathy, neuromuscular junction and myopathy review guideline"
+      ]
+    },
+    {
+      "id": "neuromuscular-03",
+      "domain_id": "neuromuscular",
+      "domain": "Neuromuscular, inflammatory and systemic neurology",
+      "name": "CNS infection, spinal cord disease and neurogenetics",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cns infection, spinal cord disease and neurogenetics.",
+        "Assess a patient with suspected cns infection, spinal cord disease and neurogenetics, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "cns infection, spinal cord disease and neurogenetics",
+        "neurology assessment",
+        "neurology investigations",
+        "neurology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "CNS infection, spinal cord disease and neurogenetics",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cns infection, spinal cord disease and neurogenetics.",
+        "Assess a patient with suspected cns infection, spinal cord disease and neurogenetics, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "CNS infection, spinal cord disease and neurogenetics MCQ",
+        "CNS infection, spinal cord disease and neurogenetics clinical case",
+        "CNS infection, spinal cord disease and neurogenetics OSCE",
+        "CNS infection, spinal cord disease and neurogenetics viva",
+        "CNS infection, spinal cord disease and neurogenetics review guideline"
+      ]
+    }
+  ]
+}
