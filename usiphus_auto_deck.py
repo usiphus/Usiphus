@@ -85,6 +85,7 @@ def generate_topic_cards(
     max_retries: int = 3,
     slot_checkpoint_path: Path | None = None,
     slot_checkpoint_signature: str | None = None,
+    resume_slots: bool = False,
     request_metrics: list[dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     """Generate compact card content and build trusted metadata locally.
@@ -155,7 +156,7 @@ def generate_topic_cards(
 
     # Slot checkpoints survive a process crash in the middle of a topic.
     # A signature mismatch invalidates the file rather than risking stale cards.
-    if slot_checkpoint_path and slot_checkpoint_path.exists():
+    if resume_slots and slot_checkpoint_path and slot_checkpoint_path.exists():
         try:
             saved = load_json(slot_checkpoint_path)
             if saved.get("signature") == slot_checkpoint_signature:
@@ -674,6 +675,7 @@ def build(args: argparse.Namespace) -> int:
                     request_timeout=args.ollama_timeout,
                     slot_checkpoint_path=slot_checkpoint_path,
                     slot_checkpoint_signature=signature,
+                    resume_slots=args.resume,
                     request_metrics=topic_request_metrics,
                 )
                 elapsed = time.perf_counter() - topic_started
