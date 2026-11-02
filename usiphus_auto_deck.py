@@ -454,6 +454,7 @@ def build(args: argparse.Namespace) -> int:
                 count=count, max_output_tokens=args.max_output_tokens,
             )
             cards = None
+            loaded_checkpoint = False
             if args.resume and checkpoint_path.exists():
                 saved = load_json(checkpoint_path)
                 if (
@@ -462,6 +463,7 @@ def build(args: argparse.Namespace) -> int:
                     and len(saved["cards"]) == count
                 ):
                     cards = saved["cards"]
+                    loaded_checkpoint = True
                     print(f"[Resume] {index}/{topic_count}: {topic.get('name') or topic.get('topic')} — loaded {len(cards)} saved cards")
                 else:
                     print(f"[Resume] {index}/{topic_count}: checkpoint changed; regenerating topic")
@@ -478,8 +480,7 @@ def build(args: argparse.Namespace) -> int:
                     topic, cards, specialty=specialty,
                     requested_mix=requested_card_mix(count, topic.get("card_mix")),
                 ))
-            if not (args.resume and checkpoint_path.exists() and cards is not None and
-                    load_json(checkpoint_path).get("signature") == signature):
+            if not loaded_checkpoint:
                 _atomic_write_json(checkpoint_path, {
                     "signature": signature, "topic_id": topic.get("id"),
                     "topic_name": topic.get("name") or topic.get("topic"),
