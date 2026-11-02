@@ -1,3 +1,12 @@
+# Usiphus
+
+**A local-first medical education content, curriculum, evidence-governance, and release toolkit.**
+
+Usiphus helps structure medical teaching material and provides explicit workflows for evidence provenance, specialty curriculum mapping, learner progress, privacy-aware reporting, and software-level release assurance.
+
+> Automated checks assess structure, metadata, workflow state, and selected consistency/privacy properties. They do not establish clinical truth, current guideline recommendations, educational effectiveness, learner competence, anonymization, or legal compliance. Clinical material requires qualified human review.
+
+
 ## Comprehensive ophthalmology curriculum
 
 The automated deck example now maps 16 curriculum domains and 52 specialty
@@ -7,14 +16,6 @@ diagnostics, emergencies, rehabilitation and professional practice. See
 `docs/AUTOMATED_DECK_GENERATOR.md` for the domain-by-domain blueprint.
 This is a broad specialty map that still requires faculty mapping to local
 training outcomes and examination requirements.
-
-# Usiphus
-
-**A local-first medical education content, curriculum, evidence-governance, and release toolkit.**
-
-Usiphus helps structure medical teaching material and provides explicit workflows for evidence provenance, specialty curriculum mapping, learner progress, privacy-aware reporting, and software-level release assurance.
-
-> Automated checks assess structure, metadata, workflow state, and selected consistency/privacy properties. They do not establish clinical truth, current guideline recommendations, educational effectiveness, learner competence, anonymization, or legal compliance. Clinical material requires qualified human review.
 
 ## Version map
 
