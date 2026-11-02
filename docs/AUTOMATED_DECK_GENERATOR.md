@@ -3,29 +3,44 @@
 Usiphus generates one canonical ophthalmology card set with a locally running
 Ollama model and exports it to Anki (`.apkg`) and PowerPoint (`.pptx`).
 
-## Expanded undergraduate blueprint
+## Comprehensive specialty curriculum blueprint
 
-The curriculum example now covers 22 domains and plans 132 draft cards:
+The example curriculum is organized into **14 domains and 42 topic units**, with
+six planned cards per topic (**252 draft cards**). Each topic has a stable ID,
+domain assignment, three learning objectives, exam-emphasis prompts and coverage
+tags. The domain is passed into the local generation prompt so topic selection
+and card drafting remain traceable to the curriculum map.
 
-- Foundations, ocular anatomy and physiology
-- Focused history, visual acuity and complete eye examination
-- Optics, refraction and low-vision principles
-- Eyelid, orbit and lacrimal disorders
-- Conjunctiva, cornea, sclera and ocular surface
-- Cataract, glaucoma and uveitis
-- Retina, macula, diabetic/vascular retinopathy and retinal detachment
-- Neuro-ophthalmology, pupils, visual fields and ocular motility
-- Pediatric ophthalmology, amblyopia and strabismus
-- Trauma, chemical injuries, infections and emergencies
-- Systemic disease, investigations, imaging, pharmacology and procedures
-- Integrated clinical reasoning and OSCE practice
+The 14 domains span:
+
+1. Foundations and visual sciences
+2. Clinical assessment and diagnostic skills
+3. Ocular surface, cornea and external disease
+4. Lens, cataract and refractive surgery
+5. Glaucoma and ocular hypertension
+6. Uveitis and ocular immunology
+7. Medical retina and retinal vascular disease
+8. Vitreoretinal disease and surgery
+9. Neuro-ophthalmology and ocular motility
+10. Pediatric ophthalmology and strabismus
+11. Oculoplastics, orbit and lacrimal system
+12. Ocular oncology and pathology
+13. Ocular trauma and emergency ophthalmology
+14. Ocular infection, systemic disease, therapeutics, surgery, rehabilitation and professional practice
+
+Coverage includes clinical and surgical subspecialties, diagnostics, emergencies,
+procedures, perioperative care, low vision, community ophthalmology and ethics.
+The list is intended as a comprehensive specialty map, not a claim that one
+generic blueprint replaces a national curriculum, residency logbook or local
+examination specification. Faculty should map each domain and topic to the
+relevant training stage, local outcomes, case exposure and assessment weighting.
 
 Each six-card topic uses a mixed blueprint by default: one basic recall/understanding
 card, two MCQs, one clinical case, one viva and one OSCE task. Topics may override
 this with a `card_mix` object whose non-negative counts must sum to that topic's
-`card_count`. Learning objectives and exam-emphasis prompts are supplied per topic.
-This is a broad undergraduate starter blueprint, not a substitute for mapping to
-your university's current syllabus or examination specification.
+`card_count`. The 42-topic example makes 42 local Ollama requests; the default
+request ceiling is 50. These are workload limits, not a promise of completion
+time or a financial cap.
 
 ## Local generation
 
@@ -56,8 +71,8 @@ python usiphus_auto_deck.py --generate \
   --output-dir build/ophthalmology
 ```
 
-The example has 22 topics, so it makes 22 local generation requests. The default
-request ceiling is 25 and the default output ceiling is 3,500 tokens per topic.
+The example has 42 topics, so it makes 42 local generation requests. The default
+request ceiling is 50 and the default output ceiling is 3,500 tokens per topic.
 These are workload limits, not a promise of completion time or a financial cap.
 Adjust them with `--max-ollama-calls` and `--max-output-tokens`. You can reduce
 generation time and hardware load by lowering topic `card_count` values in the
@@ -77,7 +92,7 @@ python usiphus_auto_deck.py --cards path/to/ophthalmology_cards.json \
 
 ## Curriculum and clinical governance
 
-See `examples/ophthalmology/curriculum.json`. Each topic can specify learning
+See `examples/ophthalmology/curriculum.json`. Each topic can specify a stable ID, curriculum domain, coverage tags, learning
 objectives, exam emphasis, faculty-supplied references, card count and optional
 card-type mix. References are never invented by the generator; empty source lists
 must be completed during review. Add local faculty-approved references before
