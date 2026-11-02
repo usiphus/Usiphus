@@ -496,7 +496,8 @@ def generate_topic_cards(
             "difficulty": str(topic.get("difficulty") or "intermediate"),
             "prompt": content["prompt"].strip(),
             "answer": content["answer"].strip(),
-            "options": content.get("options", []) if card_type == "mcq" else [],            "correct_option": content.get("correct_option", "") if card_type == "mcq" else "",
+            "options": content.get("options", []) if card_type == "mcq" else [],
+            "correct_option": content.get("correct_option", "") if card_type == "mcq" else "",
             "learning_objective": objective,
             "objective_id": slot_plan["objective_id"],
             "topic_id": topic_id,
@@ -768,7 +769,8 @@ def build(args: argparse.Namespace) -> int:
             if args.resume and checkpoint_path.exists():
                 saved = load_json(checkpoint_path)
                 if (
-                    saved.get("signature") == signature                    and isinstance(saved.get("cards"), list)
+                    saved.get("signature") == signature
+                    and isinstance(saved.get("cards"), list)
                     and len(saved["cards"]) == count
                 ):
                     cards = saved["cards"]
