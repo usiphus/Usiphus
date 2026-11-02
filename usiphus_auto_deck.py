@@ -25,7 +25,10 @@ from usiphus_generation_quality import (
     validate_curriculum_blueprint,
     validate_topic_cards,
 )
-from usiphus_evidence import validate_card_evidence, validate_evidence_packet
+from usiphus_evidence import (
+    load_topic_evidence_packets, preflight_topic_evidence,
+    validate_card_evidence, validate_evidence_packet,
+)
 from usiphus_v7 import export_apkg
 
 DEFAULT_OLLAMA_MODEL = "llama3.1:8b"
@@ -493,6 +496,19 @@ def build(args: argparse.Namespace) -> int:
         if not args.curriculum:
             raise ValueError("--curriculum is required with --generate")
         curriculum = load_curriculum(Path(args.curriculum))
+        evidence_inventory = None
+        if args.evidence_dir:
+            evidence_inventory = load_topic_evidence_packets(
+                curriculum, Path(args.evidence_dir)
+            )
+            print(
+                f"[Evidence] Loaded {evidence_inventory['packet_count']} topic packets; "
+                f"{len(evidence_inventory['topics_without_packets'])} topics have no packet"
+            )
+        # Fail before inference or checkpoint reuse when attached packets are not eligible.
+        for evidence_topic in curriculum["topics"]:
+            if evidence_topic.get("evidence_packet") is not None:
+                preflight_topic_evidence(evidence_topic)
         blueprint_summary = (
             validate_curriculum_blueprint(curriculum)
             if curriculum.get("curriculum_domains") else None
@@ -689,6 +705,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     source.add_argument("--cards", help="Use an existing Usiphus card JSON file")
     p.add_argument("--curriculum", help="Curriculum JSON with specialty and topics")
+    p.add_argument("--evidence-dir", help="Optional directory of per-topic <topic-id>.json packets; attached packets must pass review and rights gates before inference")
     p.add_argument("--specialty", help="Override the specialty in the curriculum")
     p.add_argument("--level", help="Override the learner level in the curriculum")
     p.add_argument(
