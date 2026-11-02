@@ -1,4 +1,6 @@
+import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -58,6 +60,35 @@ class EvidenceTests(unittest.TestCase):
         result = evidence.validate_card_evidence(card, packet())
         self.assertFalse(result["valid"])
         self.assertTrue(result["high_risk_flags"])
+
+
+    def test_packet_loader_attaches_topic_packet_and_reports_missing(self):
+        with tempfile.TemporaryDirectory() as directory:
+            value = packet()
+            value.update({"topic_id": "topic-1", "specialty": "ophthalmology"})
+            from pathlib import Path
+            (Path(directory) / "topic-1.json").write_text(
+                json.dumps(value), encoding="utf-8"
+            )
+            curriculum = {
+                "specialty": "ophthalmology",
+                "topics": [
+                    {"id": "topic-1", "name": "Topic one"},
+                    {"id": "topic-2", "name": "Topic two"},
+                ],
+            }
+            inventory = evidence.load_topic_evidence_packets(curriculum, directory)
+            self.assertEqual(inventory["loaded_topic_ids"], ["topic-1"])
+            self.assertEqual(inventory["topics_without_packets"], ["topic-2"])
+            self.assertTrue(curriculum["topics"][0]["evidence_packet"])
+
+    def test_preflight_rejects_candidate_packet_before_inference(self):
+        value = packet()
+        value["sources"][0]["review_status"] = "candidate_unreviewed"
+        with self.assertRaisesRegex(ValueError, "No model request was made"):
+            evidence.preflight_topic_evidence({
+                "id": "topic-1", "evidence_packet": value
+            })
 
     def test_objective_map_exposes_evidence_gaps(self):
         result = evidence.build_objective_evidence_map(
