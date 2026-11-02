@@ -17,9 +17,10 @@ import math
 import re
 import tempfile
 import uuid
-from datetime import date, datetime, timezone
+from collections.abc import Sequence
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any
 
 VERSION = "13.0.0"
 LOG = logging.getLogger("usiphus.v13")
@@ -71,7 +72,7 @@ def parse_timestamp(value: Any, label: str) -> datetime:
         raise ValidationError(f"{label} must be an ISO-8601 timestamp") from exc
     require(parsed.tzinfo is not None and parsed.utcoffset() is not None,
             f"{label} must include a timezone")
-    return parsed.astimezone(timezone.utc)
+    return parsed.astimezone(UTC)
 
 
 def parse_uuid4(value: Any, label: str) -> str:
@@ -407,7 +408,7 @@ def validate_bundle(input_dir: Path, output_dir: Path, report_path: Path,
         "schema_version": 1,
         "usiphus_version": VERSION,
         "validation_status": "passed",
-        "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "generated_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         "specialty": specialty,
         "contracts": {
             "competencies": len(competency_ids),

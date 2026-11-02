@@ -27,20 +27,20 @@ import argparse
 import json
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import usiphus_signing as sig  # noqa: E402
-import usiphus_v15 as v15  # noqa: E402
-from usiphus_common import atomic_write_text  # noqa: E402
+import usiphus_signing as sig
+import usiphus_v15 as v15
+from usiphus_common import atomic_write_text
 
 VERSION = "1.0.0"
 
 
 def _now() -> str:
-    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+    return datetime.now(UTC).isoformat(timespec="seconds").replace("+00:00", "Z")
 
 
 def _load_claims(path: Path) -> tuple[Any, list[dict[str, Any]]]:

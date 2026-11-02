@@ -8,8 +8,9 @@ import logging
 import math
 import re
 import urllib.parse
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 import usiphus_generate as generation
 

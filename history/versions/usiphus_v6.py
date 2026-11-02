@@ -36,16 +36,16 @@ import json
 import logging
 import os
 import re
-import sys
 import tempfile
 import time
 import urllib.error
 import urllib.request
 from collections import Counter
-from dataclasses import asdict, dataclass, field
+from collections.abc import Iterable, Mapping, Sequence
+from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Iterable, Literal, Mapping, Sequence
+from typing import Any, Literal
 
 VERSION = "6.0.0"
 REPORT_SCHEMA_VERSION = 3

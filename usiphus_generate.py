@@ -12,8 +12,9 @@ import tempfile
 import urllib.error
 import urllib.parse
 import urllib.request
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 LOG = logging.getLogger("usiphus.generate")
 MAX_CONFIG_BYTES = 2 * 1024 * 1024
@@ -867,9 +868,7 @@ def _evidence_terms(value: str) -> set[str]:
             term = term[:-3] + "y"
         elif len(term) > 5 and term.endswith("ing"):
             term = term[:-3]
-        elif len(term) > 4 and term.endswith("ed"):
-            term = term[:-2]
-        elif len(term) > 4 and term.endswith("ly"):
+        elif (len(term) > 4 and term.endswith("ed")) or (len(term) > 4 and term.endswith("ly")):
             term = term[:-2]
         elif len(term) > 4 and term.endswith("s") and not term.endswith("ss"):
             term = term[:-1]

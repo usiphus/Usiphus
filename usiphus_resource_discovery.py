@@ -17,9 +17,10 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
-from datetime import datetime, timezone
+from collections.abc import Callable
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 VERSION = "1.0.0"
 USER_AGENT = "Usiphus-ResourceDiscovery/1.0 (educational metadata discovery)"
@@ -180,7 +181,10 @@ def search_pubmed(query: str, limit: int, *, timeout: int = DEFAULT_TIMEOUT,
             "pubmed", item.get("title", ""), f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/",
             publisher=item.get("fulljournalname", ""), authors=authors,
             published=item.get("pubdate", ""), doi=doi, pmid=pmid,
-            article_type=", ".join(x.get("name", "") for x in item.get("pubtype", [])),
+            article_type=", ".join(
+                (x.get("name", "") if isinstance(x, dict) else str(x))
+                for x in item.get("pubtype", []) if x is not None
+            ),
             provider="NCBI E-utilities",
         ))
     return results
@@ -279,7 +283,7 @@ def match_resource(resource: dict[str, Any], topic: dict[str, Any]) -> dict[str,
         "matched_objective_ids": [],
         "matched_terms": matched_terms,
         "relevance_score": score,
-        "retrieved_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "retrieved_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
     })
     title_abstract = _tokens(resource.get("title", "") + " " + resource.get("abstract", ""))
     for index, objective in enumerate(topic.get("learning_objectives", []), 1):
@@ -402,7 +406,7 @@ def discover_curriculum(curriculum: dict[str, Any], *, limit: int = 5,
         "engine_version": VERSION,
         "specialty": specialty,
         "curriculum_version": curriculum.get("curriculum_version", ""),
-        "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "generated_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         "discovery_scope": {"topics_requested": len(topics), "topics_processed": len(selected),
                             "providers": list(providers), "max_results_per_provider_topic": limit},
         "resources": sorted(merged.values(), key=lambda x: (-x.get("relevance_score", 0), x["source_id"], x["title"])),

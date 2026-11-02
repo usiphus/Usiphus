@@ -7,32 +7,35 @@ Structural and metadata checks only; nothing here establishes clinical truth.
 """
 from __future__ import annotations
 
-import argparse
 import csv
-import hashlib
-import html
 import json
 import logging
 import os
 import re
 import sys
 import tempfile
-import time
-import urllib.error
-import urllib.request
 from collections import Counter
-from dataclasses import asdict, dataclass, field
+from collections.abc import Iterable, Mapping, Sequence
+from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Iterable, Literal, Mapping, Sequence
+from typing import Any, Literal
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from usiphus_common import (  # noqa: E402
-    canonicalize_text, canonicalize_multiline, canonicalize_card_id, canonicalize_specialty,
-    canonicalize_tags, canonicalize_string_list, canonicalize_prompt, stable_digest,
-    stable_blueprint_id, anki_numeric_id, anki_guid, lexical_similarity,
-    find_near_duplicate_pairs, atomic_write_text, push_to_ankiconnect, parse_as_of,
-    tokens as _tokens, valid_iso_date as _valid_iso_date,
+from usiphus_common import (
+    atomic_write_text,
+    canonicalize_card_id,
+    canonicalize_multiline,
+    canonicalize_prompt,
+    canonicalize_specialty,
+    canonicalize_string_list,
+    canonicalize_tags,
+    canonicalize_text,
+    find_near_duplicate_pairs,
+    stable_blueprint_id,
+)
+from usiphus_common import (
+    valid_iso_date as _valid_iso_date,
 )
 
 LOG = logging.getLogger("usiphus")
@@ -417,7 +420,7 @@ def validate_workflow_audit(record: Mapping[str, Any]) -> list[str]:
 def analyze_evidence_registry(
     cards: Sequence[Card], records: Sequence[Mapping[str, Any]], *,
     max_age_days: int = 730, require_approved: bool = False,
-    as_of: "date | None" = None,
+    as_of: date | None = None,
 ) -> dict[str, Any]:
     """Validate claim mapping, provenance, workflow, freshness and simple contradictions.
 
@@ -498,7 +501,7 @@ def evaluate_quality(
     require_reviewed: bool = False,
     max_review_age_days: int = 730,
     near_duplicate_threshold: float = 0.78,
-    as_of: "date | None" = None,
+    as_of: date | None = None,
     schema_version: int | None = None,
 ) -> QualityReport:
     """Structural + educational metadata checks; does not verify medical truth."""

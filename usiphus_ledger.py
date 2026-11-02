@@ -29,11 +29,12 @@ import os
 import secrets
 import stat
 import sys
+from collections.abc import Iterable, Mapping
 from pathlib import Path
-from typing import Any, Iterable, Mapping
+from typing import Any
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from usiphus_common import atomic_write_text  # noqa: E402
+from usiphus_common import atomic_write_text
 
 VERSION = "1.0.0"
 LEDGER_SCHEMA = 1
@@ -68,7 +69,7 @@ def load_ledger(path: Path | None) -> dict[str, Any]:
 
 
 def hash_member(salt: str, learner_id: str) -> str:
-    return hashlib.sha256(f"{salt}\x1f{learner_id}".encode("utf-8")).hexdigest()
+    return hashlib.sha256(f"{salt}\x1f{learner_id}".encode()).hexdigest()
 
 
 def hashed_members(ledger: Mapping[str, Any], learner_ids: Iterable[str]) -> frozenset[str]:

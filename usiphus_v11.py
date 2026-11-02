@@ -8,11 +8,22 @@ spaced repetition. Never edits source cards, curriculum, or evidence.
 Educational estimates are not clinical competence determinations.
 """
 from __future__ import annotations
-import argparse, bisect, csv, json, logging, math, os, sys, tempfile, uuid
+
+import argparse
+import bisect
+import csv
+import json
+import logging
+import math
+import os
+import sys
+import tempfile
+import uuid
 from collections import defaultdict
-from datetime import datetime, timedelta, timezone
+from collections.abc import Mapping, Sequence
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
-from typing import Any, Mapping, Sequence
+from typing import Any
 
 VERSION = "11.0.0"
 SCHEMA_VERSION = 1
@@ -20,7 +31,8 @@ MIN_COHORT_FLOOR = 5  # k-anonymity style floor; smaller cohorts are never repor
 SETTINGS_KEYS = {"prior_alpha", "prior_beta", "mastery_thresholds", "interval_days", "minimum_attempts_for_target", "cohort_resolution"}
 LOG = logging.getLogger("usiphus.v11")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import usiphus_ledger as ledger_mod  # noqa: E402
+import usiphus_ledger as ledger_mod
+
 LEARNER_KEYS = {"learner_id", "consent_granted", "consented_at", "consent_revoked_at"}
 ATTEMPT_KEYS = {"attempt_id", "learner_id", "card_id", "answered_at", "score"}
 FORBIDDEN_KEYS = {"name", "full_name", "email", "phone", "address", "date_of_birth", "dob", "password", "free_text", "response_text"}
@@ -35,7 +47,7 @@ def parse_time(value: Any, label: str) -> datetime:
     except ValueError: raise ValueError(f"{label} must be an ISO-8601 timestamp") from None
     if parsed.tzinfo is None or parsed.utcoffset() is None:
         raise ValueError(f"{label} must include a timezone")
-    return parsed.astimezone(timezone.utc)
+    return parsed.astimezone(UTC)
 
 def learner_uuid(value: Any) -> str:
     raw = clean(value)
@@ -323,7 +335,7 @@ def write_outputs(output,learner,cohort,schedule):
 
 def run(curriculum_path,mapping_path,attempts_path,output,settings_path,as_of_raw,
         ledger_path=None,ledger_mode="subset",update_ledger=True):
-    as_of=parse_time(as_of_raw,"--as-of") if as_of_raw else datetime.now(timezone.utc)
+    as_of=parse_time(as_of_raw,"--as-of") if as_of_raw else datetime.now(UTC)
     specialty,competencies=load_curriculum(curriculum_path)
     ids={c["competency_id"].casefold() for c in competencies}
     card_map=load_verified_card_map(mapping_path,ids,specialty); settings=load_settings(settings_path)

@@ -30,7 +30,7 @@ from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from usiphus_common import atomic_write_text  # noqa: E402
+from usiphus_common import atomic_write_text
 
 VERSION = "1.0.0"
 ALGORITHM = "ed25519"
@@ -104,6 +104,7 @@ def passphrase_from_env(name: str = PASSPHRASE_ENV) -> bytes | None:
 # --------------------------------------------------------------------------
 def generate_keypair(private_path: Path, public_path: Path, passphrase: bytes | None = None) -> str:
     """Create an Ed25519 key pair. Returns the key_id. Refuses to overwrite existing files."""
+    global public_pem, private_pem
     private_path, public_path = Path(private_path), Path(public_path)
     for path in (private_path, public_path):
         if path.exists():
@@ -181,6 +182,7 @@ class Ed25519Signer:
                 os.environ.pop(k, None) if v is None else os.environ.__setitem__(k, v)
 
     def sign(self, message: str) -> str:
+        global raw
         data = message.encode("utf-8")
         if self._key is not None:
             raw = self._key.sign(data)
@@ -234,7 +236,7 @@ class TrustedKeys:
             self.by_actor.setdefault(actor, {})[public_key_id(pem)] = pem
 
     @classmethod
-    def load(cls, path: str | Path) -> "TrustedKeys":
+    def load(cls, path: str | Path) -> TrustedKeys:
         p = Path(path)
         if not p.is_file():
             raise SigningError(f"Trusted keys file not found: {p}")

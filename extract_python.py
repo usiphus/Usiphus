@@ -4,7 +4,6 @@ import argparse
 import re
 from pathlib import Path, PurePosixPath
 
-
 HEADER = re.compile(
     r"(?m)^=+\r?\nFILE: (?P<path>[^\r\n]+)\r?\n=+\r?\n"
 )

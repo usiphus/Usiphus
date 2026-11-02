@@ -18,12 +18,12 @@ import uuid
 from pathlib import Path
 from unittest import mock
 
-from tests import test_regressions as base  # noqa: E402  (module import, so its tests are not collected twice)
+from tests import test_regressions as base
 
 ROOT = base.ROOT
-import usiphus_audit as audit  # noqa: E402
-import usiphus_ledger as ledger_mod  # noqa: E402
-import usiphus_signing as sg  # noqa: E402
+import usiphus_audit as audit
+import usiphus_ledger as ledger_mod
+import usiphus_signing as sg
 
 v11, v14, v15, mig = base.v11, base.v14, base.v15, base.mig
 HAVE_OPENSSL = shutil.which("openssl") is not None
@@ -454,7 +454,9 @@ class V14SignedAndLedgerGates(unittest.TestCase):
         data = json.loads((self.fix / "claims.json").read_text()); c = data["claims"][0]
         c["audit_events"] = c["audit_events"][:1]; c["status"] = "in_review"
         base.dump(self.fix / "claims.json", data)
-        self.assertEqual(self.run_cli(v15_audit_trusted_keys="trusted.json", v15_anchors="anchors.json").returncode, 1)
+        result = self.run_cli(v15_audit_trusted_keys="trusted.json", v15_anchors="anchors.json")
+        self.assertEqual(result.returncode, 2, result.stdout + result.stderr)  # governance block is an error exit
+        self.assertIn("evidence governance blocked", result.stdout + result.stderr)
 
     def test_strict_defaults_fail_without_any_signing_configuration(self):
         r = self.run_cli()

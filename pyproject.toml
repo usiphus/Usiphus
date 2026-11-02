@@ -1,0 +1,83 @@
+[tool.ruff]
+# The directories to exclude when linting and formatting
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
+
+# Set maximum line length to match Black's default
+line-length = 88
+indent-width = 4
+
+# Assume Python 3.10 (change this to match your project's minimum supported version)
+target-version = "py310"
+
+[tool.ruff.lint]
+# Enable a robust set of recommended rule categories by default:
+# E4, E7, E9, F = Pyflakes & basic pycodestyle errors
+# I = isort (import sorting)
+# B = flake8-bugbear (catches common bugs and design problems)
+# UP = pyupgrade (automatically modernizes older Python syntax)
+# N = pep8-naming (checks variable and function naming conventions)
+# RUF = Ruff-specific built-in rules
+select = [
+    "E4",
+    "E7",
+    "E9",
+    "F",
+    "I",
+    "B",
+    "UP",
+    "N",
+    "RUF",
+]
+
+ignore = [
+    # E501: Line length (handled automatically by the formatter)
+    "E501",
+]
+
+# Allow autofix for all enabled rules (when running `ruff check --fix`)
+fixable = ["ALL"]
+unfixable = []
+
+# Exclude variables starting with an underscore from unused variable checks (F841)
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+# Enable Ruff's built-in code formatter (replaces Black)
+# Use double quotes for strings
+quote-style = "double"
+
+# Indent with spaces, rather than tabs
+indent-style = "space"
+
+# Respect magic trailing commas (similar to Black)
+skip-magic-trailing-comma = false
+
+# Automatically detect line endings (LF vs CRLF)
+line-ending = "auto"

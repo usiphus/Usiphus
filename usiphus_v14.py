@@ -2,8 +2,20 @@
 #!/usr/bin/env python3
 """Usiphus V16: one governed release using the compatible V14 command."""
 from __future__ import annotations
-import argparse, contextlib, ctypes, hashlib, importlib.util, json, logging, os, shutil, sys, tempfile, uuid
-from datetime import date, datetime, timezone
+
+import argparse
+import contextlib
+import ctypes
+import hashlib
+import importlib.util
+import json
+import logging
+import os
+import shutil
+import sys
+import tempfile
+import uuid
+from datetime import UTC, date, datetime
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -14,7 +26,7 @@ FILES = {"cards":"cards.json","curriculum":"curriculum.json","mapping":"mapping.
          "evidence":"evidence.json","learner_progress":"learner_progress.json",
          "cohort_analytics":"cohort_analytics.json","review_schedule":"review_schedule.csv"}
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
-from usiphus_common import atomic_write_text  # noqa: E402
+from usiphus_common import atomic_write_text
 
 MARKER = ".usiphus_v14_bundle"
 POINTER_MARKER_TEXT = "usiphus-v14-pointer-root\nThis directory holds immutable releases and a current.json pointer managed by Usiphus V14.\n"
@@ -200,7 +212,7 @@ def publish_pointer(stage,target,keep):
     target.mkdir(parents=True,exist_ok=True)
     (target/MARKER).write_text(POINTER_MARKER_TEXT,encoding="utf-8")
     releases=target/"releases"; releases.mkdir(exist_ok=True)
-    now=datetime.now(timezone.utc)
+    now=datetime.now(UTC)
     rid=now.strftime("%Y%m%dT%H%M%S%fZ")+"-"+uuid.uuid4().hex[:8]
     dest=releases/rid
     try: stage.replace(dest)
@@ -322,7 +334,7 @@ def _run_release_locked(cfg,config_path,target):
             )
         ready=v12_ready and v15_status in (None,"checks_passed")
         status="ready" if ready else ("ready_with_warnings" if v15_blocked else "blocked")
-        now=datetime.now(timezone.utc).isoformat().replace("+00:00","Z")
+        now=datetime.now(UTC).isoformat().replace("+00:00","Z")
         summary={"schema_version":2,"usiphus_version":VERSION,"specialty":validation.get("specialty"),
                  "release_status":status,"v12_release_ready":v12_ready,"v15_governance_status":v15_status,"v13_validation_status":"passed",
                  "v15_evidence_mode":cfg["v15_evidence_mode"] if cfg.get("v15") else "not_configured",

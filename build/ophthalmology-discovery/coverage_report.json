@@ -1,0 +1,2222 @@
+{
+  "schema_version": 1,
+  "engine_version": "1.0.0",
+  "specialty": "ophthalmology",
+  "curriculum_version": "3.0",
+  "generated_at": "2026-11-02T17:44:52.598799Z",
+  "discovery_scope": {
+    "topics_requested": 52,
+    "topics_processed": 52,
+    "providers": [
+      "pubmed",
+      "pubmed_central",
+      "cureus_open_access",
+      "crossref",
+      "anki_shared_decks",
+      "doctorde_challenges",
+      "public_exam_prep",
+      "professional_guidelines",
+      "open_textbooks_resources",
+      "doaj"
+    ],
+    "max_results_per_provider_topic": 5
+  },
+  "topic_coverage": [
+    {
+      "topic_id": "foundations-01",
+      "topic_name": "Ocular anatomy, embryology and histology",
+      "domain_id": "foundations",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "anki_shared_decks": 1,
+        "crossref": 5,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "foundations-02",
+      "topic_name": "Ocular physiology and visual neuroscience",
+      "domain_id": "foundations",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "cureus_open_access": 5,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "foundations-03",
+      "topic_name": "Clinical optics, refraction and low vision",
+      "domain_id": "foundations",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "cureus_open_access": 5,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "clinical-skills-01",
+      "topic_name": "Ophthalmic history and comprehensive examination",
+      "domain_id": "clinical-skills",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "cureus_open_access": 5,
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 5,
+        "pubmed_central": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "clinical-skills-02",
+      "topic_name": "Slit-lamp, tonometry and clinical techniques",
+      "domain_id": "clinical-skills",
+      "resources_found": 19,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "cureus_open_access": 4,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed_central": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 4,
+        "crossref": 5,
+        "pubmed_central": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "clinical-skills-03",
+      "topic_name": "Ophthalmic investigations and interpretation",
+      "domain_id": "clinical-skills",
+      "resources_found": 18,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "cureus_open_access": 3,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 3,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "ocular-surface-cornea-01",
+      "topic_name": "Lids, lashes and meibomian gland disease",
+      "domain_id": "ocular-surface-cornea",
+      "resources_found": 14,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed_central": 5,
+        "crossref": 5,
+        "cureus_open_access": 3,
+        "pubmed": 1
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "crossref": 5,
+        "cureus_open_access": 3,
+        "pubmed": 1
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 2,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "ocular-surface-cornea-02",
+      "topic_name": "Conjunctiva, tear film and ocular surface",
+      "domain_id": "ocular-surface-cornea",
+      "resources_found": 19,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "cureus_open_access": 4,
+        "pubmed_central": 5,
+        "crossref": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 4,
+        "pubmed_central": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "ocular-surface-cornea-03",
+      "topic_name": "Corneal disease, ectasia and dystrophies",
+      "domain_id": "ocular-surface-cornea",
+      "resources_found": 17,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed_central": 5,
+        "crossref": 5,
+        "cureus_open_access": 2,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "crossref": 5,
+        "cureus_open_access": 2,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "ocular-surface-cornea-04",
+      "topic_name": "Infectious and inflammatory corneal disease",
+      "domain_id": "ocular-surface-cornea",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "cureus_open_access": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed_central": 5,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 5,
+        "pubmed_central": 5,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "ocular-surface-cornea-05",
+      "topic_name": "Scleral and episcleral disorders",
+      "domain_id": "ocular-surface-cornea",
+      "resources_found": 19,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "cureus_open_access": 4,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 4,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "lens-refractive-01",
+      "topic_name": "Lens disorders and cataract",
+      "domain_id": "lens-refractive",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "anki_shared_decks": 1,
+        "crossref": 5,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "lens-refractive-02",
+      "topic_name": "Cataract surgery and perioperative care",
+      "domain_id": "lens-refractive",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "lens-refractive-03",
+      "topic_name": "Refractive surgery and corneal procedures",
+      "domain_id": "lens-refractive",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "pubmed": 5,
+        "anki_shared_decks": 1,
+        "crossref": 5,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "glaucoma-01",
+      "topic_name": "Glaucoma mechanisms and classification",
+      "domain_id": "glaucoma",
+      "resources_found": 19,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "cureus_open_access": 4,
+        "open_textbooks_resources": 1,
+        "pubmed": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed_central": 5,
+        "crossref": 5
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 4,
+        "pubmed": 5,
+        "pubmed_central": 5,
+        "crossref": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "glaucoma-02",
+      "topic_name": "Glaucoma diagnostics and progression",
+      "domain_id": "glaucoma",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "cureus_open_access": 5,
+        "pubmed_central": 5,
+        "pubmed": 5,
+        "anki_shared_decks": 1,
+        "crossref": 5,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 5,
+        "pubmed_central": 5,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "glaucoma-03",
+      "topic_name": "Glaucoma therapeutics, laser and surgery",
+      "domain_id": "glaucoma",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "cureus_open_access": 5,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "uveitis-01",
+      "topic_name": "Anatomical and clinical uveitis",
+      "domain_id": "uveitis",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "cureus_open_access": 5,
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 5,
+        "pubmed_central": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "uveitis-02",
+      "topic_name": "Systemic inflammatory and masquerade syndromes",
+      "domain_id": "uveitis",
+      "resources_found": 18,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "cureus_open_access": 3,
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 3,
+        "pubmed_central": 5,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "uveitis-03",
+      "topic_name": "Uveitis treatment and complications",
+      "domain_id": "uveitis",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "medical-retina-01",
+      "topic_name": "Macular disease and age-related macular degeneration",
+      "domain_id": "medical-retina",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "anki_shared_decks": 1,
+        "crossref": 5,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "medical-retina-02",
+      "topic_name": "Diabetic retinopathy and diabetic eye disease",
+      "domain_id": "medical-retina",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "medical-retina-03",
+      "topic_name": "Retinal vascular and hypertensive disorders",
+      "domain_id": "medical-retina",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "medical-retina-04",
+      "topic_name": "Inherited, inflammatory and toxic retinal disease",
+      "domain_id": "medical-retina",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "cureus_open_access": 5,
+        "pubmed_central": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 5,
+        "pubmed_central": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "vitreoretinal-01",
+      "topic_name": "Vitreous, posterior vitreous detachment and retinal breaks",
+      "domain_id": "vitreoretinal",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "crossref": 5,
+        "cureus_open_access": 5,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "crossref": 5,
+        "cureus_open_access": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "vitreoretinal-02",
+      "topic_name": "Retinal detachment and vitreoretinal emergencies",
+      "domain_id": "vitreoretinal",
+      "resources_found": 17,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "cureus_open_access": 2,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "crossref": 5,
+        "cureus_open_access": 2,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "vitreoretinal-03",
+      "topic_name": "Medical and surgical vitreoretinal management",
+      "domain_id": "vitreoretinal",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "cureus_open_access": 5,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "neuro-ophthalmology-01",
+      "topic_name": "Optic nerve and afferent visual pathway",
+      "domain_id": "neuro-ophthalmology",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "cureus_open_access": 5,
+        "pubmed_central": 5,
+        "pubmed": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 5,
+        "pubmed_central": 5,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "neuro-ophthalmology-02",
+      "topic_name": "Pupils, eyelids and neuro-ophthalmic syndromes",
+      "domain_id": "neuro-ophthalmology",
+      "resources_found": 12,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed_central": 5,
+        "pubmed": 2
+      },
+      "metadata_result_counts_by_source": {
+        "crossref": 5,
+        "pubmed_central": 5,
+        "pubmed": 2
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "cureus_open_access",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 2,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "neuro-ophthalmology-03",
+      "topic_name": "Ocular motility, diplopia, nystagmus and strabismus",
+      "domain_id": "neuro-ophthalmology",
+      "resources_found": 19,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "cureus_open_access": 4,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed": 5,
+        "crossref": 5,
+        "pubmed_central": 5
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 4,
+        "pubmed": 5,
+        "crossref": 5,
+        "pubmed_central": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "pediatric-01",
+      "topic_name": "Pediatric eye assessment and visual development",
+      "domain_id": "pediatric",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "cureus_open_access": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed_central": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 5,
+        "crossref": 5,
+        "pubmed_central": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "pediatric-02",
+      "topic_name": "Amblyopia, strabismus and binocular vision",
+      "domain_id": "pediatric",
+      "resources_found": 19,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "cureus_open_access": 4,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 4,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "pediatric-03",
+      "topic_name": "Congenital, genetic and neonatal ophthalmology",
+      "domain_id": "pediatric",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "oculoplastics-orbit-01",
+      "topic_name": "Oculoplastic eyelid surgery and reconstruction",
+      "domain_id": "oculoplastics-orbit",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "cureus_open_access": 5,
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 5,
+        "pubmed_central": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "oculoplastics-orbit-02",
+      "topic_name": "Orbital disease, thyroid eye disease and trauma",
+      "domain_id": "oculoplastics-orbit",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "cureus_open_access": 5,
+        "anki_shared_decks": 1,
+        "crossref": 5,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed_central": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 5,
+        "crossref": 5,
+        "pubmed_central": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "oculoplastics-orbit-03",
+      "topic_name": "Lacrimal drainage and lacrimal surgery",
+      "domain_id": "oculoplastics-orbit",
+      "resources_found": 19,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "cureus_open_access": 4,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 4,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "ocular-oncology-01",
+      "topic_name": "Ocular surface and eyelid neoplasia",
+      "domain_id": "ocular-oncology",
+      "resources_found": 19,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "cureus_open_access": 4,
+        "pubmed_central": 5,
+        "crossref": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 4,
+        "pubmed_central": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "ocular-oncology-02",
+      "topic_name": "Intraocular tumours and masquerade lesions",
+      "domain_id": "ocular-oncology",
+      "resources_found": 16,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed": 5,
+        "cureus_open_access": 1,
+        "crossref": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "pubmed": 5,
+        "cureus_open_access": 1,
+        "crossref": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "ocular-oncology-03",
+      "topic_name": "Ocular pathology, genetics and laboratory diagnosis",
+      "domain_id": "ocular-oncology",
+      "resources_found": 19,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "cureus_open_access": 4,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 4,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "trauma-emergency-01",
+      "topic_name": "Blunt, penetrating and chemical ocular trauma",
+      "domain_id": "trauma-emergency",
+      "resources_found": 19,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "open_textbooks_resources": 1,
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "cureus_open_access": 5,
+        "crossref": 5,
+        "pubmed": 4
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "crossref": 5,
+        "pubmed": 4
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "trauma-emergency-02",
+      "topic_name": "Acute red eye, sudden visual loss and painful eye",
+      "domain_id": "trauma-emergency",
+      "resources_found": 18,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "cureus_open_access": 3,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 3,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "trauma-emergency-03",
+      "topic_name": "Ophthalmic emergency pathways and postoperative complications",
+      "domain_id": "trauma-emergency",
+      "resources_found": 19,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed_central": 5,
+        "cureus_open_access": 4,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 4,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 2,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "infection-01",
+      "topic_name": "External ocular and adnexal infections",
+      "domain_id": "infection",
+      "resources_found": 19,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed": 5,
+        "pubmed_central": 5,
+        "cureus_open_access": 4
+      },
+      "metadata_result_counts_by_source": {
+        "crossref": 5,
+        "pubmed": 5,
+        "pubmed_central": 5,
+        "cureus_open_access": 4
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "infection-02",
+      "topic_name": "Intraocular infection and endophthalmitis",
+      "domain_id": "infection",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "cureus_open_access": 5,
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 5,
+        "pubmed_central": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "infection-03",
+      "topic_name": "Systemic infection, immunosuppression and the eye",
+      "domain_id": "infection",
+      "resources_found": 19,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "cureus_open_access": 4,
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "crossref": 5,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 4,
+        "pubmed_central": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "systemic-pharmacology-01",
+      "topic_name": "Systemic disease and ocular manifestations",
+      "domain_id": "systemic-pharmacology",
+      "resources_found": 19,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "cureus_open_access": 4,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 4,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "systemic-pharmacology-02",
+      "topic_name": "Ophthalmic pharmacology and therapeutics",
+      "domain_id": "systemic-pharmacology",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "cureus_open_access": 5,
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "metadata_result_counts_by_source": {
+        "cureus_open_access": 5,
+        "pubmed_central": 5,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "systemic-pharmacology-03",
+      "topic_name": "Ocular anaesthesia, perioperative medicine and patient safety",
+      "domain_id": "systemic-pharmacology",
+      "resources_found": 19,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "cureus_open_access": 4,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 4,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "surgery-rehabilitation-01",
+      "topic_name": "Ophthalmic lasers, injections and office procedures",
+      "domain_id": "surgery-rehabilitation",
+      "resources_found": 15,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "cureus_open_access",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "surgery-rehabilitation-02",
+      "topic_name": "Ophthalmic microsurgery and surgical skills",
+      "domain_id": "surgery-rehabilitation",
+      "resources_found": 19,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "cureus_open_access": 4,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 4,
+        "pubmed": 5,
+        "crossref": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "surgery-rehabilitation-03",
+      "topic_name": "Low vision, rehabilitation, community ophthalmology and prevention",
+      "domain_id": "surgery-rehabilitation",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "pubmed_central": 5,
+        "anki_shared_decks": 1,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "professional_guidelines": 1,
+        "public_exam_prep": 2,
+        "cureus_open_access": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    },
+    {
+      "topic_id": "surgery-rehabilitation-04",
+      "topic_name": "Evidence-based practice, ethics, communication and research",
+      "domain_id": "surgery-rehabilitation",
+      "resources_found": 20,
+      "search_links_generated": 7,
+      "source_counts_including_search_links": {
+        "anki_shared_decks": 1,
+        "professional_guidelines": 1,
+        "pubmed_central": 5,
+        "doaj": 1,
+        "doctorde_challenges": 1,
+        "open_textbooks_resources": 1,
+        "public_exam_prep": 2,
+        "cureus_open_access": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "metadata_result_counts_by_source": {
+        "pubmed_central": 5,
+        "cureus_open_access": 5,
+        "crossref": 5,
+        "pubmed": 5
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "doaj",
+        "doctorde_challenges",
+        "open_textbooks_resources",
+        "professional_guidelines",
+        "public_exam_prep"
+      ],
+      "learning_objectives": 3,
+      "learning_objectives_with_matched_resources": 3,
+      "coverage_status": "resources_found"
+    }
+  ],
+  "coverage_summary": {
+    "topics_processed": 52,
+    "topics_with_resources": 52,
+    "topics_with_no_resources": 0,
+    "unique_resources": 1306,
+    "provider_errors": 0
+  },
+  "provider_errors": [],
+  "governance": {
+    "content_downloaded": false,
+    "third_party_text_reproduced": false,
+    "clinical_approval": "not_assessed",
+    "rights_policy": "Metadata and links only; verify item-level licence before reuse.",
+    "faculty_review_required": true,
+    "ranking_warning": "Relevance ranking is not evidence quality or clinical authority."
+  }
+}

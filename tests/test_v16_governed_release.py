@@ -1,11 +1,14 @@
 """V16 governed-release integration tests using synthetic fixtures only."""
 from __future__ import annotations
+
 import importlib.util
 import json
 import sys
 import unittest
 from pathlib import Path
+
 from test_v14_e2e import V14EndToEndTests, write_json
+
 
 class V16GovernedReleaseTests(V14EndToEndTests):
     def configure_v15(self, *, mode="strict", sources=None, claims=None, minimum_reviewers=1):

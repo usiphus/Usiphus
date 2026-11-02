@@ -10,14 +10,13 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
-import html
 import json
 import os
 import re
 import sys
 import tempfile
 from collections import defaultdict
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit, urlunsplit
@@ -107,7 +106,7 @@ def parse_timestamp(value: Any, label: str, *, optional: bool = True) -> datetim
         parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
         if parsed.tzinfo is None or parsed.utcoffset() is None:
             raise ValueError
-        return parsed.astimezone(timezone.utc)
+        return parsed.astimezone(UTC)
     except (TypeError, ValueError):
         raise V18Error(f"{label} must be a timezone-aware ISO-8601 timestamp")
 
@@ -125,8 +124,8 @@ def canonical_url(value: str) -> str:
             host = "[" + host + "]"
         port = parts.port
         netloc = host + (f":{port}" if port and not (
-            parts.scheme.casefold() == "http" and port == 80 or
-            parts.scheme.casefold() == "https" and port == 443) else "")
+            (parts.scheme.casefold() == "http" and port == 80) or
+            (parts.scheme.casefold() == "https" and port == 443)) else "")
         path = re.sub(r"/{2,}", "/", parts.path or "/")
         if path != "/":
             path = path.rstrip("/")
@@ -299,6 +298,8 @@ def analyze(sources: list[dict[str, Any]], claims: list[dict[str, Any]], *,
                         for row in (assessments or []) if clean(row.get("item_id") or row.get("assessment_id"))}
     osce_by_id = {clean(row.get("station_id") or row.get("osce_id")): row
                   for row in (osce or []) if clean(row.get("station_id") or row.get("osce_id"))}
+    release_by_id = {clean(row.get("release_id")): row
+                     for row in (release_links or []) if clean(row.get("release_id"))}
     source_claims: dict[str, set[str]] = defaultdict(set)
     claim_card: dict[str, str] = {}
     claim_source_ids: dict[str, set[str]] = defaultdict(set)
@@ -670,7 +671,7 @@ def self_test() -> int:
             self.tmp.cleanup()
         def analyze_now(self, **kwargs):
             return analyze(self.sources, self.claims, source_root=self.root,
-                           as_of=datetime(2026, 11, 1, tzinfo=timezone.utc), **kwargs)
+                           as_of=datetime(2026, 11, 1, tzinfo=UTC), **kwargs)
         def test_canonical_url_and_fragment(self):
             self.assertEqual(canonical_url("HTTPS://Example.org:443/a/#x"), "https://example.org/a")
         def test_withdrawal_creates_high_priority_review(self):
@@ -736,7 +737,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--osce", help="V17 OSCE stations JSON")
     parser.add_argument("--release-links", help="Optional JSON: releases with release_id and artifact_ids")
     parser.add_argument("--decisions", help="Faculty decision JSON (accepted/rejected/deferred)")
-    parser.add_argument("--as-of", default=datetime.now(timezone.utc).isoformat(),
+    parser.add_argument("--as-of", default=datetime.now(UTC).isoformat(),
                         help="Timezone-aware ISO timestamp; defaults to current UTC time")
     parser.add_argument("--output-dir", default="build-v18")
     parser.add_argument("--self-test", action="store_true")

@@ -24,6 +24,7 @@ Clinical limitation: this measures mapping metadata, not clinical truth,
 educational effectiveness, or learner competence. Faculty review is required.
 """
 from __future__ import annotations
+
 import argparse
 import csv
 import json
@@ -32,12 +33,13 @@ import math
 import os
 import re
 import sys
-from datetime import datetime
 import tempfile
 from collections import defaultdict
+from collections.abc import Sequence
 from dataclasses import asdict, dataclass, field
+from datetime import datetime
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any
 
 VERSION = "10.0.0"
 REPORT_SCHEMA_VERSION = 1
@@ -47,7 +49,7 @@ VALID_LEVELS = {"remember","understand","apply","analyze","evaluate","create"}
 LOG = logging.getLogger("usiphus.v10")
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from usiphus_common import csv_safe, valid_iso_date  # noqa: E402
+from usiphus_common import csv_safe
 
 
 @dataclass(frozen=True)

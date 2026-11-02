@@ -5,6 +5,7 @@ Local-first and standard-library-only. Feedback is minimized in reports; human
 review and institutional data governance remain mandatory.
 """
 from __future__ import annotations
+
 import argparse
 import csv
 import hashlib

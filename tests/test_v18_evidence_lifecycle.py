@@ -1,7 +1,7 @@
 import sys
 import tempfile
 import unittest
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,7 +25,7 @@ class V18Tests(unittest.TestCase):
             "claim_id": "CL-1", "card_id": "CARD-1", "claim": "Synthetic claim",
             "references": [{"source_id": "SRC-1", "jurisdiction": "GB"}],
         }]
-        self.as_of = datetime(2026, 11, 1, tzinfo=timezone.utc)
+        self.as_of = datetime(2026, 11, 1, tzinfo=UTC)
 
     def tearDown(self):
         self.tmp.cleanup()

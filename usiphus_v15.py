@@ -17,9 +17,10 @@ import json
 import logging
 import os
 import sys
-from datetime import date, datetime, timezone
+from collections.abc import Mapping
+from datetime import date, datetime
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any
 
 VERSION = "15.1.0"
 WORKFLOW = ("draft", "in_review", "approved", "published")
@@ -34,8 +35,8 @@ LOG = logging.getLogger("usiphus.v15")
 AUDIT_KEY_ENV = "USIPHUS_AUDIT_HMAC_KEY"
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from usiphus_common import atomic_write_text, csv_safe, valid_iso_date  # noqa: E402
-from usiphus_signing import SigningError, TrustedKeys, load_anchor_file  # noqa: E402
+from usiphus_common import atomic_write_text, csv_safe, valid_iso_date
+from usiphus_signing import SigningError, TrustedKeys, load_anchor_file
 
 TRUSTED_KEYS_ENV = "USIPHUS_AUDIT_TRUSTED_KEYS"
 

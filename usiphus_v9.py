@@ -37,85 +37,54 @@ python usiphus_v8.py --exam-cards cards.json --specialty ophthalmology --apkg --
 from __future__ import annotations
 
 import argparse
-import csv
-import hashlib
 import html
 import json
 import logging
 import os
-import re
 import sys
 import tempfile
 import time
-import urllib.error
-import urllib.request
-from collections import Counter
-from dataclasses import asdict, dataclass, field
-from enum import Enum
+from collections.abc import Mapping, Sequence
 from pathlib import Path
-from typing import Any, Iterable, Literal, Mapping, Sequence
+from typing import Any
 
 VERSION = "9.0.0"
 REPORT_SCHEMA_VERSION = 6
 LOG = logging.getLogger("usiphus")
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from usiphus_common import (  # noqa: E402  (shared, single-source implementations)
-    canonicalize_text, canonicalize_multiline, canonicalize_card_id, canonicalize_specialty,
-    canonicalize_tags, canonicalize_string_list, canonicalize_prompt, stable_digest,
-    stable_blueprint_id, anki_numeric_id, anki_guid, lexical_similarity,
-    find_near_duplicate_pairs, atomic_write_text, push_to_ankiconnect, parse_as_of,
-    tokens as _tokens, valid_iso_date as _valid_iso_date,
+from usiphus_common import (
+    anki_guid,
+    anki_numeric_id,
+    atomic_write_text,
+    canonicalize_prompt,
+    canonicalize_specialty,
+    canonicalize_tags,
+    canonicalize_text,
+    find_near_duplicate_pairs,
+    parse_as_of,
+    push_to_ankiconnect,
+    stable_blueprint_id,
 )
-from usiphus_core import (  # noqa: E402  (shared implementation)
-    ANKI_CONNECT_TIMEOUT_SECONDS,
-    ANSWER_MAX_CHARS,
-    ANSWER_MIN_CHARS,
+from usiphus_common import (
+    tokens as _tokens,
+)
+from usiphus_core import (
     Card,
-    CardReport,
-    EVIDENCE_TRANSITIONS,
-    EVIDENCE_WORKFLOW,
-    Finding,
     FindingCode,
-    MAX_INPUT_FILE_BYTES,
-    PROMPT_MAX_CHARS,
-    QualityReport,
-    STOP_WORDS,
-    TOKEN_RE,
-    TSV_HEADER,
-    VALID_CARD_TYPES,
-    VALID_COGNITIVE_LEVELS,
-    VALID_DIFFICULTIES,
-    VALID_EVIDENCE_STATUSES,
-    _NON_ID_RE,
-    _TRAILING_Q_RE,
-    _WHITESPACE_RE,
     _load_genanki,
     analyze_evidence_registry,
     build_blueprint_cards,
     build_case_cards,
     build_exam_cards,
     calculate_quality_score,
-    coerce_record,
     evaluate_quality,
     export_study_guide,
     load_evidence_registry,
-    load_json_cards,
     report_to_dict,
     validate_workflow_audit,
     write_tsv,
 )
-
-
-
-
-
-
-
-
-
-
-
 
 # ---------------------------------------------------------------------------
 # Normalization and stable identifiers

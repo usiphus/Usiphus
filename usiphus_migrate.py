@@ -25,7 +25,7 @@ from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from usiphus_common import atomic_write_text  # noqa: E402
+from usiphus_common import atomic_write_text
 
 VERSION = "1.0.0"
 MIN_COHORT_FLOOR = 5

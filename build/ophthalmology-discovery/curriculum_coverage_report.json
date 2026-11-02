@@ -1,0 +1,1685 @@
+{
+  "schema_version": 1,
+  "analyzer_version": "1.0.0",
+  "generated_at": "2026-11-02T17:45:32.664183Z",
+  "specialty": "ophthalmology",
+  "method": {
+    "relevance_threshold": 0.08,
+    "search_link_only_excluded": true,
+    "coverage_unit": "resource metadata mapped to topic/objective",
+    "warning": "Coverage is a discovery signal, not evidence quality, curriculum adequacy, or learner competence."
+  },
+  "summary": {
+    "topics_total": 52,
+    "topics_with_resources": 52,
+    "topics_without_resources": 0,
+    "topic_coverage": 1.0,
+    "learning_objectives_total": 156,
+    "learning_objectives_with_resources": 152,
+    "learning_objectives_without_resources": 4,
+    "objective_coverage": 0.9744,
+    "topic_resource_mappings": 738,
+    "approved_resource_mappings": 0,
+    "unreviewed_resource_mappings": 738
+  },
+  "domain_coverage": [
+    {
+      "domain_id": "clinical-skills",
+      "topic_count": 3,
+      "covered_topics": 3,
+      "objective_count": 9,
+      "objectives_with_resources": 9,
+      "resource_count": 37,
+      "topic_coverage": 1.0,
+      "objective_coverage": 1.0
+    },
+    {
+      "domain_id": "foundations",
+      "topic_count": 3,
+      "covered_topics": 3,
+      "objective_count": 9,
+      "objectives_with_resources": 9,
+      "resource_count": 40,
+      "topic_coverage": 1.0,
+      "objective_coverage": 1.0
+    },
+    {
+      "domain_id": "glaucoma",
+      "topic_count": 3,
+      "covered_topics": 3,
+      "objective_count": 9,
+      "objectives_with_resources": 9,
+      "resource_count": 48,
+      "topic_coverage": 1.0,
+      "objective_coverage": 1.0
+    },
+    {
+      "domain_id": "infection",
+      "topic_count": 3,
+      "covered_topics": 3,
+      "objective_count": 9,
+      "objectives_with_resources": 9,
+      "resource_count": 42,
+      "topic_coverage": 1.0,
+      "objective_coverage": 1.0
+    },
+    {
+      "domain_id": "lens-refractive",
+      "topic_count": 3,
+      "covered_topics": 3,
+      "objective_count": 9,
+      "objectives_with_resources": 9,
+      "resource_count": 52,
+      "topic_coverage": 1.0,
+      "objective_coverage": 1.0
+    },
+    {
+      "domain_id": "medical-retina",
+      "topic_count": 4,
+      "covered_topics": 4,
+      "objective_count": 12,
+      "objectives_with_resources": 12,
+      "resource_count": 72,
+      "topic_coverage": 1.0,
+      "objective_coverage": 1.0
+    },
+    {
+      "domain_id": "neuro-ophthalmology",
+      "topic_count": 3,
+      "covered_topics": 3,
+      "objective_count": 9,
+      "objectives_with_resources": 7,
+      "resource_count": 33,
+      "topic_coverage": 1.0,
+      "objective_coverage": 0.7778
+    },
+    {
+      "domain_id": "ocular-oncology",
+      "topic_count": 3,
+      "covered_topics": 3,
+      "objective_count": 9,
+      "objectives_with_resources": 9,
+      "resource_count": 38,
+      "topic_coverage": 1.0,
+      "objective_coverage": 1.0
+    },
+    {
+      "domain_id": "ocular-surface-cornea",
+      "topic_count": 5,
+      "covered_topics": 5,
+      "objective_count": 15,
+      "objectives_with_resources": 14,
+      "resource_count": 70,
+      "topic_coverage": 1.0,
+      "objective_coverage": 0.9333
+    },
+    {
+      "domain_id": "oculoplastics-orbit",
+      "topic_count": 3,
+      "covered_topics": 3,
+      "objective_count": 9,
+      "objectives_with_resources": 9,
+      "resource_count": 44,
+      "topic_coverage": 1.0,
+      "objective_coverage": 1.0
+    },
+    {
+      "domain_id": "pediatric",
+      "topic_count": 3,
+      "covered_topics": 3,
+      "objective_count": 9,
+      "objectives_with_resources": 9,
+      "resource_count": 51,
+      "topic_coverage": 1.0,
+      "objective_coverage": 1.0
+    },
+    {
+      "domain_id": "surgery-rehabilitation",
+      "topic_count": 4,
+      "covered_topics": 4,
+      "objective_count": 12,
+      "objectives_with_resources": 12,
+      "resource_count": 47,
+      "topic_coverage": 1.0,
+      "objective_coverage": 1.0
+    },
+    {
+      "domain_id": "systemic-pharmacology",
+      "topic_count": 3,
+      "covered_topics": 3,
+      "objective_count": 9,
+      "objectives_with_resources": 9,
+      "resource_count": 38,
+      "topic_coverage": 1.0,
+      "objective_coverage": 1.0
+    },
+    {
+      "domain_id": "trauma-emergency",
+      "topic_count": 3,
+      "covered_topics": 3,
+      "objective_count": 9,
+      "objectives_with_resources": 8,
+      "resource_count": 40,
+      "topic_coverage": 1.0,
+      "objective_coverage": 0.8889
+    },
+    {
+      "domain_id": "uveitis",
+      "topic_count": 3,
+      "covered_topics": 3,
+      "objective_count": 9,
+      "objectives_with_resources": 9,
+      "resource_count": 37,
+      "topic_coverage": 1.0,
+      "objective_coverage": 1.0
+    },
+    {
+      "domain_id": "vitreoretinal",
+      "topic_count": 3,
+      "covered_topics": 3,
+      "objective_count": 9,
+      "objectives_with_resources": 9,
+      "resource_count": 49,
+      "topic_coverage": 1.0,
+      "objective_coverage": 1.0
+    }
+  ],
+  "topic_coverage": [
+    {
+      "topic_id": "foundations-01",
+      "topic_name": "Ocular anatomy, embryology and histology",
+      "domain_id": "foundations",
+      "resource_count": 15,
+      "source_family_count": 3,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 5,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 15
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "foundations-02",
+      "topic_name": "Ocular physiology and visual neuroscience",
+      "domain_id": "foundations",
+      "resource_count": 6,
+      "source_family_count": 3,
+      "source_counts": {
+        "cureus_open_access": 1,
+        "pubmed": 1,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 6
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "foundations-03",
+      "topic_name": "Clinical optics, refraction and low vision",
+      "domain_id": "foundations",
+      "resource_count": 19,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 5,
+        "pubmed": 4,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 19
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "clinical-skills-01",
+      "topic_name": "Ophthalmic history and comprehensive examination",
+      "domain_id": "clinical-skills",
+      "resource_count": 13,
+      "source_family_count": 3,
+      "source_counts": {
+        "crossref": 4,
+        "cureus_open_access": 5,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 13
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "clinical-skills-02",
+      "topic_name": "Slit-lamp, tonometry and clinical techniques",
+      "domain_id": "clinical-skills",
+      "resource_count": 16,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 4,
+        "pubmed": 3,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 16
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "clinical-skills-03",
+      "topic_name": "Ophthalmic investigations and interpretation",
+      "domain_id": "clinical-skills",
+      "resource_count": 8,
+      "source_family_count": 3,
+      "source_counts": {
+        "crossref": 1,
+        "cureus_open_access": 2,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 8
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "ocular-surface-cornea-01",
+      "topic_name": "Lids, lashes and meibomian gland disease",
+      "domain_id": "ocular-surface-cornea",
+      "resource_count": 12,
+      "source_family_count": 3,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 3,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 2,
+      "objective_coverage": 0.6667,
+      "missing_objectives": [
+        {
+          "objective_id": "ocular-surface-cornea-01-LO03",
+          "objective": "Identify lid lesions requiring biopsy or urgent referral"
+        }
+      ],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 12
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "ocular-surface-cornea-02",
+      "topic_name": "Conjunctiva, tear film and ocular surface",
+      "domain_id": "ocular-surface-cornea",
+      "resource_count": 13,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 1,
+        "cureus_open_access": 4,
+        "pubmed": 3,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 13
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "ocular-surface-cornea-03",
+      "topic_name": "Corneal disease, ectasia and dystrophies",
+      "domain_id": "ocular-surface-cornea",
+      "resource_count": 14,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 2,
+        "pubmed": 2,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 14
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "ocular-surface-cornea-04",
+      "topic_name": "Infectious and inflammatory corneal disease",
+      "domain_id": "ocular-surface-cornea",
+      "resource_count": 17,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 4,
+        "cureus_open_access": 5,
+        "pubmed": 3,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 17
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "ocular-surface-cornea-05",
+      "topic_name": "Scleral and episcleral disorders",
+      "domain_id": "ocular-surface-cornea",
+      "resource_count": 14,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 4,
+        "cureus_open_access": 4,
+        "pubmed": 2,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 14
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "lens-refractive-01",
+      "topic_name": "Lens disorders and cataract",
+      "domain_id": "lens-refractive",
+      "resource_count": 20,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 5,
+        "pubmed": 5,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 20
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "lens-refractive-02",
+      "topic_name": "Cataract surgery and perioperative care",
+      "domain_id": "lens-refractive",
+      "resource_count": 16,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 2,
+        "cureus_open_access": 5,
+        "pubmed": 4,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 16
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "lens-refractive-03",
+      "topic_name": "Refractive surgery and corneal procedures",
+      "domain_id": "lens-refractive",
+      "resource_count": 16,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 3,
+        "cureus_open_access": 5,
+        "pubmed": 3,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 16
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "glaucoma-01",
+      "topic_name": "Glaucoma mechanisms and classification",
+      "domain_id": "glaucoma",
+      "resource_count": 15,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 4,
+        "pubmed": 2,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 15
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "glaucoma-02",
+      "topic_name": "Glaucoma diagnostics and progression",
+      "domain_id": "glaucoma",
+      "resource_count": 17,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 3,
+        "cureus_open_access": 5,
+        "pubmed": 4,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 17
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "glaucoma-03",
+      "topic_name": "Glaucoma therapeutics, laser and surgery",
+      "domain_id": "glaucoma",
+      "resource_count": 16,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 4,
+        "cureus_open_access": 4,
+        "pubmed": 3,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 16
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "uveitis-01",
+      "topic_name": "Anatomical and clinical uveitis",
+      "domain_id": "uveitis",
+      "resource_count": 10,
+      "source_family_count": 2,
+      "source_counts": {
+        "cureus_open_access": 5,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 10
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "uveitis-02",
+      "topic_name": "Systemic inflammatory and masquerade syndromes",
+      "domain_id": "uveitis",
+      "resource_count": 15,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 3,
+        "pubmed": 3,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 15
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "uveitis-03",
+      "topic_name": "Uveitis treatment and complications",
+      "domain_id": "uveitis",
+      "resource_count": 12,
+      "source_family_count": 3,
+      "source_counts": {
+        "cureus_open_access": 4,
+        "pubmed": 2,
+        "pubmed_central": 6
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 12
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "medical-retina-01",
+      "topic_name": "Macular disease and age-related macular degeneration",
+      "domain_id": "medical-retina",
+      "resource_count": 20,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 5,
+        "pubmed": 5,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 20
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "medical-retina-02",
+      "topic_name": "Diabetic retinopathy and diabetic eye disease",
+      "domain_id": "medical-retina",
+      "resource_count": 20,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 5,
+        "pubmed": 5,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 20
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "medical-retina-03",
+      "topic_name": "Retinal vascular and hypertensive disorders",
+      "domain_id": "medical-retina",
+      "resource_count": 17,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 4,
+        "cureus_open_access": 3,
+        "pubmed": 5,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 17
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "medical-retina-04",
+      "topic_name": "Inherited, inflammatory and toxic retinal disease",
+      "domain_id": "medical-retina",
+      "resource_count": 15,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 5,
+        "pubmed": 1,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 15
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "vitreoretinal-01",
+      "topic_name": "Vitreous, posterior vitreous detachment and retinal breaks",
+      "domain_id": "vitreoretinal",
+      "resource_count": 18,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 5,
+        "pubmed": 5,
+        "pubmed_central": 3
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 18
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "vitreoretinal-02",
+      "topic_name": "Retinal detachment and vitreoretinal emergencies",
+      "domain_id": "vitreoretinal",
+      "resource_count": 14,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 4,
+        "cureus_open_access": 2,
+        "pubmed": 3,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 14
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "vitreoretinal-03",
+      "topic_name": "Medical and surgical vitreoretinal management",
+      "domain_id": "vitreoretinal",
+      "resource_count": 17,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 3,
+        "cureus_open_access": 5,
+        "pubmed": 4,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 17
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "neuro-ophthalmology-01",
+      "topic_name": "Optic nerve and afferent visual pathway",
+      "domain_id": "neuro-ophthalmology",
+      "resource_count": 15,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 4,
+        "pubmed": 1,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 15
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "neuro-ophthalmology-02",
+      "topic_name": "Pupils, eyelids and neuro-ophthalmic syndromes",
+      "domain_id": "neuro-ophthalmology",
+      "resource_count": 5,
+      "source_family_count": 3,
+      "source_counts": {
+        "crossref": 3,
+        "pubmed": 1,
+        "pubmed_central": 1
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 1,
+      "objective_coverage": 0.3333,
+      "missing_objectives": [
+        {
+          "objective_id": "neuro-ophthalmology-02-LO01",
+          "objective": "Assess anisocoria, relative afferent pupillary defect and light-near dissociation"
+        },
+        {
+          "objective_id": "neuro-ophthalmology-02-LO03",
+          "objective": "Identify neurological red flags and appropriate urgent investigation"
+        }
+      ],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 5
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "neuro-ophthalmology-03",
+      "topic_name": "Ocular motility, diplopia, nystagmus and strabismus",
+      "domain_id": "neuro-ophthalmology",
+      "resource_count": 13,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 2,
+        "cureus_open_access": 4,
+        "pubmed": 2,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 13
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "pediatric-01",
+      "topic_name": "Pediatric eye assessment and visual development",
+      "domain_id": "pediatric",
+      "resource_count": 15,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 5,
+        "pubmed": 2,
+        "pubmed_central": 3
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 15
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "pediatric-02",
+      "topic_name": "Amblyopia, strabismus and binocular vision",
+      "domain_id": "pediatric",
+      "resource_count": 19,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 4,
+        "pubmed": 5,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 19
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "pediatric-03",
+      "topic_name": "Congenital, genetic and neonatal ophthalmology",
+      "domain_id": "pediatric",
+      "resource_count": 17,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 5,
+        "pubmed": 3,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 17
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "oculoplastics-orbit-01",
+      "topic_name": "Oculoplastic eyelid surgery and reconstruction",
+      "domain_id": "oculoplastics-orbit",
+      "resource_count": 15,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 5,
+        "pubmed": 1,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 15
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "oculoplastics-orbit-02",
+      "topic_name": "Orbital disease, thyroid eye disease and trauma",
+      "domain_id": "oculoplastics-orbit",
+      "resource_count": 14,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 4,
+        "pubmed": 1,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 14
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "oculoplastics-orbit-03",
+      "topic_name": "Lacrimal drainage and lacrimal surgery",
+      "domain_id": "oculoplastics-orbit",
+      "resource_count": 15,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 3,
+        "cureus_open_access": 4,
+        "pubmed": 5,
+        "pubmed_central": 3
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 15
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "ocular-oncology-01",
+      "topic_name": "Ocular surface and eyelid neoplasia",
+      "domain_id": "ocular-oncology",
+      "resource_count": 15,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 4,
+        "cureus_open_access": 5,
+        "pubmed": 2,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 15
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "ocular-oncology-02",
+      "topic_name": "Intraocular tumours and masquerade lesions",
+      "domain_id": "ocular-oncology",
+      "resource_count": 11,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 4,
+        "cureus_open_access": 1,
+        "pubmed": 1,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 11
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "ocular-oncology-03",
+      "topic_name": "Ocular pathology, genetics and laboratory diagnosis",
+      "domain_id": "ocular-oncology",
+      "resource_count": 12,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 3,
+        "cureus_open_access": 4,
+        "pubmed": 1,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 12
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "trauma-emergency-01",
+      "topic_name": "Blunt, penetrating and chemical ocular trauma",
+      "domain_id": "trauma-emergency",
+      "resource_count": 14,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 4,
+        "cureus_open_access": 5,
+        "pubmed": 1,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 14
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "trauma-emergency-02",
+      "topic_name": "Acute red eye, sudden visual loss and painful eye",
+      "domain_id": "trauma-emergency",
+      "resource_count": 13,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 3,
+        "pubmed": 2,
+        "pubmed_central": 3
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 13
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "trauma-emergency-03",
+      "topic_name": "Ophthalmic emergency pathways and postoperative complications",
+      "domain_id": "trauma-emergency",
+      "resource_count": 13,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 4,
+        "cureus_open_access": 2,
+        "pubmed": 1,
+        "pubmed_central": 6
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 2,
+      "objective_coverage": 0.6667,
+      "missing_objectives": [
+        {
+          "objective_id": "trauma-emergency-03-LO03",
+          "objective": "Communicate urgency, handover and escalation clearly"
+        }
+      ],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 13
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "infection-01",
+      "topic_name": "External ocular and adnexal infections",
+      "domain_id": "infection",
+      "resource_count": 13,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 1,
+        "pubmed": 3,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 13
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "infection-02",
+      "topic_name": "Intraocular infection and endophthalmitis",
+      "domain_id": "infection",
+      "resource_count": 15,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 3,
+        "cureus_open_access": 5,
+        "pubmed": 2,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 15
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "infection-03",
+      "topic_name": "Systemic infection, immunosuppression and the eye",
+      "domain_id": "infection",
+      "resource_count": 14,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 3,
+        "pubmed": 2,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 14
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "systemic-pharmacology-01",
+      "topic_name": "Systemic disease and ocular manifestations",
+      "domain_id": "systemic-pharmacology",
+      "resource_count": 17,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 4,
+        "pubmed": 4,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 17
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "systemic-pharmacology-02",
+      "topic_name": "Ophthalmic pharmacology and therapeutics",
+      "domain_id": "systemic-pharmacology",
+      "resource_count": 9,
+      "source_family_count": 3,
+      "source_counts": {
+        "cureus_open_access": 4,
+        "pubmed": 1,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 9
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "systemic-pharmacology-03",
+      "topic_name": "Ocular anaesthesia, perioperative medicine and patient safety",
+      "domain_id": "systemic-pharmacology",
+      "resource_count": 12,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 4,
+        "cureus_open_access": 4,
+        "pubmed": 1,
+        "pubmed_central": 3
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 12
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "surgery-rehabilitation-01",
+      "topic_name": "Ophthalmic lasers, injections and office procedures",
+      "domain_id": "surgery-rehabilitation",
+      "resource_count": 8,
+      "source_family_count": 3,
+      "source_counts": {
+        "crossref": 2,
+        "pubmed": 2,
+        "pubmed_central": 4
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 8
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "surgery-rehabilitation-02",
+      "topic_name": "Ophthalmic microsurgery and surgical skills",
+      "domain_id": "surgery-rehabilitation",
+      "resource_count": 12,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 1,
+        "cureus_open_access": 3,
+        "pubmed": 3,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 12
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "surgery-rehabilitation-03",
+      "topic_name": "Low vision, rehabilitation, community ophthalmology and prevention",
+      "domain_id": "surgery-rehabilitation",
+      "resource_count": 16,
+      "source_family_count": 4,
+      "source_counts": {
+        "crossref": 5,
+        "cureus_open_access": 4,
+        "pubmed": 1,
+        "pubmed_central": 6
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 16
+      },
+      "coverage_status": "mapped_resources_found"
+    },
+    {
+      "topic_id": "surgery-rehabilitation-04",
+      "topic_name": "Evidence-based practice, ethics, communication and research",
+      "domain_id": "surgery-rehabilitation",
+      "resource_count": 11,
+      "source_family_count": 3,
+      "source_counts": {
+        "crossref": 3,
+        "cureus_open_access": 3,
+        "pubmed_central": 5
+      },
+      "objectives_total": 3,
+      "objectives_with_resources": 3,
+      "objective_coverage": 1.0,
+      "missing_objectives": [],
+      "review_counts": {
+        "approved": 0,
+        "in_review": 0,
+        "unreviewed": 11
+      },
+      "coverage_status": "mapped_resources_found"
+    }
+  ],
+  "priority_actions": [
+    {
+      "priority": "medium",
+      "topic_id": "ocular-surface-cornea-01",
+      "action": "Find resources addressing the listed unmapped learning objectives.",
+      "missing_objective_ids": [
+        "ocular-surface-cornea-01-LO03"
+      ]
+    },
+    {
+      "priority": "medium",
+      "topic_id": "neuro-ophthalmology-02",
+      "action": "Find resources addressing the listed unmapped learning objectives.",
+      "missing_objective_ids": [
+        "neuro-ophthalmology-02-LO01",
+        "neuro-ophthalmology-02-LO03"
+      ]
+    },
+    {
+      "priority": "medium",
+      "topic_id": "trauma-emergency-03",
+      "action": "Find resources addressing the listed unmapped learning objectives.",
+      "missing_objective_ids": [
+        "trauma-emergency-03-LO03"
+      ]
+    },
+    {
+      "priority": "review",
+      "topic_id": "foundations-01",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "foundations-02",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "foundations-03",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "clinical-skills-01",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "clinical-skills-02",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "clinical-skills-03",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "ocular-surface-cornea-01",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "ocular-surface-cornea-02",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "ocular-surface-cornea-03",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "ocular-surface-cornea-04",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "ocular-surface-cornea-05",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "lens-refractive-01",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "lens-refractive-02",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "lens-refractive-03",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "glaucoma-01",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "glaucoma-02",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "glaucoma-03",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "uveitis-01",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "uveitis-02",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "uveitis-03",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "medical-retina-01",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "medical-retina-02",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "medical-retina-03",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "medical-retina-04",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "vitreoretinal-01",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "vitreoretinal-02",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "vitreoretinal-03",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "neuro-ophthalmology-01",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "neuro-ophthalmology-02",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "neuro-ophthalmology-03",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "pediatric-01",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "pediatric-02",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "pediatric-03",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "oculoplastics-orbit-01",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "oculoplastics-orbit-02",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "oculoplastics-orbit-03",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "ocular-oncology-01",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "ocular-oncology-02",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "ocular-oncology-03",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "trauma-emergency-01",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "trauma-emergency-02",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "trauma-emergency-03",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "infection-01",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "infection-02",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "infection-03",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "systemic-pharmacology-01",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "systemic-pharmacology-02",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "systemic-pharmacology-03",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "surgery-rehabilitation-01",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "surgery-rehabilitation-02",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "surgery-rehabilitation-03",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    },
+    {
+      "priority": "review",
+      "topic_id": "surgery-rehabilitation-04",
+      "action": "Faculty-review discovered metadata and destination; do not treat relevance as clinical approval."
+    }
+  ],
+  "governance": {
+    "automatic_approval": false,
+    "clinical_quality_scoring": false,
+    "search_links_counted_as_resources": false,
+    "human_review_required": true
+  }
+}

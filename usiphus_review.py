@@ -7,9 +7,10 @@ import json
 import logging
 import os
 import tempfile
-from datetime import datetime, timezone
+from collections.abc import Callable
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 LOG = logging.getLogger("usiphus.review")
 MAX_FILE_BYTES = 50 * 1024 * 1024
@@ -112,7 +113,7 @@ def record_decision(
     profile = profiles.setdefault(reviewer_id, {"decisions": {}})
     profile["decisions"][card_id] = {
         "decision": decision,
-        "updated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "updated_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         "edited_fields": edited_fields,
         "notes": notes.strip(),
     }

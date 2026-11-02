@@ -1,11 +1,13 @@
 import sys
-import unittest
 import tempfile
+import unittest
 from pathlib import Path
+
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 import usiphus_v17 as v17
+
 
 class V17Tests(unittest.TestCase):
     def setUp(self):

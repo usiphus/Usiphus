@@ -18,15 +18,17 @@ import logging
 import os
 import sys
 import tempfile
-from datetime import date, datetime, timezone
+from collections.abc import Sequence
+from datetime import UTC, date, datetime
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any
 
 VERSION = "12.0.0"
 LOG = logging.getLogger("usiphus.v12")
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from usiphus_common import csv_safe, valid_iso_date  # noqa: E402
+from usiphus_common import csv_safe, valid_iso_date
+
 WORKFLOW = ("draft", "in_review", "approved", "published")
 TRANSITIONS = {
     "draft": {"in_review"},
@@ -316,7 +318,7 @@ def sha256(path: Path) -> str:
 
 
 def run(args) -> int:
-    as_of = date.fromisoformat(args.as_of) if args.as_of else datetime.now(timezone.utc).date()
+    as_of = date.fromisoformat(args.as_of) if args.as_of else datetime.now(UTC).date()
     specialty, curriculum = load_curriculum(Path(args.curriculum))
     competency_ids = {row["id"].casefold() for row in curriculum}
     cards = load_cards(Path(args.cards), specialty)
@@ -371,7 +373,7 @@ def run(args) -> int:
     }
     report = {
         "schema_version": 1, "usiphus_version": VERSION, "specialty": specialty,
-        "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "generated_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         "as_of": as_of.isoformat(),
         "curriculum": {"competencies": len(curriculum), "required": len(required),
                        "verified_required": len(mapped_required), "uncovered_required": len(gaps)},

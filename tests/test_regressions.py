@@ -6,7 +6,6 @@ Run with: python -m unittest discover -s tests -t . -v
 from __future__ import annotations
 
 import ast
-import csv
 import http.server
 import importlib.util
 import json
@@ -28,7 +27,7 @@ if TESTS_DIR in sys.path:
     sys.path.remove(TESTS_DIR)
 sys.path.insert(0, TESTS_DIR)
 sys.path.append(str(ROOT))
-import usiphus_common as common  # noqa: E402
+import usiphus_common as common
 
 
 def load(name: str):
@@ -42,7 +41,8 @@ def load(name: str):
 v7, v8, v9 = load("usiphus_v7"), load("usiphus_v8"), load("usiphus_v9")
 v11, v12 = load("usiphus_v11"), load("usiphus_v12")
 v14, v15, mig = load("usiphus_v14"), load("usiphus_v15"), load("usiphus_migrate")
-import usiphus_core as core  # noqa: E402  (same module object the engines imported)
+import usiphus_core as core
+
 LID = "123e4567-e89b-42d3-a456-426614174000"
 PROV = {"method": "faculty-approved", "reviewer": "Faculty", "reviewed_at": "2026-10-31T12:00:00Z"}
 
@@ -447,7 +447,9 @@ class V14Fixes(unittest.TestCase):
         dump(self.fix / "claims.json", {"claims": [bad]})  # published with no audit trail
         self.config(v15_sources="sources.json", v15_claims="claims.json",
                     v15_require_signed_audit=False, v15_require_audit_anchor=False)
-        self.assertEqual(self.run_cli().returncode, 1)
+        blocked = self.run_cli()
+        self.assertEqual(blocked.returncode, 2, blocked.stdout + blocked.stderr)  # governance block is an error exit
+        self.assertIn("evidence governance blocked", blocked.stderr + blocked.stdout)
 
 
 if __name__ == "__main__":

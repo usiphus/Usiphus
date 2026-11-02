@@ -19,9 +19,10 @@ import re
 import tempfile
 import urllib.error
 import urllib.request
+from collections.abc import Sequence
 from datetime import date
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any
 
 COMMON_VERSION = "1.0.0"
 LOG = logging.getLogger("usiphus.common")

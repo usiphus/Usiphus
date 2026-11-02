@@ -5,7 +5,6 @@ import importlib
 import sys
 from collections.abc import Sequence
 
-
 COMMANDS = {
     "v6": "history.versions.usiphus_v6",
     "v7": "usiphus_v7",

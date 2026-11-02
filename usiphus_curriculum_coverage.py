@@ -11,7 +11,7 @@ import json
 import sys
 import unittest
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -113,7 +113,7 @@ def analyze_coverage(curriculum: dict[str, Any], discovery: dict[str, Any],
     return {
         "schema_version": 1,
         "analyzer_version": VERSION,
-        "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "generated_at": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         "specialty": curriculum.get("specialty", "unspecified"),
         "method": {
             "relevance_threshold": relevance_threshold,

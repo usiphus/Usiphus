@@ -65,7 +65,7 @@ class DiscoveryTests(unittest.TestCase):
         results = discovery.search_pubmed("diabetic retinopathy", 5, opener=opener)
         self.assertEqual(results[0]["pmid"], "123")
         self.assertEqual(results[0]["doi"], "10.1234/test")
-        self.assertIn("/123/", results[0]["canonical_url"])
+        self.assertEqual(results[0]["canonical_url"], "https://pubmed.ncbi.nlm.nih.gov/123")  # canonical form has no trailing slash
 
     def test_europe_pmc_records_oa_and_cureus_separately(self):
         payload = {"resultList": {"result": [{
@@ -105,7 +105,9 @@ class DiscoveryTests(unittest.TestCase):
             discovery, "search_crossref", return_value=[]):
             report = discovery.discover_curriculum(fixture(), limit=2, delay=0)
         self.assertEqual(report["coverage_summary"]["topics_with_resources"], 1)
-        self.assertEqual(report["topic_coverage"][0]["topic_id"], "retina-01")\n        self.assertEqual(report["topic_coverage"][0]["resources_found"], 1)\n        self.assertGreater(report["topic_coverage"][0]["search_links_generated"], 0)
+        self.assertEqual(report["topic_coverage"][0]["topic_id"], "retina-01")
+        self.assertEqual(report["topic_coverage"][0]["resources_found"], 1)
+        self.assertGreater(report["topic_coverage"][0]["search_links_generated"], 0)
         self.assertIn("anki_shared_decks", report["topic_coverage"][0]["source_families_without_metadata_results"])
         self.assertFalse(report["governance"]["content_downloaded"])
 

@@ -7,6 +7,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 import usiphus_v19 as v19
 
+
 def fixture():
     return {
         "schema_version": 1,
