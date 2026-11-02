@@ -534,6 +534,16 @@ def build(args: argparse.Namespace) -> int:
                 print(f"[{index}/{topic_count}] Saved checkpoint ({len(cards)} cards)", flush=True)
             raw_cards.extend(cards)
             total_cards += len(cards)
+            # Keep a usable partial deck on disk throughout long curriculum runs.
+            _atomic_write_json(out / "generated_cards.json", {
+                "specialty": specialty,
+                "learner_level": level,
+                "generation_notice": "AI-generated draft; faculty review required",
+                "generation_status": "in_progress",
+                "completed_topics": index,
+                "total_topics": topic_count,
+                "cards": raw_cards,
+            })
             print(f"[Progress] {index}/{topic_count} topics complete; {total_cards} cards ready", flush=True)
     elif args.cards:
         payload = load_json(Path(args.cards))
@@ -559,20 +569,13 @@ def build(args: argparse.Namespace) -> int:
     report = evaluate_quality(cards, require_reviewed=args.require_reviewed)
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
-    (out / "generated_cards.json").write_text(
-        json.dumps(
-            {
-                "specialty": specialty,
-                "learner_level": level,
-                "generation_notice": "AI-generated draft; faculty review required",
-                "cards": raw_cards,
-            },
-            indent=2,
-            ensure_ascii=False,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
+    _atomic_write_json(out / "generated_cards.json", {
+        "specialty": specialty,
+        "learner_level": level,
+        "generation_notice": "AI-generated draft; faculty review required",
+        "generation_status": "complete",
+        "cards": raw_cards,
+    })
     (out / "quality_report.json").write_text(
         json.dumps(
             {
