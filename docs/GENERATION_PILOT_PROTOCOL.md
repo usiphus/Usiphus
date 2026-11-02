@@ -85,8 +85,12 @@ Record:
 ## Current status
 
 The repository now contains the evidence packet validator, objective-specific
-scholarly discovery and generator enforcement when a curated packet is supplied.
-The live pilot has **not** been run: it requires a local Ollama instance,
-pinned model and faculty-curated evidence/gold set. Do not report feasibility or
+scholarly discovery, a loader for per-topic JSON packets, and generator preflight
+before Ollama inference or checkpoint reuse. Five example ophthalmology packets
+are bundled as candidate-source/review prompts only. They are deliberately not
+eligible evidence: full-text review, rights/access verification, source-currentness
+checks and faculty approval have not been completed. The live pilot has **not**
+been run: it requires a local Ollama instance, pinned model, eligible curated
+evidence packets and a faculty-approved gold set. Do not report feasibility or
 clinical-quality success until the above measurements have actually been
 collected.
