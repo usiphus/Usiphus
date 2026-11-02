@@ -157,6 +157,9 @@ def validate_topic_cards(
         if card_type == "viva" and len(answer.split()) < 20:
             raise ValueError(f"{topic_id}: viva {index} needs a structured oral-exam answer")
         if card_type == "osce":
+            task_words = {"candidate", "station", "perform", "counsel", "demonstrate", "obtain", "assess", "examine", "communicate", "interpret", "explain"}
+            if len(prompt.split()) < 12 or not (set(re.findall(r"[a-z]+", prompt.casefold())) & task_words):
+                raise ValueError(f"{topic_id}: OSCE {index} needs a clear candidate instruction or station task")
             rubric = _unique_strings(card.get("rubric"), f"{topic_id}.card[{index}].rubric", required=True)
             if len(rubric) < 3:
                 raise ValueError(f"{topic_id}: OSCE {index} needs at least three observable checklist items")
