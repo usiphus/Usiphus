@@ -33,6 +33,7 @@ import tempfile
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Callable, Iterable
 
 ROOT = Path(__file__).resolve().parents[2]
 GOLDEN = Path(__file__).resolve().parent
