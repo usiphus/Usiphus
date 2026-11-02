@@ -653,6 +653,7 @@ def build(args: argparse.Namespace) -> int:
             )
             slot_checkpoint_path = checkpoint_dir / f"{key}.slots.json"
             cards = None
+            topic_request_metrics: list[dict[str, Any]] = []
             if args.resume and checkpoint_path.exists():
                 saved = load_json(checkpoint_path)
                 if (
@@ -667,7 +668,6 @@ def build(args: argparse.Namespace) -> int:
             if cards is None:
                 print(f"[{index}/{topic_count}] Generating {count} cards: {topic.get('name') or topic.get('topic')}", flush=True)
                 topic_started = time.perf_counter()
-                topic_request_metrics: list[dict[str, Any]] = []
                 cards = generate_topic_cards(
                     topic, specialty=specialty, level=level, model=args.model,
                     ollama_url=args.ollama_url, count=count,
