@@ -1,0 +1,48 @@
+{
+  "affected_artifacts": {
+    "assessment_items": [
+      "URO-MCQ-001"
+    ],
+    "cards": [
+      "URO-CARD-001",
+      "URO-CARD-002"
+    ],
+    "osce_stations": [
+      "URO-OSCE-001"
+    ]
+  },
+  "changes": [
+    {
+      "change_type": "modified",
+      "changed_fields": [
+        "objectives"
+      ],
+      "competency_id": "URO-EM-01"
+    },
+    {
+      "change_type": "added",
+      "changed_fields": [
+        "competency"
+      ],
+      "competency_id": "URO-ENDO-03"
+    },
+    {
+      "change_type": "modified",
+      "changed_fields": [
+        "title",
+        "weight"
+      ],
+      "competency_id": "URO-ONC-02"
+    }
+  ],
+  "comparison_available": true,
+  "current_competency_count": 3,
+  "limitations": [
+    "Impact is based on explicit competency links; unlinked downstream artifacts cannot be discovered.",
+    "A curriculum change creates review candidates only and never edits clinical or educational content."
+  ],
+  "previous_competency_count": 2,
+  "review_required": true,
+  "schema_version": 1,
+  "specialty": "urology"
+}

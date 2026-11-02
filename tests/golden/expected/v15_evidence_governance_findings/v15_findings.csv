@@ -1,0 +1,3 @@
+kind,id,card_id,status,issues
+claim,C1,K1,published,approved/published claim requires hash-chained audit_events
+claim,C2,K2,draft,reference points to unknown source_id: NOPE

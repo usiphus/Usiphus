@@ -1,0 +1,76 @@
+{
+  "inputs": {
+    "assessments": {
+      "bytes": 178,
+      "path": "<WORK>/in/assessments.json",
+      "sha256": "53e4abcbb62bb3e8ac85b28f9e670c87b7e925cc6552d8d520f44c5c62569a4e"
+    },
+    "cards": {
+      "bytes": 285,
+      "path": "<WORK>/in/cards.json",
+      "sha256": "3e053db8593bebe759b43b4ae6ed7da98025d2aea3ad67f9c25d9923d5820cb8"
+    },
+    "curriculum": {
+      "bytes": 907,
+      "path": "<WORK>/in/curriculum.json",
+      "sha256": "b790bb34ca1d7544556a62fc27f2f972ba3f68d8a0087df75e61bf95702aee9a"
+    },
+    "mapping": {
+      "bytes": 477,
+      "path": "<WORK>/in/mapping.json",
+      "sha256": "c4520cb33b0df537260354047c4d6b17242474a545ca69d4df1bbcb878018da8"
+    },
+    "osce": {
+      "bytes": 126,
+      "path": "<WORK>/in/osce.json",
+      "sha256": "d5a3a54bcd18e34c8912addbd48052801c6715846c4a22e8194fa647b7bbfc16"
+    },
+    "previous_curriculum": {
+      "bytes": 604,
+      "path": "<WORK>/in/curriculum.previous.json",
+      "sha256": "6b5247bbf4672faafd924ba6791f7b2c6c558259315797e8cb8dd006668ad6bd"
+    }
+  },
+  "limitations": [
+    "This is an analysis report, not a governed V16 release.",
+    "Faculty/learner pilot validation must be performed by the institution."
+  ],
+  "outputs": {
+    "v17_curriculum_impact.json": {
+      "bytes": 1055,
+      "sha256": "f131388765bc27f29b16df787e717b7834f70542cc1c2c6bbdfd05de406ee039"
+    },
+    "v17_curriculum_quality.json": {
+      "bytes": 6173,
+      "sha256": "4c98a53ed2a0f98e730ee00efeaced42e798bcca27405648dbd6b412dc236bab"
+    },
+    "v17_dashboard.html": {
+      "bytes": 2345,
+      "sha256": "070ddfcf345bb3d5c889be3568688138f838f9aab490545fd7150947fb0dc674"
+    },
+    "v17_faculty_review_queue.json": {
+      "bytes": 731,
+      "sha256": "58ddfb7c0cd720405472883680c094f63fa8a3b595ebd19d7bb869cbe25a7043"
+    },
+    "v17_pilot_metrics_template.csv": {
+      "bytes": 165,
+      "sha256": "320cd2ad400566757708d95254bde278342834f98c50649817aa5de5c8c77338"
+    }
+  },
+  "schema_version": 1,
+  "summary": {
+    "assessment_items": 1,
+    "cards_evaluated": 2,
+    "competencies_evaluated": 3,
+    "exact_duplicate_groups": 0,
+    "mapping_candidates": 1,
+    "mapping_conflicts": 0,
+    "missing_required_competencies": 2,
+    "osce_stations": 1,
+    "required_competencies": 3,
+    "verified_coverage": 0.3333,
+    "verified_required_competencies": 1,
+    "verified_weighted_coverage": 0.4
+  },
+  "usiphus_version": "17.0.0"
+}

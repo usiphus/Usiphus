@@ -1,0 +1,38 @@
+{
+  "blocking_items": [
+    "Evidence issue: E2",
+    "Card lacks current approved/published evidence: G-002",
+    "Card lacks current approved/published evidence: G-003",
+    "Card lacks current approved/published evidence: G-004",
+    "Card lacks current approved/published evidence: G-006"
+  ],
+  "checks": [
+    {
+      "check": "all_required_competencies_have_verified_mappings",
+      "detail": "2/2 required competencies mapped",
+      "passed": true
+    },
+    {
+      "check": "all_cards_have_current_approved_evidence",
+      "detail": "1/5 cards covered by current approved/published evidence",
+      "passed": false
+    },
+    {
+      "check": "v11_learner_progress_integrated",
+      "detail": "6 learners; 12 accepted attempts",
+      "passed": true
+    },
+    {
+      "check": "cohort_suppression_schema_valid",
+      "detail": "1 of 3 competency rows suppressed",
+      "passed": true
+    },
+    {
+      "check": "review_schedule_matches_learner_progress",
+      "detail": "12 review rows; 0 without a matching learner-progress row",
+      "passed": true
+    }
+  ],
+  "interpretation": "Software readiness is not clinical validation, educational validity, or proof of learner competence.",
+  "release_ready": false
+}

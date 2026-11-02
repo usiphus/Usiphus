@@ -1,0 +1,146 @@
+{
+  "edges": [
+    {
+      "from": "source:MISSING-SRC",
+      "relationship": "supports",
+      "to": "claim:SYNTH-CLAIM-002"
+    },
+    {
+      "from": "claim:SYNTH-CLAIM-002",
+      "relationship": "appears_in",
+      "to": "card:URO-CARD-001"
+    },
+    {
+      "from": "card:URO-CARD-001",
+      "relationship": "mapped_to",
+      "to": "competency:URO-EM-01"
+    },
+    {
+      "from": "competency:URO-EM-01",
+      "relationship": "assessed_by",
+      "to": "assessment:URO-MCQ-001"
+    },
+    {
+      "from": "competency:URO-EM-01",
+      "relationship": "assessed_by",
+      "to": "osce:URO-OSCE-001"
+    },
+    {
+      "from": "source:SYNTH-GUIDE-001",
+      "relationship": "supports",
+      "to": "claim:SYNTH-CLAIM-001"
+    },
+    {
+      "from": "claim:SYNTH-CLAIM-001",
+      "relationship": "appears_in",
+      "to": "card:URO-CARD-001"
+    },
+    {
+      "from": "card:URO-CARD-001",
+      "relationship": "mapped_to",
+      "to": "competency:URO-EM-01"
+    },
+    {
+      "from": "competency:URO-EM-01",
+      "relationship": "assessed_by",
+      "to": "assessment:URO-MCQ-001"
+    },
+    {
+      "from": "competency:URO-EM-01",
+      "relationship": "assessed_by",
+      "to": "osce:URO-OSCE-001"
+    },
+    {
+      "from": "source:SYNTH-GUIDE-003",
+      "relationship": "supports",
+      "to": "claim:SYNTH-CLAIM-002"
+    },
+    {
+      "from": "claim:SYNTH-CLAIM-002",
+      "relationship": "appears_in",
+      "to": "card:URO-CARD-001"
+    },
+    {
+      "from": "card:URO-CARD-001",
+      "relationship": "mapped_to",
+      "to": "competency:URO-EM-01"
+    },
+    {
+      "from": "competency:URO-EM-01",
+      "relationship": "assessed_by",
+      "to": "assessment:URO-MCQ-001"
+    },
+    {
+      "from": "competency:URO-EM-01",
+      "relationship": "assessed_by",
+      "to": "osce:URO-OSCE-001"
+    },
+    {
+      "from": "card:URO-CARD-001",
+      "relationship": "included_in",
+      "to": "release:SYNTH-RELEASE-01"
+    },
+    {
+      "from": "assessment:URO-MCQ-001",
+      "relationship": "included_in",
+      "to": "release:SYNTH-RELEASE-01"
+    },
+    {
+      "from": "osce:URO-OSCE-001",
+      "relationship": "included_in",
+      "to": "release:SYNTH-RELEASE-01"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "source:MISSING-SRC",
+      "label": "MISSING-SRC",
+      "type": "source"
+    },
+    {
+      "id": "claim:SYNTH-CLAIM-002",
+      "label": "SYNTH-CLAIM-002",
+      "type": "claim"
+    },
+    {
+      "id": "card:URO-CARD-001",
+      "label": "URO-CARD-001",
+      "type": "card"
+    },
+    {
+      "id": "competency:URO-EM-01",
+      "label": "URO-EM-01",
+      "type": "competency"
+    },
+    {
+      "id": "assessment:URO-MCQ-001",
+      "label": "URO-MCQ-001",
+      "type": "assessment_item"
+    },
+    {
+      "id": "osce:URO-OSCE-001",
+      "label": "URO-OSCE-001",
+      "type": "osce_station"
+    },
+    {
+      "id": "source:SYNTH-GUIDE-001",
+      "label": "Synthetic Urology Teaching Guideline",
+      "type": "source"
+    },
+    {
+      "id": "claim:SYNTH-CLAIM-001",
+      "label": "SYNTH-CLAIM-001",
+      "type": "claim"
+    },
+    {
+      "id": "source:SYNTH-GUIDE-003",
+      "label": "Synthetic Withdrawn Guideline",
+      "type": "source"
+    },
+    {
+      "id": "release:SYNTH-RELEASE-01",
+      "label": "SYNTH-RELEASE-01",
+      "type": "release"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "config_sha256": "bea8901f1e11a9b77fdb06f9bcac3c56ceaecf8983b1131da13c52efab91d17d",
+  "engine_versions": {
+    "v10": "10.0.0",
+    "v11": "11.0.0",
+    "v12": "12.0.0",
+    "v13": "13.0.0",
+    "v8": "8.0.0",
+    "v9": "9.0.0"
+  },
+  "generated_at": "<VOLATILE>",
+  "governance_report_hashes": {},
+  "inputs": {
+    "cards": {
+      "bytes": 141,
+      "path": "<WORK>/in/cards.json",
+      "sha256": "4875eb7a0116b7fc0d3252dbd5eb9082888644c1abe5653d5738216d798ad6ca"
+    },
+    "cohort_analytics": {
+      "bytes": 212,
+      "path": "<WORK>/in/cohort_analytics.json",
+      "sha256": "9407050280acbf39f401e49152942c05b90520accee3ef699a81d871fbe03759"
+    },
+    "curriculum": {
+      "bytes": 178,
+      "path": "<WORK>/in/curriculum.json",
+      "sha256": "f9284f8fe58e86c9dca522e14bb366e5274b549b26c4349460b5fc55d39c7997"
+    },
+    "evidence": {
+      "bytes": 630,
+      "path": "<WORK>/in/evidence.json",
+      "sha256": "69639abe9c81050509cd86ba2febb46f82c25749ed9c6695f70d590ca0f264e9"
+    },
+    "learner_progress": {
+      "bytes": 267,
+      "path": "<WORK>/in/learner_progress.json",
+      "sha256": "c3af59f46a403ed9328fdc5a07729740ec4ee184817a914677a0c7311c0a70fd"
+    },
+    "mapping": {
+      "bytes": 275,
+      "path": "<WORK>/in/mapping.json",
+      "sha256": "d51809edb6155336ecd315c826a8c844c2b64d12c7af015e7f10872429d2800d"
+    },
+    "review_schedule": {
+      "bytes": 142,
+      "path": "<WORK>/in/review_schedule.csv",
+      "sha256": "520726e3fe5ed2b7bf1c6d89a0dad0b9e4f49aa0b30cbb107075531820061e58"
+    }
+  },
+  "note": "Hashes support integrity/change detection; timestamps vary and byte-identical bundles are not promised.",
+  "outputs": {
+    ".usiphus_v14_bundle": {
+      "bytes": 78,
+      "sha256": "20ff04b61fd3f07314be35364b9b14d89fca400efc36b21d64e5b405c6b95992"
+    },
+    "release_report.md": {
+      "bytes": 405,
+      "sha256": "5ed4b8c23ffd7295a95f38e884caa314c7b0a85e2fc8e5a0cdd215a87d097d78"
+    },
+    "release_summary.json": {
+      "bytes": 921,
+      "sha256": "<SHA256 of volatile release_summary.json>"
+    },
+    "v12/faculty_review_queue.csv": {
+      "bytes": 63,
+      "sha256": "87b7036850058b2d5cfd82c248b33b4c4b01d051cc6234e0bee8933a533ec544"
+    },
+    "v12/platform_report.json": {
+      "bytes": 2283,
+      "sha256": "<SHA256 of volatile v12/platform_report.json>"
+    },
+    "v12/release_checklist.json": {
+      "bytes": 957,
+      "sha256": "aa8c0b1dc8665f1fc798ac1678ff61cf7dfc632c0ce0946576f80fefce5aa59e"
+    },
+    "v12/v12_manifest.json": {
+      "bytes": 1277,
+      "sha256": "1d76ba27a7719ce7504f5d33c72074359eac3f460e5c0b17cf0e1e650b4fdebc"
+    },
+    "v13_validation_report.json": {
+      "bytes": 1177,
+      "sha256": "<SHA256 of volatile v13_validation_report.json>"
+    }
+  },
+  "release_policy": {
+    "as_of": "2026-11-01",
+    "max_evidence_age_days": 730,
+    "v15_block_on_failure": true,
+    "v15_enabled": false,
+    "v15_evidence_mode": "not_configured",
+    "v15_minimum_reviewers": null,
+    "v15_require_audit_anchor": null,
+    "v15_require_registered_sources": null,
+    "v15_require_signed_audit": null
+  },
+  "release_status": "ready",
+  "schema_version": 2,
+  "usiphus_version": "16.0.0"
+}

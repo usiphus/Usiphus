@@ -1,0 +1,545 @@
+{
+  "claim_decisions": {},
+  "decision_audit_events": [],
+  "duplicate_source_candidates": [
+    {
+      "candidate_type": "canonical_url",
+      "note": "Candidate only; do not merge source records or infer equivalence automatically.",
+      "review_required": true,
+      "source_ids": [
+        "SYNTH-GUIDE-001",
+        "SYNTH-GUIDE-002"
+      ]
+    }
+  ],
+  "faculty_decisions": [],
+  "findings": [
+    {
+      "id": "SYNTH-CLAIM-002",
+      "issues": [
+        "unknown source_id: MISSING-SRC"
+      ],
+      "kind": "claim"
+    }
+  ],
+  "generated_at": "2026-11-01T00:00:00+00:00",
+  "impact_graph": {
+    "edges": [
+      {
+        "from": "source:MISSING-SRC",
+        "relationship": "supports",
+        "to": "claim:SYNTH-CLAIM-002"
+      },
+      {
+        "from": "claim:SYNTH-CLAIM-002",
+        "relationship": "appears_in",
+        "to": "card:URO-CARD-001"
+      },
+      {
+        "from": "card:URO-CARD-001",
+        "relationship": "mapped_to",
+        "to": "competency:URO-EM-01"
+      },
+      {
+        "from": "competency:URO-EM-01",
+        "relationship": "assessed_by",
+        "to": "assessment:URO-MCQ-001"
+      },
+      {
+        "from": "competency:URO-EM-01",
+        "relationship": "assessed_by",
+        "to": "osce:URO-OSCE-001"
+      },
+      {
+        "from": "source:SYNTH-GUIDE-001",
+        "relationship": "supports",
+        "to": "claim:SYNTH-CLAIM-001"
+      },
+      {
+        "from": "claim:SYNTH-CLAIM-001",
+        "relationship": "appears_in",
+        "to": "card:URO-CARD-001"
+      },
+      {
+        "from": "card:URO-CARD-001",
+        "relationship": "mapped_to",
+        "to": "competency:URO-EM-01"
+      },
+      {
+        "from": "competency:URO-EM-01",
+        "relationship": "assessed_by",
+        "to": "assessment:URO-MCQ-001"
+      },
+      {
+        "from": "competency:URO-EM-01",
+        "relationship": "assessed_by",
+        "to": "osce:URO-OSCE-001"
+      },
+      {
+        "from": "source:SYNTH-GUIDE-003",
+        "relationship": "supports",
+        "to": "claim:SYNTH-CLAIM-002"
+      },
+      {
+        "from": "claim:SYNTH-CLAIM-002",
+        "relationship": "appears_in",
+        "to": "card:URO-CARD-001"
+      },
+      {
+        "from": "card:URO-CARD-001",
+        "relationship": "mapped_to",
+        "to": "competency:URO-EM-01"
+      },
+      {
+        "from": "competency:URO-EM-01",
+        "relationship": "assessed_by",
+        "to": "assessment:URO-MCQ-001"
+      },
+      {
+        "from": "competency:URO-EM-01",
+        "relationship": "assessed_by",
+        "to": "osce:URO-OSCE-001"
+      },
+      {
+        "from": "card:URO-CARD-001",
+        "relationship": "included_in",
+        "to": "release:SYNTH-RELEASE-01"
+      },
+      {
+        "from": "assessment:URO-MCQ-001",
+        "relationship": "included_in",
+        "to": "release:SYNTH-RELEASE-01"
+      },
+      {
+        "from": "osce:URO-OSCE-001",
+        "relationship": "included_in",
+        "to": "release:SYNTH-RELEASE-01"
+      }
+    ],
+    "nodes": [
+      {
+        "id": "source:MISSING-SRC",
+        "label": "MISSING-SRC",
+        "type": "source"
+      },
+      {
+        "id": "claim:SYNTH-CLAIM-002",
+        "label": "SYNTH-CLAIM-002",
+        "type": "claim"
+      },
+      {
+        "id": "card:URO-CARD-001",
+        "label": "URO-CARD-001",
+        "type": "card"
+      },
+      {
+        "id": "competency:URO-EM-01",
+        "label": "URO-EM-01",
+        "type": "competency"
+      },
+      {
+        "id": "assessment:URO-MCQ-001",
+        "label": "URO-MCQ-001",
+        "type": "assessment_item"
+      },
+      {
+        "id": "osce:URO-OSCE-001",
+        "label": "URO-OSCE-001",
+        "type": "osce_station"
+      },
+      {
+        "id": "source:SYNTH-GUIDE-001",
+        "label": "Synthetic Urology Teaching Guideline",
+        "type": "source"
+      },
+      {
+        "id": "claim:SYNTH-CLAIM-001",
+        "label": "SYNTH-CLAIM-001",
+        "type": "claim"
+      },
+      {
+        "id": "source:SYNTH-GUIDE-003",
+        "label": "Synthetic Withdrawn Guideline",
+        "type": "source"
+      },
+      {
+        "id": "release:SYNTH-RELEASE-01",
+        "label": "SYNTH-RELEASE-01",
+        "type": "release"
+      }
+    ]
+  },
+  "input_hashes": {
+    "<WORK>/in/assessments.json": "042eec2fed2bebdf39926e090c87e29278f49d7e0e795d6086d748f1e3de56b1",
+    "<WORK>/in/cards.json": "6ea1850438515cb97b639d319d2604fb2c2264c26905c52243a8d52680a8c716",
+    "<WORK>/in/claims.json": "642347d3fa45eee91edf2843674f93a279a9bd70be867071dea67b0e36554d76",
+    "<WORK>/in/osce.json": "d5a3a54bcd18e34c8912addbd48052801c6715846c4a22e8194fa647b7bbfc16",
+    "<WORK>/in/previous_state.json": "85da496236760a38f9ee88558ba063b20e630e4eb5c3c1700fd067a17fe7a2a8",
+    "<WORK>/in/releases.json": "3dedf4e743d2a3820680c93864aa73cc07596cff83ef4892638e1c5756d90ce1",
+    "<WORK>/in/sources.json": "92d57651017ffcdd2ac3b64f32c9974f409946b242d606122a3dbf45e5f255bc"
+  },
+  "next_state": {
+    "schema_version": 1,
+    "sources": {
+      "SYNTH-GUIDE-001": {
+        "authority": "Publisher metadata only",
+        "canonical_id": "",
+        "canonical_url": "https://example.org/synthetic-urology-guideline",
+        "content_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "jurisdiction": "GB",
+        "last_reviewed_at": "2026-10-01T09:00:00Z",
+        "published_on": "2026-01-01",
+        "publisher": "Synthetic Faculty Group",
+        "retrieved_at": "2026-10-01T09:00:00Z",
+        "review_due_days": 365,
+        "source_id": "SYNTH-GUIDE-001",
+        "source_type": "guideline",
+        "status": "active",
+        "superseded_by": "",
+        "title": "Synthetic Urology Teaching Guideline",
+        "version": "2026.2"
+      },
+      "SYNTH-GUIDE-002": {
+        "authority": "Publisher metadata only",
+        "canonical_id": "",
+        "canonical_url": "https://example.org/synthetic-urology-guideline",
+        "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jurisdiction": "GB",
+        "last_reviewed_at": "2026-10-01T09:00:00Z",
+        "published_on": "2026-01-01",
+        "publisher": "Synthetic Faculty Group",
+        "retrieved_at": "2026-10-01T09:00:00Z",
+        "review_due_days": 365,
+        "source_id": "SYNTH-GUIDE-002",
+        "source_type": "guideline",
+        "status": "active",
+        "superseded_by": "",
+        "title": "Synthetic Urology Teaching Guideline (mirror)",
+        "version": "2026.1"
+      },
+      "SYNTH-GUIDE-003": {
+        "authority": "Publisher metadata only",
+        "canonical_id": "",
+        "canonical_url": "https://example.org/withdrawn",
+        "content_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "jurisdiction": "US",
+        "last_reviewed_at": "2026-10-01T09:00:00Z",
+        "published_on": "2026-01-01",
+        "publisher": "Synthetic Faculty Group",
+        "retrieved_at": "2026-10-01T09:00:00Z",
+        "review_due_days": 365,
+        "source_id": "SYNTH-GUIDE-003",
+        "source_type": "guideline",
+        "status": "withdrawn",
+        "superseded_by": "",
+        "title": "Synthetic Withdrawn Guideline",
+        "version": "2026.1"
+      }
+    }
+  },
+  "policy": {
+    "clinical_boundary": "Metadata and workflow triage only; not a source-authority score, guideline-currentness certification, clinical interpretation or clinical approval.",
+    "hash_chain": "Decision event hashes detect accidental edits when recomputed, but without external signatures/anchors they are not tamper-proof.",
+    "human_control": "Source status, claim text and clinical content are never changed by V18. Faculty decisions are recorded as input metadata only.",
+    "queue_score": "Base priority by event type plus 10 points per affected artifact, capped at 100 additional points; deterministic triage only, not clinical risk.",
+    "retrieval": "Offline by default; only user-supplied local content_path files are hashed. URL content is never fetched automatically.",
+    "review_priorities": {
+      "jurisdiction_mismatch": 850,
+      "new_source": 100,
+      "review_date_missing": 350,
+      "review_overdue": 400,
+      "review_timestamp_in_future": 600,
+      "source_content_changed": 800,
+      "source_metadata_changed": 500,
+      "source_status_changed": 700,
+      "source_version_changed": 750,
+      "superseded_source": 900,
+      "withdrawn_source": 1000
+    },
+    "reviewer_identity": "Reviewer labels are user-supplied and are not authenticated identities or proof of independent review."
+  },
+  "review_queue": [
+    {
+      "affected_artifacts": {
+        "assessment_items": [
+          "URO-MCQ-001"
+        ],
+        "cards": [
+          "URO-CARD-001"
+        ],
+        "claims": [
+          "SYNTH-CLAIM-002"
+        ],
+        "competencies": [
+          "URO-EM-01"
+        ],
+        "osce_stations": [
+          "URO-OSCE-001"
+        ],
+        "releases": [
+          "SYNTH-RELEASE-01"
+        ]
+      },
+      "event_type": "withdrawn_source",
+      "faculty_decision": null,
+      "priority_score": 1060,
+      "queue_id": "33b980e7162f44f8",
+      "rationale": "Source is marked withdrawn; faculty must assess affected claims and teaching artifacts.",
+      "source_id": "SYNTH-GUIDE-003"
+    },
+    {
+      "affected_artifacts": {
+        "assessment_items": [
+          "URO-MCQ-001"
+        ],
+        "cards": [
+          "URO-CARD-001"
+        ],
+        "claims": [
+          "SYNTH-CLAIM-001"
+        ],
+        "competencies": [
+          "URO-EM-01"
+        ],
+        "osce_stations": [
+          "URO-OSCE-001"
+        ],
+        "releases": [
+          "SYNTH-RELEASE-01"
+        ]
+      },
+      "claim_id": "SYNTH-CLAIM-001",
+      "claim_jurisdiction": "US",
+      "event_type": "jurisdiction_mismatch",
+      "faculty_decision": null,
+      "priority_score": 910,
+      "queue_id": "fc887f240607122b",
+      "rationale": "Claim and source jurisdiction metadata differ; applicability requires human review.",
+      "source_id": "SYNTH-GUIDE-001",
+      "source_jurisdiction": "GB"
+    },
+    {
+      "affected_artifacts": {
+        "assessment_items": [
+          "URO-MCQ-001"
+        ],
+        "cards": [
+          "URO-CARD-001"
+        ],
+        "claims": [
+          "SYNTH-CLAIM-001"
+        ],
+        "competencies": [
+          "URO-EM-01"
+        ],
+        "osce_stations": [
+          "URO-OSCE-001"
+        ],
+        "releases": [
+          "SYNTH-RELEASE-01"
+        ]
+      },
+      "changed_fields": [
+        "version",
+        "content_sha256"
+      ],
+      "event_type": "source_content_changed",
+      "faculty_decision": null,
+      "priority_score": 860,
+      "queue_id": "b8bbcac3f3cf5498",
+      "rationale": "Source fingerprint changed in: version, content_sha256.",
+      "source_id": "SYNTH-GUIDE-001"
+    }
+  ],
+  "schema_version": 1,
+  "source_changes": [
+    {
+      "affected_artifacts": {
+        "assessment_items": [
+          "URO-MCQ-001"
+        ],
+        "cards": [
+          "URO-CARD-001"
+        ],
+        "claims": [
+          "SYNTH-CLAIM-001"
+        ],
+        "competencies": [
+          "URO-EM-01"
+        ],
+        "osce_stations": [
+          "URO-OSCE-001"
+        ],
+        "releases": [
+          "SYNTH-RELEASE-01"
+        ]
+      },
+      "after": {
+        "authority": "Publisher metadata only",
+        "canonical_id": "",
+        "canonical_url": "https://example.org/synthetic-urology-guideline",
+        "content_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "jurisdiction": "GB",
+        "last_reviewed_at": "2026-10-01T09:00:00Z",
+        "published_on": "2026-01-01",
+        "publisher": "Synthetic Faculty Group",
+        "retrieved_at": "2026-10-01T09:00:00Z",
+        "review_due_days": 365,
+        "source_id": "SYNTH-GUIDE-001",
+        "source_type": "guideline",
+        "status": "active",
+        "superseded_by": "",
+        "title": "Synthetic Urology Teaching Guideline",
+        "version": "2026.2"
+      },
+      "before": {
+        "authority": "Publisher metadata only",
+        "canonical_id": "",
+        "canonical_url": "https://example.org/synthetic-urology-guideline",
+        "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jurisdiction": "GB",
+        "last_reviewed_at": "2026-10-01T09:00:00Z",
+        "published_on": "2026-01-01",
+        "publisher": "Synthetic Faculty Group",
+        "retrieved_at": "2026-10-01T09:00:00Z",
+        "review_due_days": 365,
+        "source_id": "SYNTH-GUIDE-001",
+        "source_type": "guideline",
+        "status": "active",
+        "superseded_by": "",
+        "title": "Synthetic Urology Teaching Guideline",
+        "version": "2026.1"
+      },
+      "change_type": "source_content_changed",
+      "fields": [
+        "version",
+        "content_sha256"
+      ],
+      "source_id": "SYNTH-GUIDE-001"
+    },
+    {
+      "after": {
+        "authority": "Publisher metadata only",
+        "canonical_id": "",
+        "canonical_url": "https://example.org/synthetic-urology-guideline",
+        "content_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jurisdiction": "GB",
+        "last_reviewed_at": "2026-10-01T09:00:00Z",
+        "published_on": "2026-01-01",
+        "publisher": "Synthetic Faculty Group",
+        "retrieved_at": "2026-10-01T09:00:00Z",
+        "review_due_days": 365,
+        "source_id": "SYNTH-GUIDE-002",
+        "source_type": "guideline",
+        "status": "active",
+        "superseded_by": "",
+        "title": "Synthetic Urology Teaching Guideline (mirror)",
+        "version": "2026.1"
+      },
+      "before": {},
+      "change_type": "new_source",
+      "fields": [
+        "source_registered"
+      ],
+      "source_id": "SYNTH-GUIDE-002"
+    },
+    {
+      "after": {
+        "authority": "Publisher metadata only",
+        "canonical_id": "",
+        "canonical_url": "https://example.org/withdrawn",
+        "content_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "jurisdiction": "US",
+        "last_reviewed_at": "2026-10-01T09:00:00Z",
+        "published_on": "2026-01-01",
+        "publisher": "Synthetic Faculty Group",
+        "retrieved_at": "2026-10-01T09:00:00Z",
+        "review_due_days": 365,
+        "source_id": "SYNTH-GUIDE-003",
+        "source_type": "guideline",
+        "status": "withdrawn",
+        "superseded_by": "",
+        "title": "Synthetic Withdrawn Guideline",
+        "version": "2026.1"
+      },
+      "before": {},
+      "change_type": "new_source",
+      "fields": [
+        "source_registered"
+      ],
+      "source_id": "SYNTH-GUIDE-003"
+    }
+  ],
+  "source_impact": {
+    "MISSING-SRC": {
+      "assessment_items": [
+        "URO-MCQ-001"
+      ],
+      "cards": [
+        "URO-CARD-001"
+      ],
+      "claims": [
+        "SYNTH-CLAIM-002"
+      ],
+      "competencies": [
+        "URO-EM-01"
+      ],
+      "osce_stations": [
+        "URO-OSCE-001"
+      ],
+      "releases": [
+        "SYNTH-RELEASE-01"
+      ]
+    },
+    "SYNTH-GUIDE-001": {
+      "assessment_items": [
+        "URO-MCQ-001"
+      ],
+      "cards": [
+        "URO-CARD-001"
+      ],
+      "claims": [
+        "SYNTH-CLAIM-001"
+      ],
+      "competencies": [
+        "URO-EM-01"
+      ],
+      "osce_stations": [
+        "URO-OSCE-001"
+      ],
+      "releases": [
+        "SYNTH-RELEASE-01"
+      ]
+    },
+    "SYNTH-GUIDE-003": {
+      "assessment_items": [
+        "URO-MCQ-001"
+      ],
+      "cards": [
+        "URO-CARD-001"
+      ],
+      "claims": [
+        "SYNTH-CLAIM-002"
+      ],
+      "competencies": [
+        "URO-EM-01"
+      ],
+      "osce_stations": [
+        "URO-OSCE-001"
+      ],
+      "releases": [
+        "SYNTH-RELEASE-01"
+      ]
+    }
+  },
+  "summary": {
+    "claims": 2,
+    "duplicate_candidates": 1,
+    "jurisdiction_mismatches": 1,
+    "review_queue_items": 3,
+    "source_changes": 3,
+    "sources": 3,
+    "sources_with_downstream_impact": 3
+  },
+  "usiphus_version": "18.0.0"
+}

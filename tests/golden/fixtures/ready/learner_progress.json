@@ -1,0 +1,15 @@
+{
+  "specialty": "urology",
+  "accepted_attempts": 1,
+  "learners": [
+    {
+      "learner_id": "123e4567-e89b-42d3-a456-426614174000",
+      "competencies": [
+        {
+          "competency_id": "U1",
+          "mastery_estimate": 0.7
+        }
+      ]
+    }
+  ]
+}

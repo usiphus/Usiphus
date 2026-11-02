@@ -1,0 +1,94 @@
+{
+  "candidate_weighted_coverage": 100.0,
+  "candidates": [
+    {
+      "card_id": "G-001",
+      "competency_id": "U1",
+      "method": "faculty-approved",
+      "rationale": "Explicit mapping approved by a named faculty reviewer",
+      "reviewed_at": "2026-10-31T12:00:00Z",
+      "reviewer": "synthetic-reviewer",
+      "score": 1.0,
+      "status": "verified"
+    },
+    {
+      "card_id": "G-003",
+      "competency_id": "U2",
+      "method": "faculty-approved",
+      "rationale": "Explicit mapping approved by a named faculty reviewer",
+      "reviewed_at": "2026-10-31T12:00:00Z",
+      "reviewer": "synthetic-reviewer",
+      "score": 1.0,
+      "status": "verified"
+    },
+    {
+      "card_id": "G-002",
+      "competency_id": "U1",
+      "method": "explicit",
+      "rationale": "Explicit mapping supplied without auditable faculty approval",
+      "reviewed_at": "",
+      "reviewer": "",
+      "score": 1.0,
+      "status": "pending"
+    },
+    {
+      "card_id": "G-006",
+      "competency_id": "U3",
+      "method": "lexical",
+      "rationale": "Lexical candidate only; faculty confirmation required",
+      "reviewed_at": "",
+      "reviewer": "",
+      "score": 0.1765,
+      "status": "suggested"
+    }
+  ],
+  "card_mapping_rate": 80.0,
+  "cards_evaluated": 5,
+  "competencies_evaluated": 3,
+  "domain_summary": [
+    {
+      "competencies": 1,
+      "domain": "Emergency",
+      "required": 1,
+      "suggested_only": 0,
+      "uncovered_required": 0,
+      "verified_coverage_percent": 100.0,
+      "verified_covered": 1
+    },
+    {
+      "competencies": 1,
+      "domain": "Oncology",
+      "required": 0,
+      "suggested_only": 0,
+      "uncovered_required": 0,
+      "verified_coverage_percent": 100.0,
+      "verified_covered": 0
+    },
+    {
+      "competencies": 1,
+      "domain": "Stone",
+      "required": 1,
+      "suggested_only": 0,
+      "uncovered_required": 0,
+      "verified_coverage_percent": 100.0,
+      "verified_covered": 1
+    }
+  ],
+  "required_competencies": 2,
+  "schema_version": 1,
+  "specialty": "urology",
+  "suggested_competencies": 0,
+  "uncovered_competency_ids": [],
+  "uncovered_required_competencies": 0,
+  "unmapped_card_ids": [
+    "G-004"
+  ],
+  "usiphus_version": "10.0.0",
+  "verified_covered_competencies": 2,
+  "verified_weighted_coverage": 100.0,
+  "warnings": [
+    "Coverage measures mapping metadata, not clinical accuracy or learner competence.",
+    "Explicit competency_ids without a matching faculty_approvals record remain pending and do not count as verified.",
+    "Only faculty_approvals entries with reviewer, timezone-aware reviewed_at, and status=approved count as verified."
+  ]
+}

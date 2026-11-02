@@ -1,0 +1,30 @@
+{
+  "items": [
+    {
+      "competency_id": "URO-EM-01",
+      "reason": "Required competency has no verified mapped teaching card",
+      "work_type": "curriculum_gap"
+    },
+    {
+      "competency_id": "URO-ONC-02",
+      "reason": "Required competency has no verified mapped teaching card",
+      "work_type": "curriculum_gap"
+    },
+    {
+      "competency_id": "URO-ENDO-03",
+      "reason": "Required competency has no verified mapped teaching card",
+      "work_type": "curriculum_gap"
+    },
+    {
+      "card_id": "URO-CARD-001",
+      "reason": "Card has no verified curriculum mapping",
+      "work_type": "unmapped_card"
+    },
+    {
+      "card_id": "URO-CARD-002",
+      "reason": "Card has no verified curriculum mapping",
+      "work_type": "unmapped_card"
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,18 @@
+{
+  "consented_task_rows": 4,
+  "excluded_without_aggregate_consent": 1,
+  "mapping_corrections": 3,
+  "maximum_duration_minutes": 45.5,
+  "median_duration_minutes": 16.12,
+  "minimum_duration_minutes": 7.0,
+  "privacy_note": "Only rows explicitly marked consented_for_aggregate=yes are included; no participant identifiers are collected.",
+  "release_reproducibility_rate": 0.75,
+  "rows_with_missing_fields": 0,
+  "schema_version": 1,
+  "task_rows_by_role": {
+    "coordinator": 1,
+    "faculty": 3
+  },
+  "tasks_with_friction_notes": 1,
+  "tasks_with_traceability_issues": 1
+}

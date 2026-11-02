@@ -1,0 +1,10 @@
+{
+  "contract_type": "card",
+  "contract_version": 1,
+  "errors": [],
+  "record_count": 2,
+  "valid": true,
+  "warnings": [
+    "Legacy unversioned input accepted in compatibility mode; meaning was not modified."
+  ]
+}

@@ -1,0 +1,245 @@
+{
+  "by_cognitive_level": {
+    "analyze": {
+      "required": 1,
+      "required_verified": 0,
+      "total": 1,
+      "verified": 0
+    },
+    "apply": {
+      "required": 1,
+      "required_verified": 1,
+      "total": 1,
+      "verified": 1
+    },
+    "understand": {
+      "required": 1,
+      "required_verified": 0,
+      "total": 1,
+      "verified": 0
+    }
+  },
+  "by_domain": {
+    "Emergency urology": {
+      "required": 1,
+      "required_verified": 1,
+      "total": 1,
+      "verified": 1
+    },
+    "Endourology": {
+      "required": 1,
+      "required_verified": 0,
+      "total": 1,
+      "verified": 0
+    },
+    "Uro-oncology": {
+      "required": 1,
+      "required_verified": 0,
+      "total": 1,
+      "verified": 0
+    }
+  },
+  "by_learning_objective": {
+    "Construct a haematuria differential": {
+      "competency_ids": [
+        "URO-ONC-02"
+      ],
+      "verified_competency_count": 0
+    },
+    "Explain stone formation": {
+      "competency_ids": [
+        "URO-ENDO-03"
+      ],
+      "verified_competency_count": 0
+    },
+    "Identify acute retention": {
+      "competency_ids": [
+        "URO-EM-01"
+      ],
+      "verified_competency_count": 1
+    },
+    "Recognize red flags": {
+      "competency_ids": [
+        "URO-EM-01"
+      ],
+      "verified_competency_count": 1
+    }
+  },
+  "competencies": [
+    {
+      "assessment_item_ids": [
+        "URO-MCQ-001"
+      ],
+      "cognitive_level": "apply",
+      "competency_id": "URO-EM-01",
+      "domain": "Emergency urology",
+      "learning_objectives": [
+        "Identify acute retention",
+        "Recognize red flags"
+      ],
+      "osce_station_ids": [
+        "URO-OSCE-001"
+      ],
+      "required": true,
+      "suggested_mapping_count": 0,
+      "title": "Assess acute urinary retention",
+      "verified": true,
+      "verified_card_ids": [
+        "URO-CARD-001"
+      ],
+      "weight": 2.0
+    },
+    {
+      "assessment_item_ids": [],
+      "cognitive_level": "analyze",
+      "competency_id": "URO-ONC-02",
+      "domain": "Uro-oncology",
+      "learning_objectives": [
+        "Construct a haematuria differential"
+      ],
+      "osce_station_ids": [],
+      "required": true,
+      "suggested_mapping_count": 1,
+      "title": "Evaluate visible haematuria",
+      "verified": false,
+      "verified_card_ids": [],
+      "weight": 2.0
+    },
+    {
+      "assessment_item_ids": [],
+      "cognitive_level": "understand",
+      "competency_id": "URO-ENDO-03",
+      "domain": "Endourology",
+      "learning_objectives": [
+        "Explain stone formation"
+      ],
+      "osce_station_ids": [],
+      "required": true,
+      "suggested_mapping_count": 0,
+      "title": "Explain urinary stone disease",
+      "verified": false,
+      "verified_card_ids": [],
+      "weight": 1.0
+    }
+  ],
+  "dependency_graph": {
+    "edges": [
+      {
+        "from": "competency:URO-EM-01",
+        "relationship": "verified_teaching",
+        "to": "card:URO-CARD-001"
+      },
+      {
+        "from": "competency:URO-EM-01",
+        "relationship": "supports",
+        "to": "objective:Identify acute retention"
+      },
+      {
+        "from": "competency:URO-EM-01",
+        "relationship": "supports",
+        "to": "objective:Recognize red flags"
+      },
+      {
+        "from": "competency:URO-EM-01",
+        "relationship": "assessed_by",
+        "to": "assessment:URO-MCQ-001"
+      },
+      {
+        "from": "competency:URO-EM-01",
+        "relationship": "assessed_by",
+        "to": "osce:URO-OSCE-001"
+      },
+      {
+        "from": "competency:URO-ONC-02",
+        "relationship": "supports",
+        "to": "objective:Construct a haematuria differential"
+      },
+      {
+        "from": "competency:URO-ENDO-03",
+        "relationship": "supports",
+        "to": "objective:Explain stone formation"
+      }
+    ],
+    "nodes": [
+      {
+        "id": "competency:URO-EM-01",
+        "label": "Assess acute urinary retention",
+        "type": "competency"
+      },
+      {
+        "id": "competency:URO-ONC-02",
+        "label": "Evaluate visible haematuria",
+        "type": "competency"
+      },
+      {
+        "id": "competency:URO-ENDO-03",
+        "label": "Explain urinary stone disease",
+        "type": "competency"
+      },
+      {
+        "id": "card:URO-CARD-001",
+        "label": "URO-CARD-001",
+        "type": "card"
+      },
+      {
+        "id": "objective:Identify acute retention",
+        "label": "Identify acute retention",
+        "type": "learning_objective"
+      },
+      {
+        "id": "objective:Recognize red flags",
+        "label": "Recognize red flags",
+        "type": "learning_objective"
+      },
+      {
+        "id": "assessment:URO-MCQ-001",
+        "label": "URO-MCQ-001",
+        "type": "assessment"
+      },
+      {
+        "id": "osce:URO-OSCE-001",
+        "label": "URO-OSCE-001",
+        "type": "osce_station"
+      },
+      {
+        "id": "objective:Construct a haematuria differential",
+        "label": "Construct a haematuria differential",
+        "type": "learning_objective"
+      },
+      {
+        "id": "objective:Explain stone formation",
+        "label": "Explain stone formation",
+        "type": "learning_objective"
+      }
+    ]
+  },
+  "findings": [],
+  "limitations": [
+    "Coverage is metadata completeness, not clinical correctness or educational effectiveness.",
+    "Only explicit faculty-approved provenance counts as verified; reviewer labels are not authenticated identities.",
+    "Suggested and pending mappings are excluded from verified coverage."
+  ],
+  "possible_duplicate_cards": [],
+  "review_queue_summary": {
+    "curriculum_gap": 2,
+    "mapping_review": 1,
+    "unmapped_card": 1
+  },
+  "schema_version": 1,
+  "specialty": "urology",
+  "summary": {
+    "assessment_items": 1,
+    "cards_evaluated": 2,
+    "competencies_evaluated": 3,
+    "exact_duplicate_groups": 0,
+    "mapping_candidates": 1,
+    "mapping_conflicts": 0,
+    "missing_required_competencies": 2,
+    "osce_stations": 1,
+    "required_competencies": 3,
+    "verified_coverage": 0.3333,
+    "verified_required_competencies": 1,
+    "verified_weighted_coverage": 0.4
+  },
+  "usiphus_version": "17.0.0"
+}

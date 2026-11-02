@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "usiphus_version": "12.0.0",
+  "specialty": "urology",
+  "generated_at": "2026-11-02T11:41:28.790423Z",
+  "as_of": "2026-11-01",
+  "curriculum": {
+    "competencies": 3,
+    "required": 2,
+    "verified_required": 2,
+    "uncovered_required": 0
+  },
+  "content": {
+    "cards": 5,
+    "verified_mapped_cards": 3,
+    "unmapped_cards": 2,
+    "evidence_claims": 2,
+    "cards_with_current_approved_evidence": 1
+  },
+  "learning": {
+    "active_learners": 6,
+    "accepted_attempts": 12,
+    "learner_competency_rows": 12,
+    "limitations": [
+      "V11 learner-level records are not copied into V12 platform summaries."
+    ]
+  },
+  "cohort": {
+    "competency_rows": 3,
+    "suppressed_rows": 1,
+    "minimum_cohort_size": 5
+  },
+  "faculty_workflow": {
+    "open_review_items": 4,
+    "by_type": {
+      "evidence_gap": 3,
+      "evidence_review": 1
+    }
+  },
+  "release": {
+    "release_ready": false,
+    "checks": [
+      {
+        "check": "all_required_competencies_have_verified_mappings",
+        "passed": true,
+        "detail": "2/2 required competencies mapped"
+      },
+      {
+        "check": "all_cards_have_current_approved_evidence",
+        "passed": false,
+        "detail": "1/5 cards covered by current approved/published evidence"
+      },
+      {
+        "check": "v11_learner_progress_integrated",
+        "passed": true,
+        "detail": "6 learners; 12 accepted attempts"
+      },
+      {
+        "check": "cohort_suppression_schema_valid",
+        "passed": true,
+        "detail": "1 of 3 competency rows suppressed"
+      },
+      {
+        "check": "review_schedule_matches_learner_progress",
+        "passed": true,
+        "detail": "12 review rows; 0 without a matching learner-progress row"
+      }
+    ],
+    "blocking_items": [
+      "Evidence issue: E2",
+      "Card lacks current approved/published evidence: G-002",
+      "Card lacks current approved/published evidence: G-003",
+      "Card lacks current approved/published evidence: G-004",
+      "Card lacks current approved/published evidence: G-006"
+    ],
+    "interpretation": "Software readiness is not clinical validation, educational validity, or proof of learner competence."
+  },
+  "governance": [
+    "V12 is a local integration/reporting coordinator, not a hosted LMS or identity provider.",
+    "Faculty review queue entries are work items; V12 does not approve mappings or evidence.",
+    "Learner pseudonyms and individual V11 progress are not exported in the platform summary.",
+    "Clinical claims, curriculum mappings, and educational interpretations require qualified human review."
+  ]
+}

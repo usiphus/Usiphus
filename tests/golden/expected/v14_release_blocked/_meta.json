@@ -1,0 +1,14 @@
+{
+  "exit_code": 1,
+  "files": [
+    ".usiphus_v14_bundle",
+    "release_report.md",
+    "release_summary.json",
+    "v12/faculty_review_queue.csv",
+    "v12/platform_report.json",
+    "v12/release_checklist.json",
+    "v12/v12_manifest.json",
+    "v13_validation_report.json",
+    "v14_manifest.json"
+  ]
+}

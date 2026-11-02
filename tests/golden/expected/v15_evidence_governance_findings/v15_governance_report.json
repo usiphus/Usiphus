@@ -1,0 +1,48 @@
+{
+  "as_of": "2026-10-31",
+  "boundary": "Metadata/workflow checks only; not clinical truth, source-quality appraisal, guideline currency certification, identity verification, privacy/legal compliance, or educational accreditation.",
+  "claim_count": 2,
+  "findings": [
+    {
+      "card_id": "K1",
+      "id": "C1",
+      "issues": [
+        "approved/published claim requires hash-chained audit_events"
+      ],
+      "kind": "claim",
+      "status": "published"
+    },
+    {
+      "card_id": "K2",
+      "id": "C2",
+      "issues": [
+        "reference points to unknown source_id: NOPE"
+      ],
+      "kind": "claim",
+      "status": "draft"
+    }
+  ],
+  "governance_status": "blocked",
+  "impact_index": {
+    "S1": [
+      "K1"
+    ]
+  },
+  "legacy_reference_claims": 0,
+  "release_policy": {
+    "audit_signing": {
+      "ed25519": false,
+      "external_anchors": false,
+      "hmac": false
+    },
+    "max_review_age_days": 730,
+    "minimum_approving_reviewers": 1,
+    "require_audit_anchor": false,
+    "require_registered_sources": true,
+    "require_signed_audit": false,
+    "reviewer_identity_assurance": "Reviewer IDs are user-supplied labels; quorum counts distinct labels only and does not authenticate people or establish independent human review."
+  },
+  "schema_version": 1,
+  "source_count": 1,
+  "usiphus_version": "15.1.0"
+}

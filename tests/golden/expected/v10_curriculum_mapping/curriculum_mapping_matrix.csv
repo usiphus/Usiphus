@@ -1,0 +1,5 @@
+﻿card_id,competency_id,score,method,status,rationale,reviewer,reviewed_at
+G-001,U1,1.0,faculty-approved,verified,Explicit mapping approved by a named faculty reviewer,synthetic-reviewer,2026-10-31T12:00:00Z
+G-003,U2,1.0,faculty-approved,verified,Explicit mapping approved by a named faculty reviewer,synthetic-reviewer,2026-10-31T12:00:00Z
+G-002,U1,1.0,explicit,pending,Explicit mapping supplied without auditable faculty approval,,
+G-006,U3,0.1765,lexical,suggested,Lexical candidate only; faculty confirmation required,,

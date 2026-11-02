@@ -1,0 +1,49 @@
+{
+  "engine_version": "20.0.0",
+  "governance_note": "Reports exclude raw feedback and comments. A clean structural report is not faculty approval, learner-consent verification, privacy-law compliance, educational effectiveness or proof of competence. Reviewer/owner labels are not authenticated identities.",
+  "issues": [],
+  "publication_gate": "ready_for_faculty_review",
+  "release_preview": [
+    {
+      "artifact_id": "URO-CARD-001",
+      "artifact_type": "card",
+      "content_sha256": "ba26cc18700def7c6bab000498b69822d52afa8cb0130b7e542981ac0a972b97",
+      "status": "draft",
+      "title": "Synthetic urinary retention teaching card",
+      "version": "1.0.0"
+    }
+  ],
+  "schema_version": 1,
+  "summary": {
+    "actions": {
+      "deferred": 0,
+      "done": 0,
+      "in_progress": 0,
+      "open": 1
+    },
+    "artifacts": {
+      "approved_versions": 0,
+      "awaiting_review": 1,
+      "total_versions": 1,
+      "unique_artifacts": 1
+    },
+    "engine_version": "20.0.0",
+    "feedback": {
+      "by_role": {
+        "faculty": 1,
+        "learner": 0
+      },
+      "retention_due_count": 0,
+      "total": 1,
+      "with_possible_pii": 0
+    },
+    "input_sha256": "0d199a797e1e9c7c67e02f7684858d6d30012e41042b9f51ef39376567875626",
+    "issue_counts": {
+      "error": 0,
+      "warning": 0
+    },
+    "schema_version": 1,
+    "version_diffs": 0
+  },
+  "version_diffs": []
+}

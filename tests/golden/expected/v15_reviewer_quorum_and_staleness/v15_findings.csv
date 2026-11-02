@@ -1,0 +1,3 @@
+kind,id,card_id,status,issues
+claim,C1,K1,approved,requires at least 2 distinct approving reviewer(s)
+claim,C3,K3,approved,claim review is stale (>730 days)

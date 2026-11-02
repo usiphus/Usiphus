@@ -1,0 +1,32 @@
+{
+  "contracts": {
+    "cards": 1,
+    "cohort_rows": 1,
+    "competencies": 1,
+    "evidence_claims": 1,
+    "mapping_rows": 1,
+    "pseudonymous_learners": 1,
+    "review_schedule_rows": 1,
+    "suppressed_cohort_rows": 1,
+    "verified_mapping_rows": 1
+  },
+  "generated_at": "<VOLATILE>",
+  "schema_version": 1,
+  "scope": [
+    "Validates structure, consistency, integrity, and selected privacy safeguards.",
+    "Does not establish clinical truth, educational validity, learner competence, or legal compliance.",
+    "UUIDv4 format is not proof of anonymization or protection against re-identification.",
+    "Input files contain sensitive pseudonymous educational records and require access controls.",
+    "When require_release_ledger is enabled, V13 checks only the cohort report used boolean; it does not independently verify a persisted ledger or report provenance."
+  ],
+  "specialty": "urology",
+  "usiphus_version": "13.0.0",
+  "v12_outputs": {
+    "faculty_queue_rows": 0,
+    "learner_id_leaks": 0,
+    "manifest_inputs_verified": 7,
+    "manifest_outputs_verified": 3,
+    "platform_release_ready": true
+  },
+  "validation_status": "passed"
+}

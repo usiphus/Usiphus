@@ -1,0 +1,44 @@
+{
+  "inputs": {
+    "cards": {
+      "bytes": 141,
+      "sha256": "4875eb7a0116b7fc0d3252dbd5eb9082888644c1abe5653d5738216d798ad6ca"
+    },
+    "cohort_analytics": {
+      "bytes": 212,
+      "sha256": "9407050280acbf39f401e49152942c05b90520accee3ef699a81d871fbe03759"
+    },
+    "curriculum": {
+      "bytes": 312,
+      "sha256": "cea650b5f6cd4e7d0bef396eebee23e41dde86595c1edf7422a36b1618fd1adb"
+    },
+    "evidence": {
+      "bytes": 630,
+      "sha256": "69639abe9c81050509cd86ba2febb46f82c25749ed9c6695f70d590ca0f264e9"
+    },
+    "learner_progress": {
+      "bytes": 267,
+      "sha256": "c3af59f46a403ed9328fdc5a07729740ec4ee184817a914677a0c7311c0a70fd"
+    },
+    "mapping": {
+      "bytes": 275,
+      "sha256": "d51809edb6155336ecd315c826a8c844c2b64d12c7af015e7f10872429d2800d"
+    },
+    "review_schedule": {
+      "bytes": 142,
+      "sha256": "520726e3fe5ed2b7bf1c6d89a0dad0b9e4f49aa0b30cbb107075531820061e58"
+    }
+  },
+  "outputs": [
+    "platform_report.json",
+    "faculty_review_queue.csv",
+    "release_checklist.json"
+  ],
+  "privacy": {
+    "individual_learner_ids_exported": false,
+    "source_learner_progress_contains_sensitive_pseudonymous_records": true
+  },
+  "schema_version": 1,
+  "source_files_modified": false,
+  "usiphus_version": "12.0.0"
+}

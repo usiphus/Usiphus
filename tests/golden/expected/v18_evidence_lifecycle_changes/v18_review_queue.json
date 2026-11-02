@@ -1,0 +1,96 @@
+{
+  "items": [
+    {
+      "affected_artifacts": {
+        "assessment_items": [
+          "URO-MCQ-001"
+        ],
+        "cards": [
+          "URO-CARD-001"
+        ],
+        "claims": [
+          "SYNTH-CLAIM-002"
+        ],
+        "competencies": [
+          "URO-EM-01"
+        ],
+        "osce_stations": [
+          "URO-OSCE-001"
+        ],
+        "releases": [
+          "SYNTH-RELEASE-01"
+        ]
+      },
+      "event_type": "withdrawn_source",
+      "faculty_decision": null,
+      "priority_score": 1060,
+      "queue_id": "33b980e7162f44f8",
+      "rationale": "Source is marked withdrawn; faculty must assess affected claims and teaching artifacts.",
+      "source_id": "SYNTH-GUIDE-003"
+    },
+    {
+      "affected_artifacts": {
+        "assessment_items": [
+          "URO-MCQ-001"
+        ],
+        "cards": [
+          "URO-CARD-001"
+        ],
+        "claims": [
+          "SYNTH-CLAIM-001"
+        ],
+        "competencies": [
+          "URO-EM-01"
+        ],
+        "osce_stations": [
+          "URO-OSCE-001"
+        ],
+        "releases": [
+          "SYNTH-RELEASE-01"
+        ]
+      },
+      "claim_id": "SYNTH-CLAIM-001",
+      "claim_jurisdiction": "US",
+      "event_type": "jurisdiction_mismatch",
+      "faculty_decision": null,
+      "priority_score": 910,
+      "queue_id": "fc887f240607122b",
+      "rationale": "Claim and source jurisdiction metadata differ; applicability requires human review.",
+      "source_id": "SYNTH-GUIDE-001",
+      "source_jurisdiction": "GB"
+    },
+    {
+      "affected_artifacts": {
+        "assessment_items": [
+          "URO-MCQ-001"
+        ],
+        "cards": [
+          "URO-CARD-001"
+        ],
+        "claims": [
+          "SYNTH-CLAIM-001"
+        ],
+        "competencies": [
+          "URO-EM-01"
+        ],
+        "osce_stations": [
+          "URO-OSCE-001"
+        ],
+        "releases": [
+          "SYNTH-RELEASE-01"
+        ]
+      },
+      "changed_fields": [
+        "version",
+        "content_sha256"
+      ],
+      "event_type": "source_content_changed",
+      "faculty_decision": null,
+      "priority_score": 860,
+      "queue_id": "b8bbcac3f3cf5498",
+      "rationale": "Source fingerprint changed in: version, content_sha256.",
+      "source_id": "SYNTH-GUIDE-001"
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,37 @@
+{
+  "contract_type": "curriculum",
+  "contract_version": 1,
+  "data": {
+    "competencies": [
+      {
+        "domain": "Emergency urology",
+        "id": "URO-EM-01",
+        "learning_objectives": [
+          "Identify acute retention"
+        ],
+        "level": "apply",
+        "required": true,
+        "title": "Assess acute urinary retention",
+        "weight": 2
+      },
+      {
+        "domain": "Uro-oncology",
+        "id": "URO-ONC-02",
+        "learning_objectives": [
+          "Construct a haematuria differential"
+        ],
+        "level": "analyze",
+        "required": true,
+        "title": "Evaluate haematuria",
+        "weight": 1
+      }
+    ],
+    "schema_version": 1,
+    "specialty": "urology"
+  },
+  "migration": {
+    "from": "legacy-or-native",
+    "meaning_changed": false,
+    "method": "non_destructive_envelope"
+  }
+}

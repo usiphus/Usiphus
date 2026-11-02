@@ -1,0 +1,226 @@
+{
+  "schema_version": 1,
+  "usiphus_version": "11.0.0",
+  "specialty": "urology",
+  "generated_at": "2026-11-01T00:00:00Z",
+  "privacy": {
+    "consent_required": true,
+    "retention_days": 365,
+    "retention_cutoff": "2025-11-01T00:00:00Z",
+    "learner_ids_are_pseudonymous": true,
+    "raw_answers_stored": false
+  },
+  "active_learners": 6,
+  "accepted_attempts": 12,
+  "excluded_events": {
+    "excluded_no_consent": 0,
+    "excluded_retention": 0,
+    "excluded_revoked": 0,
+    "excluded_unmapped": 0
+  },
+  "learners": [
+    {
+      "learner_id": "123e4567-e89b-42d3-a456-426614174000",
+      "competencies": [
+        {
+          "competency_id": "U1",
+          "title": "Acute urinary retention",
+          "domain": "Emergency",
+          "attempt_count": 1,
+          "mastery_estimate": 0.4667,
+          "posterior_alpha": 1.4,
+          "posterior_beta": 1.6,
+          "last_attempt_at": "2026-10-20T10:00:00Z",
+          "recommended_interval_days": 1,
+          "next_due_at": "2026-10-21T10:00:00Z",
+          "status": "review_due",
+          "interpretation": "Educational study estimate only; not a clinical competence determination."
+        },
+        {
+          "competency_id": "U2",
+          "title": "Renal colic",
+          "domain": "Stone",
+          "attempt_count": 1,
+          "mastery_estimate": 0.5,
+          "posterior_alpha": 1.5,
+          "posterior_beta": 1.5,
+          "last_attempt_at": "2026-10-21T10:00:00Z",
+          "recommended_interval_days": 2,
+          "next_due_at": "2026-10-23T10:00:00Z",
+          "status": "review_due",
+          "interpretation": "Educational study estimate only; not a clinical competence determination."
+        }
+      ]
+    },
+    {
+      "learner_id": "123e4567-e89b-42d3-a456-426614174001",
+      "competencies": [
+        {
+          "competency_id": "U1",
+          "title": "Acute urinary retention",
+          "domain": "Emergency",
+          "attempt_count": 1,
+          "mastery_estimate": 0.5,
+          "posterior_alpha": 1.5,
+          "posterior_beta": 1.5,
+          "last_attempt_at": "2026-10-20T10:00:00Z",
+          "recommended_interval_days": 2,
+          "next_due_at": "2026-10-22T10:00:00Z",
+          "status": "review_due",
+          "interpretation": "Educational study estimate only; not a clinical competence determination."
+        },
+        {
+          "competency_id": "U2",
+          "title": "Renal colic",
+          "domain": "Stone",
+          "attempt_count": 1,
+          "mastery_estimate": 0.5333,
+          "posterior_alpha": 1.6,
+          "posterior_beta": 1.4,
+          "last_attempt_at": "2026-10-21T10:00:00Z",
+          "recommended_interval_days": 2,
+          "next_due_at": "2026-10-23T10:00:00Z",
+          "status": "review_due",
+          "interpretation": "Educational study estimate only; not a clinical competence determination."
+        }
+      ]
+    },
+    {
+      "learner_id": "123e4567-e89b-42d3-a456-426614174002",
+      "competencies": [
+        {
+          "competency_id": "U1",
+          "title": "Acute urinary retention",
+          "domain": "Emergency",
+          "attempt_count": 1,
+          "mastery_estimate": 0.5333,
+          "posterior_alpha": 1.6,
+          "posterior_beta": 1.4,
+          "last_attempt_at": "2026-10-20T10:00:00Z",
+          "recommended_interval_days": 2,
+          "next_due_at": "2026-10-22T10:00:00Z",
+          "status": "review_due",
+          "interpretation": "Educational study estimate only; not a clinical competence determination."
+        },
+        {
+          "competency_id": "U2",
+          "title": "Renal colic",
+          "domain": "Stone",
+          "attempt_count": 1,
+          "mastery_estimate": 0.5667,
+          "posterior_alpha": 1.7,
+          "posterior_beta": 1.3,
+          "last_attempt_at": "2026-10-21T10:00:00Z",
+          "recommended_interval_days": 2,
+          "next_due_at": "2026-10-23T10:00:00Z",
+          "status": "review_due",
+          "interpretation": "Educational study estimate only; not a clinical competence determination."
+        }
+      ]
+    },
+    {
+      "learner_id": "123e4567-e89b-42d3-a456-426614174003",
+      "competencies": [
+        {
+          "competency_id": "U1",
+          "title": "Acute urinary retention",
+          "domain": "Emergency",
+          "attempt_count": 1,
+          "mastery_estimate": 0.5667,
+          "posterior_alpha": 1.7,
+          "posterior_beta": 1.3,
+          "last_attempt_at": "2026-10-20T10:00:00Z",
+          "recommended_interval_days": 2,
+          "next_due_at": "2026-10-22T10:00:00Z",
+          "status": "review_due",
+          "interpretation": "Educational study estimate only; not a clinical competence determination."
+        },
+        {
+          "competency_id": "U2",
+          "title": "Renal colic",
+          "domain": "Stone",
+          "attempt_count": 1,
+          "mastery_estimate": 0.6,
+          "posterior_alpha": 1.8,
+          "posterior_beta": 1.2,
+          "last_attempt_at": "2026-10-21T10:00:00Z",
+          "recommended_interval_days": 2,
+          "next_due_at": "2026-10-23T10:00:00Z",
+          "status": "review_due",
+          "interpretation": "Educational study estimate only; not a clinical competence determination."
+        }
+      ]
+    },
+    {
+      "learner_id": "123e4567-e89b-42d3-a456-426614174004",
+      "competencies": [
+        {
+          "competency_id": "U1",
+          "title": "Acute urinary retention",
+          "domain": "Emergency",
+          "attempt_count": 1,
+          "mastery_estimate": 0.6,
+          "posterior_alpha": 1.8,
+          "posterior_beta": 1.2,
+          "last_attempt_at": "2026-10-20T10:00:00Z",
+          "recommended_interval_days": 2,
+          "next_due_at": "2026-10-22T10:00:00Z",
+          "status": "review_due",
+          "interpretation": "Educational study estimate only; not a clinical competence determination."
+        },
+        {
+          "competency_id": "U2",
+          "title": "Renal colic",
+          "domain": "Stone",
+          "attempt_count": 1,
+          "mastery_estimate": 0.6333,
+          "posterior_alpha": 1.9,
+          "posterior_beta": 1.1,
+          "last_attempt_at": "2026-10-21T10:00:00Z",
+          "recommended_interval_days": 2,
+          "next_due_at": "2026-10-23T10:00:00Z",
+          "status": "review_due",
+          "interpretation": "Educational study estimate only; not a clinical competence determination."
+        }
+      ]
+    },
+    {
+      "learner_id": "123e4567-e89b-42d3-a456-426614174005",
+      "competencies": [
+        {
+          "competency_id": "U1",
+          "title": "Acute urinary retention",
+          "domain": "Emergency",
+          "attempt_count": 1,
+          "mastery_estimate": 0.6333,
+          "posterior_alpha": 1.9,
+          "posterior_beta": 1.1,
+          "last_attempt_at": "2026-10-20T10:00:00Z",
+          "recommended_interval_days": 2,
+          "next_due_at": "2026-10-22T10:00:00Z",
+          "status": "review_due",
+          "interpretation": "Educational study estimate only; not a clinical competence determination."
+        },
+        {
+          "competency_id": "U2",
+          "title": "Renal colic",
+          "domain": "Stone",
+          "attempt_count": 1,
+          "mastery_estimate": 0.4667,
+          "posterior_alpha": 1.4,
+          "posterior_beta": 1.6,
+          "last_attempt_at": "2026-10-21T10:00:00Z",
+          "recommended_interval_days": 1,
+          "next_due_at": "2026-10-22T10:00:00Z",
+          "status": "review_due",
+          "interpretation": "Educational study estimate only; not a clinical competence determination."
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Mastery is a descriptive educational estimate, not proof of knowledge or clinical competence.",
+    "Only attempts on cards with V10 faculty-verified competency mappings contribute.",
+    "UUID format and consent flags cannot independently verify identity, consent authenticity, or legal compliance."
+  ]
+}

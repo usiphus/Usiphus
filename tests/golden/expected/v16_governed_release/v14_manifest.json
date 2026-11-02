@@ -1,0 +1,135 @@
+{
+  "config_sha256": "c682788e1622d79692d42d6f248d82685ef3ebdf64798dec4053e0dff864493b",
+  "engine_versions": {
+    "v10": "10.0.0",
+    "v11": "11.0.0",
+    "v12": "12.0.0",
+    "v13": "13.0.0",
+    "v15": "15.1.0",
+    "v8": "8.0.0",
+    "v9": "9.0.0"
+  },
+  "generated_at": "<VOLATILE>",
+  "governance_report_hashes": {
+    "v15_findings.csv": {
+      "bytes": 31,
+      "sha256": "0d3d1faff5fc847d5939c6078a9b3dc382c9368cebceece62346dccecf110dbf"
+    },
+    "v15_governance_report.json": {
+      "bytes": 977,
+      "sha256": "9512ea42f5617e90d5df28119eb0e13558638ce3d24253a44d21da978e26fc4c"
+    },
+    "v15_governance_report.md": {
+      "bytes": 392,
+      "sha256": "5c23561438bdeb4b6768ec180f20ad37d9e0199eabfe08ba00b3608829c219cb"
+    }
+  },
+  "inputs": {
+    "cards": {
+      "bytes": 141,
+      "path": "<WORK>/in/cards.json",
+      "sha256": "4875eb7a0116b7fc0d3252dbd5eb9082888644c1abe5653d5738216d798ad6ca"
+    },
+    "cohort_analytics": {
+      "bytes": 212,
+      "path": "<WORK>/in/cohort_analytics.json",
+      "sha256": "9407050280acbf39f401e49152942c05b90520accee3ef699a81d871fbe03759"
+    },
+    "curriculum": {
+      "bytes": 178,
+      "path": "<WORK>/in/curriculum.json",
+      "sha256": "f9284f8fe58e86c9dca522e14bb366e5274b549b26c4349460b5fc55d39c7997"
+    },
+    "evidence": {
+      "bytes": 630,
+      "path": "<WORK>/in/evidence.json",
+      "sha256": "69639abe9c81050509cd86ba2febb46f82c25749ed9c6695f70d590ca0f264e9"
+    },
+    "learner_progress": {
+      "bytes": 267,
+      "path": "<WORK>/in/learner_progress.json",
+      "sha256": "c3af59f46a403ed9328fdc5a07729740ec4ee184817a914677a0c7311c0a70fd"
+    },
+    "mapping": {
+      "bytes": 275,
+      "path": "<WORK>/in/mapping.json",
+      "sha256": "d51809edb6155336ecd315c826a8c844c2b64d12c7af015e7f10872429d2800d"
+    },
+    "review_schedule": {
+      "bytes": 142,
+      "path": "<WORK>/in/review_schedule.csv",
+      "sha256": "520726e3fe5ed2b7bf1c6d89a0dad0b9e4f49aa0b30cbb107075531820061e58"
+    },
+    "v15_claims": {
+      "bytes": 289,
+      "path": "<WORK>/in/v15_claims.json",
+      "sha256": "497008f64dd141ebb8eca88264bd0a45d10c851701cf18efdf1d65d1192cda36"
+    },
+    "v15_sources": {
+      "bytes": 248,
+      "path": "<WORK>/in/v15_sources.json",
+      "sha256": "b6a556dcef8436079112d3692f11bae318d7d03bb4fe8a8b6bb6f68173dd8954"
+    }
+  },
+  "note": "Hashes support integrity/change detection; timestamps vary and byte-identical bundles are not promised.",
+  "outputs": {
+    ".usiphus_v14_bundle": {
+      "bytes": 78,
+      "sha256": "20ff04b61fd3f07314be35364b9b14d89fca400efc36b21d64e5b405c6b95992"
+    },
+    "release_report.md": {
+      "bytes": 669,
+      "sha256": "eeb75f3c0c26cb22c143094c5c757da0e27403accb031cd5ecbeb5e8cf18dacb"
+    },
+    "release_summary.json": {
+      "bytes": 1000,
+      "sha256": "<SHA256 of volatile release_summary.json>"
+    },
+    "v12/faculty_review_queue.csv": {
+      "bytes": 63,
+      "sha256": "87b7036850058b2d5cfd82c248b33b4c4b01d051cc6234e0bee8933a533ec544"
+    },
+    "v12/platform_report.json": {
+      "bytes": 2283,
+      "sha256": "<SHA256 of volatile v12/platform_report.json>"
+    },
+    "v12/release_checklist.json": {
+      "bytes": 957,
+      "sha256": "aa8c0b1dc8665f1fc798ac1678ff61cf7dfc632c0ce0946576f80fefce5aa59e"
+    },
+    "v12/v12_manifest.json": {
+      "bytes": 1277,
+      "sha256": "1d76ba27a7719ce7504f5d33c72074359eac3f460e5c0b17cf0e1e650b4fdebc"
+    },
+    "v13_validation_report.json": {
+      "bytes": 1177,
+      "sha256": "<SHA256 of volatile v13_validation_report.json>"
+    },
+    "v15/v15_findings.csv": {
+      "bytes": 31,
+      "sha256": "0d3d1faff5fc847d5939c6078a9b3dc382c9368cebceece62346dccecf110dbf"
+    },
+    "v15/v15_governance_report.json": {
+      "bytes": 977,
+      "sha256": "9512ea42f5617e90d5df28119eb0e13558638ce3d24253a44d21da978e26fc4c"
+    },
+    "v15/v15_governance_report.md": {
+      "bytes": 392,
+      "sha256": "5c23561438bdeb4b6768ec180f20ad37d9e0199eabfe08ba00b3608829c219cb"
+    }
+  },
+  "release_policy": {
+    "as_of": "2026-11-01",
+    "max_evidence_age_days": 730,
+    "v15_block_on_failure": true,
+    "v15_enabled": true,
+    "v15_evidence_mode": "strict",
+    "v15_minimum_reviewers": 1,
+    "v15_require_audit_anchor": false,
+    "v15_require_registered_sources": true,
+    "v15_require_signed_audit": false
+  },
+  "release_status": "ready",
+  "schema_version": 2,
+  "usiphus_version": "16.0.0"
+}

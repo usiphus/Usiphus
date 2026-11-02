@@ -1,0 +1,17 @@
+{
+  "claims": [
+    {
+      "claim_id": "C1",
+      "card_id": "TEST-001",
+      "claim": "Synthetic test claim",
+      "references": [
+        {
+          "source_id": "S1",
+          "version": "1",
+          "jurisdiction": "TEST"
+        }
+      ],
+      "status": "draft"
+    }
+  ]
+}

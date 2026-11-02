@@ -1,0 +1,44 @@
+{
+  "duplicate_candidates": [],
+  "engine_version": "19.0.0",
+  "governance_note": "A ready_for_faculty_review result is not approval. Faculty must review clinical accuracy, educational quality, accessibility, provenance and release suitability.",
+  "issues": [],
+  "item_statistics": [],
+  "manifest": {
+    "artifact_counts": {
+      "blueprint_objectives": 1,
+      "challenges": 1,
+      "external_directory_entries": 1,
+      "mcqs": 1,
+      "osce_stations": 1
+    },
+    "duplicate_candidates": 0,
+    "engine_version": "19.0.0",
+    "input_sha256": "288dfe4acec366bd39c2b91e2a73e85f1dceaa2a88b9f5fc65758e3c6316ae8f",
+    "issue_counts": {
+      "error": 0,
+      "warning": 0
+    },
+    "schema_version": 1
+  },
+  "publication_gate": "ready_for_faculty_review",
+  "review_queue": [],
+  "schema_version": 1,
+  "summary": {
+    "artifact_counts": {
+      "blueprint_objectives": 1,
+      "challenges": 1,
+      "external_directory_entries": 1,
+      "mcqs": 1,
+      "osce_stations": 1
+    },
+    "duplicate_candidates": 0,
+    "engine_version": "19.0.0",
+    "input_sha256": "288dfe4acec366bd39c2b91e2a73e85f1dceaa2a88b9f5fc65758e3c6316ae8f",
+    "issue_counts": {
+      "error": 0,
+      "warning": 0
+    },
+    "schema_version": 1
+  }
+}

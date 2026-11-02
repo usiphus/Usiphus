@@ -1,0 +1,7 @@
+{
+  "affected_artifacts": {},
+  "changes": [],
+  "comparison_available": false,
+  "message": "Provide --previous-curriculum to calculate curriculum change impact.",
+  "schema_version": 1
+}

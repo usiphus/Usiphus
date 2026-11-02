@@ -1,0 +1,9 @@
+{
+  "exit_code": 0,
+  "files": [
+    "v20_action_queue.csv",
+    "v20_authoring_export.json",
+    "v20_feedback_authoring_report.json",
+    "v20_release_preview.html"
+  ]
+}

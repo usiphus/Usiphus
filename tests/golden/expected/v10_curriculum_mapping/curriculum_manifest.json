@@ -1,0 +1,7 @@
+{
+  "cards": 5,
+  "competencies": 3,
+  "report": "curriculum_coverage.json",
+  "report_schema_version": 1,
+  "usiphus_version": "10.0.0"
+}
