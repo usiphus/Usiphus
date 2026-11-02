@@ -310,7 +310,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
                 cards = generator.generate_topic_cards(
                     topic, specialty="ophthalmology", level="students", model="test-model",
                     ollama_url="http://localhost:11434", count=2, max_output_tokens=1024,
-                    slot_checkpoint_path=checkpoint, slot_checkpoint_signature=signature)
+                    slot_checkpoint_path=checkpoint, slot_checkpoint_signature=signature, resume_slots=True)
             self.assertEqual(len(cards), 2)
             payload = json.loads(request.call_args.args[0].data.decode())
             user_payload = json.loads(payload["messages"][1]["content"])
@@ -336,7 +336,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
                     {"name": "Cataract"}, specialty="ophthalmology", level="students",
                     model="test-model", ollama_url="http://localhost:11434",
                     count=1, max_output_tokens=1024, slot_checkpoint_path=checkpoint,
-                    slot_checkpoint_signature="sig")
+                    slot_checkpoint_signature="sig", resume_slots=True)
             self.assertEqual(len(cards), 1)
             request.assert_called_once()
 
