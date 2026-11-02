@@ -141,11 +141,11 @@ python usiphus_auto_deck.py --generate \
   --output-dir build/ophthalmology
 ```
 
-The 52-topic example makes 52 local generation requests. The default request
-ceiling is 60 and the default output ceiling is 3,500 tokens per topic. Adjust
-them with `--max-ollama-calls` and `--max-output-tokens`. Topic count
-determines the number of model requests; total cards are controlled by topic
-card counts.
+The 52-topic example starts with 52 local generation batches; repair calls
+occur only for incomplete cards. The default output ceiling is 4,096 tokens
+per request. Adjust it with `--max-output-tokens`. The legacy
+`--max-ollama-calls` option limits topic count (default 500), not repair calls.
+Total cards are controlled by topic card counts.
 
 Outputs include the Anki package, PowerPoint, `generated_cards.json` and
 `quality_report.json`.
