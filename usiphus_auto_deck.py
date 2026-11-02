@@ -247,8 +247,7 @@ def generate_topic_cards(
             if not isinstance(options, list) or not 4 <= len(options) <= 5:
                 return False
             if any(not isinstance(option, str) or not option.strip() for option in options):
-                return False
-            normalized_options = [option.strip().casefold() for option in options]
+                return False            normalized_options = [option.strip().casefold() for option in options]
             if len(set(normalized_options)) != len(normalized_options):
                 return False
             if correct not in {"A", "B", "C", "D", "E"}:
@@ -497,8 +496,7 @@ def generate_topic_cards(
             "difficulty": str(topic.get("difficulty") or "intermediate"),
             "prompt": content["prompt"].strip(),
             "answer": content["answer"].strip(),
-            "options": content.get("options", []) if card_type == "mcq" else [],
-            "correct_option": content.get("correct_option", "") if card_type == "mcq" else "",
+            "options": content.get("options", []) if card_type == "mcq" else [],            "correct_option": content.get("correct_option", "") if card_type == "mcq" else "",
             "learning_objective": objective,
             "objective_id": slot_plan["objective_id"],
             "topic_id": topic_id,
@@ -506,7 +504,11 @@ def generate_topic_cards(
             "blueprint_slot": slot,
             "tags": tags,
             "source": "AI-generated draft; faculty verification required",
-            "references": source_refs if isinstance(source_refs, list) else [],
+            "references": [
+                (item if isinstance(item, str) else str(item.get("title") or item.get("url") or item.get("id") or "Source"))
+                for item in source_refs
+            ] if isinstance(source_refs, list) else [],
+            "source_records": source_refs if isinstance(source_refs, list) else [],
             "cognitive_level": slot_plan["cognitive_level"],
             **assess_card_evidence(content, evidence_bundle),
             "exam_domain": str(topic.get("exam_domain") or "knowledge"),
@@ -747,8 +749,7 @@ def build(args: argparse.Namespace) -> int:
         )
         _atomic_write_json(out / "deck_blueprint.json", deck_blueprint)
         total_cards = 0
-        for index, topic in enumerate(curriculum["topics"], 1):
-            count = (
+        for index, topic in enumerate(curriculum["topics"], 1):            count = (
                 args.cards_per_topic
                 if args.override_curriculum_card_counts
                 else int(topic.get("card_count", args.cards_per_topic))
@@ -861,6 +862,25 @@ def build(args: argparse.Namespace) -> int:
         "generation_notice": "AI-generated draft; faculty review required",
         "generation_status": "complete",
         "cards": raw_cards,
+    })
+    evidence_queue = [
+        {
+            "card_id": item.get("card_id"),
+            "topic_id": item.get("topic_id"),
+            "objective_id": item.get("objective_id"),
+            "evidence_status": item.get("evidence_status", "unreviewed"),
+            "claim_provenance": item.get("claim_provenance", []),
+            "evidence_flags": item.get("evidence_flags", []),
+            "potential_conflicts": item.get("potential_conflicts", []),
+            "source_records": item.get("source_records", []),
+        }
+        for item in raw_cards
+    ]
+    _atomic_write_json(out / "evidence_review_queue.json", {
+        "schema_version": 1,
+        "notice": "Traceability aid only. Source-ID matching is not semantic verification; faculty must verify every claim against the cited excerpt and current guidance.",
+        "cards_requiring_review": len(evidence_queue),
+        "cards": evidence_queue,
     })
     (out / "quality_report.json").write_text(
         json.dumps(
