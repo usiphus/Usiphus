@@ -242,10 +242,13 @@ check context, applicability, jurisdiction, conflicts, publication date and
 whether the evidence supports the exact wording. A metadata-only discovery
 record cannot pass as claim-level evidence.
 
-The current generator does not yet automatically ingest this packet or enforce
-claim-level evidence mapping during every generation run. Until that integration
-and a local model pilot are complete, generated cards remain unreviewed drafts;
-missing sources must be reported as gaps, never silently filled by the model.
+A topic may include an `evidence_packet` object using this schema. The generator
+passes the curated packet to Ollama and validates every returned card's
+`evidence_claims` against eligible snippet IDs, source IDs and exact locators.
+A supplied packet with no eligible snippets fails closed and triggers the
+bounded quality retry path. If no packet is supplied, generation remains
+available but is explicitly reported as `unreviewed_source_gap`; it is not
+evidence-grounded. A local model pilot and faculty evaluation are still required.
 
 ## Curriculum and clinical governance
 
