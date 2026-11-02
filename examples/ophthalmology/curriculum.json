@@ -1,40 +1,126 @@
 {
   "specialty": "ophthalmology",
-  "learner_level": "medical students",
+  "learner_level": "medical students and early clinical trainees",
+  "curriculum_version": "2.0",
+  "description": "Expanded undergraduate ophthalmology blueprint with core anatomy, examination, disease systems, emergencies, investigations and OSCE reasoning. Each topic produces six mixed-format draft cards; faculty must map local learning outcomes and supply authoritative references before approval.",
   "topics": [
     {
       "name": "Ocular anatomy and physiology",
       "card_count": 6,
       "learning_objectives": [
-        "Describe the coats of the eye",
-        "Relate aqueous humour flow to intraocular pressure"
+        "Describe the fibrous, vascular and neural coats of the eye",
+        "Trace aqueous humour production, flow and drainage",
+        "Relate ocular structures to common clinical signs"
+      ],
+      "exam_emphasis": [
+        "Anatomy labelling",
+        "aqueous humour pathway",
+        "visual pathway basics"
       ],
       "reference_sources": []
     },
     {
-      "name": "Optics and refraction",
+      "name": "Ocular history and examination",
       "card_count": 6,
       "learning_objectives": [
-        "Explain emmetropia and ametropia",
-        "Interpret basic refractive errors"
+        "Take a focused ophthalmic history including onset, pain, laterality and risk factors",
+        "Perform and interpret visual acuity, pupils, fields, motility and red-reflex checks",
+        "Recognize findings requiring urgent ophthalmology review"
+      ],
+      "exam_emphasis": [
+        "structured eye examination",
+        "visual acuity",
+        "pupillary examination"
       ],
       "reference_sources": []
     },
     {
-      "name": "Cornea and conjunctiva",
+      "name": "Optics, refraction and low vision",
       "card_count": 6,
       "learning_objectives": [
-        "Differentiate common red-eye presentations",
-        "Recognize corneal ulcer warning signs"
+        "Explain emmetropia, ametropia and accommodation",
+        "Differentiate myopia, hyperopia, astigmatism and presbyopia",
+        "Describe refraction principles and low-vision support"
+      ],
+      "exam_emphasis": [
+        "refractive error comparison",
+        "optical correction",
+        "low-vision assessment"
       ],
       "reference_sources": []
     },
     {
-      "name": "Cataract",
+      "name": "Eyelids, lashes and orbit",
       "card_count": 6,
       "learning_objectives": [
-        "Describe cataract types",
-        "Outline assessment and management principles"
+        "Recognize common eyelid malpositions and lid lesions",
+        "Differentiate preseptal from orbital cellulitis",
+        "Identify proptosis patterns and orbital red flags"
+      ],
+      "exam_emphasis": [
+        "lid lumps and lesions",
+        "ptosis and lid malposition",
+        "proptosis differential"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Lacrimal system",
+      "card_count": 6,
+      "learning_objectives": [
+        "Describe tear production and drainage anatomy",
+        "Differentiate epiphora causes and lacrimal obstruction",
+        "Recognize acute dacryocystitis and its complications"
+      ],
+      "exam_emphasis": [
+        "tear film",
+        "nasolacrimal obstruction",
+        "dacryocystitis"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Conjunctiva and ocular surface",
+      "card_count": 6,
+      "learning_objectives": [
+        "Differentiate allergic, viral and bacterial conjunctivitis",
+        "Recognize subconjunctival haemorrhage and other benign red-eye causes",
+        "Identify red-eye warning signs that suggest corneal or intraocular disease"
+      ],
+      "exam_emphasis": [
+        "red eye differential",
+        "conjunctivitis patterns",
+        "urgent red eye"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Cornea and sclera",
+      "card_count": 6,
+      "learning_objectives": [
+        "Recognize corneal abrasion, ulcer and keratitis presentations",
+        "Describe corneal examination and fluorescein staining",
+        "Differentiate episcleritis from scleritis and identify sight-threatening disease"
+      ],
+      "exam_emphasis": [
+        "corneal ulcer",
+        "keratitis",
+        "scleritis"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Lens and cataract",
+      "card_count": 6,
+      "learning_objectives": [
+        "Classify common cataract types and risk factors",
+        "Assess visual disability and indications for referral",
+        "Outline cataract surgery principles, complications and postoperative warning signs"
+      ],
+      "exam_emphasis": [
+        "cataract types",
+        "preoperative assessment",
+        "postoperative complications"
       ],
       "reference_sources": []
     },
@@ -42,26 +128,74 @@
       "name": "Glaucoma",
       "card_count": 6,
       "learning_objectives": [
-        "Differentiate open-angle and angle-closure glaucoma",
-        "Recognize acute angle-closure emergency features"
+        "Differentiate primary open-angle and angle-closure glaucoma",
+        "Interpret intraocular pressure, optic disc and visual-field findings",
+        "Recognize and outline urgent management principles for acute angle closure"
+      ],
+      "exam_emphasis": [
+        "glaucoma comparison",
+        "optic neuropathy",
+        "acute angle closure"
       ],
       "reference_sources": []
     },
     {
-      "name": "Uveitis",
+      "name": "Uveitis and ocular inflammation",
       "card_count": 6,
       "learning_objectives": [
-        "Classify uveitis anatomically",
-        "Recognize urgent referral features"
+        "Classify uveitis by anatomical location",
+        "Differentiate anterior uveitis from conjunctivitis and keratitis",
+        "Recognize systemic associations and urgent complications"
+      ],
+      "exam_emphasis": [
+        "uveitis classification",
+        "slit-lamp findings",
+        "systemic associations"
       ],
       "reference_sources": []
     },
     {
-      "name": "Retina and diabetic retinopathy",
+      "name": "Retina and macula",
       "card_count": 6,
       "learning_objectives": [
-        "Classify diabetic retinopathy",
-        "Recognize retinal detachment symptoms"
+        "Recognize age-related macular degeneration patterns",
+        "Differentiate common macular and retinal disorders",
+        "Interpret central visual loss and metamorphopsia symptoms"
+      ],
+      "exam_emphasis": [
+        "macular disease",
+        "AMD",
+        "central vision loss"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Diabetic and vascular retinopathy",
+      "card_count": 6,
+      "learning_objectives": [
+        "Classify diabetic retinopathy and maculopathy",
+        "Recognize hypertensive and retinal vascular occlusive disease",
+        "Explain screening principles and sight-threatening features"
+      ],
+      "exam_emphasis": [
+        "diabetic retinopathy grading",
+        "retinal vein occlusion",
+        "retinal artery occlusion"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Vitreous and retinal detachment",
+      "card_count": 6,
+      "learning_objectives": [
+        "Differentiate posterior vitreous detachment from retinal tear and detachment",
+        "Recognize flashes, floaters and curtain-like field loss as warning symptoms",
+        "Describe urgent assessment principles"
+      ],
+      "exam_emphasis": [
+        "retinal detachment",
+        "vitreous haemorrhage",
+        "flashes and floaters"
       ],
       "reference_sources": []
     },
@@ -69,35 +203,134 @@
       "name": "Neuro-ophthalmology",
       "card_count": 6,
       "learning_objectives": [
-        "Assess pupillary abnormalities",
-        "Recognize optic neuropathy patterns"
+        "Localize visual pathway lesions from field defects",
+        "Differentiate optic neuritis, ischemic optic neuropathy and papilloedema patterns",
+        "Assess anisocoria, relative afferent pupillary defect and cranial nerve palsies"
+      ],
+      "exam_emphasis": [
+        "visual field localization",
+        "pupil abnormalities",
+        "optic disc swelling"
       ],
       "reference_sources": []
     },
     {
-      "name": "Pediatric ophthalmology and strabismus",
+      "name": "Ocular motility, diplopia and strabismus",
       "card_count": 6,
       "learning_objectives": [
-        "Recognize amblyopia risk factors",
-        "Describe basic strabismus assessment"
+        "Differentiate monocular from binocular diplopia",
+        "Assess ocular movements and common cranial nerve palsies",
+        "Describe cover tests, concomitance and basic strabismus patterns"
+      ],
+      "exam_emphasis": [
+        "cranial nerve palsies",
+        "cover tests",
+        "diplopia red flags"
       ],
       "reference_sources": []
     },
     {
-      "name": "Ocular trauma and emergencies",
+      "name": "Pediatric ophthalmology and amblyopia",
       "card_count": 6,
       "learning_objectives": [
-        "Recognize open-globe injury",
-        "Outline initial assessment of chemical eye injury"
+        "Recognize amblyopia risk factors and screening principles",
+        "Identify leukocoria and other urgent pediatric eye signs",
+        "Describe common childhood strabismus and refractive problems"
+      ],
+      "exam_emphasis": [
+        "red reflex",
+        "amblyopia",
+        "leukocoria"
       ],
       "reference_sources": []
     },
     {
-      "name": "Ophthalmic investigations and OSCE",
+      "name": "Ocular trauma and chemical injuries",
       "card_count": 6,
       "learning_objectives": [
-        "Perform a structured eye examination",
-        "Interpret common ophthalmic investigations"
+        "Recognize open-globe injury and avoid harmful examination steps",
+        "Outline immediate first aid for chemical eye injury",
+        "Differentiate blunt, penetrating and superficial ocular trauma"
+      ],
+      "exam_emphasis": [
+        "chemical injury first aid",
+        "open globe",
+        "hyphema"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Ocular infections",
+      "card_count": 6,
+      "learning_objectives": [
+        "Differentiate microbial keratitis, endophthalmitis and orbital infection",
+        "Recognize contact-lens-associated infection risk",
+        "Identify postoperative and post-traumatic infection red flags"
+      ],
+      "exam_emphasis": [
+        "infective keratitis",
+        "endophthalmitis",
+        "orbital infection"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Systemic disease and the eye",
+      "card_count": 6,
+      "learning_objectives": [
+        "Recognize ocular manifestations of diabetes, hypertension and thyroid disease",
+        "Relate autoimmune and inflammatory disease to ocular findings",
+        "Identify medication-related ocular adverse effects that require review"
+      ],
+      "exam_emphasis": [
+        "thyroid eye disease",
+        "diabetes",
+        "drug-related eye disease"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Ophthalmic investigations and imaging",
+      "card_count": 6,
+      "learning_objectives": [
+        "Choose appropriate initial tests for common ophthalmic presentations",
+        "Interpret principles of tonometry, visual fields, OCT and fundus imaging",
+        "Recognize limitations and safety considerations of investigations"
+      ],
+      "exam_emphasis": [
+        "OCT",
+        "visual fields",
+        "fundus photography"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Ophthalmic pharmacology and procedures",
+      "card_count": 6,
+      "learning_objectives": [
+        "Describe major ophthalmic drug classes and safety principles",
+        "Recognize important topical medication adverse effects and contraindications",
+        "Explain indications and basic principles of common ophthalmic procedures"
+      ],
+      "exam_emphasis": [
+        "eye drops",
+        "steroids and pressure",
+        "intravitreal therapy"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Integrated ophthalmology OSCE and emergencies",
+      "card_count": 6,
+      "learning_objectives": [
+        "Structure an eye examination station and present findings clearly",
+        "Approach sudden visual loss, painful red eye and acute diplopia",
+        "Prioritize referral and initial management in common ophthalmic emergencies"
+      ],
+      "exam_emphasis": [
+        "OSCE examination sequence",
+        "sudden vision loss",
+        "painful red eye"
       ],
       "reference_sources": []
     }
