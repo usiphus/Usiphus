@@ -5,7 +5,9 @@ article bodies or treat abstracts/search snippets as sufficient clinical proof.
 """
 from __future__ import annotations
 
+import json
 import re
+from pathlib import Path
 from typing import Any
 
 RISK_PATTERNS = {
@@ -96,6 +98,70 @@ def validate_evidence_packet(packet: dict[str, Any]) -> dict[str, Any]:
         "evidence_ready": bool(eligible_snippets),
         "notice": "Eligibility checks provenance metadata; they do not appraise study quality or prove a claim.",
     }
+
+
+
+def load_topic_evidence_packets(
+    curriculum: dict[str, Any], evidence_dir: str | Path
+) -> dict[str, Any]:
+    """Attach per-topic JSON packets from a directory, validating identity and provenance.
+
+    Candidate packets are intentionally retained as candidates. This loader never
+    upgrades review_status, access_status, or rights metadata.
+    """
+    root = Path(evidence_dir).resolve()
+    if not root.is_dir():
+        raise ValueError(f"Evidence packet directory does not exist: {root}")
+    loaded = []
+    missing = []
+    for topic in curriculum.get("topics", []):
+        topic_id = _text(topic.get("id"))
+        if not topic_id:
+            raise ValueError("Every topic needs an id to load a topic evidence packet")
+        path = (root / f"{topic_id}.json").resolve()
+        if path.parent != root:
+            raise ValueError(f"Invalid evidence packet path for topic {topic_id}")
+        if not path.is_file():
+            missing.append(topic_id)
+            continue
+        packet = json.loads(path.read_text(encoding="utf-8"))
+        if not isinstance(packet, dict):
+            raise ValueError(f"Evidence packet for {topic_id} must be a JSON object")
+        if packet.get("topic_id") != topic_id:
+            raise ValueError(
+                f"Evidence packet identity mismatch: expected {topic_id}, "
+                f"found {packet.get('topic_id')!r}"
+            )
+        if packet.get("specialty") != curriculum.get("specialty"):
+            raise ValueError(f"Evidence packet specialty mismatch for {topic_id}")
+        topic["evidence_packet"] = packet
+        loaded.append(topic_id)
+    return {
+        "evidence_directory": str(root),
+        "loaded_topic_ids": loaded,
+        "topics_without_packets": missing,
+        "packet_count": len(loaded),
+        "faculty_review_required": True,
+        "clinical_accuracy_verified": False,
+    }
+
+
+def preflight_topic_evidence(topic: dict[str, Any]) -> dict[str, Any]:
+    """Fail before inference when an attached packet is not claim-grounding eligible."""
+    packet = topic.get("evidence_packet")
+    if packet is None:
+        return {"evidence_status": "unreviewed_source_gap", "evidence_ready": False}
+    report = validate_evidence_packet(packet)
+    if not report["evidence_ready"]:
+        topic_id = _text(topic.get("id")) or _text(topic.get("name"))
+        raise ValueError(
+            f"Evidence packet for {topic_id} has no eligible reviewed snippets "
+            f"({report['eligible_source_count']} eligible sources, "
+            f"{report['eligible_snippet_count']} eligible snippets). "
+            "No model request was made. Faculty must verify full-text access, "
+            "reuse rights, source currency, snippets and objective mappings."
+        )
+    return report
 
 
 def detect_high_risk_claims(text: str) -> list[str]:
