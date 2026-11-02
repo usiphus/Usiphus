@@ -198,3 +198,8 @@ The analyzer excludes search-link-only records, reports domain/topic/objective
 coverage, and produces a faculty action queue. Coverage is a discovery signal,
 not a clinical evidence grade or proof of curriculum adequacy. See
 [the analyzer guide](docs/CURRICULUM_COVERAGE_ANALYZER.md).
+
+
+### Evidence-grounded generation
+
+Curated source excerpts can be mapped to individual generated claims, with unsupported links and potential conflicts routed to faculty review. This is traceability—not automated clinical verification. See [Evidence-grounded generation](docs/EVIDENCE_GROUNDED_GENERATION.md).
