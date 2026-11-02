@@ -163,6 +163,27 @@ def load_curriculum(path: Path) -> dict[str, Any]:
     for item in data["topics"]:
         if not isinstance(item, dict) or not (item.get("name") or item.get("topic")):
             raise ValueError("Each topic needs a name")
+    domains = data.get("curriculum_domains")
+    if domains is not None:
+        if not isinstance(domains, list) or not domains:
+            raise ValueError("curriculum_domains must be a non-empty list")
+        domain_ids = [item.get("id") for item in domains if isinstance(item, dict)]
+        if len(domain_ids) != len(domains) or any(not value for value in domain_ids):
+            raise ValueError("Every curriculum domain needs an id")
+        if len(set(domain_ids)) != len(domain_ids):
+            raise ValueError("Curriculum domain IDs must be unique")
+        topic_ids = []
+        for item in data["topics"]:
+            topic_id = item.get("id")
+            if not topic_id or not item.get("domain_id"):
+                raise ValueError("Mapped topics need unique id and domain_id fields")
+            if item["domain_id"] not in domain_ids:
+                raise ValueError(f"Topic {topic_id} references an unknown curriculum domain")
+            if not isinstance(item.get("coverage_tags"), list) or not item["coverage_tags"]:
+                raise ValueError(f"Topic {topic_id} needs coverage_tags")
+            topic_ids.append(topic_id)
+        if len(set(topic_ids)) != len(topic_ids):
+            raise ValueError("Curriculum topic IDs must be unique")
     return data
 
 
@@ -299,7 +320,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--ollama-url", default=os.getenv("OLLAMA_HOST", DEFAULT_OLLAMA_URL),
                    help="Ollama server base URL (default: http://localhost:11434)")
     p.add_argument("--cards-per-topic", type=int, default=6)
-    p.add_argument("--max-ollama-calls", type=int, default=50,
+    p.add_argument("--max-ollama-calls", type=int, default=60,
                    help="Maximum local generation requests (default: 25)")
     p.add_argument("--max-output-tokens", type=int, default=3500,
                    help="Maximum generated tokens per topic request (default: 3500)")
