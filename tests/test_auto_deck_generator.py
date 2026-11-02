@@ -47,7 +47,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         args = generator.parse_args(["--generate", "--curriculum", "curriculum.json"])
         self.assertIsNone(args.specialty)
         self.assertIsNone(args.level)
-        self.assertEqual(args.max_ollama_calls, 50)
+        self.assertEqual(args.max_ollama_calls, 60)
         self.assertEqual(args.max_output_tokens, 3500)
         self.assertEqual(args.model, "llama3.1:8b")
         self.assertEqual(args.ollama_url, "http://localhost:11434")
@@ -124,9 +124,9 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         domains = curriculum["curriculum_domains"]
         topics = curriculum["topics"]
         domain_ids = {item["id"] for item in domains}
-        self.assertEqual(len(domains), 14)
-        self.assertEqual(len(topics), 42)
-        self.assertEqual(curriculum["planned_card_count"], 252)
+        self.assertEqual(len(domains), 16)
+        self.assertEqual(len(topics), 52)
+        self.assertEqual(curriculum["planned_card_count"], 312)
         self.assertEqual(len({topic["id"] for topic in topics}), len(topics))
         self.assertTrue(all(topic["domain_id"] in domain_ids for topic in topics))
         self.assertTrue(all(len(topic["learning_objectives"]) >= 3 for topic in topics))
@@ -152,6 +152,18 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         self.assertEqual(payload["curriculum_domain"], "Vitreoretinal disease and surgery")
         self.assertEqual(payload["domain_id"], "vitreoretinal")
         self.assertEqual(payload["coverage_tags"], ["retinal detachment"])
+
+    def test_curriculum_rejects_topic_with_unknown_domain(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "curriculum.json"
+            path.write_text(json.dumps({
+                "specialty": "ophthalmology",
+                "curriculum_domains": [{"id": "retina", "name": "Retina"}],
+                "topics": [{"id": "retina-01", "domain_id": "glaucoma",
+                            "name": "Retinal disease", "coverage_tags": ["retina"]}]
+            }))
+            with self.assertRaisesRegex(ValueError, "unknown curriculum domain"):
+                generator.load_curriculum(path)
 
 
 if __name__ == "__main__":
