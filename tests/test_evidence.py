@@ -34,7 +34,7 @@ class EvidenceBundleTests(unittest.TestCase):
                 "source_ids": ["source-a"],
             }],
         }, bundle)
-        self.assertEqual(result["evidence_status"], "source_linked_pending_human_verification")
+        self.assertEqual(result["evidence_review_state"], "source_linked_pending_human_verification")
         self.assertEqual(result["claim_provenance"][0]["source_ids"], ["source-a"])
         self.assertFalse(result["evidence_flags"])
 
@@ -48,7 +48,7 @@ class EvidenceBundleTests(unittest.TestCase):
                 {"claim": "Claim two.", "source_ids": []},
             ],
         }, bundle)
-        self.assertEqual(result["evidence_status"], "needs_evidence_review")
+        self.assertEqual(result["evidence_review_state"], "needs_evidence_review")
         self.assertTrue(any("unknown" in flag for flag in result["evidence_flags"]))
         self.assertTrue(any("no usable source" in flag for flag in result["evidence_flags"]))
 
@@ -64,7 +64,7 @@ class EvidenceBundleTests(unittest.TestCase):
             }],
         }, bundle)
         self.assertEqual(len(result["potential_conflicts"]), 1)
-        self.assertEqual(result["evidence_status"], "needs_evidence_review")
+        self.assertEqual(result["evidence_review_state"], "needs_evidence_review")
 
 
 if __name__ == "__main__":
