@@ -192,7 +192,9 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         payload = json.loads(sent["messages"][1]["content"])
         self.assertEqual(payload["curriculum_domain"], "Vitreoretinal disease and surgery")
         self.assertEqual(payload["domain_id"], "vitreoretinal")
-        self.assertEqual(payload["coverage_tags"], ["retinal detachment"])\n        self.assertTrue(sent["stream"])\n        self.assertEqual(sent["keep_alive"], "30m")
+        self.assertEqual(payload["coverage_tags"], ["retinal detachment"])
+        self.assertTrue(sent["stream"])
+        self.assertEqual(sent["keep_alive"], "30m")
 
     def test_curriculum_rejects_topic_with_unknown_domain(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -221,7 +223,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             def __enter__(self): return self
             def __exit__(self, *args): return False
             def __iter__(self):
-                yield (json.dumps({"message": {"content": json.dumps(self.payload)}, "done": True}) + "\\n").encode()
+                yield (json.dumps({"message": {"content": json.dumps(self.payload)}, "done": True}) + "\n").encode()
         with patch.object(generator.urllib.request, "urlopen", side_effect=[FakeResponse(x) for x in events]) as request:
             cards = generator.generate_topic_cards(
                 {"id": "lens-01", "name": "Cataract", "coverage_tags": ["lens opacity"],
