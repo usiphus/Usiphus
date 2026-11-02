@@ -1,0 +1,677 @@
+{
+  "specialty": "obstetrics_gynaecology",
+  "display_name": "Obstetrics and Gynaecology",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive obstetrics and gynaecology curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "obstetric-foundations",
+      "name": "Normal pregnancy and antenatal care",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in normal pregnancy and antenatal care. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "obstetric-complications",
+      "name": "High-risk obstetrics and emergencies",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in high-risk obstetrics and emergencies. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "gynaecology",
+      "name": "General gynaecology and reproductive health",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in general gynaecology and reproductive health. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "gyn-oncology",
+      "name": "Gynaecologic oncology and procedures",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in gynaecologic oncology and procedures. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Normal pregnancy and antenatal care",
+    "High-risk obstetrics and emergencies",
+    "General gynaecology and reproductive health",
+    "Gynaecologic oncology and procedures"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "obstetric-foundations-01",
+      "domain_id": "obstetric-foundations",
+      "domain": "Normal pregnancy and antenatal care",
+      "name": "Maternal physiology and diagnosis of pregnancy",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for maternal physiology and diagnosis of pregnancy.",
+        "Assess a patient with suspected maternal physiology and diagnosis of pregnancy, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "maternal physiology and diagnosis of pregnancy",
+        "obstetrics and gynaecology assessment",
+        "obstetrics and gynaecology investigations",
+        "obstetrics and gynaecology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Maternal physiology and diagnosis of pregnancy",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for maternal physiology and diagnosis of pregnancy.",
+        "Assess a patient with suspected maternal physiology and diagnosis of pregnancy, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Maternal physiology and diagnosis of pregnancy MCQ",
+        "Maternal physiology and diagnosis of pregnancy clinical case",
+        "Maternal physiology and diagnosis of pregnancy OSCE",
+        "Maternal physiology and diagnosis of pregnancy viva",
+        "Maternal physiology and diagnosis of pregnancy review guideline"
+      ]
+    },
+    {
+      "id": "obstetric-foundations-02",
+      "domain_id": "obstetric-foundations",
+      "domain": "Normal pregnancy and antenatal care",
+      "name": "Antenatal care, screening and fetal assessment",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for antenatal care, screening and fetal assessment.",
+        "Assess a patient with suspected antenatal care, screening and fetal assessment, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "antenatal care, screening and fetal assessment",
+        "obstetrics and gynaecology assessment",
+        "obstetrics and gynaecology investigations",
+        "obstetrics and gynaecology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Antenatal care, screening and fetal assessment",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for antenatal care, screening and fetal assessment.",
+        "Assess a patient with suspected antenatal care, screening and fetal assessment, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Antenatal care, screening and fetal assessment MCQ",
+        "Antenatal care, screening and fetal assessment clinical case",
+        "Antenatal care, screening and fetal assessment OSCE",
+        "Antenatal care, screening and fetal assessment viva",
+        "Antenatal care, screening and fetal assessment review guideline"
+      ]
+    },
+    {
+      "id": "obstetric-foundations-03",
+      "domain_id": "obstetric-foundations",
+      "domain": "Normal pregnancy and antenatal care",
+      "name": "Normal labour, delivery and puerperium",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for normal labour, delivery and puerperium.",
+        "Assess a patient with suspected normal labour, delivery and puerperium, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "normal labour, delivery and puerperium",
+        "obstetrics and gynaecology assessment",
+        "obstetrics and gynaecology investigations",
+        "obstetrics and gynaecology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Normal labour, delivery and puerperium",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for normal labour, delivery and puerperium.",
+        "Assess a patient with suspected normal labour, delivery and puerperium, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Normal labour, delivery and puerperium MCQ",
+        "Normal labour, delivery and puerperium clinical case",
+        "Normal labour, delivery and puerperium OSCE",
+        "Normal labour, delivery and puerperium viva",
+        "Normal labour, delivery and puerperium review guideline"
+      ]
+    },
+    {
+      "id": "obstetric-complications-01",
+      "domain_id": "obstetric-complications",
+      "domain": "High-risk obstetrics and emergencies",
+      "name": "Hypertensive disorders of pregnancy",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hypertensive disorders of pregnancy.",
+        "Assess a patient with suspected hypertensive disorders of pregnancy, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "hypertensive disorders of pregnancy",
+        "obstetrics and gynaecology assessment",
+        "obstetrics and gynaecology investigations",
+        "obstetrics and gynaecology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Hypertensive disorders of pregnancy",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hypertensive disorders of pregnancy.",
+        "Assess a patient with suspected hypertensive disorders of pregnancy, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Hypertensive disorders of pregnancy MCQ",
+        "Hypertensive disorders of pregnancy clinical case",
+        "Hypertensive disorders of pregnancy OSCE",
+        "Hypertensive disorders of pregnancy viva",
+        "Hypertensive disorders of pregnancy review guideline"
+      ]
+    },
+    {
+      "id": "obstetric-complications-02",
+      "domain_id": "obstetric-complications",
+      "domain": "High-risk obstetrics and emergencies",
+      "name": "Obstetric haemorrhage and maternal collapse",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for obstetric haemorrhage and maternal collapse.",
+        "Assess a patient with suspected obstetric haemorrhage and maternal collapse, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "obstetric haemorrhage and maternal collapse",
+        "obstetrics and gynaecology assessment",
+        "obstetrics and gynaecology investigations",
+        "obstetrics and gynaecology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Obstetric haemorrhage and maternal collapse",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for obstetric haemorrhage and maternal collapse.",
+        "Assess a patient with suspected obstetric haemorrhage and maternal collapse, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Obstetric haemorrhage and maternal collapse MCQ",
+        "Obstetric haemorrhage and maternal collapse clinical case",
+        "Obstetric haemorrhage and maternal collapse OSCE",
+        "Obstetric haemorrhage and maternal collapse viva",
+        "Obstetric haemorrhage and maternal collapse review guideline"
+      ]
+    },
+    {
+      "id": "obstetric-complications-03",
+      "domain_id": "obstetric-complications",
+      "domain": "High-risk obstetrics and emergencies",
+      "name": "Preterm birth, fetal growth restriction and medical disorders in pregnancy",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for preterm birth, fetal growth restriction and medical disorders in pregnancy.",
+        "Assess a patient with suspected preterm birth, fetal growth restriction and medical disorders in pregnancy, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "preterm birth, fetal growth restriction and medical disorders in pregnancy",
+        "obstetrics and gynaecology assessment",
+        "obstetrics and gynaecology investigations",
+        "obstetrics and gynaecology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Preterm birth, fetal growth restriction and medical disorders in pregnancy",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for preterm birth, fetal growth restriction and medical disorders in pregnancy.",
+        "Assess a patient with suspected preterm birth, fetal growth restriction and medical disorders in pregnancy, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Preterm birth, fetal growth restriction and medical disorders in pregnancy MCQ",
+        "Preterm birth, fetal growth restriction and medical disorders in pregnancy clinical case",
+        "Preterm birth, fetal growth restriction and medical disorders in pregnancy OSCE",
+        "Preterm birth, fetal growth restriction and medical disorders in pregnancy viva",
+        "Preterm birth, fetal growth restriction and medical disorders in pregnancy review guideline"
+      ]
+    },
+    {
+      "id": "gynaecology-01",
+      "domain_id": "gynaecology",
+      "domain": "General gynaecology and reproductive health",
+      "name": "Menstrual disorders, PCOS and endometriosis",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for menstrual disorders, pcos and endometriosis.",
+        "Assess a patient with suspected menstrual disorders, pcos and endometriosis, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "menstrual disorders, pcos and endometriosis",
+        "obstetrics and gynaecology assessment",
+        "obstetrics and gynaecology investigations",
+        "obstetrics and gynaecology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Menstrual disorders, PCOS and endometriosis",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for menstrual disorders, pcos and endometriosis.",
+        "Assess a patient with suspected menstrual disorders, pcos and endometriosis, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Menstrual disorders, PCOS and endometriosis MCQ",
+        "Menstrual disorders, PCOS and endometriosis clinical case",
+        "Menstrual disorders, PCOS and endometriosis OSCE",
+        "Menstrual disorders, PCOS and endometriosis viva",
+        "Menstrual disorders, PCOS and endometriosis review guideline"
+      ]
+    },
+    {
+      "id": "gynaecology-02",
+      "domain_id": "gynaecology",
+      "domain": "General gynaecology and reproductive health",
+      "name": "Pelvic pain, pelvic floor and benign gynaecologic disease",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pelvic pain, pelvic floor and benign gynaecologic disease.",
+        "Assess a patient with suspected pelvic pain, pelvic floor and benign gynaecologic disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "pelvic pain, pelvic floor and benign gynaecologic disease",
+        "obstetrics and gynaecology assessment",
+        "obstetrics and gynaecology investigations",
+        "obstetrics and gynaecology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Pelvic pain, pelvic floor and benign gynaecologic disease",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pelvic pain, pelvic floor and benign gynaecologic disease.",
+        "Assess a patient with suspected pelvic pain, pelvic floor and benign gynaecologic disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Pelvic pain, pelvic floor and benign gynaecologic disease MCQ",
+        "Pelvic pain, pelvic floor and benign gynaecologic disease clinical case",
+        "Pelvic pain, pelvic floor and benign gynaecologic disease OSCE",
+        "Pelvic pain, pelvic floor and benign gynaecologic disease viva",
+        "Pelvic pain, pelvic floor and benign gynaecologic disease review guideline"
+      ]
+    },
+    {
+      "id": "gynaecology-03",
+      "domain_id": "gynaecology",
+      "domain": "General gynaecology and reproductive health",
+      "name": "Contraception, infertility and reproductive endocrinology",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for contraception, infertility and reproductive endocrinology.",
+        "Assess a patient with suspected contraception, infertility and reproductive endocrinology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "contraception, infertility and reproductive endocrinology",
+        "obstetrics and gynaecology assessment",
+        "obstetrics and gynaecology investigations",
+        "obstetrics and gynaecology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Contraception, infertility and reproductive endocrinology",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for contraception, infertility and reproductive endocrinology.",
+        "Assess a patient with suspected contraception, infertility and reproductive endocrinology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Contraception, infertility and reproductive endocrinology MCQ",
+        "Contraception, infertility and reproductive endocrinology clinical case",
+        "Contraception, infertility and reproductive endocrinology OSCE",
+        "Contraception, infertility and reproductive endocrinology viva",
+        "Contraception, infertility and reproductive endocrinology review guideline"
+      ]
+    },
+    {
+      "id": "gyn-oncology-01",
+      "domain_id": "gyn-oncology",
+      "domain": "Gynaecologic oncology and procedures",
+      "name": "Cervical screening and cervical cancer",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cervical screening and cervical cancer.",
+        "Assess a patient with suspected cervical screening and cervical cancer, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "cervical screening and cervical cancer",
+        "obstetrics and gynaecology assessment",
+        "obstetrics and gynaecology investigations",
+        "obstetrics and gynaecology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Cervical screening and cervical cancer",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cervical screening and cervical cancer.",
+        "Assess a patient with suspected cervical screening and cervical cancer, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Cervical screening and cervical cancer MCQ",
+        "Cervical screening and cervical cancer clinical case",
+        "Cervical screening and cervical cancer OSCE",
+        "Cervical screening and cervical cancer viva",
+        "Cervical screening and cervical cancer review guideline"
+      ]
+    },
+    {
+      "id": "gyn-oncology-02",
+      "domain_id": "gyn-oncology",
+      "domain": "Gynaecologic oncology and procedures",
+      "name": "Endometrial, ovarian and vulval malignancy",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for endometrial, ovarian and vulval malignancy.",
+        "Assess a patient with suspected endometrial, ovarian and vulval malignancy, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "endometrial, ovarian and vulval malignancy",
+        "obstetrics and gynaecology assessment",
+        "obstetrics and gynaecology investigations",
+        "obstetrics and gynaecology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Endometrial, ovarian and vulval malignancy",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for endometrial, ovarian and vulval malignancy.",
+        "Assess a patient with suspected endometrial, ovarian and vulval malignancy, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Endometrial, ovarian and vulval malignancy MCQ",
+        "Endometrial, ovarian and vulval malignancy clinical case",
+        "Endometrial, ovarian and vulval malignancy OSCE",
+        "Endometrial, ovarian and vulval malignancy viva",
+        "Endometrial, ovarian and vulval malignancy review guideline"
+      ]
+    },
+    {
+      "id": "gyn-oncology-03",
+      "domain_id": "gyn-oncology",
+      "domain": "Gynaecologic oncology and procedures",
+      "name": "Gynaecologic procedures, complications and perioperative care",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for gynaecologic procedures, complications and perioperative care.",
+        "Assess a patient with suspected gynaecologic procedures, complications and perioperative care, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "gynaecologic procedures, complications and perioperative care",
+        "obstetrics and gynaecology assessment",
+        "obstetrics and gynaecology investigations",
+        "obstetrics and gynaecology management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Gynaecologic procedures, complications and perioperative care",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for gynaecologic procedures, complications and perioperative care.",
+        "Assess a patient with suspected gynaecologic procedures, complications and perioperative care, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Gynaecologic procedures, complications and perioperative care MCQ",
+        "Gynaecologic procedures, complications and perioperative care clinical case",
+        "Gynaecologic procedures, complications and perioperative care OSCE",
+        "Gynaecologic procedures, complications and perioperative care viva",
+        "Gynaecologic procedures, complications and perioperative care review guideline"
+      ]
+    }
+  ]
+}

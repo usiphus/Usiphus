@@ -1,0 +1,677 @@
+{
+  "specialty": "family_medicine",
+  "display_name": "Family Medicine",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive family medicine curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "primary-care",
+      "name": "Primary care and continuity",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in primary care and continuity. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "common-conditions",
+      "name": "Common undifferentiated conditions",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in common undifferentiated conditions. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "lifespan-care",
+      "name": "Lifespan and reproductive care",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in lifespan and reproductive care. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "community-care",
+      "name": "Community, safety-netting and systems",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in community, safety-netting and systems. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Primary care and continuity",
+    "Common undifferentiated conditions",
+    "Lifespan and reproductive care",
+    "Community, safety-netting and systems"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "primary-care-01",
+      "domain_id": "primary-care",
+      "domain": "Primary care and continuity",
+      "name": "Consultation skills, clinical reasoning and shared decisions",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for consultation skills, clinical reasoning and shared decisions.",
+        "Assess a patient with suspected consultation skills, clinical reasoning and shared decisions, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "consultation skills, clinical reasoning and shared decisions",
+        "family medicine assessment",
+        "family medicine investigations",
+        "family medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Consultation skills, clinical reasoning and shared decisions",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for consultation skills, clinical reasoning and shared decisions.",
+        "Assess a patient with suspected consultation skills, clinical reasoning and shared decisions, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Consultation skills, clinical reasoning and shared decisions MCQ",
+        "Consultation skills, clinical reasoning and shared decisions clinical case",
+        "Consultation skills, clinical reasoning and shared decisions OSCE",
+        "Consultation skills, clinical reasoning and shared decisions viva",
+        "Consultation skills, clinical reasoning and shared decisions review guideline"
+      ]
+    },
+    {
+      "id": "primary-care-02",
+      "domain_id": "primary-care",
+      "domain": "Primary care and continuity",
+      "name": "Prevention, screening and immunization across the lifespan",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for prevention, screening and immunization across the lifespan.",
+        "Assess a patient with suspected prevention, screening and immunization across the lifespan, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "prevention, screening and immunization across the lifespan",
+        "family medicine assessment",
+        "family medicine investigations",
+        "family medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Prevention, screening and immunization across the lifespan",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for prevention, screening and immunization across the lifespan.",
+        "Assess a patient with suspected prevention, screening and immunization across the lifespan, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Prevention, screening and immunization across the lifespan MCQ",
+        "Prevention, screening and immunization across the lifespan clinical case",
+        "Prevention, screening and immunization across the lifespan OSCE",
+        "Prevention, screening and immunization across the lifespan viva",
+        "Prevention, screening and immunization across the lifespan review guideline"
+      ]
+    },
+    {
+      "id": "primary-care-03",
+      "domain_id": "primary-care",
+      "domain": "Primary care and continuity",
+      "name": "Multimorbidity, polypharmacy and continuity of care",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for multimorbidity, polypharmacy and continuity of care.",
+        "Assess a patient with suspected multimorbidity, polypharmacy and continuity of care, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "multimorbidity, polypharmacy and continuity of care",
+        "family medicine assessment",
+        "family medicine investigations",
+        "family medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Multimorbidity, polypharmacy and continuity of care",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for multimorbidity, polypharmacy and continuity of care.",
+        "Assess a patient with suspected multimorbidity, polypharmacy and continuity of care, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Multimorbidity, polypharmacy and continuity of care MCQ",
+        "Multimorbidity, polypharmacy and continuity of care clinical case",
+        "Multimorbidity, polypharmacy and continuity of care OSCE",
+        "Multimorbidity, polypharmacy and continuity of care viva",
+        "Multimorbidity, polypharmacy and continuity of care review guideline"
+      ]
+    },
+    {
+      "id": "common-conditions-01",
+      "domain_id": "common-conditions",
+      "domain": "Common undifferentiated conditions",
+      "name": "Hypertension, diabetes and cardiovascular prevention",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hypertension, diabetes and cardiovascular prevention.",
+        "Assess a patient with suspected hypertension, diabetes and cardiovascular prevention, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "hypertension, diabetes and cardiovascular prevention",
+        "family medicine assessment",
+        "family medicine investigations",
+        "family medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Hypertension, diabetes and cardiovascular prevention",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hypertension, diabetes and cardiovascular prevention.",
+        "Assess a patient with suspected hypertension, diabetes and cardiovascular prevention, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Hypertension, diabetes and cardiovascular prevention MCQ",
+        "Hypertension, diabetes and cardiovascular prevention clinical case",
+        "Hypertension, diabetes and cardiovascular prevention OSCE",
+        "Hypertension, diabetes and cardiovascular prevention viva",
+        "Hypertension, diabetes and cardiovascular prevention review guideline"
+      ]
+    },
+    {
+      "id": "common-conditions-02",
+      "domain_id": "common-conditions",
+      "domain": "Common undifferentiated conditions",
+      "name": "Common respiratory, gastrointestinal and dermatologic problems",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for common respiratory, gastrointestinal and dermatologic problems.",
+        "Assess a patient with suspected common respiratory, gastrointestinal and dermatologic problems, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "common respiratory, gastrointestinal and dermatologic problems",
+        "family medicine assessment",
+        "family medicine investigations",
+        "family medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Common respiratory, gastrointestinal and dermatologic problems",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for common respiratory, gastrointestinal and dermatologic problems.",
+        "Assess a patient with suspected common respiratory, gastrointestinal and dermatologic problems, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Common respiratory, gastrointestinal and dermatologic problems MCQ",
+        "Common respiratory, gastrointestinal and dermatologic problems clinical case",
+        "Common respiratory, gastrointestinal and dermatologic problems OSCE",
+        "Common respiratory, gastrointestinal and dermatologic problems viva",
+        "Common respiratory, gastrointestinal and dermatologic problems review guideline"
+      ]
+    },
+    {
+      "id": "common-conditions-03",
+      "domain_id": "common-conditions",
+      "domain": "Common undifferentiated conditions",
+      "name": "Musculoskeletal pain and common mental-health presentations",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for musculoskeletal pain and common mental-health presentations.",
+        "Assess a patient with suspected musculoskeletal pain and common mental-health presentations, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "musculoskeletal pain and common mental-health presentations",
+        "family medicine assessment",
+        "family medicine investigations",
+        "family medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Musculoskeletal pain and common mental-health presentations",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for musculoskeletal pain and common mental-health presentations.",
+        "Assess a patient with suspected musculoskeletal pain and common mental-health presentations, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Musculoskeletal pain and common mental-health presentations MCQ",
+        "Musculoskeletal pain and common mental-health presentations clinical case",
+        "Musculoskeletal pain and common mental-health presentations OSCE",
+        "Musculoskeletal pain and common mental-health presentations viva",
+        "Musculoskeletal pain and common mental-health presentations review guideline"
+      ]
+    },
+    {
+      "id": "lifespan-care-01",
+      "domain_id": "lifespan-care",
+      "domain": "Lifespan and reproductive care",
+      "name": "Child health, growth surveillance and common pediatric illness",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for child health, growth surveillance and common pediatric illness.",
+        "Assess a patient with suspected child health, growth surveillance and common pediatric illness, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "child health, growth surveillance and common pediatric illness",
+        "family medicine assessment",
+        "family medicine investigations",
+        "family medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Child health, growth surveillance and common pediatric illness",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for child health, growth surveillance and common pediatric illness.",
+        "Assess a patient with suspected child health, growth surveillance and common pediatric illness, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Child health, growth surveillance and common pediatric illness MCQ",
+        "Child health, growth surveillance and common pediatric illness clinical case",
+        "Child health, growth surveillance and common pediatric illness OSCE",
+        "Child health, growth surveillance and common pediatric illness viva",
+        "Child health, growth surveillance and common pediatric illness review guideline"
+      ]
+    },
+    {
+      "id": "lifespan-care-02",
+      "domain_id": "lifespan-care",
+      "domain": "Lifespan and reproductive care",
+      "name": "Women's health, contraception and antenatal shared care",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for women's health, contraception and antenatal shared care.",
+        "Assess a patient with suspected women's health, contraception and antenatal shared care, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "women's health, contraception and antenatal shared care",
+        "family medicine assessment",
+        "family medicine investigations",
+        "family medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Women's health, contraception and antenatal shared care",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for women's health, contraception and antenatal shared care.",
+        "Assess a patient with suspected women's health, contraception and antenatal shared care, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Women's health, contraception and antenatal shared care MCQ",
+        "Women's health, contraception and antenatal shared care clinical case",
+        "Women's health, contraception and antenatal shared care OSCE",
+        "Women's health, contraception and antenatal shared care viva",
+        "Women's health, contraception and antenatal shared care review guideline"
+      ]
+    },
+    {
+      "id": "lifespan-care-03",
+      "domain_id": "lifespan-care",
+      "domain": "Lifespan and reproductive care",
+      "name": "Older-person care, frailty, falls and cognitive impairment",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for older-person care, frailty, falls and cognitive impairment.",
+        "Assess a patient with suspected older-person care, frailty, falls and cognitive impairment, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "older-person care, frailty, falls and cognitive impairment",
+        "family medicine assessment",
+        "family medicine investigations",
+        "family medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Older-person care, frailty, falls and cognitive impairment",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for older-person care, frailty, falls and cognitive impairment.",
+        "Assess a patient with suspected older-person care, frailty, falls and cognitive impairment, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Older-person care, frailty, falls and cognitive impairment MCQ",
+        "Older-person care, frailty, falls and cognitive impairment clinical case",
+        "Older-person care, frailty, falls and cognitive impairment OSCE",
+        "Older-person care, frailty, falls and cognitive impairment viva",
+        "Older-person care, frailty, falls and cognitive impairment review guideline"
+      ]
+    },
+    {
+      "id": "community-care-01",
+      "domain_id": "community-care",
+      "domain": "Community, safety-netting and systems",
+      "name": "Red flags, safety-netting and urgent referral",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for red flags, safety-netting and urgent referral.",
+        "Assess a patient with suspected red flags, safety-netting and urgent referral, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "red flags, safety-netting and urgent referral",
+        "family medicine assessment",
+        "family medicine investigations",
+        "family medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Red flags, safety-netting and urgent referral",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for red flags, safety-netting and urgent referral.",
+        "Assess a patient with suspected red flags, safety-netting and urgent referral, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Red flags, safety-netting and urgent referral MCQ",
+        "Red flags, safety-netting and urgent referral clinical case",
+        "Red flags, safety-netting and urgent referral OSCE",
+        "Red flags, safety-netting and urgent referral viva",
+        "Red flags, safety-netting and urgent referral review guideline"
+      ]
+    },
+    {
+      "id": "community-care-02",
+      "domain_id": "community-care",
+      "domain": "Community, safety-netting and systems",
+      "name": "Palliative care, chronic pain and end-of-life communication",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for palliative care, chronic pain and end-of-life communication.",
+        "Assess a patient with suspected palliative care, chronic pain and end-of-life communication, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "palliative care, chronic pain and end-of-life communication",
+        "family medicine assessment",
+        "family medicine investigations",
+        "family medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Palliative care, chronic pain and end-of-life communication",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for palliative care, chronic pain and end-of-life communication.",
+        "Assess a patient with suspected palliative care, chronic pain and end-of-life communication, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Palliative care, chronic pain and end-of-life communication MCQ",
+        "Palliative care, chronic pain and end-of-life communication clinical case",
+        "Palliative care, chronic pain and end-of-life communication OSCE",
+        "Palliative care, chronic pain and end-of-life communication viva",
+        "Palliative care, chronic pain and end-of-life communication review guideline"
+      ]
+    },
+    {
+      "id": "community-care-03",
+      "domain_id": "community-care",
+      "domain": "Community, safety-netting and systems",
+      "name": "Population health, health inequalities and community resources",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for population health, health inequalities and community resources.",
+        "Assess a patient with suspected population health, health inequalities and community resources, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "population health, health inequalities and community resources",
+        "family medicine assessment",
+        "family medicine investigations",
+        "family medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Population health, health inequalities and community resources",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for population health, health inequalities and community resources.",
+        "Assess a patient with suspected population health, health inequalities and community resources, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Population health, health inequalities and community resources MCQ",
+        "Population health, health inequalities and community resources clinical case",
+        "Population health, health inequalities and community resources OSCE",
+        "Population health, health inequalities and community resources viva",
+        "Population health, health inequalities and community resources review guideline"
+      ]
+    }
+  ]
+}

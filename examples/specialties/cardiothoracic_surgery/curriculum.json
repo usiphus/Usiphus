@@ -1,0 +1,677 @@
+{
+  "specialty": "cardiothoracic_surgery",
+  "display_name": "Cardiothoracic Surgery",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive cardiothoracic surgery curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "cardiac-surgery",
+      "name": "Adult cardiac surgery",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in adult cardiac surgery. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "thoracic-surgery",
+      "name": "General thoracic surgery",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in general thoracic surgery. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "perioperative",
+      "name": "Cardiothoracic perioperative and critical care",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in cardiothoracic perioperative and critical care. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "congenital-transplant",
+      "name": "Congenital, transplant and vascular thoracic surgery",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in congenital, transplant and vascular thoracic surgery. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Adult cardiac surgery",
+    "General thoracic surgery",
+    "Cardiothoracic perioperative and critical care",
+    "Congenital, transplant and vascular thoracic surgery"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "cardiac-surgery-01",
+      "domain_id": "cardiac-surgery",
+      "domain": "Adult cardiac surgery",
+      "name": "Coronary artery disease and surgical revascularization",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for coronary artery disease and surgical revascularization.",
+        "Assess a patient with suspected coronary artery disease and surgical revascularization, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "coronary artery disease and surgical revascularization",
+        "cardiothoracic surgery assessment",
+        "cardiothoracic surgery investigations",
+        "cardiothoracic surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Coronary artery disease and surgical revascularization",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for coronary artery disease and surgical revascularization.",
+        "Assess a patient with suspected coronary artery disease and surgical revascularization, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Coronary artery disease and surgical revascularization MCQ",
+        "Coronary artery disease and surgical revascularization clinical case",
+        "Coronary artery disease and surgical revascularization OSCE",
+        "Coronary artery disease and surgical revascularization viva",
+        "Coronary artery disease and surgical revascularization review guideline"
+      ]
+    },
+    {
+      "id": "cardiac-surgery-02",
+      "domain_id": "cardiac-surgery",
+      "domain": "Adult cardiac surgery",
+      "name": "Valvular heart disease and surgical repair or replacement",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for valvular heart disease and surgical repair or replacement.",
+        "Assess a patient with suspected valvular heart disease and surgical repair or replacement, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "valvular heart disease and surgical repair or replacement",
+        "cardiothoracic surgery assessment",
+        "cardiothoracic surgery investigations",
+        "cardiothoracic surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Valvular heart disease and surgical repair or replacement",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for valvular heart disease and surgical repair or replacement.",
+        "Assess a patient with suspected valvular heart disease and surgical repair or replacement, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Valvular heart disease and surgical repair or replacement MCQ",
+        "Valvular heart disease and surgical repair or replacement clinical case",
+        "Valvular heart disease and surgical repair or replacement OSCE",
+        "Valvular heart disease and surgical repair or replacement viva",
+        "Valvular heart disease and surgical repair or replacement review guideline"
+      ]
+    },
+    {
+      "id": "cardiac-surgery-03",
+      "domain_id": "cardiac-surgery",
+      "domain": "Adult cardiac surgery",
+      "name": "Aortic disease, endocarditis and cardiac tumors",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for aortic disease, endocarditis and cardiac tumors.",
+        "Assess a patient with suspected aortic disease, endocarditis and cardiac tumors, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "aortic disease, endocarditis and cardiac tumors",
+        "cardiothoracic surgery assessment",
+        "cardiothoracic surgery investigations",
+        "cardiothoracic surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Aortic disease, endocarditis and cardiac tumors",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for aortic disease, endocarditis and cardiac tumors.",
+        "Assess a patient with suspected aortic disease, endocarditis and cardiac tumors, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Aortic disease, endocarditis and cardiac tumors MCQ",
+        "Aortic disease, endocarditis and cardiac tumors clinical case",
+        "Aortic disease, endocarditis and cardiac tumors OSCE",
+        "Aortic disease, endocarditis and cardiac tumors viva",
+        "Aortic disease, endocarditis and cardiac tumors review guideline"
+      ]
+    },
+    {
+      "id": "thoracic-surgery-01",
+      "domain_id": "thoracic-surgery",
+      "domain": "General thoracic surgery",
+      "name": "Lung cancer and pulmonary resection principles",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for lung cancer and pulmonary resection principles.",
+        "Assess a patient with suspected lung cancer and pulmonary resection principles, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "lung cancer and pulmonary resection principles",
+        "cardiothoracic surgery assessment",
+        "cardiothoracic surgery investigations",
+        "cardiothoracic surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Lung cancer and pulmonary resection principles",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for lung cancer and pulmonary resection principles.",
+        "Assess a patient with suspected lung cancer and pulmonary resection principles, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Lung cancer and pulmonary resection principles MCQ",
+        "Lung cancer and pulmonary resection principles clinical case",
+        "Lung cancer and pulmonary resection principles OSCE",
+        "Lung cancer and pulmonary resection principles viva",
+        "Lung cancer and pulmonary resection principles review guideline"
+      ]
+    },
+    {
+      "id": "thoracic-surgery-02",
+      "domain_id": "thoracic-surgery",
+      "domain": "General thoracic surgery",
+      "name": "Pleural disease, pneumothorax and empyema",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pleural disease, pneumothorax and empyema.",
+        "Assess a patient with suspected pleural disease, pneumothorax and empyema, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "pleural disease, pneumothorax and empyema",
+        "cardiothoracic surgery assessment",
+        "cardiothoracic surgery investigations",
+        "cardiothoracic surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Pleural disease, pneumothorax and empyema",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pleural disease, pneumothorax and empyema.",
+        "Assess a patient with suspected pleural disease, pneumothorax and empyema, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Pleural disease, pneumothorax and empyema MCQ",
+        "Pleural disease, pneumothorax and empyema clinical case",
+        "Pleural disease, pneumothorax and empyema OSCE",
+        "Pleural disease, pneumothorax and empyema viva",
+        "Pleural disease, pneumothorax and empyema review guideline"
+      ]
+    },
+    {
+      "id": "thoracic-surgery-03",
+      "domain_id": "thoracic-surgery",
+      "domain": "General thoracic surgery",
+      "name": "Mediastinal, esophageal and chest-wall disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for mediastinal, esophageal and chest-wall disorders.",
+        "Assess a patient with suspected mediastinal, esophageal and chest-wall disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "mediastinal, esophageal and chest-wall disorders",
+        "cardiothoracic surgery assessment",
+        "cardiothoracic surgery investigations",
+        "cardiothoracic surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Mediastinal, esophageal and chest-wall disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for mediastinal, esophageal and chest-wall disorders.",
+        "Assess a patient with suspected mediastinal, esophageal and chest-wall disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Mediastinal, esophageal and chest-wall disorders MCQ",
+        "Mediastinal, esophageal and chest-wall disorders clinical case",
+        "Mediastinal, esophageal and chest-wall disorders OSCE",
+        "Mediastinal, esophageal and chest-wall disorders viva",
+        "Mediastinal, esophageal and chest-wall disorders review guideline"
+      ]
+    },
+    {
+      "id": "perioperative-01",
+      "domain_id": "perioperative",
+      "domain": "Cardiothoracic perioperative and critical care",
+      "name": "Cardiopulmonary bypass and myocardial protection",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cardiopulmonary bypass and myocardial protection.",
+        "Assess a patient with suspected cardiopulmonary bypass and myocardial protection, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "cardiopulmonary bypass and myocardial protection",
+        "cardiothoracic surgery assessment",
+        "cardiothoracic surgery investigations",
+        "cardiothoracic surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Cardiopulmonary bypass and myocardial protection",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cardiopulmonary bypass and myocardial protection.",
+        "Assess a patient with suspected cardiopulmonary bypass and myocardial protection, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Cardiopulmonary bypass and myocardial protection MCQ",
+        "Cardiopulmonary bypass and myocardial protection clinical case",
+        "Cardiopulmonary bypass and myocardial protection OSCE",
+        "Cardiopulmonary bypass and myocardial protection viva",
+        "Cardiopulmonary bypass and myocardial protection review guideline"
+      ]
+    },
+    {
+      "id": "perioperative-02",
+      "domain_id": "perioperative",
+      "domain": "Cardiothoracic perioperative and critical care",
+      "name": "Postoperative hemodynamic, respiratory and renal support",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for postoperative hemodynamic, respiratory and renal support.",
+        "Assess a patient with suspected postoperative hemodynamic, respiratory and renal support, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "postoperative hemodynamic, respiratory and renal support",
+        "cardiothoracic surgery assessment",
+        "cardiothoracic surgery investigations",
+        "cardiothoracic surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Postoperative hemodynamic, respiratory and renal support",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for postoperative hemodynamic, respiratory and renal support.",
+        "Assess a patient with suspected postoperative hemodynamic, respiratory and renal support, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Postoperative hemodynamic, respiratory and renal support MCQ",
+        "Postoperative hemodynamic, respiratory and renal support clinical case",
+        "Postoperative hemodynamic, respiratory and renal support OSCE",
+        "Postoperative hemodynamic, respiratory and renal support viva",
+        "Postoperative hemodynamic, respiratory and renal support review guideline"
+      ]
+    },
+    {
+      "id": "perioperative-03",
+      "domain_id": "perioperative",
+      "domain": "Cardiothoracic perioperative and critical care",
+      "name": "Cardiothoracic complications, bleeding and infection",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cardiothoracic complications, bleeding and infection.",
+        "Assess a patient with suspected cardiothoracic complications, bleeding and infection, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "cardiothoracic complications, bleeding and infection",
+        "cardiothoracic surgery assessment",
+        "cardiothoracic surgery investigations",
+        "cardiothoracic surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Cardiothoracic complications, bleeding and infection",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cardiothoracic complications, bleeding and infection.",
+        "Assess a patient with suspected cardiothoracic complications, bleeding and infection, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Cardiothoracic complications, bleeding and infection MCQ",
+        "Cardiothoracic complications, bleeding and infection clinical case",
+        "Cardiothoracic complications, bleeding and infection OSCE",
+        "Cardiothoracic complications, bleeding and infection viva",
+        "Cardiothoracic complications, bleeding and infection review guideline"
+      ]
+    },
+    {
+      "id": "congenital-transplant-01",
+      "domain_id": "congenital-transplant",
+      "domain": "Congenital, transplant and vascular thoracic surgery",
+      "name": "Congenital cardiac lesions and adult congenital disease",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for congenital cardiac lesions and adult congenital disease.",
+        "Assess a patient with suspected congenital cardiac lesions and adult congenital disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "congenital cardiac lesions and adult congenital disease",
+        "cardiothoracic surgery assessment",
+        "cardiothoracic surgery investigations",
+        "cardiothoracic surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Congenital cardiac lesions and adult congenital disease",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for congenital cardiac lesions and adult congenital disease.",
+        "Assess a patient with suspected congenital cardiac lesions and adult congenital disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Congenital cardiac lesions and adult congenital disease MCQ",
+        "Congenital cardiac lesions and adult congenital disease clinical case",
+        "Congenital cardiac lesions and adult congenital disease OSCE",
+        "Congenital cardiac lesions and adult congenital disease viva",
+        "Congenital cardiac lesions and adult congenital disease review guideline"
+      ]
+    },
+    {
+      "id": "congenital-transplant-02",
+      "domain_id": "congenital-transplant",
+      "domain": "Congenital, transplant and vascular thoracic surgery",
+      "name": "Heart and lung transplantation principles",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for heart and lung transplantation principles.",
+        "Assess a patient with suspected heart and lung transplantation principles, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "heart and lung transplantation principles",
+        "cardiothoracic surgery assessment",
+        "cardiothoracic surgery investigations",
+        "cardiothoracic surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Heart and lung transplantation principles",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for heart and lung transplantation principles.",
+        "Assess a patient with suspected heart and lung transplantation principles, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Heart and lung transplantation principles MCQ",
+        "Heart and lung transplantation principles clinical case",
+        "Heart and lung transplantation principles OSCE",
+        "Heart and lung transplantation principles viva",
+        "Heart and lung transplantation principles review guideline"
+      ]
+    },
+    {
+      "id": "congenital-transplant-03",
+      "domain_id": "congenital-transplant",
+      "domain": "Congenital, transplant and vascular thoracic surgery",
+      "name": "Thoracic trauma and peripheral vascular surgical emergencies",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for thoracic trauma and peripheral vascular surgical emergencies.",
+        "Assess a patient with suspected thoracic trauma and peripheral vascular surgical emergencies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "thoracic trauma and peripheral vascular surgical emergencies",
+        "cardiothoracic surgery assessment",
+        "cardiothoracic surgery investigations",
+        "cardiothoracic surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Thoracic trauma and peripheral vascular surgical emergencies",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for thoracic trauma and peripheral vascular surgical emergencies.",
+        "Assess a patient with suspected thoracic trauma and peripheral vascular surgical emergencies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Thoracic trauma and peripheral vascular surgical emergencies MCQ",
+        "Thoracic trauma and peripheral vascular surgical emergencies clinical case",
+        "Thoracic trauma and peripheral vascular surgical emergencies OSCE",
+        "Thoracic trauma and peripheral vascular surgical emergencies viva",
+        "Thoracic trauma and peripheral vascular surgical emergencies review guideline"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,677 @@
+{
+  "specialty": "otorhinolaryngology",
+  "display_name": "Otorhinolaryngology (ENT)",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive otorhinolaryngology (ent) curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "ear",
+      "name": "Otology and audiology",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in otology and audiology. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "nose-sinus",
+      "name": "Rhinology and sinus disease",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in rhinology and sinus disease. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "throat-airway",
+      "name": "Laryngology, voice and airway",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in laryngology, voice and airway. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "head-neck",
+      "name": "Head and neck surgery",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in head and neck surgery. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Otology and audiology",
+    "Rhinology and sinus disease",
+    "Laryngology, voice and airway",
+    "Head and neck surgery"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "ear-01",
+      "domain_id": "ear",
+      "domain": "Otology and audiology",
+      "name": "Ear anatomy, hearing assessment and audiology",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for ear anatomy, hearing assessment and audiology.",
+        "Assess a patient with suspected ear anatomy, hearing assessment and audiology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "ear anatomy, hearing assessment and audiology",
+        "otorhinolaryngology (ent) assessment",
+        "otorhinolaryngology (ent) investigations",
+        "otorhinolaryngology (ent) management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Ear anatomy, hearing assessment and audiology",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for ear anatomy, hearing assessment and audiology.",
+        "Assess a patient with suspected ear anatomy, hearing assessment and audiology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Ear anatomy, hearing assessment and audiology MCQ",
+        "Ear anatomy, hearing assessment and audiology clinical case",
+        "Ear anatomy, hearing assessment and audiology OSCE",
+        "Ear anatomy, hearing assessment and audiology viva",
+        "Ear anatomy, hearing assessment and audiology review guideline"
+      ]
+    },
+    {
+      "id": "ear-02",
+      "domain_id": "ear",
+      "domain": "Otology and audiology",
+      "name": "Otitis externa, otitis media and mastoid disease",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for otitis externa, otitis media and mastoid disease.",
+        "Assess a patient with suspected otitis externa, otitis media and mastoid disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "otitis externa, otitis media and mastoid disease",
+        "otorhinolaryngology (ent) assessment",
+        "otorhinolaryngology (ent) investigations",
+        "otorhinolaryngology (ent) management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Otitis externa, otitis media and mastoid disease",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for otitis externa, otitis media and mastoid disease.",
+        "Assess a patient with suspected otitis externa, otitis media and mastoid disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Otitis externa, otitis media and mastoid disease MCQ",
+        "Otitis externa, otitis media and mastoid disease clinical case",
+        "Otitis externa, otitis media and mastoid disease OSCE",
+        "Otitis externa, otitis media and mastoid disease viva",
+        "Otitis externa, otitis media and mastoid disease review guideline"
+      ]
+    },
+    {
+      "id": "ear-03",
+      "domain_id": "ear",
+      "domain": "Otology and audiology",
+      "name": "Hearing loss, vertigo and vestibular disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hearing loss, vertigo and vestibular disorders.",
+        "Assess a patient with suspected hearing loss, vertigo and vestibular disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "hearing loss, vertigo and vestibular disorders",
+        "otorhinolaryngology (ent) assessment",
+        "otorhinolaryngology (ent) investigations",
+        "otorhinolaryngology (ent) management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Hearing loss, vertigo and vestibular disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hearing loss, vertigo and vestibular disorders.",
+        "Assess a patient with suspected hearing loss, vertigo and vestibular disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Hearing loss, vertigo and vestibular disorders MCQ",
+        "Hearing loss, vertigo and vestibular disorders clinical case",
+        "Hearing loss, vertigo and vestibular disorders OSCE",
+        "Hearing loss, vertigo and vestibular disorders viva",
+        "Hearing loss, vertigo and vestibular disorders review guideline"
+      ]
+    },
+    {
+      "id": "nose-sinus-01",
+      "domain_id": "nose-sinus",
+      "domain": "Rhinology and sinus disease",
+      "name": "Nasal obstruction, epistaxis and nasal trauma",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for nasal obstruction, epistaxis and nasal trauma.",
+        "Assess a patient with suspected nasal obstruction, epistaxis and nasal trauma, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "nasal obstruction, epistaxis and nasal trauma",
+        "otorhinolaryngology (ent) assessment",
+        "otorhinolaryngology (ent) investigations",
+        "otorhinolaryngology (ent) management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Nasal obstruction, epistaxis and nasal trauma",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for nasal obstruction, epistaxis and nasal trauma.",
+        "Assess a patient with suspected nasal obstruction, epistaxis and nasal trauma, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Nasal obstruction, epistaxis and nasal trauma MCQ",
+        "Nasal obstruction, epistaxis and nasal trauma clinical case",
+        "Nasal obstruction, epistaxis and nasal trauma OSCE",
+        "Nasal obstruction, epistaxis and nasal trauma viva",
+        "Nasal obstruction, epistaxis and nasal trauma review guideline"
+      ]
+    },
+    {
+      "id": "nose-sinus-02",
+      "domain_id": "nose-sinus",
+      "domain": "Rhinology and sinus disease",
+      "name": "Rhinitis, rhinosinusitis and nasal polyps",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for rhinitis, rhinosinusitis and nasal polyps.",
+        "Assess a patient with suspected rhinitis, rhinosinusitis and nasal polyps, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "rhinitis, rhinosinusitis and nasal polyps",
+        "otorhinolaryngology (ent) assessment",
+        "otorhinolaryngology (ent) investigations",
+        "otorhinolaryngology (ent) management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Rhinitis, rhinosinusitis and nasal polyps",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for rhinitis, rhinosinusitis and nasal polyps.",
+        "Assess a patient with suspected rhinitis, rhinosinusitis and nasal polyps, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Rhinitis, rhinosinusitis and nasal polyps MCQ",
+        "Rhinitis, rhinosinusitis and nasal polyps clinical case",
+        "Rhinitis, rhinosinusitis and nasal polyps OSCE",
+        "Rhinitis, rhinosinusitis and nasal polyps viva",
+        "Rhinitis, rhinosinusitis and nasal polyps review guideline"
+      ]
+    },
+    {
+      "id": "nose-sinus-03",
+      "domain_id": "nose-sinus",
+      "domain": "Rhinology and sinus disease",
+      "name": "Sinonasal tumors and smell disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for sinonasal tumors and smell disorders.",
+        "Assess a patient with suspected sinonasal tumors and smell disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "sinonasal tumors and smell disorders",
+        "otorhinolaryngology (ent) assessment",
+        "otorhinolaryngology (ent) investigations",
+        "otorhinolaryngology (ent) management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Sinonasal tumors and smell disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for sinonasal tumors and smell disorders.",
+        "Assess a patient with suspected sinonasal tumors and smell disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Sinonasal tumors and smell disorders MCQ",
+        "Sinonasal tumors and smell disorders clinical case",
+        "Sinonasal tumors and smell disorders OSCE",
+        "Sinonasal tumors and smell disorders viva",
+        "Sinonasal tumors and smell disorders review guideline"
+      ]
+    },
+    {
+      "id": "throat-airway-01",
+      "domain_id": "throat-airway",
+      "domain": "Laryngology, voice and airway",
+      "name": "Sore throat, tonsillar and pharyngeal disease",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for sore throat, tonsillar and pharyngeal disease.",
+        "Assess a patient with suspected sore throat, tonsillar and pharyngeal disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "sore throat, tonsillar and pharyngeal disease",
+        "otorhinolaryngology (ent) assessment",
+        "otorhinolaryngology (ent) investigations",
+        "otorhinolaryngology (ent) management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Sore throat, tonsillar and pharyngeal disease",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for sore throat, tonsillar and pharyngeal disease.",
+        "Assess a patient with suspected sore throat, tonsillar and pharyngeal disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Sore throat, tonsillar and pharyngeal disease MCQ",
+        "Sore throat, tonsillar and pharyngeal disease clinical case",
+        "Sore throat, tonsillar and pharyngeal disease OSCE",
+        "Sore throat, tonsillar and pharyngeal disease viva",
+        "Sore throat, tonsillar and pharyngeal disease review guideline"
+      ]
+    },
+    {
+      "id": "throat-airway-02",
+      "domain_id": "throat-airway",
+      "domain": "Laryngology, voice and airway",
+      "name": "Dysphonia, laryngeal disease and stridor",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for dysphonia, laryngeal disease and stridor.",
+        "Assess a patient with suspected dysphonia, laryngeal disease and stridor, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "dysphonia, laryngeal disease and stridor",
+        "otorhinolaryngology (ent) assessment",
+        "otorhinolaryngology (ent) investigations",
+        "otorhinolaryngology (ent) management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Dysphonia, laryngeal disease and stridor",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for dysphonia, laryngeal disease and stridor.",
+        "Assess a patient with suspected dysphonia, laryngeal disease and stridor, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Dysphonia, laryngeal disease and stridor MCQ",
+        "Dysphonia, laryngeal disease and stridor clinical case",
+        "Dysphonia, laryngeal disease and stridor OSCE",
+        "Dysphonia, laryngeal disease and stridor viva",
+        "Dysphonia, laryngeal disease and stridor review guideline"
+      ]
+    },
+    {
+      "id": "throat-airway-03",
+      "domain_id": "throat-airway",
+      "domain": "Laryngology, voice and airway",
+      "name": "Airway emergencies, tracheostomy and foreign bodies",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for airway emergencies, tracheostomy and foreign bodies.",
+        "Assess a patient with suspected airway emergencies, tracheostomy and foreign bodies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "airway emergencies, tracheostomy and foreign bodies",
+        "otorhinolaryngology (ent) assessment",
+        "otorhinolaryngology (ent) investigations",
+        "otorhinolaryngology (ent) management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Airway emergencies, tracheostomy and foreign bodies",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for airway emergencies, tracheostomy and foreign bodies.",
+        "Assess a patient with suspected airway emergencies, tracheostomy and foreign bodies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Airway emergencies, tracheostomy and foreign bodies MCQ",
+        "Airway emergencies, tracheostomy and foreign bodies clinical case",
+        "Airway emergencies, tracheostomy and foreign bodies OSCE",
+        "Airway emergencies, tracheostomy and foreign bodies viva",
+        "Airway emergencies, tracheostomy and foreign bodies review guideline"
+      ]
+    },
+    {
+      "id": "head-neck-01",
+      "domain_id": "head-neck",
+      "domain": "Head and neck surgery",
+      "name": "Salivary gland and neck masses",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for salivary gland and neck masses.",
+        "Assess a patient with suspected salivary gland and neck masses, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "salivary gland and neck masses",
+        "otorhinolaryngology (ent) assessment",
+        "otorhinolaryngology (ent) investigations",
+        "otorhinolaryngology (ent) management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Salivary gland and neck masses",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for salivary gland and neck masses.",
+        "Assess a patient with suspected salivary gland and neck masses, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Salivary gland and neck masses MCQ",
+        "Salivary gland and neck masses clinical case",
+        "Salivary gland and neck masses OSCE",
+        "Salivary gland and neck masses viva",
+        "Salivary gland and neck masses review guideline"
+      ]
+    },
+    {
+      "id": "head-neck-02",
+      "domain_id": "head-neck",
+      "domain": "Head and neck surgery",
+      "name": "Head and neck malignancy and staging principles",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for head and neck malignancy and staging principles.",
+        "Assess a patient with suspected head and neck malignancy and staging principles, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "head and neck malignancy and staging principles",
+        "otorhinolaryngology (ent) assessment",
+        "otorhinolaryngology (ent) investigations",
+        "otorhinolaryngology (ent) management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Head and neck malignancy and staging principles",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for head and neck malignancy and staging principles.",
+        "Assess a patient with suspected head and neck malignancy and staging principles, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Head and neck malignancy and staging principles MCQ",
+        "Head and neck malignancy and staging principles clinical case",
+        "Head and neck malignancy and staging principles OSCE",
+        "Head and neck malignancy and staging principles viva",
+        "Head and neck malignancy and staging principles review guideline"
+      ]
+    },
+    {
+      "id": "head-neck-03",
+      "domain_id": "head-neck",
+      "domain": "Head and neck surgery",
+      "name": "Facial trauma, congenital lesions and ENT procedures",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for facial trauma, congenital lesions and ent procedures.",
+        "Assess a patient with suspected facial trauma, congenital lesions and ent procedures, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "facial trauma, congenital lesions and ent procedures",
+        "otorhinolaryngology (ent) assessment",
+        "otorhinolaryngology (ent) investigations",
+        "otorhinolaryngology (ent) management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Facial trauma, congenital lesions and ENT procedures",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for facial trauma, congenital lesions and ent procedures.",
+        "Assess a patient with suspected facial trauma, congenital lesions and ent procedures, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Facial trauma, congenital lesions and ENT procedures MCQ",
+        "Facial trauma, congenital lesions and ENT procedures clinical case",
+        "Facial trauma, congenital lesions and ENT procedures OSCE",
+        "Facial trauma, congenital lesions and ENT procedures viva",
+        "Facial trauma, congenital lesions and ENT procedures review guideline"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,677 @@
+{
+  "specialty": "psychiatry",
+  "display_name": "Psychiatry",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive psychiatry curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "assessment",
+      "name": "Psychiatric assessment and foundations",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in psychiatric assessment and foundations. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "mood-anxiety",
+      "name": "Mood, anxiety and trauma-related disorders",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in mood, anxiety and trauma-related disorders. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "psychosis-substance",
+      "name": "Psychosis, substance use and behavioral disorders",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in psychosis, substance use and behavioral disorders. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "lifespan-psychiatry",
+      "name": "Lifespan and emergency psychiatry",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in lifespan and emergency psychiatry. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Psychiatric assessment and foundations",
+    "Mood, anxiety and trauma-related disorders",
+    "Psychosis, substance use and behavioral disorders",
+    "Lifespan and emergency psychiatry"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "assessment-01",
+      "domain_id": "assessment",
+      "domain": "Psychiatric assessment and foundations",
+      "name": "Mental-state examination and psychiatric formulation",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for mental-state examination and psychiatric formulation.",
+        "Assess a patient with suspected mental-state examination and psychiatric formulation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "mental-state examination and psychiatric formulation",
+        "psychiatry assessment",
+        "psychiatry investigations",
+        "psychiatry management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Mental-state examination and psychiatric formulation",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for mental-state examination and psychiatric formulation.",
+        "Assess a patient with suspected mental-state examination and psychiatric formulation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Mental-state examination and psychiatric formulation MCQ",
+        "Mental-state examination and psychiatric formulation clinical case",
+        "Mental-state examination and psychiatric formulation OSCE",
+        "Mental-state examination and psychiatric formulation viva",
+        "Mental-state examination and psychiatric formulation review guideline"
+      ]
+    },
+    {
+      "id": "assessment-02",
+      "domain_id": "assessment",
+      "domain": "Psychiatric assessment and foundations",
+      "name": "Psychiatric diagnosis, risk assessment and capacity",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for psychiatric diagnosis, risk assessment and capacity.",
+        "Assess a patient with suspected psychiatric diagnosis, risk assessment and capacity, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "psychiatric diagnosis, risk assessment and capacity",
+        "psychiatry assessment",
+        "psychiatry investigations",
+        "psychiatry management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Psychiatric diagnosis, risk assessment and capacity",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for psychiatric diagnosis, risk assessment and capacity.",
+        "Assess a patient with suspected psychiatric diagnosis, risk assessment and capacity, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Psychiatric diagnosis, risk assessment and capacity MCQ",
+        "Psychiatric diagnosis, risk assessment and capacity clinical case",
+        "Psychiatric diagnosis, risk assessment and capacity OSCE",
+        "Psychiatric diagnosis, risk assessment and capacity viva",
+        "Psychiatric diagnosis, risk assessment and capacity review guideline"
+      ]
+    },
+    {
+      "id": "assessment-03",
+      "domain_id": "assessment",
+      "domain": "Psychiatric assessment and foundations",
+      "name": "Psychopharmacology principles and psychological therapies",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for psychopharmacology principles and psychological therapies.",
+        "Assess a patient with suspected psychopharmacology principles and psychological therapies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "psychopharmacology principles and psychological therapies",
+        "psychiatry assessment",
+        "psychiatry investigations",
+        "psychiatry management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Psychopharmacology principles and psychological therapies",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for psychopharmacology principles and psychological therapies.",
+        "Assess a patient with suspected psychopharmacology principles and psychological therapies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Psychopharmacology principles and psychological therapies MCQ",
+        "Psychopharmacology principles and psychological therapies clinical case",
+        "Psychopharmacology principles and psychological therapies OSCE",
+        "Psychopharmacology principles and psychological therapies viva",
+        "Psychopharmacology principles and psychological therapies review guideline"
+      ]
+    },
+    {
+      "id": "mood-anxiety-01",
+      "domain_id": "mood-anxiety",
+      "domain": "Mood, anxiety and trauma-related disorders",
+      "name": "Depressive disorders and suicide risk",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for depressive disorders and suicide risk.",
+        "Assess a patient with suspected depressive disorders and suicide risk, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "depressive disorders and suicide risk",
+        "psychiatry assessment",
+        "psychiatry investigations",
+        "psychiatry management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Depressive disorders and suicide risk",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for depressive disorders and suicide risk.",
+        "Assess a patient with suspected depressive disorders and suicide risk, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Depressive disorders and suicide risk MCQ",
+        "Depressive disorders and suicide risk clinical case",
+        "Depressive disorders and suicide risk OSCE",
+        "Depressive disorders and suicide risk viva",
+        "Depressive disorders and suicide risk review guideline"
+      ]
+    },
+    {
+      "id": "mood-anxiety-02",
+      "domain_id": "mood-anxiety",
+      "domain": "Mood, anxiety and trauma-related disorders",
+      "name": "Bipolar and related disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for bipolar and related disorders.",
+        "Assess a patient with suspected bipolar and related disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "bipolar and related disorders",
+        "psychiatry assessment",
+        "psychiatry investigations",
+        "psychiatry management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Bipolar and related disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for bipolar and related disorders.",
+        "Assess a patient with suspected bipolar and related disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Bipolar and related disorders MCQ",
+        "Bipolar and related disorders clinical case",
+        "Bipolar and related disorders OSCE",
+        "Bipolar and related disorders viva",
+        "Bipolar and related disorders review guideline"
+      ]
+    },
+    {
+      "id": "mood-anxiety-03",
+      "domain_id": "mood-anxiety",
+      "domain": "Mood, anxiety and trauma-related disorders",
+      "name": "Anxiety, obsessive-compulsive and trauma-related disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for anxiety, obsessive-compulsive and trauma-related disorders.",
+        "Assess a patient with suspected anxiety, obsessive-compulsive and trauma-related disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "anxiety, obsessive-compulsive and trauma-related disorders",
+        "psychiatry assessment",
+        "psychiatry investigations",
+        "psychiatry management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Anxiety, obsessive-compulsive and trauma-related disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for anxiety, obsessive-compulsive and trauma-related disorders.",
+        "Assess a patient with suspected anxiety, obsessive-compulsive and trauma-related disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Anxiety, obsessive-compulsive and trauma-related disorders MCQ",
+        "Anxiety, obsessive-compulsive and trauma-related disorders clinical case",
+        "Anxiety, obsessive-compulsive and trauma-related disorders OSCE",
+        "Anxiety, obsessive-compulsive and trauma-related disorders viva",
+        "Anxiety, obsessive-compulsive and trauma-related disorders review guideline"
+      ]
+    },
+    {
+      "id": "psychosis-substance-01",
+      "domain_id": "psychosis-substance",
+      "domain": "Psychosis, substance use and behavioral disorders",
+      "name": "Schizophrenia spectrum and acute psychosis",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for schizophrenia spectrum and acute psychosis.",
+        "Assess a patient with suspected schizophrenia spectrum and acute psychosis, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "schizophrenia spectrum and acute psychosis",
+        "psychiatry assessment",
+        "psychiatry investigations",
+        "psychiatry management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Schizophrenia spectrum and acute psychosis",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for schizophrenia spectrum and acute psychosis.",
+        "Assess a patient with suspected schizophrenia spectrum and acute psychosis, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Schizophrenia spectrum and acute psychosis MCQ",
+        "Schizophrenia spectrum and acute psychosis clinical case",
+        "Schizophrenia spectrum and acute psychosis OSCE",
+        "Schizophrenia spectrum and acute psychosis viva",
+        "Schizophrenia spectrum and acute psychosis review guideline"
+      ]
+    },
+    {
+      "id": "psychosis-substance-02",
+      "domain_id": "psychosis-substance",
+      "domain": "Psychosis, substance use and behavioral disorders",
+      "name": "Alcohol and substance-use disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for alcohol and substance-use disorders.",
+        "Assess a patient with suspected alcohol and substance-use disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "alcohol and substance-use disorders",
+        "psychiatry assessment",
+        "psychiatry investigations",
+        "psychiatry management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Alcohol and substance-use disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for alcohol and substance-use disorders.",
+        "Assess a patient with suspected alcohol and substance-use disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Alcohol and substance-use disorders MCQ",
+        "Alcohol and substance-use disorders clinical case",
+        "Alcohol and substance-use disorders OSCE",
+        "Alcohol and substance-use disorders viva",
+        "Alcohol and substance-use disorders review guideline"
+      ]
+    },
+    {
+      "id": "psychosis-substance-03",
+      "domain_id": "psychosis-substance",
+      "domain": "Psychosis, substance use and behavioral disorders",
+      "name": "Personality, eating and somatic-symptom disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for personality, eating and somatic-symptom disorders.",
+        "Assess a patient with suspected personality, eating and somatic-symptom disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "personality, eating and somatic-symptom disorders",
+        "psychiatry assessment",
+        "psychiatry investigations",
+        "psychiatry management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Personality, eating and somatic-symptom disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for personality, eating and somatic-symptom disorders.",
+        "Assess a patient with suspected personality, eating and somatic-symptom disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Personality, eating and somatic-symptom disorders MCQ",
+        "Personality, eating and somatic-symptom disorders clinical case",
+        "Personality, eating and somatic-symptom disorders OSCE",
+        "Personality, eating and somatic-symptom disorders viva",
+        "Personality, eating and somatic-symptom disorders review guideline"
+      ]
+    },
+    {
+      "id": "lifespan-psychiatry-01",
+      "domain_id": "lifespan-psychiatry",
+      "domain": "Lifespan and emergency psychiatry",
+      "name": "Child and adolescent psychiatric disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for child and adolescent psychiatric disorders.",
+        "Assess a patient with suspected child and adolescent psychiatric disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "child and adolescent psychiatric disorders",
+        "psychiatry assessment",
+        "psychiatry investigations",
+        "psychiatry management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Child and adolescent psychiatric disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for child and adolescent psychiatric disorders.",
+        "Assess a patient with suspected child and adolescent psychiatric disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Child and adolescent psychiatric disorders MCQ",
+        "Child and adolescent psychiatric disorders clinical case",
+        "Child and adolescent psychiatric disorders OSCE",
+        "Child and adolescent psychiatric disorders viva",
+        "Child and adolescent psychiatric disorders review guideline"
+      ]
+    },
+    {
+      "id": "lifespan-psychiatry-02",
+      "domain_id": "lifespan-psychiatry",
+      "domain": "Lifespan and emergency psychiatry",
+      "name": "Perinatal, adult and older-adult psychiatry",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for perinatal, adult and older-adult psychiatry.",
+        "Assess a patient with suspected perinatal, adult and older-adult psychiatry, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "perinatal, adult and older-adult psychiatry",
+        "psychiatry assessment",
+        "psychiatry investigations",
+        "psychiatry management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Perinatal, adult and older-adult psychiatry",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for perinatal, adult and older-adult psychiatry.",
+        "Assess a patient with suspected perinatal, adult and older-adult psychiatry, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Perinatal, adult and older-adult psychiatry MCQ",
+        "Perinatal, adult and older-adult psychiatry clinical case",
+        "Perinatal, adult and older-adult psychiatry OSCE",
+        "Perinatal, adult and older-adult psychiatry viva",
+        "Perinatal, adult and older-adult psychiatry review guideline"
+      ]
+    },
+    {
+      "id": "lifespan-psychiatry-03",
+      "domain_id": "lifespan-psychiatry",
+      "domain": "Lifespan and emergency psychiatry",
+      "name": "Psychiatric emergencies, agitation and self-harm",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for psychiatric emergencies, agitation and self-harm.",
+        "Assess a patient with suspected psychiatric emergencies, agitation and self-harm, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "psychiatric emergencies, agitation and self-harm",
+        "psychiatry assessment",
+        "psychiatry investigations",
+        "psychiatry management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Psychiatric emergencies, agitation and self-harm",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for psychiatric emergencies, agitation and self-harm.",
+        "Assess a patient with suspected psychiatric emergencies, agitation and self-harm, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Psychiatric emergencies, agitation and self-harm MCQ",
+        "Psychiatric emergencies, agitation and self-harm clinical case",
+        "Psychiatric emergencies, agitation and self-harm OSCE",
+        "Psychiatric emergencies, agitation and self-harm viva",
+        "Psychiatric emergencies, agitation and self-harm review guideline"
+      ]
+    }
+  ]
+}

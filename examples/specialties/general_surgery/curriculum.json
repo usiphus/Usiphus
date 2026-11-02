@@ -1,0 +1,677 @@
+{
+  "specialty": "general_surgery",
+  "display_name": "General Surgery",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive general surgery curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "surgical-principles",
+      "name": "Surgical principles and perioperative care",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in surgical principles and perioperative care. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "acute-surgery",
+      "name": "Acute care and gastrointestinal surgery",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in acute care and gastrointestinal surgery. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "organ-surgery",
+      "name": "Hepatobiliary, colorectal and endocrine surgery",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in hepatobiliary, colorectal and endocrine surgery. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "special-surgery",
+      "name": "Breast, vascular and trauma surgery",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in breast, vascular and trauma surgery. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Surgical principles and perioperative care",
+    "Acute care and gastrointestinal surgery",
+    "Hepatobiliary, colorectal and endocrine surgery",
+    "Breast, vascular and trauma surgery"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "surgical-principles-01",
+      "domain_id": "surgical-principles",
+      "domain": "Surgical principles and perioperative care",
+      "name": "Surgical assessment, consent and perioperative risk",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for surgical assessment, consent and perioperative risk.",
+        "Assess a patient with suspected surgical assessment, consent and perioperative risk, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "surgical assessment, consent and perioperative risk",
+        "general surgery assessment",
+        "general surgery investigations",
+        "general surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Surgical assessment, consent and perioperative risk",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for surgical assessment, consent and perioperative risk.",
+        "Assess a patient with suspected surgical assessment, consent and perioperative risk, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Surgical assessment, consent and perioperative risk MCQ",
+        "Surgical assessment, consent and perioperative risk clinical case",
+        "Surgical assessment, consent and perioperative risk OSCE",
+        "Surgical assessment, consent and perioperative risk viva",
+        "Surgical assessment, consent and perioperative risk review guideline"
+      ]
+    },
+    {
+      "id": "surgical-principles-02",
+      "domain_id": "surgical-principles",
+      "domain": "Surgical principles and perioperative care",
+      "name": "Fluid therapy, nutrition and wound healing",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for fluid therapy, nutrition and wound healing.",
+        "Assess a patient with suspected fluid therapy, nutrition and wound healing, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "fluid therapy, nutrition and wound healing",
+        "general surgery assessment",
+        "general surgery investigations",
+        "general surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Fluid therapy, nutrition and wound healing",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for fluid therapy, nutrition and wound healing.",
+        "Assess a patient with suspected fluid therapy, nutrition and wound healing, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Fluid therapy, nutrition and wound healing MCQ",
+        "Fluid therapy, nutrition and wound healing clinical case",
+        "Fluid therapy, nutrition and wound healing OSCE",
+        "Fluid therapy, nutrition and wound healing viva",
+        "Fluid therapy, nutrition and wound healing review guideline"
+      ]
+    },
+    {
+      "id": "surgical-principles-03",
+      "domain_id": "surgical-principles",
+      "domain": "Surgical principles and perioperative care",
+      "name": "Surgical infection, sepsis and antibiotic principles",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for surgical infection, sepsis and antibiotic principles.",
+        "Assess a patient with suspected surgical infection, sepsis and antibiotic principles, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "surgical infection, sepsis and antibiotic principles",
+        "general surgery assessment",
+        "general surgery investigations",
+        "general surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Surgical infection, sepsis and antibiotic principles",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for surgical infection, sepsis and antibiotic principles.",
+        "Assess a patient with suspected surgical infection, sepsis and antibiotic principles, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Surgical infection, sepsis and antibiotic principles MCQ",
+        "Surgical infection, sepsis and antibiotic principles clinical case",
+        "Surgical infection, sepsis and antibiotic principles OSCE",
+        "Surgical infection, sepsis and antibiotic principles viva",
+        "Surgical infection, sepsis and antibiotic principles review guideline"
+      ]
+    },
+    {
+      "id": "acute-surgery-01",
+      "domain_id": "acute-surgery",
+      "domain": "Acute care and gastrointestinal surgery",
+      "name": "Acute abdomen and intestinal obstruction",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for acute abdomen and intestinal obstruction.",
+        "Assess a patient with suspected acute abdomen and intestinal obstruction, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "acute abdomen and intestinal obstruction",
+        "general surgery assessment",
+        "general surgery investigations",
+        "general surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Acute abdomen and intestinal obstruction",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for acute abdomen and intestinal obstruction.",
+        "Assess a patient with suspected acute abdomen and intestinal obstruction, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Acute abdomen and intestinal obstruction MCQ",
+        "Acute abdomen and intestinal obstruction clinical case",
+        "Acute abdomen and intestinal obstruction OSCE",
+        "Acute abdomen and intestinal obstruction viva",
+        "Acute abdomen and intestinal obstruction review guideline"
+      ]
+    },
+    {
+      "id": "acute-surgery-02",
+      "domain_id": "acute-surgery",
+      "domain": "Acute care and gastrointestinal surgery",
+      "name": "Appendicitis, peritonitis and intra-abdominal sepsis",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for appendicitis, peritonitis and intra-abdominal sepsis.",
+        "Assess a patient with suspected appendicitis, peritonitis and intra-abdominal sepsis, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "appendicitis, peritonitis and intra-abdominal sepsis",
+        "general surgery assessment",
+        "general surgery investigations",
+        "general surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Appendicitis, peritonitis and intra-abdominal sepsis",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for appendicitis, peritonitis and intra-abdominal sepsis.",
+        "Assess a patient with suspected appendicitis, peritonitis and intra-abdominal sepsis, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Appendicitis, peritonitis and intra-abdominal sepsis MCQ",
+        "Appendicitis, peritonitis and intra-abdominal sepsis clinical case",
+        "Appendicitis, peritonitis and intra-abdominal sepsis OSCE",
+        "Appendicitis, peritonitis and intra-abdominal sepsis viva",
+        "Appendicitis, peritonitis and intra-abdominal sepsis review guideline"
+      ]
+    },
+    {
+      "id": "acute-surgery-03",
+      "domain_id": "acute-surgery",
+      "domain": "Acute care and gastrointestinal surgery",
+      "name": "Oesophageal, gastric and small-bowel disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for oesophageal, gastric and small-bowel disorders.",
+        "Assess a patient with suspected oesophageal, gastric and small-bowel disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "oesophageal, gastric and small-bowel disorders",
+        "general surgery assessment",
+        "general surgery investigations",
+        "general surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Oesophageal, gastric and small-bowel disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for oesophageal, gastric and small-bowel disorders.",
+        "Assess a patient with suspected oesophageal, gastric and small-bowel disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Oesophageal, gastric and small-bowel disorders MCQ",
+        "Oesophageal, gastric and small-bowel disorders clinical case",
+        "Oesophageal, gastric and small-bowel disorders OSCE",
+        "Oesophageal, gastric and small-bowel disorders viva",
+        "Oesophageal, gastric and small-bowel disorders review guideline"
+      ]
+    },
+    {
+      "id": "organ-surgery-01",
+      "domain_id": "organ-surgery",
+      "domain": "Hepatobiliary, colorectal and endocrine surgery",
+      "name": "Gallstone disease, biliary obstruction and pancreatitis",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for gallstone disease, biliary obstruction and pancreatitis.",
+        "Assess a patient with suspected gallstone disease, biliary obstruction and pancreatitis, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "gallstone disease, biliary obstruction and pancreatitis",
+        "general surgery assessment",
+        "general surgery investigations",
+        "general surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Gallstone disease, biliary obstruction and pancreatitis",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for gallstone disease, biliary obstruction and pancreatitis.",
+        "Assess a patient with suspected gallstone disease, biliary obstruction and pancreatitis, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Gallstone disease, biliary obstruction and pancreatitis MCQ",
+        "Gallstone disease, biliary obstruction and pancreatitis clinical case",
+        "Gallstone disease, biliary obstruction and pancreatitis OSCE",
+        "Gallstone disease, biliary obstruction and pancreatitis viva",
+        "Gallstone disease, biliary obstruction and pancreatitis review guideline"
+      ]
+    },
+    {
+      "id": "organ-surgery-02",
+      "domain_id": "organ-surgery",
+      "domain": "Hepatobiliary, colorectal and endocrine surgery",
+      "name": "Colorectal disease, stomas and anorectal disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for colorectal disease, stomas and anorectal disorders.",
+        "Assess a patient with suspected colorectal disease, stomas and anorectal disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "colorectal disease, stomas and anorectal disorders",
+        "general surgery assessment",
+        "general surgery investigations",
+        "general surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Colorectal disease, stomas and anorectal disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for colorectal disease, stomas and anorectal disorders.",
+        "Assess a patient with suspected colorectal disease, stomas and anorectal disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Colorectal disease, stomas and anorectal disorders MCQ",
+        "Colorectal disease, stomas and anorectal disorders clinical case",
+        "Colorectal disease, stomas and anorectal disorders OSCE",
+        "Colorectal disease, stomas and anorectal disorders viva",
+        "Colorectal disease, stomas and anorectal disorders review guideline"
+      ]
+    },
+    {
+      "id": "organ-surgery-03",
+      "domain_id": "organ-surgery",
+      "domain": "Hepatobiliary, colorectal and endocrine surgery",
+      "name": "Thyroid, parathyroid and adrenal surgical disease",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for thyroid, parathyroid and adrenal surgical disease.",
+        "Assess a patient with suspected thyroid, parathyroid and adrenal surgical disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "thyroid, parathyroid and adrenal surgical disease",
+        "general surgery assessment",
+        "general surgery investigations",
+        "general surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Thyroid, parathyroid and adrenal surgical disease",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for thyroid, parathyroid and adrenal surgical disease.",
+        "Assess a patient with suspected thyroid, parathyroid and adrenal surgical disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Thyroid, parathyroid and adrenal surgical disease MCQ",
+        "Thyroid, parathyroid and adrenal surgical disease clinical case",
+        "Thyroid, parathyroid and adrenal surgical disease OSCE",
+        "Thyroid, parathyroid and adrenal surgical disease viva",
+        "Thyroid, parathyroid and adrenal surgical disease review guideline"
+      ]
+    },
+    {
+      "id": "special-surgery-01",
+      "domain_id": "special-surgery",
+      "domain": "Breast, vascular and trauma surgery",
+      "name": "Benign and malignant breast disease",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for benign and malignant breast disease.",
+        "Assess a patient with suspected benign and malignant breast disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "benign and malignant breast disease",
+        "general surgery assessment",
+        "general surgery investigations",
+        "general surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Benign and malignant breast disease",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for benign and malignant breast disease.",
+        "Assess a patient with suspected benign and malignant breast disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Benign and malignant breast disease MCQ",
+        "Benign and malignant breast disease clinical case",
+        "Benign and malignant breast disease OSCE",
+        "Benign and malignant breast disease viva",
+        "Benign and malignant breast disease review guideline"
+      ]
+    },
+    {
+      "id": "special-surgery-02",
+      "domain_id": "special-surgery",
+      "domain": "Breast, vascular and trauma surgery",
+      "name": "Peripheral arterial, venous and diabetic foot disease",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for peripheral arterial, venous and diabetic foot disease.",
+        "Assess a patient with suspected peripheral arterial, venous and diabetic foot disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "peripheral arterial, venous and diabetic foot disease",
+        "general surgery assessment",
+        "general surgery investigations",
+        "general surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Peripheral arterial, venous and diabetic foot disease",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for peripheral arterial, venous and diabetic foot disease.",
+        "Assess a patient with suspected peripheral arterial, venous and diabetic foot disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Peripheral arterial, venous and diabetic foot disease MCQ",
+        "Peripheral arterial, venous and diabetic foot disease clinical case",
+        "Peripheral arterial, venous and diabetic foot disease OSCE",
+        "Peripheral arterial, venous and diabetic foot disease viva",
+        "Peripheral arterial, venous and diabetic foot disease review guideline"
+      ]
+    },
+    {
+      "id": "special-surgery-03",
+      "domain_id": "special-surgery",
+      "domain": "Breast, vascular and trauma surgery",
+      "name": "Surgical trauma, burns and soft-tissue injury",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for surgical trauma, burns and soft-tissue injury.",
+        "Assess a patient with suspected surgical trauma, burns and soft-tissue injury, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "surgical trauma, burns and soft-tissue injury",
+        "general surgery assessment",
+        "general surgery investigations",
+        "general surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Surgical trauma, burns and soft-tissue injury",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for surgical trauma, burns and soft-tissue injury.",
+        "Assess a patient with suspected surgical trauma, burns and soft-tissue injury, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Surgical trauma, burns and soft-tissue injury MCQ",
+        "Surgical trauma, burns and soft-tissue injury clinical case",
+        "Surgical trauma, burns and soft-tissue injury OSCE",
+        "Surgical trauma, burns and soft-tissue injury viva",
+        "Surgical trauma, burns and soft-tissue injury review guideline"
+      ]
+    }
+  ]
+}

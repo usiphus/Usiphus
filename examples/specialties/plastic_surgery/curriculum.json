@@ -1,0 +1,677 @@
+{
+  "specialty": "plastic_surgery",
+  "display_name": "Plastic, Reconstructive and Burns Surgery",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive plastic, reconstructive and burns surgery curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "reconstructive-principles",
+      "name": "Reconstructive principles and wound care",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in reconstructive principles and wound care. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "trauma-burns",
+      "name": "Burns, hand and soft-tissue trauma",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in burns, hand and soft-tissue trauma. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "congenital-aesthetic",
+      "name": "Congenital and acquired reconstruction",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in congenital and acquired reconstruction. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "skin-tumor",
+      "name": "Skin tumors and aesthetic procedures",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in skin tumors and aesthetic procedures. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Reconstructive principles and wound care",
+    "Burns, hand and soft-tissue trauma",
+    "Congenital and acquired reconstruction",
+    "Skin tumors and aesthetic procedures"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "reconstructive-principles-01",
+      "domain_id": "reconstructive-principles",
+      "domain": "Reconstructive principles and wound care",
+      "name": "Wound healing, skin grafts and flap principles",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for wound healing, skin grafts and flap principles.",
+        "Assess a patient with suspected wound healing, skin grafts and flap principles, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "wound healing, skin grafts and flap principles",
+        "plastic, reconstructive and burns surgery assessment",
+        "plastic, reconstructive and burns surgery investigations",
+        "plastic, reconstructive and burns surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Wound healing, skin grafts and flap principles",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for wound healing, skin grafts and flap principles.",
+        "Assess a patient with suspected wound healing, skin grafts and flap principles, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Wound healing, skin grafts and flap principles MCQ",
+        "Wound healing, skin grafts and flap principles clinical case",
+        "Wound healing, skin grafts and flap principles OSCE",
+        "Wound healing, skin grafts and flap principles viva",
+        "Wound healing, skin grafts and flap principles review guideline"
+      ]
+    },
+    {
+      "id": "reconstructive-principles-02",
+      "domain_id": "reconstructive-principles",
+      "domain": "Reconstructive principles and wound care",
+      "name": "Tissue transfer, reconstructive ladder and microsurgery",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for tissue transfer, reconstructive ladder and microsurgery.",
+        "Assess a patient with suspected tissue transfer, reconstructive ladder and microsurgery, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "tissue transfer, reconstructive ladder and microsurgery",
+        "plastic, reconstructive and burns surgery assessment",
+        "plastic, reconstructive and burns surgery investigations",
+        "plastic, reconstructive and burns surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Tissue transfer, reconstructive ladder and microsurgery",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for tissue transfer, reconstructive ladder and microsurgery.",
+        "Assess a patient with suspected tissue transfer, reconstructive ladder and microsurgery, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Tissue transfer, reconstructive ladder and microsurgery MCQ",
+        "Tissue transfer, reconstructive ladder and microsurgery clinical case",
+        "Tissue transfer, reconstructive ladder and microsurgery OSCE",
+        "Tissue transfer, reconstructive ladder and microsurgery viva",
+        "Tissue transfer, reconstructive ladder and microsurgery review guideline"
+      ]
+    },
+    {
+      "id": "reconstructive-principles-03",
+      "domain_id": "reconstructive-principles",
+      "domain": "Reconstructive principles and wound care",
+      "name": "Scar management, pressure injury and complex wounds",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for scar management, pressure injury and complex wounds.",
+        "Assess a patient with suspected scar management, pressure injury and complex wounds, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "scar management, pressure injury and complex wounds",
+        "plastic, reconstructive and burns surgery assessment",
+        "plastic, reconstructive and burns surgery investigations",
+        "plastic, reconstructive and burns surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Scar management, pressure injury and complex wounds",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for scar management, pressure injury and complex wounds.",
+        "Assess a patient with suspected scar management, pressure injury and complex wounds, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Scar management, pressure injury and complex wounds MCQ",
+        "Scar management, pressure injury and complex wounds clinical case",
+        "Scar management, pressure injury and complex wounds OSCE",
+        "Scar management, pressure injury and complex wounds viva",
+        "Scar management, pressure injury and complex wounds review guideline"
+      ]
+    },
+    {
+      "id": "trauma-burns-01",
+      "domain_id": "trauma-burns",
+      "domain": "Burns, hand and soft-tissue trauma",
+      "name": "Burn assessment, resuscitation and acute management",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for burn assessment, resuscitation and acute management.",
+        "Assess a patient with suspected burn assessment, resuscitation and acute management, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "burn assessment, resuscitation and acute management",
+        "plastic, reconstructive and burns surgery assessment",
+        "plastic, reconstructive and burns surgery investigations",
+        "plastic, reconstructive and burns surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Burn assessment, resuscitation and acute management",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for burn assessment, resuscitation and acute management.",
+        "Assess a patient with suspected burn assessment, resuscitation and acute management, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Burn assessment, resuscitation and acute management MCQ",
+        "Burn assessment, resuscitation and acute management clinical case",
+        "Burn assessment, resuscitation and acute management OSCE",
+        "Burn assessment, resuscitation and acute management viva",
+        "Burn assessment, resuscitation and acute management review guideline"
+      ]
+    },
+    {
+      "id": "trauma-burns-02",
+      "domain_id": "trauma-burns",
+      "domain": "Burns, hand and soft-tissue trauma",
+      "name": "Hand trauma, tendon, nerve and vascular injuries",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hand trauma, tendon, nerve and vascular injuries.",
+        "Assess a patient with suspected hand trauma, tendon, nerve and vascular injuries, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "hand trauma, tendon, nerve and vascular injuries",
+        "plastic, reconstructive and burns surgery assessment",
+        "plastic, reconstructive and burns surgery investigations",
+        "plastic, reconstructive and burns surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Hand trauma, tendon, nerve and vascular injuries",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hand trauma, tendon, nerve and vascular injuries.",
+        "Assess a patient with suspected hand trauma, tendon, nerve and vascular injuries, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Hand trauma, tendon, nerve and vascular injuries MCQ",
+        "Hand trauma, tendon, nerve and vascular injuries clinical case",
+        "Hand trauma, tendon, nerve and vascular injuries OSCE",
+        "Hand trauma, tendon, nerve and vascular injuries viva",
+        "Hand trauma, tendon, nerve and vascular injuries review guideline"
+      ]
+    },
+    {
+      "id": "trauma-burns-03",
+      "domain_id": "trauma-burns",
+      "domain": "Burns, hand and soft-tissue trauma",
+      "name": "Soft-tissue defects, infection and traumatic reconstruction",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for soft-tissue defects, infection and traumatic reconstruction.",
+        "Assess a patient with suspected soft-tissue defects, infection and traumatic reconstruction, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "soft-tissue defects, infection and traumatic reconstruction",
+        "plastic, reconstructive and burns surgery assessment",
+        "plastic, reconstructive and burns surgery investigations",
+        "plastic, reconstructive and burns surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Soft-tissue defects, infection and traumatic reconstruction",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for soft-tissue defects, infection and traumatic reconstruction.",
+        "Assess a patient with suspected soft-tissue defects, infection and traumatic reconstruction, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Soft-tissue defects, infection and traumatic reconstruction MCQ",
+        "Soft-tissue defects, infection and traumatic reconstruction clinical case",
+        "Soft-tissue defects, infection and traumatic reconstruction OSCE",
+        "Soft-tissue defects, infection and traumatic reconstruction viva",
+        "Soft-tissue defects, infection and traumatic reconstruction review guideline"
+      ]
+    },
+    {
+      "id": "congenital-aesthetic-01",
+      "domain_id": "congenital-aesthetic",
+      "domain": "Congenital and acquired reconstruction",
+      "name": "Cleft lip, cleft palate and craniofacial anomalies",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cleft lip, cleft palate and craniofacial anomalies.",
+        "Assess a patient with suspected cleft lip, cleft palate and craniofacial anomalies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "cleft lip, cleft palate and craniofacial anomalies",
+        "plastic, reconstructive and burns surgery assessment",
+        "plastic, reconstructive and burns surgery investigations",
+        "plastic, reconstructive and burns surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Cleft lip, cleft palate and craniofacial anomalies",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for cleft lip, cleft palate and craniofacial anomalies.",
+        "Assess a patient with suspected cleft lip, cleft palate and craniofacial anomalies, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Cleft lip, cleft palate and craniofacial anomalies MCQ",
+        "Cleft lip, cleft palate and craniofacial anomalies clinical case",
+        "Cleft lip, cleft palate and craniofacial anomalies OSCE",
+        "Cleft lip, cleft palate and craniofacial anomalies viva",
+        "Cleft lip, cleft palate and craniofacial anomalies review guideline"
+      ]
+    },
+    {
+      "id": "congenital-aesthetic-02",
+      "domain_id": "congenital-aesthetic",
+      "domain": "Congenital and acquired reconstruction",
+      "name": "Breast reconstruction and post-oncologic reconstruction",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for breast reconstruction and post-oncologic reconstruction.",
+        "Assess a patient with suspected breast reconstruction and post-oncologic reconstruction, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "breast reconstruction and post-oncologic reconstruction",
+        "plastic, reconstructive and burns surgery assessment",
+        "plastic, reconstructive and burns surgery investigations",
+        "plastic, reconstructive and burns surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Breast reconstruction and post-oncologic reconstruction",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for breast reconstruction and post-oncologic reconstruction.",
+        "Assess a patient with suspected breast reconstruction and post-oncologic reconstruction, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Breast reconstruction and post-oncologic reconstruction MCQ",
+        "Breast reconstruction and post-oncologic reconstruction clinical case",
+        "Breast reconstruction and post-oncologic reconstruction OSCE",
+        "Breast reconstruction and post-oncologic reconstruction viva",
+        "Breast reconstruction and post-oncologic reconstruction review guideline"
+      ]
+    },
+    {
+      "id": "congenital-aesthetic-03",
+      "domain_id": "congenital-aesthetic",
+      "domain": "Congenital and acquired reconstruction",
+      "name": "Lower-limb reconstruction and diabetic foot coverage",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for lower-limb reconstruction and diabetic foot coverage.",
+        "Assess a patient with suspected lower-limb reconstruction and diabetic foot coverage, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "lower-limb reconstruction and diabetic foot coverage",
+        "plastic, reconstructive and burns surgery assessment",
+        "plastic, reconstructive and burns surgery investigations",
+        "plastic, reconstructive and burns surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Lower-limb reconstruction and diabetic foot coverage",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for lower-limb reconstruction and diabetic foot coverage.",
+        "Assess a patient with suspected lower-limb reconstruction and diabetic foot coverage, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Lower-limb reconstruction and diabetic foot coverage MCQ",
+        "Lower-limb reconstruction and diabetic foot coverage clinical case",
+        "Lower-limb reconstruction and diabetic foot coverage OSCE",
+        "Lower-limb reconstruction and diabetic foot coverage viva",
+        "Lower-limb reconstruction and diabetic foot coverage review guideline"
+      ]
+    },
+    {
+      "id": "skin-tumor-01",
+      "domain_id": "skin-tumor",
+      "domain": "Skin tumors and aesthetic procedures",
+      "name": "Skin cancer excision and reconstruction",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for skin cancer excision and reconstruction.",
+        "Assess a patient with suspected skin cancer excision and reconstruction, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "skin cancer excision and reconstruction",
+        "plastic, reconstructive and burns surgery assessment",
+        "plastic, reconstructive and burns surgery investigations",
+        "plastic, reconstructive and burns surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Skin cancer excision and reconstruction",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for skin cancer excision and reconstruction.",
+        "Assess a patient with suspected skin cancer excision and reconstruction, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Skin cancer excision and reconstruction MCQ",
+        "Skin cancer excision and reconstruction clinical case",
+        "Skin cancer excision and reconstruction OSCE",
+        "Skin cancer excision and reconstruction viva",
+        "Skin cancer excision and reconstruction review guideline"
+      ]
+    },
+    {
+      "id": "skin-tumor-02",
+      "domain_id": "skin-tumor",
+      "domain": "Skin tumors and aesthetic procedures",
+      "name": "Common aesthetic procedures, safety and complications",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for common aesthetic procedures, safety and complications.",
+        "Assess a patient with suspected common aesthetic procedures, safety and complications, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "common aesthetic procedures, safety and complications",
+        "plastic, reconstructive and burns surgery assessment",
+        "plastic, reconstructive and burns surgery investigations",
+        "plastic, reconstructive and burns surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Common aesthetic procedures, safety and complications",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for common aesthetic procedures, safety and complications.",
+        "Assess a patient with suspected common aesthetic procedures, safety and complications, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Common aesthetic procedures, safety and complications MCQ",
+        "Common aesthetic procedures, safety and complications clinical case",
+        "Common aesthetic procedures, safety and complications OSCE",
+        "Common aesthetic procedures, safety and complications viva",
+        "Common aesthetic procedures, safety and complications review guideline"
+      ]
+    },
+    {
+      "id": "skin-tumor-03",
+      "domain_id": "skin-tumor",
+      "domain": "Skin tumors and aesthetic procedures",
+      "name": "Facial injuries, peripheral nerve injury and rehabilitation",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for facial injuries, peripheral nerve injury and rehabilitation.",
+        "Assess a patient with suspected facial injuries, peripheral nerve injury and rehabilitation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "facial injuries, peripheral nerve injury and rehabilitation",
+        "plastic, reconstructive and burns surgery assessment",
+        "plastic, reconstructive and burns surgery investigations",
+        "plastic, reconstructive and burns surgery management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Facial injuries, peripheral nerve injury and rehabilitation",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for facial injuries, peripheral nerve injury and rehabilitation.",
+        "Assess a patient with suspected facial injuries, peripheral nerve injury and rehabilitation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Facial injuries, peripheral nerve injury and rehabilitation MCQ",
+        "Facial injuries, peripheral nerve injury and rehabilitation clinical case",
+        "Facial injuries, peripheral nerve injury and rehabilitation OSCE",
+        "Facial injuries, peripheral nerve injury and rehabilitation viva",
+        "Facial injuries, peripheral nerve injury and rehabilitation review guideline"
+      ]
+    }
+  ]
+}

@@ -17,6 +17,38 @@ diagnostics, emergencies, rehabilitation and professional practice. See
 This is a broad specialty map that still requires faculty mapping to local
 training outcomes and examination requirements.
 
+## Multi-specialty curriculum library
+
+The repository now includes first-pass curriculum blueprints for 19 additional
+specialties alongside the existing ophthalmology blueprint. Browse
+`examples/specialties/manifest.json` for the index and open each specialty's
+`curriculum.json` for its domains, topic units, learning objectives, exam
+emphasis and source-discovery terms.
+
+Each new blueprint currently contains 4 domains, 12 topic units and 3 learning
+objectives per topic (72 planned draft cards per specialty). These are broad
+curriculum maps for expansion and faculty review, not exhaustive disease
+catalogues or approved institutional curricula. The existing ophthalmology
+curriculum is unchanged.
+
+All curricula declare discovery families for public AnkiWeb decks, DoctorDE
+challenge search, Cureus, PubMed Central, PubMed, DOAJ, public exam-preparation
+sites, professional guidance and open educational resources. Run the existing
+discovery engine separately for each specialty, for example:
+
+```bash
+python usiphus_resource_discovery.py \
+  --curriculum examples/specialties/internal_medicine/curriculum.json \
+  --max-topics 2 --limit 3 --delay 0.34 \
+  --output-dir build/internal-medicine-discovery
+```
+
+Search links are discovery pointers, not verified resources. Metadata records
+remain unreviewed until faculty assess relevance, currency, quality,
+jurisdiction and reuse rights. Anki and exam-preparation resources are learning
+signals, not clinical evidence. See
+[the multi-specialty curriculum guide](docs/MULTI_SPECIALTY_CURRICULA.md).
+
 ## Version map
 
 | Version | Capability |
