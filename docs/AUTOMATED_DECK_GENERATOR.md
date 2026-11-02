@@ -39,9 +39,11 @@ curriculum JSON with the same stable domain/topic/objective structure.
 Each six-card topic uses a mixed blueprint by default: one basic
 recall/understanding card, two MCQs, one clinical case, one viva and one OSCE
 task. Topic-level card counts and mixes can be adjusted to match learner level
-and local examination priorities. The example makes 52 local Ollama requests;
-the default request ceiling is 60. These are workload limits, not a promise of
-completion time or a financial cap.
+and local examination priorities. The example has 52 topic-level generation batches. A batch can make additional
+repair requests if some card slots are incomplete. The legacy
+`--max-ollama-calls` setting guards the number of curriculum topics accepted
+in one run (default 500); it is not a hard cap on repair requests. These are
+workload controls, not a promise of completion time or a financial cap.
 
 ## External source discovery
 
