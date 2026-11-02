@@ -6,7 +6,7 @@ Ollama model and export it to Anki (`.apkg`) and PowerPoint (`.pptx`).
 ## Local generation
 
 This generator uses the Ollama server at `http://localhost:11434` by default.
-It does not use a cloud AI service, OpenAI account, API key, or API billing.
+It does not use a cloud AI service, account, API key, or API billing.
 Install Ollama, download a model once, and run inference on your own computer.
 Model downloads require internet access and disk space; local inference uses
 your computer's memory, CPU/GPU and electricity.
