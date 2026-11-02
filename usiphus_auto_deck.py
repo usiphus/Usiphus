@@ -519,7 +519,8 @@ def check_ollama_model(ollama_url: str, model: str, timeout: int = 10) -> list[s
     models = payload.get("models", []) if isinstance(payload, dict) else []
     names = [str(item.get("name", "")) for item in models if isinstance(item, dict)]
     requested = model.strip()
-    if requested not in names and not any(name.split(":")[0] == requested.split(":")[0] for name in names):
+    compatible_latest_alias = ":" not in requested and f"{requested}:latest" in names
+    if requested not in names and not compatible_latest_alias:
         available = ", ".join(names[:12]) or "none reported"
         raise RuntimeError(
             f"Model '{requested}' is not installed at {ollama_url}. "
@@ -631,24 +632,6 @@ def build(args: argparse.Namespace) -> int:
                     slot_checkpoint_path=slot_checkpoint_path,
                     slot_checkpoint_signature=signature,
                 )
-                elapsed = time.perf_counter() - topic_started
-                metrics_path = out / "generation_metrics.json"
-                previous_metrics = load_json(metrics_path).get("topics", []) if metrics_path.exists() else []
-                _atomic_write_json(metrics_path, {
-                    "model": args.model,
-                    "specialty": specialty,
-                    "updated_at_epoch": time.time(),
-                    "topics": [
-                        *previous_metrics,
-                        {
-                            "topic_id": topic.get("id"),
-                            "topic": topic.get("name") or topic.get("topic"),
-                            "cards": len(cards),
-                            "elapsed_seconds": round(elapsed, 3),
-                            "seconds_per_card": round(elapsed / max(1, len(cards)), 3),
-                        },
-                    ],
-                })
                 _atomic_write_json(checkpoint_path, {
                     "signature": signature, "topic_id": topic.get("id"),
                     "topic_name": topic.get("name") or topic.get("topic"),
@@ -657,6 +640,26 @@ def build(args: argparse.Namespace) -> int:
                 if slot_checkpoint_path.exists():
                     slot_checkpoint_path.unlink()
                 print(f"[{index}/{topic_count}] Saved checkpoint ({len(cards)} cards)", flush=True)
+            else:
+                elapsed = 0.0
+            metrics_path = out / "generation_metrics.json"
+            previous_metrics = load_json(metrics_path).get("topics", []) if metrics_path.exists() else []
+            topic_key = str(topic.get("id") or topic.get("name") or topic.get("topic"))
+            current_metrics = [item for item in previous_metrics if str(item.get("topic_id") or item.get("topic")) != topic_key]
+            current_metrics.append({
+                "topic_id": topic.get("id"),
+                "topic": topic.get("name") or topic.get("topic"),
+                "cards": len(cards),
+                "elapsed_seconds": round(elapsed, 3),
+                "seconds_per_card": round(elapsed / max(1, len(cards)), 3),
+                "source": "generated" if elapsed else "topic_checkpoint",
+            })
+            _atomic_write_json(metrics_path, {
+                "model": args.model,
+                "specialty": specialty,
+                "updated_at_epoch": time.time(),
+                "topics": current_metrics,
+            })
             raw_cards.extend(cards)
             total_cards += len(cards)
             # Keep a usable partial deck on disk throughout long curriculum runs.
