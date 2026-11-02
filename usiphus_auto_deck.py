@@ -111,8 +111,9 @@ def generate_topic_cards(
         "Return JSON only: {\"cards\":[...]}. Each card has prompt and answer. "
         "MCQ cards also need 4-5 options and one correct_option letter A-E; "
         "explain the key and distractors in answer. OSCE cards need a concise "
-        "rubric list. Clinical cases need context, focused findings, a reasoning "
-        "question, and a safe first-step approach. Do not add metadata."
+        "rubric list and candidate task. Clinical cases need context, focused findings, "
+        "a reasoning question, and a safe first-step approach. Viva answers should be "
+        "structured and exam-ready. Do not add metadata."
     )
 
     def valid_content(card: Any, card_type: str) -> bool:
