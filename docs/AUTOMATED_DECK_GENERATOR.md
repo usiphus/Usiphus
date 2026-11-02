@@ -62,7 +62,7 @@ easy to scrape.
 
 ### How source matching should work
 
-1. Build searches from the topic name, learning objectives, exam emphasis,
+1. Search the topic phrase for broad recall, then independently search each learning objective against scholarly APIs (PubMed and Europe PMC when enabled). Keep the objective query and matched objective ID in the discovery record. Build the broad search from topic name, exam emphasis,
    coverage tags, specialty and learner level.
 2. Discover candidates through public search, official APIs/feeds where
    available, curated directories and faculty-submitted links.
