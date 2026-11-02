@@ -62,6 +62,10 @@ def cards():
                 "and safe management principles."
             )
         if kind == "osce":
+            row["prompt"] = (
+                "OSCE station: You are the candidate. Assess the patient, explain "
+                "your findings and communicate the safe next step."
+            )
             row["rubric"] = [
                 "Introduces the task and confirms the patient's identity using the scenario.",
                 "Obtains the relevant focused history and explains the examination.",
@@ -116,6 +120,10 @@ class GenerationQualityTests(unittest.TestCase):
         rows[0]["card_type"] = "mcq"
         rows[0]["options"] = ["Option alpha", "Option beta", "Option gamma", "Option delta"]
         rows[0]["correct_option"] = "Option alpha"
+        rows[0]["answer"] = (
+            "Option alpha is the best answer because it follows the stated clinical "
+            "reasoning and addresses the relevant objective without unsupported assumptions."
+        )
         with self.assertRaisesRegex(ValueError, "requested exam-format mix"):
             validate_topic_cards(
                 topic(), rows, specialty="urology",
