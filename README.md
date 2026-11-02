@@ -28,6 +28,25 @@ Usiphus helps structure medical teaching material and provides explicit workflow
 
 Requires Python 3.11 or later. The core project uses the Python standard library only. CI is configured for Python 3.11–3.13 on Linux, macOS and Windows; see the workflow in .github/workflows/ci.yml. Configuring a matrix does not mean every job has already passed.
 
+## Automated multi-format deck generation
+
+Generate one canonical specialty card set and export it to **Anki (.apkg) and PowerPoint (.pptx)** in one run. See [the full generator guide](docs/AUTOMATED_DECK_GENERATOR.md) and the [ophthalmology curriculum example](examples/ophthalmology/curriculum.json).
+
+Optional exporters:
+
+    python -m pip install genanki python-pptx
+
+Card generation uses a locally running Ollama model; no cloud AI service, account, or API key is required. Install Ollama and download a model (default: `qwen2.5:7b`):
+
+    ollama pull qwen2.5:7b
+    python usiphus_auto_deck.py --generate --curriculum examples/ophthalmology/curriculum.json --formats both --output-dir build/ophthalmology
+
+For a fully offline export from existing cards (no Ollama required):
+
+    python usiphus_auto_deck.py --cards ophthalmology_cards.json --formats both --output-dir build/ophthalmology
+
+Install optional exporters with `python -m pip install genanki python-pptx`. The generator writes the shared card source, quality report, Anki package and PowerPoint. Generated clinical material remains unreviewed until a qualified faculty member verifies every claim, answer and reference. The default is at most 11 local model requests and 2,500 output tokens per topic; override with `--max-ollama-calls` and `--max-output-tokens`. Local generation uses your computer's resources and model storage.
+
 ## Recommended workflows
 
 **Governed release (V16):**

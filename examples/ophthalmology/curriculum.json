@@ -1,0 +1,105 @@
+{
+  "specialty": "ophthalmology",
+  "learner_level": "medical students",
+  "topics": [
+    {
+      "name": "Ocular anatomy and physiology",
+      "card_count": 6,
+      "learning_objectives": [
+        "Describe the coats of the eye",
+        "Relate aqueous humour flow to intraocular pressure"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Optics and refraction",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain emmetropia and ametropia",
+        "Interpret basic refractive errors"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Cornea and conjunctiva",
+      "card_count": 6,
+      "learning_objectives": [
+        "Differentiate common red-eye presentations",
+        "Recognize corneal ulcer warning signs"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Cataract",
+      "card_count": 6,
+      "learning_objectives": [
+        "Describe cataract types",
+        "Outline assessment and management principles"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Glaucoma",
+      "card_count": 6,
+      "learning_objectives": [
+        "Differentiate open-angle and angle-closure glaucoma",
+        "Recognize acute angle-closure emergency features"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Uveitis",
+      "card_count": 6,
+      "learning_objectives": [
+        "Classify uveitis anatomically",
+        "Recognize urgent referral features"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Retina and diabetic retinopathy",
+      "card_count": 6,
+      "learning_objectives": [
+        "Classify diabetic retinopathy",
+        "Recognize retinal detachment symptoms"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Neuro-ophthalmology",
+      "card_count": 6,
+      "learning_objectives": [
+        "Assess pupillary abnormalities",
+        "Recognize optic neuropathy patterns"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Pediatric ophthalmology and strabismus",
+      "card_count": 6,
+      "learning_objectives": [
+        "Recognize amblyopia risk factors",
+        "Describe basic strabismus assessment"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Ocular trauma and emergencies",
+      "card_count": 6,
+      "learning_objectives": [
+        "Recognize open-globe injury",
+        "Outline initial assessment of chemical eye injury"
+      ],
+      "reference_sources": []
+    },
+    {
+      "name": "Ophthalmic investigations and OSCE",
+      "card_count": 6,
+      "learning_objectives": [
+        "Perform a structured eye examination",
+        "Interpret common ophthalmic investigations"
+      ],
+      "reference_sources": []
+    }
+  ]
+}
