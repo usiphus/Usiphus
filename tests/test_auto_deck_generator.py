@@ -311,6 +311,8 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             payload = json.loads(request.call_args.args[0].data.decode())
             user_payload = json.loads(payload["messages"][1]["content"])
             self.assertEqual(user_payload["cards_to_write"], [{"slot": 1, "type": "mcq"}])
+            saved = json.loads(checkpoint.read_text(encoding="utf-8"))
+            self.assertEqual(set(saved["slots"]), {"0", "1"})
 
     def test_corrupt_slot_checkpoint_is_ignored_safely(self):
         with tempfile.TemporaryDirectory() as tmp:
