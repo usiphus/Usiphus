@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Usiphus automated specialty deck generator.
+"""Usiphus local Ollama specialty deck generator.
 
-Generates one canonical card set and exports it to Anki (.apkg) and PowerPoint
-(.pptx). OpenAI generation is optional and explicitly invokes a billable API.
-No API call is made unless --generate is selected and OPENAI_API_KEY is set.
+Generates one canonical card set using a locally running Ollama model and
+exports it to Anki (.apkg) and PowerPoint (.pptx). No cloud API or API key.
 """
 from __future__ import annotations
 
@@ -20,8 +19,8 @@ from typing import Any
 from usiphus_core import coerce_record, evaluate_quality, report_to_dict
 from usiphus_v7 import export_apkg
 
-API_URL = "https://api.openai.com/v1/chat/completions"
-DEFAULT_MODEL = "gpt-4.1-mini"
+DEFAULT_OLLAMA_MODEL = "qwen2.5:7b"
+DEFAULT_OLLAMA_URL = "http://localhost:11434"
 MAX_RESPONSE_BYTES = 2_000_000
 
 
@@ -42,7 +41,7 @@ def _extract_json(text: str) -> Any:
 
 
 def generate_topic_cards(topic: dict[str, Any], *, specialty: str, level: str,
-                         model: str, api_key: str, count: int,
+                         model: str, ollama_url: str, count: int,
                          max_output_tokens: int) -> list[dict[str, Any]]:
     objectives = topic.get("learning_objectives", [])
     source_refs = topic.get("reference_sources", [])
@@ -67,30 +66,35 @@ def generate_topic_cards(topic: dict[str, Any], *, specialty: str, level: str,
     )
     request_body = {
         "model": model,
-        "temperature": 0.2,
-        "max_tokens": max_output_tokens,
-        "response_format": {"type": "json_object"},
+        "stream": False,
+        "format": "json",
+        "options": {"temperature": 0.2, "num_predict": max_output_tokens},
         "messages": [
             {"role": "system", "content": system},
             {"role": "user", "content": json.dumps(payload, ensure_ascii=False)},
         ],
     }
+    base_url = ollama_url.rstrip("/")
     req = urllib.request.Request(
-        API_URL,
+        f"{base_url}/api/chat",
         data=json.dumps(request_body).encode("utf-8"),
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+        headers={"Content-Type": "application/json"},
         method="POST",
     )
     try:
-        with urllib.request.urlopen(req, timeout=90) as response:
+        with urllib.request.urlopen(req, timeout=300) as response:
             raw = response.read(MAX_RESPONSE_BYTES + 1)
     except urllib.error.HTTPError as exc:
         detail = exc.read(4000).decode("utf-8", "replace")
-        raise RuntimeError(f"OpenAI API HTTP {exc.code}: {detail}") from exc
+        raise RuntimeError(f"Ollama HTTP {exc.code}: {detail}") from exc
+    except urllib.error.URLError as exc:
+        raise RuntimeError(
+            f"Cannot reach Ollama at {base_url}. Start Ollama and verify the local server: {exc}"
+        ) from exc
     if len(raw) > MAX_RESPONSE_BYTES:
-        raise ValueError("API response exceeded safety size limit")
+        raise ValueError("Ollama response exceeded safety size limit")
     result = json.loads(raw)
-    content = result["choices"][0]["message"]["content"]
+    content = result["message"]["content"]
     parsed = _extract_json(content)
     cards = parsed.get("cards")
     if not isinstance(cards, list) or not cards:
@@ -101,7 +105,7 @@ def generate_topic_cards(topic: dict[str, Any], *, specialty: str, level: str,
     for index, card in enumerate(cards, 1):
         if not isinstance(card, dict):
             raise ValueError("Every generated card must be an object")
-        card.setdefault("card_id", f"AI-{prefix[:24]}-{index:03d}")
+        card["card_id"] = f"OLLAMA-{prefix[:20]}-{index:03d}"
         card["specialty"] = specialty
         card["evidence_status"] = "unreviewed"
         card.setdefault("source", "AI-generated draft; faculty verification required")
@@ -181,17 +185,15 @@ def build(args: argparse.Namespace) -> int:
     if args.generate:
         if not args.curriculum:
             raise ValueError("--curriculum is required with --generate")
-        api_key = os.environ.get("OPENAI_API_KEY", "")
-        if not api_key:
-            raise ValueError("Set OPENAI_API_KEY; no API key is stored in files or source code")
         curriculum = load_curriculum(Path(args.curriculum))
         specialty = specialty or curriculum["specialty"]
         level = level or curriculum.get("learner_level", "medical students")
         topic_count = len(curriculum["topics"])
-        if args.max_api_calls < 1 or topic_count > args.max_api_calls:
+        if args.max_ollama_calls < 1 or topic_count > args.max_ollama_calls:
             raise ValueError(
                 f"Curriculum has {topic_count} topics; "
-                f"--max-api-calls permits {args.max_api_calls}. Reduce topics or raise the limit."
+                f"--max-ollama-calls permits {args.max_ollama_calls}. "
+                "Reduce topics or raise the limit."
             )
         if not 256 <= args.max_output_tokens <= 16000:
             raise ValueError("--max-output-tokens must be between 256 and 16000")
@@ -201,7 +203,8 @@ def build(args: argparse.Namespace) -> int:
                 raise ValueError("Each topic card_count must be between 1 and 30")
             raw_cards.extend(generate_topic_cards(
                 topic, specialty=specialty, level=level, model=args.model,
-                api_key=api_key, count=count, max_output_tokens=args.max_output_tokens,
+                ollama_url=args.ollama_url, count=count,
+                max_output_tokens=args.max_output_tokens,
             ))
     elif args.cards:
         payload = load_json(Path(args.cards))
@@ -245,17 +248,19 @@ def build(args: argparse.Namespace) -> int:
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
     source = p.add_mutually_exclusive_group(required=True)
-    source.add_argument("--generate", action="store_true", help="Generate content with the OpenAI API")
+    source.add_argument("--generate", action="store_true", help="Generate content with a local Ollama model")
     source.add_argument("--cards", help="Use an existing Usiphus card JSON file")
     p.add_argument("--curriculum", help="Curriculum JSON with specialty and topics")
     p.add_argument("--specialty", help="Override the specialty in the curriculum")
     p.add_argument("--level", help="Override the learner level in the curriculum")
-    p.add_argument("--model", default=os.getenv("USIPHUS_OPENAI_MODEL", DEFAULT_MODEL))
+    p.add_argument("--model", default=os.getenv("USIPHUS_OLLAMA_MODEL", DEFAULT_OLLAMA_MODEL))
+    p.add_argument("--ollama-url", default=os.getenv("OLLAMA_HOST", DEFAULT_OLLAMA_URL),
+                   help="Ollama server base URL (default: http://localhost:11434)")
     p.add_argument("--cards-per-topic", type=int, default=6)
-    p.add_argument("--max-api-calls", type=int, default=11,
-                   help="Maximum number of billable generation requests (default: 11)")
+    p.add_argument("--max-ollama-calls", type=int, default=11,
+                   help="Maximum local generation requests (default: 11)")
     p.add_argument("--max-output-tokens", type=int, default=2500,
-                   help="Maximum generated output tokens per topic request (default: 2500)")
+                   help="Maximum generated tokens per topic request (default: 2500)")
     p.add_argument("--formats", choices=("both", "anki", "powerpoint"), default="both")
     p.add_argument("--output-dir", default="build/ophthalmology")
     p.add_argument("--deck-name")
@@ -268,6 +273,6 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 if __name__ == "__main__":
     try:
         raise SystemExit(build(parse_args()))
-    except (ValueError, RuntimeError, OSError, KeyError, urllib.error.URLError, json.JSONDecodeError) as exc:
+    except (ValueError, RuntimeError, OSError, KeyError, json.JSONDecodeError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         raise SystemExit(2)
