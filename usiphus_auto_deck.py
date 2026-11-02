@@ -489,6 +489,37 @@ def build(args: argparse.Namespace) -> int:
             raise ValueError("--cards-per-topic must be between 1 and 50")
         if args.ollama_timeout < 1:
             raise ValueError("--ollama-timeout must be at least 1 second")
+        if args.plan_only:
+            planned_topics = []
+            planned_total = 0
+            for topic in curriculum["topics"]:
+                planned_count = (
+                    args.cards_per_topic
+                    if args.override_curriculum_card_counts
+                    else int(topic.get("card_count", args.cards_per_topic))
+                )
+                if planned_count < 1 or planned_count > 50:
+                    raise ValueError("Each topic card_count must be between 1 and 50")
+                planned_mix = requested_card_mix(planned_count, topic.get("card_mix"))
+                planned_topics.append({
+                    "topic": topic.get("name") or topic.get("topic"),
+                    "card_count": planned_count,
+                    "card_mix": planned_mix,
+                })
+                planned_total += planned_count
+            print(json.dumps({
+                "mode": "plan_only",
+                "specialty": specialty,
+                "learner_level": level,
+                "model": args.model,
+                "topics": topic_count,
+                "cards": planned_total,
+                "ollama_requests": topic_count,
+                "formats": args.formats,
+                "output_dir": args.output_dir,
+                "topics_detail": planned_topics,
+            }, ensure_ascii=False, indent=2))
+            return 0
         out = Path(args.output_dir)
         checkpoint_dir = out / ".checkpoints"
         checkpoint_dir.mkdir(parents=True, exist_ok=True)
@@ -669,6 +700,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=int,
         default=4096,
         help="Maximum generated tokens per topic request (default: 4096)",
+    )
+    p.add_argument(
+        "--plan-only",
+        action="store_true",
+        help="Print planned topic/card counts and settings without contacting Ollama",
     )
     p.add_argument("--formats", choices=("both", "anki", "powerpoint"), default="both")
     p.add_argument("--output-dir", default="build/ophthalmology")
