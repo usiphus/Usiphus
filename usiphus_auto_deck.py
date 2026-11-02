@@ -131,6 +131,9 @@ def generate_topic_cards(
                 return False
             if any(not isinstance(option, str) or not option.strip() for option in options):
                 return False
+            normalized_options = [option.strip().casefold() for option in options]
+            if len(set(normalized_options)) != len(normalized_options):
+                return False
             if correct not in {"A", "B", "C", "D", "E"}:
                 return False
             if ord(correct) - ord("A") >= len(options):
@@ -156,6 +159,7 @@ def generate_topic_cards(
             "curriculum_domain": domain,
             "domain_id": topic.get("domain_id"),
             "learning_objectives": objectives,
+            "exam_emphasis": topic.get("exam_emphasis", []),
             "coverage_tags": coverage_tags,
             "cards_to_write": [
                 {"slot": slot, "type": card_type}
@@ -300,7 +304,7 @@ def generate_topic_cards(
             "source": "AI-generated draft; faculty verification required",
             "references": source_refs if isinstance(source_refs, list) else [],
             "cognitive_level": cognitive_by_type.get(card_type, "understand"),
-            "exam_domain": str(topic.get("exam_domain") or domain),
+            "exam_domain": str(topic.get("exam_domain") or "knowledge"),
             "rubric": content.get("rubric", []) if card_type == "osce" else [],
             "evidence_status": "unreviewed",
         }
