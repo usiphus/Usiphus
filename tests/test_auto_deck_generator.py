@@ -47,10 +47,29 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         args = generator.parse_args(["--generate", "--curriculum", "curriculum.json"])
         self.assertIsNone(args.specialty)
         self.assertIsNone(args.level)
-        self.assertEqual(args.max_ollama_calls, 11)
-        self.assertEqual(args.max_output_tokens, 2500)
-        self.assertEqual(args.model, "qwen2.5:7b")
+        self.assertEqual(args.max_ollama_calls, 25)
+        self.assertEqual(args.max_output_tokens, 3500)
+        self.assertEqual(args.model, "llama3.1:8b")
         self.assertEqual(args.ollama_url, "http://localhost:11434")
+
+    def test_default_card_mix_is_exam_balanced_and_sums_to_count(self):
+        mix = generator.requested_card_mix(6)
+        self.assertEqual(sum(mix.values()), 6)
+        self.assertEqual(mix, {"basic": 1, "mcq": 2, "clinical_case": 1, "viva": 1, "osce": 1})
+
+    def test_custom_card_mix_must_sum_to_topic_count(self):
+        self.assertEqual(
+            generator.requested_card_mix(4, {"mcq": 2, "osce": 2}),
+            {"mcq": 2, "osce": 2},
+        )
+        with self.assertRaisesRegex(ValueError, "must sum"):
+            generator.requested_card_mix(4, {"mcq": 3})
+
+    def test_card_mix_rejects_unknown_types_and_boolean_counts(self):
+        with self.assertRaisesRegex(ValueError, "Unsupported"):
+            generator.requested_card_mix(1, {"flashcard": 1})
+        with self.assertRaisesRegex(ValueError, "non-negative integers"):
+            generator.requested_card_mix(1, {"mcq": True})
 
     def test_generation_rejects_more_cards_than_requested(self):
         response = {"message": {"content": json.dumps({"cards": [
