@@ -154,8 +154,9 @@ def generate_topic_cards(
             "specialty": specialty,
             "learner_level": level,
             "curriculum_domain": domain,
+            "domain_id": topic.get("domain_id"),
             "learning_objectives": objectives,
-            "coverage": coverage_tags,
+            "coverage_tags": coverage_tags,
             "cards_to_write": [
                 {"slot": slot, "type": card_type}
                 for slot, card_type in zip(pending, slot_types)
