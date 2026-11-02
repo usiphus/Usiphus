@@ -105,8 +105,8 @@ class DiscoveryTests(unittest.TestCase):
             discovery, "search_crossref", return_value=[]):
             report = discovery.discover_curriculum(fixture(), limit=2, delay=0)
         self.assertEqual(report["coverage_summary"]["topics_with_resources"], 1)
-        self.assertEqual(report["topic_coverage"][0]["topic_id"], "retina-01")
-        self.assertIn("anki_shared_decks", report["topic_coverage"][0]["source_families_without_results"])
+        self.assertEqual(report["topic_coverage"][0]["topic_id"], "retina-01")\n        self.assertEqual(report["topic_coverage"][0]["resources_found"], 1)\n        self.assertGreater(report["topic_coverage"][0]["search_links_generated"], 0)
+        self.assertIn("anki_shared_decks", report["topic_coverage"][0]["source_families_without_metadata_results"])
         self.assertFalse(report["governance"]["content_downloaded"])
 
     def test_invalid_provider_scheme_rejected(self):
