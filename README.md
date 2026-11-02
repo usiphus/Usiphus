@@ -47,7 +47,7 @@ Optional exporters:
 
     python -m pip install genanki python-pptx
 
-Card generation uses a locally running Ollama model; no cloud AI service, account, or API key is required. The generator supports streamed responses, compact prompts, selective card repair, atomic card-slot and topic checkpoints, `--resume`, optional `--preflight`, `--plan-only`, progressive JSON snapshots and per-request performance metrics; see `docs/AUTOMATED_DECK_GENERATOR.md`. The postgraduate ophthalmology example maps 16 domains and 52 topics, with 312 planned draft cards. It starts with 52 topic batches; incomplete slots can require additional repair requests. The default model is `llama3.1:8b`:
+Card generation uses a locally running Ollama model; no cloud AI service, account, or API key is required. The generator supports streamed responses, compact prompts, selective card repair, atomic card-slot and topic checkpoints, `--resume`, optional `--preflight`, `--plan-only`, progressive JSON snapshots and per-request performance metrics; see `docs/AUTOMATED_DECK_GENERATOR.md`. The multi-level ophthalmology example maps 16 domains and 52 topics, with 312 planned draft cards. It starts with 52 topic batches; incomplete slots can require additional repair requests. The default model is `llama3.1:8b`:
 
     ollama pull llama3.1:8b
     python usiphus_auto_deck.py --generate --curriculum examples/ophthalmology/curriculum.json --model llama3.1:8b --preflight --formats both --output-dir build/ophthalmology --resume
