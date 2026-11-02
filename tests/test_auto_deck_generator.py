@@ -279,5 +279,73 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             self.assertFalse((Path(tmp) / "out").exists())
 
 
+    def test_slot_checkpoint_restores_valid_cards_and_requests_only_missing_slots(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            checkpoint = Path(tmp) / "slots.json"
+            topic = {"id": "lens-01", "name": "Cataract", "card_mix": {"basic": 1, "mcq": 1}}
+            signature = "stable-signature"
+            generator._atomic_write_json(checkpoint, {
+                "schema_version": 1,
+                "signature": signature,
+                "slots": {
+                    "0": {"prompt": "Define cataract?", "answer": "Opacity of the crystalline lens causing visual impairment."}
+                },
+            })
+            repair = {"cards": [{
+                "prompt": "Which finding suggests cataract?",
+                "answer": "Lens opacity reduces the red reflex. A is correct because it directly identifies the affected structure.",
+                "options": ["Lens opacity", "Corneal ulcer", "Retinal tear", "Optic neuritis"],
+                "correct_option": "A",
+            }]}
+            class FakeResponse:
+                def __enter__(self): return self
+                def __exit__(self, *args): return False
+                def __iter__(self):
+                    yield (json.dumps({"message": {"content": json.dumps(repair)}, "done": True}) + "\\n").encode()
+            with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()) as request:
+                cards = generator.generate_topic_cards(
+                    topic, specialty="ophthalmology", level="students", model="test-model",
+                    ollama_url="http://localhost:11434", count=2, max_output_tokens=1024,
+                    slot_checkpoint_path=checkpoint, slot_checkpoint_signature=signature)
+            self.assertEqual(len(cards), 2)
+            payload = json.loads(request.call_args.args[0].data.decode())
+            user_payload = json.loads(payload["messages"][1]["content"])
+            self.assertEqual(user_payload["cards_to_write"], [{"slot": 1, "type": "mcq"}])
+
+    def test_corrupt_slot_checkpoint_is_ignored_safely(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            checkpoint = Path(tmp) / "slots.json"
+            checkpoint.write_text("{not valid json", encoding="utf-8")
+            response = {"cards": [{
+                "prompt": "Define cataract?",
+                "answer": "Opacity of the crystalline lens causing visual impairment."
+            }]}
+            class FakeResponse:
+                def __enter__(self): return self
+                def __exit__(self, *args): return False
+                def __iter__(self):
+                    yield (json.dumps({"message": {"content": json.dumps(response)}, "done": True}) + "\\n").encode()
+            with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()) as request:
+                cards = generator.generate_topic_cards(
+                    {"name": "Cataract"}, specialty="ophthalmology", level="students",
+                    model="test-model", ollama_url="http://localhost:11434",
+                    count=1, max_output_tokens=1024, slot_checkpoint_path=checkpoint,
+                    slot_checkpoint_signature="sig")
+            self.assertEqual(len(cards), 1)
+            request.assert_called_once()
+
+    def test_ollama_preflight_requires_selected_model(self):
+        class FakeResponse:
+            def __enter__(self): return self
+            def __exit__(self, *args): return False
+            def read(self):
+                return json.dumps({"models": [{"name": "phi4-mini:latest"}]}).encode()
+        with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
+            self.assertIn("phi4-mini:latest", generator.check_ollama_model(
+                "http://localhost:11434", "phi4-mini", 10))
+        with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
+            with self.assertRaisesRegex(RuntimeError, "not installed"):
+                generator.check_ollama_model("http://localhost:11434", "llama3.1:8b", 10)
+
 if __name__ == "__main__":
     unittest.main()
