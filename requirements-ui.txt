@@ -1,0 +1,3 @@
+# Optional dependencies for the local Streamlit learning workspace
+streamlit>=1.36,<2
+ollama>=0.3,<1
