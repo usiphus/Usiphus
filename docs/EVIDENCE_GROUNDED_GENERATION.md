@@ -44,7 +44,7 @@ metadata. They are **not** counted as evidence excerpts.
 
 Normal assisted mode is backward-compatible. It uses any available curated
 excerpts and marks cards without excerpts as
-`unverified_no_source_excerpt`.
+`unverified_no_source_excerpt` (in `evidence_review_state`).
 
 To fail before generation unless every topic has at least one usable excerpt:
 
@@ -68,8 +68,8 @@ Each claim includes its text and `source_ids`. The application:
 - flags unknown IDs and claims with no usable source link;
 - records potential conflicts reported by the model for faculty adjudication;
 - labels traceable claims
-  `source_linked_pending_human_verification`, never approved;
-- labels missing or invalid claim mapping `needs_evidence_review`.
+  `source_linked_pending_human_verification` (in `evidence_review_state`), never approved;
+- labels missing or invalid claim mapping `needs_evidence_review` (in `evidence_review_state`).
 
 The model may miss a conflict or incorrectly associate an excerpt with a
 claim. Conflict detection is therefore a review prompt, not a guarantee that
