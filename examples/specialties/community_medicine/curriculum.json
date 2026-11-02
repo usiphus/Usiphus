@@ -1,0 +1,677 @@
+{
+  "specialty": "community_medicine",
+  "display_name": "Community and Public Health Medicine",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive community and public health medicine curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "epidemiology",
+      "name": "Epidemiology and biostatistics",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in epidemiology and biostatistics. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "public-health",
+      "name": "Public health and prevention",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in public health and prevention. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "health-systems",
+      "name": "Health systems, policy and services",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in health systems, policy and services. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "research-ethics",
+      "name": "Research, ethics and population health practice",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in research, ethics and population health practice. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Epidemiology and biostatistics",
+    "Public health and prevention",
+    "Health systems, policy and services",
+    "Research, ethics and population health practice"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "epidemiology-01",
+      "domain_id": "epidemiology",
+      "domain": "Epidemiology and biostatistics",
+      "name": "Measures of disease frequency and association",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for measures of disease frequency and association.",
+        "Assess a patient with suspected measures of disease frequency and association, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "measures of disease frequency and association",
+        "community and public health medicine assessment",
+        "community and public health medicine investigations",
+        "community and public health medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Measures of disease frequency and association",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for measures of disease frequency and association.",
+        "Assess a patient with suspected measures of disease frequency and association, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Measures of disease frequency and association MCQ",
+        "Measures of disease frequency and association clinical case",
+        "Measures of disease frequency and association OSCE",
+        "Measures of disease frequency and association viva",
+        "Measures of disease frequency and association review guideline"
+      ]
+    },
+    {
+      "id": "epidemiology-02",
+      "domain_id": "epidemiology",
+      "domain": "Epidemiology and biostatistics",
+      "name": "Study design, bias, confounding and causal inference",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for study design, bias, confounding and causal inference.",
+        "Assess a patient with suspected study design, bias, confounding and causal inference, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "study design, bias, confounding and causal inference",
+        "community and public health medicine assessment",
+        "community and public health medicine investigations",
+        "community and public health medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Study design, bias, confounding and causal inference",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for study design, bias, confounding and causal inference.",
+        "Assess a patient with suspected study design, bias, confounding and causal inference, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Study design, bias, confounding and causal inference MCQ",
+        "Study design, bias, confounding and causal inference clinical case",
+        "Study design, bias, confounding and causal inference OSCE",
+        "Study design, bias, confounding and causal inference viva",
+        "Study design, bias, confounding and causal inference review guideline"
+      ]
+    },
+    {
+      "id": "epidemiology-03",
+      "domain_id": "epidemiology",
+      "domain": "Epidemiology and biostatistics",
+      "name": "Screening tests, diagnostic accuracy and evidence appraisal",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for screening tests, diagnostic accuracy and evidence appraisal.",
+        "Assess a patient with suspected screening tests, diagnostic accuracy and evidence appraisal, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "screening tests, diagnostic accuracy and evidence appraisal",
+        "community and public health medicine assessment",
+        "community and public health medicine investigations",
+        "community and public health medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Screening tests, diagnostic accuracy and evidence appraisal",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for screening tests, diagnostic accuracy and evidence appraisal.",
+        "Assess a patient with suspected screening tests, diagnostic accuracy and evidence appraisal, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Screening tests, diagnostic accuracy and evidence appraisal MCQ",
+        "Screening tests, diagnostic accuracy and evidence appraisal clinical case",
+        "Screening tests, diagnostic accuracy and evidence appraisal OSCE",
+        "Screening tests, diagnostic accuracy and evidence appraisal viva",
+        "Screening tests, diagnostic accuracy and evidence appraisal review guideline"
+      ]
+    },
+    {
+      "id": "public-health-01",
+      "domain_id": "public-health",
+      "domain": "Public health and prevention",
+      "name": "Levels of prevention and health promotion",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for levels of prevention and health promotion.",
+        "Assess a patient with suspected levels of prevention and health promotion, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "levels of prevention and health promotion",
+        "community and public health medicine assessment",
+        "community and public health medicine investigations",
+        "community and public health medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Levels of prevention and health promotion",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for levels of prevention and health promotion.",
+        "Assess a patient with suspected levels of prevention and health promotion, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Levels of prevention and health promotion MCQ",
+        "Levels of prevention and health promotion clinical case",
+        "Levels of prevention and health promotion OSCE",
+        "Levels of prevention and health promotion viva",
+        "Levels of prevention and health promotion review guideline"
+      ]
+    },
+    {
+      "id": "public-health-02",
+      "domain_id": "public-health",
+      "domain": "Public health and prevention",
+      "name": "Communicable disease surveillance and outbreak investigation",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for communicable disease surveillance and outbreak investigation.",
+        "Assess a patient with suspected communicable disease surveillance and outbreak investigation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "communicable disease surveillance and outbreak investigation",
+        "community and public health medicine assessment",
+        "community and public health medicine investigations",
+        "community and public health medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Communicable disease surveillance and outbreak investigation",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for communicable disease surveillance and outbreak investigation.",
+        "Assess a patient with suspected communicable disease surveillance and outbreak investigation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Communicable disease surveillance and outbreak investigation MCQ",
+        "Communicable disease surveillance and outbreak investigation clinical case",
+        "Communicable disease surveillance and outbreak investigation OSCE",
+        "Communicable disease surveillance and outbreak investigation viva",
+        "Communicable disease surveillance and outbreak investigation review guideline"
+      ]
+    },
+    {
+      "id": "public-health-03",
+      "domain_id": "public-health",
+      "domain": "Public health and prevention",
+      "name": "Non-communicable disease prevention and control",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for non-communicable disease prevention and control.",
+        "Assess a patient with suspected non-communicable disease prevention and control, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "non-communicable disease prevention and control",
+        "community and public health medicine assessment",
+        "community and public health medicine investigations",
+        "community and public health medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Non-communicable disease prevention and control",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for non-communicable disease prevention and control.",
+        "Assess a patient with suspected non-communicable disease prevention and control, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Non-communicable disease prevention and control MCQ",
+        "Non-communicable disease prevention and control clinical case",
+        "Non-communicable disease prevention and control OSCE",
+        "Non-communicable disease prevention and control viva",
+        "Non-communicable disease prevention and control review guideline"
+      ]
+    },
+    {
+      "id": "health-systems-01",
+      "domain_id": "health-systems",
+      "domain": "Health systems, policy and services",
+      "name": "Primary health care, health systems and universal coverage",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for primary health care, health systems and universal coverage.",
+        "Assess a patient with suspected primary health care, health systems and universal coverage, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "primary health care, health systems and universal coverage",
+        "community and public health medicine assessment",
+        "community and public health medicine investigations",
+        "community and public health medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Primary health care, health systems and universal coverage",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for primary health care, health systems and universal coverage.",
+        "Assess a patient with suspected primary health care, health systems and universal coverage, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Primary health care, health systems and universal coverage MCQ",
+        "Primary health care, health systems and universal coverage clinical case",
+        "Primary health care, health systems and universal coverage OSCE",
+        "Primary health care, health systems and universal coverage viva",
+        "Primary health care, health systems and universal coverage review guideline"
+      ]
+    },
+    {
+      "id": "health-systems-02",
+      "domain_id": "health-systems",
+      "domain": "Health systems, policy and services",
+      "name": "Health economics, resource allocation and program evaluation",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for health economics, resource allocation and program evaluation.",
+        "Assess a patient with suspected health economics, resource allocation and program evaluation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "health economics, resource allocation and program evaluation",
+        "community and public health medicine assessment",
+        "community and public health medicine investigations",
+        "community and public health medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Health economics, resource allocation and program evaluation",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for health economics, resource allocation and program evaluation.",
+        "Assess a patient with suspected health economics, resource allocation and program evaluation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Health economics, resource allocation and program evaluation MCQ",
+        "Health economics, resource allocation and program evaluation clinical case",
+        "Health economics, resource allocation and program evaluation OSCE",
+        "Health economics, resource allocation and program evaluation viva",
+        "Health economics, resource allocation and program evaluation review guideline"
+      ]
+    },
+    {
+      "id": "health-systems-03",
+      "domain_id": "health-systems",
+      "domain": "Health systems, policy and services",
+      "name": "Occupational, environmental and school health",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for occupational, environmental and school health.",
+        "Assess a patient with suspected occupational, environmental and school health, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "occupational, environmental and school health",
+        "community and public health medicine assessment",
+        "community and public health medicine investigations",
+        "community and public health medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Occupational, environmental and school health",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for occupational, environmental and school health.",
+        "Assess a patient with suspected occupational, environmental and school health, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Occupational, environmental and school health MCQ",
+        "Occupational, environmental and school health clinical case",
+        "Occupational, environmental and school health OSCE",
+        "Occupational, environmental and school health viva",
+        "Occupational, environmental and school health review guideline"
+      ]
+    },
+    {
+      "id": "research-ethics-01",
+      "domain_id": "research-ethics",
+      "domain": "Research, ethics and population health practice",
+      "name": "Clinical research methods and critical appraisal",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for clinical research methods and critical appraisal.",
+        "Assess a patient with suspected clinical research methods and critical appraisal, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "clinical research methods and critical appraisal",
+        "community and public health medicine assessment",
+        "community and public health medicine investigations",
+        "community and public health medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Clinical research methods and critical appraisal",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for clinical research methods and critical appraisal.",
+        "Assess a patient with suspected clinical research methods and critical appraisal, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Clinical research methods and critical appraisal MCQ",
+        "Clinical research methods and critical appraisal clinical case",
+        "Clinical research methods and critical appraisal OSCE",
+        "Clinical research methods and critical appraisal viva",
+        "Clinical research methods and critical appraisal review guideline"
+      ]
+    },
+    {
+      "id": "research-ethics-02",
+      "domain_id": "research-ethics",
+      "domain": "Research, ethics and population health practice",
+      "name": "Medical ethics, consent, confidentiality and professionalism",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for medical ethics, consent, confidentiality and professionalism.",
+        "Assess a patient with suspected medical ethics, consent, confidentiality and professionalism, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "medical ethics, consent, confidentiality and professionalism",
+        "community and public health medicine assessment",
+        "community and public health medicine investigations",
+        "community and public health medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Medical ethics, consent, confidentiality and professionalism",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for medical ethics, consent, confidentiality and professionalism.",
+        "Assess a patient with suspected medical ethics, consent, confidentiality and professionalism, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Medical ethics, consent, confidentiality and professionalism MCQ",
+        "Medical ethics, consent, confidentiality and professionalism clinical case",
+        "Medical ethics, consent, confidentiality and professionalism OSCE",
+        "Medical ethics, consent, confidentiality and professionalism viva",
+        "Medical ethics, consent, confidentiality and professionalism review guideline"
+      ]
+    },
+    {
+      "id": "research-ethics-03",
+      "domain_id": "research-ethics",
+      "domain": "Research, ethics and population health practice",
+      "name": "Maternal, child, geriatric and vulnerable-population health",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for maternal, child, geriatric and vulnerable-population health.",
+        "Assess a patient with suspected maternal, child, geriatric and vulnerable-population health, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "maternal, child, geriatric and vulnerable-population health",
+        "community and public health medicine assessment",
+        "community and public health medicine investigations",
+        "community and public health medicine management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Maternal, child, geriatric and vulnerable-population health",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for maternal, child, geriatric and vulnerable-population health.",
+        "Assess a patient with suspected maternal, child, geriatric and vulnerable-population health, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Maternal, child, geriatric and vulnerable-population health MCQ",
+        "Maternal, child, geriatric and vulnerable-population health clinical case",
+        "Maternal, child, geriatric and vulnerable-population health OSCE",
+        "Maternal, child, geriatric and vulnerable-population health viva",
+        "Maternal, child, geriatric and vulnerable-population health review guideline"
+      ]
+    }
+  ]
+}
