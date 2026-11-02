@@ -1,0 +1,677 @@
+{
+  "specialty": "orthopaedics",
+  "display_name": "Orthopaedics and Trauma",
+  "learner_level": "medical students, interns and specialty trainees; adapt depth to the selected learner stage",
+  "curriculum_version": "1.0",
+  "blueprint_type": "comprehensive-specialty-map",
+  "description": "A comprehensive orthopaedics and trauma curriculum blueprint spanning foundational knowledge, clinical assessment, major disease groups, emergencies, investigations, treatment principles, procedures and professional practice. This is a structured draft for faculty mapping and review, not a substitute for an applicable national curriculum or local examination specification.",
+  "curriculum_domains": [
+    {
+      "id": "orthopedic-foundations",
+      "name": "Musculoskeletal assessment and foundations",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in musculoskeletal assessment and foundations. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "upper-limb",
+      "name": "Upper limb and spine",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in upper limb and spine. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "lower-limb",
+      "name": "Lower limb and joint reconstruction",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in lower limb and joint reconstruction. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    },
+    {
+      "id": "pediatric-sports",
+      "name": "Pediatric, sports and orthopedic infection",
+      "description": "Core knowledge, clinical reasoning, investigations, management principles and professional practice in pediatric, sports and orthopedic infection. Faculty should map depth and outcomes to learner stage and local assessment requirements."
+    }
+  ],
+  "coverage_expectations": [
+    "Musculoskeletal assessment and foundations",
+    "Upper limb and spine",
+    "Lower limb and joint reconstruction",
+    "Pediatric, sports and orthopedic infection"
+  ],
+  "card_blueprint": {
+    "default_mix": {
+      "basic": 1,
+      "mcq": 2,
+      "clinical_case": 1,
+      "viva": 1,
+      "osce": 1
+    },
+    "cards_per_topic": 6
+  },
+  "planned_topic_count": 12,
+  "planned_card_count": 72,
+  "source_discovery_policy": {
+    "discovery_scope": "topic_and_learning_objective",
+    "source_families": [
+      {
+        "id": "anki_shared_decks",
+        "examples": [
+          "AnkiWeb shared decks"
+        ],
+        "role": "revision coverage and exam phrasing; not clinical authority"
+      },
+      {
+        "id": "doctorde_challenges",
+        "examples": [
+          "DoctorDE"
+        ],
+        "role": "free interactive challenge themes and exam practice; verify access and reuse terms"
+      },
+      {
+        "id": "cureus_open_access",
+        "examples": [
+          "Cureus"
+        ],
+        "role": "open-access clinical studies, reviews and case reports; appraise methods and relevance"
+      },
+      {
+        "id": "biomedical_literature",
+        "examples": [
+          "PubMed Central",
+          "PubMed",
+          "DOAJ"
+        ],
+        "role": "research discovery, abstracts and eligible open full text"
+      },
+      {
+        "id": "public_exam_prep",
+        "examples": [
+          "Geeky Medics",
+          "TeachMeSeries",
+          "specialty-specific public exam preparation sites"
+        ],
+        "role": "exam structure, clinical skills and learning explanations"
+      },
+      {
+        "id": "professional_guidelines",
+        "examples": [
+          "Relevant international and national specialty societies"
+        ],
+        "role": "clinical recommendations and standards; check jurisdiction and current version"
+      },
+      {
+        "id": "open_educational_resources",
+        "examples": [
+          "Open textbooks",
+          "university teaching resources"
+        ],
+        "role": "foundational explanations and structured teaching"
+      }
+    ],
+    "matching_policy": "Search each topic and each stable objective separately. Store metadata, canonical links, dates, identifiers, access and licence status, matched topic/objective IDs, retrieval date and review status. Link-only discovery is not evidence coverage.",
+    "rights_policy": "Default to metadata and links. Do not copy decks, challenge questions, journal text, figures or explanations unless the licence or explicit permission allows it. Public access is not a reuse licence.",
+    "evidence_policy": "Anki decks, challenge sites and exam-preparation sites are learning signals, not clinical evidence. Clinical claims require current authoritative sources and qualified faculty review.",
+    "default_candidate_status": "identified_unreviewed"
+  },
+  "topics": [
+    {
+      "id": "orthopedic-foundations-01",
+      "domain_id": "orthopedic-foundations",
+      "domain": "Musculoskeletal assessment and foundations",
+      "name": "Musculoskeletal history, examination and imaging",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for musculoskeletal history, examination and imaging.",
+        "Assess a patient with suspected musculoskeletal history, examination and imaging, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "musculoskeletal history, examination and imaging",
+        "orthopaedics and trauma assessment",
+        "orthopaedics and trauma investigations",
+        "orthopaedics and trauma management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Musculoskeletal history, examination and imaging",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for musculoskeletal history, examination and imaging.",
+        "Assess a patient with suspected musculoskeletal history, examination and imaging, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Musculoskeletal history, examination and imaging MCQ",
+        "Musculoskeletal history, examination and imaging clinical case",
+        "Musculoskeletal history, examination and imaging OSCE",
+        "Musculoskeletal history, examination and imaging viva",
+        "Musculoskeletal history, examination and imaging review guideline"
+      ]
+    },
+    {
+      "id": "orthopedic-foundations-02",
+      "domain_id": "orthopedic-foundations",
+      "domain": "Musculoskeletal assessment and foundations",
+      "name": "Fracture biology, healing and principles of fixation",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for fracture biology, healing and principles of fixation.",
+        "Assess a patient with suspected fracture biology, healing and principles of fixation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "fracture biology, healing and principles of fixation",
+        "orthopaedics and trauma assessment",
+        "orthopaedics and trauma investigations",
+        "orthopaedics and trauma management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Fracture biology, healing and principles of fixation",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for fracture biology, healing and principles of fixation.",
+        "Assess a patient with suspected fracture biology, healing and principles of fixation, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Fracture biology, healing and principles of fixation MCQ",
+        "Fracture biology, healing and principles of fixation clinical case",
+        "Fracture biology, healing and principles of fixation OSCE",
+        "Fracture biology, healing and principles of fixation viva",
+        "Fracture biology, healing and principles of fixation review guideline"
+      ]
+    },
+    {
+      "id": "orthopedic-foundations-03",
+      "domain_id": "orthopedic-foundations",
+      "domain": "Musculoskeletal assessment and foundations",
+      "name": "Open fractures, compartment syndrome and limb-threatening injury",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for open fractures, compartment syndrome and limb-threatening injury.",
+        "Assess a patient with suspected open fractures, compartment syndrome and limb-threatening injury, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "open fractures, compartment syndrome and limb-threatening injury",
+        "orthopaedics and trauma assessment",
+        "orthopaedics and trauma investigations",
+        "orthopaedics and trauma management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Open fractures, compartment syndrome and limb-threatening injury",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for open fractures, compartment syndrome and limb-threatening injury.",
+        "Assess a patient with suspected open fractures, compartment syndrome and limb-threatening injury, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Open fractures, compartment syndrome and limb-threatening injury MCQ",
+        "Open fractures, compartment syndrome and limb-threatening injury clinical case",
+        "Open fractures, compartment syndrome and limb-threatening injury OSCE",
+        "Open fractures, compartment syndrome and limb-threatening injury viva",
+        "Open fractures, compartment syndrome and limb-threatening injury review guideline"
+      ]
+    },
+    {
+      "id": "upper-limb-01",
+      "domain_id": "upper-limb",
+      "domain": "Upper limb and spine",
+      "name": "Shoulder, elbow and upper-limb disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for shoulder, elbow and upper-limb disorders.",
+        "Assess a patient with suspected shoulder, elbow and upper-limb disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "shoulder, elbow and upper-limb disorders",
+        "orthopaedics and trauma assessment",
+        "orthopaedics and trauma investigations",
+        "orthopaedics and trauma management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Shoulder, elbow and upper-limb disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for shoulder, elbow and upper-limb disorders.",
+        "Assess a patient with suspected shoulder, elbow and upper-limb disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Shoulder, elbow and upper-limb disorders MCQ",
+        "Shoulder, elbow and upper-limb disorders clinical case",
+        "Shoulder, elbow and upper-limb disorders OSCE",
+        "Shoulder, elbow and upper-limb disorders viva",
+        "Shoulder, elbow and upper-limb disorders review guideline"
+      ]
+    },
+    {
+      "id": "upper-limb-02",
+      "domain_id": "upper-limb",
+      "domain": "Upper limb and spine",
+      "name": "Hand, wrist and peripheral nerve conditions",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hand, wrist and peripheral nerve conditions.",
+        "Assess a patient with suspected hand, wrist and peripheral nerve conditions, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "hand, wrist and peripheral nerve conditions",
+        "orthopaedics and trauma assessment",
+        "orthopaedics and trauma investigations",
+        "orthopaedics and trauma management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Hand, wrist and peripheral nerve conditions",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hand, wrist and peripheral nerve conditions.",
+        "Assess a patient with suspected hand, wrist and peripheral nerve conditions, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Hand, wrist and peripheral nerve conditions MCQ",
+        "Hand, wrist and peripheral nerve conditions clinical case",
+        "Hand, wrist and peripheral nerve conditions OSCE",
+        "Hand, wrist and peripheral nerve conditions viva",
+        "Hand, wrist and peripheral nerve conditions review guideline"
+      ]
+    },
+    {
+      "id": "upper-limb-03",
+      "domain_id": "upper-limb",
+      "domain": "Upper limb and spine",
+      "name": "Spinal pain, deformity and degenerative disease",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for spinal pain, deformity and degenerative disease.",
+        "Assess a patient with suspected spinal pain, deformity and degenerative disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "spinal pain, deformity and degenerative disease",
+        "orthopaedics and trauma assessment",
+        "orthopaedics and trauma investigations",
+        "orthopaedics and trauma management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Spinal pain, deformity and degenerative disease",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for spinal pain, deformity and degenerative disease.",
+        "Assess a patient with suspected spinal pain, deformity and degenerative disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Spinal pain, deformity and degenerative disease MCQ",
+        "Spinal pain, deformity and degenerative disease clinical case",
+        "Spinal pain, deformity and degenerative disease OSCE",
+        "Spinal pain, deformity and degenerative disease viva",
+        "Spinal pain, deformity and degenerative disease review guideline"
+      ]
+    },
+    {
+      "id": "lower-limb-01",
+      "domain_id": "lower-limb",
+      "domain": "Lower limb and joint reconstruction",
+      "name": "Hip and pelvic trauma and degenerative disease",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hip and pelvic trauma and degenerative disease.",
+        "Assess a patient with suspected hip and pelvic trauma and degenerative disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "hip and pelvic trauma and degenerative disease",
+        "orthopaedics and trauma assessment",
+        "orthopaedics and trauma investigations",
+        "orthopaedics and trauma management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Hip and pelvic trauma and degenerative disease",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for hip and pelvic trauma and degenerative disease.",
+        "Assess a patient with suspected hip and pelvic trauma and degenerative disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Hip and pelvic trauma and degenerative disease MCQ",
+        "Hip and pelvic trauma and degenerative disease clinical case",
+        "Hip and pelvic trauma and degenerative disease OSCE",
+        "Hip and pelvic trauma and degenerative disease viva",
+        "Hip and pelvic trauma and degenerative disease review guideline"
+      ]
+    },
+    {
+      "id": "lower-limb-02",
+      "domain_id": "lower-limb",
+      "domain": "Lower limb and joint reconstruction",
+      "name": "Knee, ligament, meniscal and patellofemoral disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for knee, ligament, meniscal and patellofemoral disorders.",
+        "Assess a patient with suspected knee, ligament, meniscal and patellofemoral disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "knee, ligament, meniscal and patellofemoral disorders",
+        "orthopaedics and trauma assessment",
+        "orthopaedics and trauma investigations",
+        "orthopaedics and trauma management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Knee, ligament, meniscal and patellofemoral disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for knee, ligament, meniscal and patellofemoral disorders.",
+        "Assess a patient with suspected knee, ligament, meniscal and patellofemoral disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Knee, ligament, meniscal and patellofemoral disorders MCQ",
+        "Knee, ligament, meniscal and patellofemoral disorders clinical case",
+        "Knee, ligament, meniscal and patellofemoral disorders OSCE",
+        "Knee, ligament, meniscal and patellofemoral disorders viva",
+        "Knee, ligament, meniscal and patellofemoral disorders review guideline"
+      ]
+    },
+    {
+      "id": "lower-limb-03",
+      "domain_id": "lower-limb",
+      "domain": "Lower limb and joint reconstruction",
+      "name": "Foot, ankle and gait disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for foot, ankle and gait disorders.",
+        "Assess a patient with suspected foot, ankle and gait disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "foot, ankle and gait disorders",
+        "orthopaedics and trauma assessment",
+        "orthopaedics and trauma investigations",
+        "orthopaedics and trauma management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Foot, ankle and gait disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for foot, ankle and gait disorders.",
+        "Assess a patient with suspected foot, ankle and gait disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Foot, ankle and gait disorders MCQ",
+        "Foot, ankle and gait disorders clinical case",
+        "Foot, ankle and gait disorders OSCE",
+        "Foot, ankle and gait disorders viva",
+        "Foot, ankle and gait disorders review guideline"
+      ]
+    },
+    {
+      "id": "pediatric-sports-01",
+      "domain_id": "pediatric-sports",
+      "domain": "Pediatric, sports and orthopedic infection",
+      "name": "Pediatric fractures, growth-plate injury and developmental disorders",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pediatric fractures, growth-plate injury and developmental disorders.",
+        "Assess a patient with suspected pediatric fractures, growth-plate injury and developmental disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "pediatric fractures, growth-plate injury and developmental disorders",
+        "orthopaedics and trauma assessment",
+        "orthopaedics and trauma investigations",
+        "orthopaedics and trauma management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Pediatric fractures, growth-plate injury and developmental disorders",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for pediatric fractures, growth-plate injury and developmental disorders.",
+        "Assess a patient with suspected pediatric fractures, growth-plate injury and developmental disorders, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Pediatric fractures, growth-plate injury and developmental disorders MCQ",
+        "Pediatric fractures, growth-plate injury and developmental disorders clinical case",
+        "Pediatric fractures, growth-plate injury and developmental disorders OSCE",
+        "Pediatric fractures, growth-plate injury and developmental disorders viva",
+        "Pediatric fractures, growth-plate injury and developmental disorders review guideline"
+      ]
+    },
+    {
+      "id": "pediatric-sports-02",
+      "domain_id": "pediatric-sports",
+      "domain": "Pediatric, sports and orthopedic infection",
+      "name": "Sports injuries, tendon and ligament pathology",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for sports injuries, tendon and ligament pathology.",
+        "Assess a patient with suspected sports injuries, tendon and ligament pathology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "sports injuries, tendon and ligament pathology",
+        "orthopaedics and trauma assessment",
+        "orthopaedics and trauma investigations",
+        "orthopaedics and trauma management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Sports injuries, tendon and ligament pathology",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for sports injuries, tendon and ligament pathology.",
+        "Assess a patient with suspected sports injuries, tendon and ligament pathology, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Sports injuries, tendon and ligament pathology MCQ",
+        "Sports injuries, tendon and ligament pathology clinical case",
+        "Sports injuries, tendon and ligament pathology OSCE",
+        "Sports injuries, tendon and ligament pathology viva",
+        "Sports injuries, tendon and ligament pathology review guideline"
+      ]
+    },
+    {
+      "id": "pediatric-sports-03",
+      "domain_id": "pediatric-sports",
+      "domain": "Pediatric, sports and orthopedic infection",
+      "name": "Bone and joint infection, tumors and metabolic bone disease",
+      "card_count": 6,
+      "learning_objectives": [
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for bone and joint infection, tumors and metabolic bone disease.",
+        "Assess a patient with suspected bone and joint infection, tumors and metabolic bone disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention."
+      ],
+      "exam_emphasis": [
+        "core mechanisms and classification",
+        "clinical assessment and differential diagnosis",
+        "investigation interpretation and management principles",
+        "complications, red flags and prevention"
+      ],
+      "coverage_tags": [
+        "bone and joint infection, tumors and metabolic bone disease",
+        "orthopaedics and trauma assessment",
+        "orthopaedics and trauma investigations",
+        "orthopaedics and trauma management"
+      ],
+      "reference_sources": [],
+      "source_types_to_discover": [
+        "anki_shared_decks",
+        "doctorde_challenges",
+        "cureus_open_access",
+        "pubmed_central",
+        "pubmed",
+        "doaj",
+        "public_exam_prep",
+        "professional_guidelines",
+        "open_textbooks_resources"
+      ],
+      "source_search_terms": [
+        "Bone and joint infection, tumors and metabolic bone disease",
+        "Explain the relevant anatomy, epidemiology, mechanisms and major risk factors for bone and joint infection, tumors and metabolic bone disease.",
+        "Assess a patient with suspected bone and joint infection, tumors and metabolic bone disease, identify key clinical features and construct a prioritized differential diagnosis.",
+        "Select and interpret appropriate investigations, outline evidence-informed management and recognize complications, red flags and prevention.",
+        "Bone and joint infection, tumors and metabolic bone disease MCQ",
+        "Bone and joint infection, tumors and metabolic bone disease clinical case",
+        "Bone and joint infection, tumors and metabolic bone disease OSCE",
+        "Bone and joint infection, tumors and metabolic bone disease viva",
+        "Bone and joint infection, tumors and metabolic bone disease review guideline"
+      ]
+    }
+  ]
+}
