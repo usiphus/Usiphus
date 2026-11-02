@@ -47,7 +47,7 @@ Optional exporters:
 
     python -m pip install genanki python-pptx
 
-Card generation uses a locally running Ollama model; no cloud AI service, account, or API key is required. The expanded undergraduate ophthalmology blueprint covers 22 domains and plans 132 mixed-format draft cards. The default model is `llama3.1:8b`:
+Card generation uses a locally running Ollama model; no cloud AI service, account, or API key is required. The generator supports configurable request timeouts, per-topic checkpoints, `--resume`, and `--override-curriculum-card-counts`; see `docs/AUTOMATED_DECK_GENERATOR.md`. The expanded undergraduate ophthalmology blueprint covers 22 domains and plans 132 mixed-format draft cards. The default model is `llama3.1:8b`:
 
     ollama pull llama3.1:8b
     python usiphus_auto_deck.py --generate --curriculum examples/ophthalmology/curriculum.json --model llama3.1:8b --formats both --output-dir build/ophthalmology
