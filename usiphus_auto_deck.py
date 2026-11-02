@@ -676,6 +676,7 @@ def build(args: argparse.Namespace) -> int:
                     slot_checkpoint_signature=signature,
                     request_metrics=topic_request_metrics,
                 )
+                elapsed = time.perf_counter() - topic_started
                 _atomic_write_json(checkpoint_path, {
                     "signature": signature, "topic_id": topic.get("id"),
                     "topic_name": topic.get("name") or topic.get("topic"),
