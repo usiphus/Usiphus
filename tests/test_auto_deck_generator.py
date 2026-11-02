@@ -42,7 +42,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
                 model="test-model", ollama_url="http://localhost:11434",
                 count=1, max_output_tokens=1024)
         self.assertEqual(cards[0]["card_id"], "OLLAMA-CATARACT-001")
-        self.assertEqual(cards[0]["evidence_status"], "unverified_no_source_excerpt")
+        self.assertEqual(cards[0]["evidence_status"], "unreviewed")
 
     def test_cli_exposes_timeout_override_resume_and_card_count_override(self):
         args = generator.parse_args([
