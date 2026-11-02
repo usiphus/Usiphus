@@ -301,7 +301,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
                 def __enter__(self): return self
                 def __exit__(self, *args): return False
                 def __iter__(self):
-                    yield (json.dumps({"message": {"content": json.dumps(repair)}, "done": True}) + "\\n").encode()
+                    yield (json.dumps({"message": {"content": json.dumps(repair)}, "done": True}) + "\n").encode()
             with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()) as request:
                 cards = generator.generate_topic_cards(
                     topic, specialty="ophthalmology", level="students", model="test-model",
@@ -324,7 +324,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
                 def __enter__(self): return self
                 def __exit__(self, *args): return False
                 def __iter__(self):
-                    yield (json.dumps({"message": {"content": json.dumps(response)}, "done": True}) + "\\n").encode()
+                    yield (json.dumps({"message": {"content": json.dumps(response)}, "done": True}) + "\n").encode()
             with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()) as request:
                 cards = generator.generate_topic_cards(
                     {"name": "Cataract"}, specialty="ophthalmology", level="students",
