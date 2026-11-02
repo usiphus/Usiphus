@@ -514,10 +514,10 @@ def generate_topic_cards(
             **assess_card_evidence(content, evidence_bundle),
             "exam_domain": str(topic.get("exam_domain") or "knowledge"),
             "rubric": content.get("rubric", []) if card_type == "osce" else [],
-            "evidence_status": "unreviewed",
         }
         result.append(record)
     return result
+
 
 def load_curriculum(path: Path) -> dict[str, Any]:
     data = load_json(path)
