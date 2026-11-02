@@ -210,6 +210,43 @@ investigation, management recommendation, dose, MCQ key or OSCE action is
 clinically correct or current. Cards remain unreviewed drafts until qualified
 specialty faculty verify each claim against current, appropriate evidence.
 
+## Evidence-grounded generation (curation gate)
+
+The first evidence-grounding layer is implemented in `usiphus_evidence.py`.
+It validates a curator-supplied evidence packet and exposes objective-level
+evidence gaps. The packet is deliberately separate from discovery metadata:
+PubMed/Crossref records, abstracts, search links and Anki/exam-prep links are
+discovery candidates, not claim-level evidence.
+
+A packet has two arrays:
+
+- `sources`: `source_id`, canonical HTTPS URL, title, source type, publication
+  date, guideline/version identifier (when applicable), rights/access status,
+  access status and `review_status`.
+- `snippets`: stable `snippet_id`, `source_id`, exact short excerpt or
+  curator-authored faithful evidence note, page/section/paragraph locator, and
+  curator-assigned `matched_objective_ids` (for example `topic-01-LO02`).
+
+Only faculty-reviewed sources with verified rights/access status and snippets
+with source and locator provenance are eligible. The module maps snippets to
+learning objectives and validates card `evidence_claims` against exact snippet,
+source and locator identifiers. Conservative risk flags route dose-like,
+contraindication, emergency-action, threshold and red-flag content for stricter
+review. These flags are routing heuristics, not a complete risk classifier.
+
+This is a **curation and traceability gate**, not an automated article reader,
+systematic review, guideline appraisal or medical fact-checker. It does not
+download protected text, infer guideline currency, assess study quality, or
+prove that a cited snippet entails a generated claim. Human reviewers must
+check context, applicability, jurisdiction, conflicts, publication date and
+whether the evidence supports the exact wording. A metadata-only discovery
+record cannot pass as claim-level evidence.
+
+The current generator does not yet automatically ingest this packet or enforce
+claim-level evidence mapping during every generation run. Until that integration
+and a local model pilot are complete, generated cards remain unreviewed drafts;
+missing sources must be reported as gaps, never silently filled by the model.
+
 ## Curriculum and clinical governance
 
 See `examples/ophthalmology/curriculum.json`. Every topic has a stable ID,
