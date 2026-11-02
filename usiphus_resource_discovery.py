@@ -358,23 +358,32 @@ def discover_curriculum(curriculum: dict[str, Any], *, limit: int = 5,
         all_resources.extend(resources)
         errors.extend({"topic_id": topic.get("id", ""), **x} for x in topic_errors)
         source_counts: dict[str, int] = {}
+        metadata_counts: dict[str, int] = {}
         objective_coverage = set()
+        search_link_count = 0
         for resource in resources:
-            source_counts[resource["source_id"]] = source_counts.get(resource["source_id"], 0) + 1
-            objective_coverage.update(resource.get("matched_objective_ids", []))
+            source_id = resource["source_id"]
+            source_counts[source_id] = source_counts.get(source_id, 0) + 1
+            if resource.get("access_status") == "search_link_only":
+                search_link_count += 1
+            else:
+                metadata_counts[source_id] = metadata_counts.get(source_id, 0) + 1
+                objective_coverage.update(resource.get("matched_objective_ids", []))
         expected = topic.get("source_types_to_discover", [])
-        found_types = set(source_counts)
+        found_types = set(metadata_counts)
         topic_reports.append({
             "topic_id": topic.get("id", ""),
             "topic_name": topic.get("name") or topic.get("topic", ""),
             "domain_id": topic.get("domain_id", ""),
-            "resources_found": len(resources),
-            "source_counts": source_counts,
-            "source_families_with_results": sorted(found_types),
-            "source_families_without_results": sorted(set(expected) - found_types),
+            "resources_found": sum(metadata_counts.values()),
+            "search_links_generated": search_link_count,
+            "source_counts_including_search_links": source_counts,
+            "metadata_result_counts_by_source": metadata_counts,
+            "source_families_with_metadata_results": sorted(found_types),
+            "source_families_without_metadata_results": sorted(set(expected) - found_types),
             "learning_objectives": len(topic.get("learning_objectives", [])),
             "learning_objectives_with_matched_resources": len(objective_coverage),
-            "coverage_status": "resources_found" if resources else "gap",
+            "coverage_status": "resources_found" if metadata_counts else "gap",
         })
     # Global de-duplication while preserving all topic/objective mappings.
     merged: dict[str, dict[str, Any]] = {}
