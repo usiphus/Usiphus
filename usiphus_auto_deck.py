@@ -75,6 +75,10 @@ def generate_topic_cards(topic: dict[str, Any], *, specialty: str, level: str,
     payload = {
         "specialty": specialty, "learner_level": level,
         "topic": topic.get("name") or topic.get("topic"),
+        "topic_id": topic.get("id"),
+        "curriculum_domain": topic.get("domain"),
+        "domain_id": topic.get("domain_id"),
+        "coverage_tags": topic.get("coverage_tags", []),
         "learning_objectives": objectives,
         "exam_emphasis": topic.get("exam_emphasis", []),
         "faculty_supplied_reference_sources": source_refs,
@@ -83,6 +87,8 @@ def generate_topic_cards(topic: dict[str, Any], *, specialty: str, level: str,
     }
     system = (
         "You are an educational drafting assistant for medical faculty. "
+        "Respect the supplied curriculum domain, topic ID, coverage tags and learning objectives. "
+        "Cover the full scope of the named topic rather than drifting into adjacent topics. "
         "Create accurate, appropriately qualified educational drafts, not clinical advice. "
         "Do not invent references, DOI values, guideline dates, statistics, or quotations. "
         "Use only faculty-supplied references; if none are supplied, return references as []. "
@@ -293,7 +299,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--ollama-url", default=os.getenv("OLLAMA_HOST", DEFAULT_OLLAMA_URL),
                    help="Ollama server base URL (default: http://localhost:11434)")
     p.add_argument("--cards-per-topic", type=int, default=6)
-    p.add_argument("--max-ollama-calls", type=int, default=25,
+    p.add_argument("--max-ollama-calls", type=int, default=50,
                    help="Maximum local generation requests (default: 25)")
     p.add_argument("--max-output-tokens", type=int, default=3500,
                    help="Maximum generated tokens per topic request (default: 3500)")
