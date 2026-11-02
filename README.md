@@ -7,6 +7,28 @@ Usiphus helps structure medical teaching material and provides explicit workflow
 > Automated checks assess structure, metadata, workflow state, and selected consistency/privacy properties. They do not establish clinical truth, current guideline recommendations, educational effectiveness, learner competence, anonymization, or legal compliance. Clinical material requires qualified human review.
 
 
+## Optional local Streamlit learning workspace
+
+An optional learner-facing interface is available in `usiphus_streamlit_app.py`.
+It adds local Ollama case generation, formative reasoning feedback, a SQLite
+case archive, editable flashcard drafting and Anki TSV export without changing
+the established CLI engine contracts.
+
+Install and run:
+
+```bash
+python -m pip install -r requirements-ui.txt
+ollama pull llama3.2
+ollama serve
+streamlit run usiphus_streamlit_app.py
+```
+
+See [the local workspace guide](docs/LOCAL_STREAMLIT_WORKSPACE.md) for setup,
+configuration and limitations. The UI is optional and single-user/local-first;
+the CLI engines remain authoritative for curriculum, evidence, assessment and
+governed release workflows. Generated clinical material requires qualified
+faculty review and must not contain patient-identifiable data.
+
 ## Comprehensive ophthalmology curriculum
 
 The automated deck example now maps 16 curriculum domains and 52 specialty
