@@ -42,7 +42,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
                 model="test-model", ollama_url="http://localhost:11434",
                 count=1, max_output_tokens=1024)
         self.assertEqual(cards[0]["card_id"], "OLLAMA-CATARACT-001")
-        self.assertEqual(cards[0]["evidence_status"], "unreviewed")
+        self.assertEqual(cards[0]["evidence_status"], "unverified_no_source_excerpt")
 
     def test_cli_exposes_timeout_override_resume_and_card_count_override(self):
         args = generator.parse_args([
@@ -177,8 +177,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         self.assertTrue(all(topic["coverage_tags"] for topic in topics))
 
     def test_generation_payload_includes_curriculum_domain_and_coverage(self):
-        response = {"message": {"content": json.dumps({"cards": [
-            {"prompt": "Name a cause of retinal detachment?", "answer": "A retinal break."}
+        response = {"message": {"content": json.dumps({"cards": [            {"prompt": "Name a cause of retinal detachment?", "answer": "A retinal break."}
         ]})}}
         class FakeResponse:
             def __enter__(self): return self
@@ -358,7 +357,6 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
             with self.assertRaisesRegex(RuntimeError, "not installed"):
                 generator.check_ollama_model("http://localhost:11434", "llama3.1:8b", 10)
-
     def test_blueprint_distributes_slots_across_weighted_objectives(self):
         topic = {
             "id": "glaucoma",
