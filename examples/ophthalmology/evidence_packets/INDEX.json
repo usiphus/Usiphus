@@ -11,14 +11,6 @@
   ],
   "discovery_plan_packets": [
     {
-      "topic_id": "foundations-01",
-      "topic_name": "Ocular anatomy, embryology and histology",
-      "domain_id": "foundations",
-      "path": "examples/ophthalmology/evidence_packets/foundations-01.json",
-      "status": "discovery_plan_only_pending_source_selection",
-      "objective_query_count": 3
-    },
-    {
       "topic_id": "foundations-02",
       "topic_name": "Ocular physiology and visual neuroscience",
       "domain_id": "foundations",
@@ -79,14 +71,6 @@
       "topic_name": "Corneal disease, ectasia and dystrophies",
       "domain_id": "ocular-surface-cornea",
       "path": "examples/ophthalmology/evidence_packets/ocular-surface-cornea-03.json",
-      "status": "discovery_plan_only_pending_source_selection",
-      "objective_query_count": 3
-    },
-    {
-      "topic_id": "ocular-surface-cornea-04",
-      "topic_name": "Infectious and inflammatory corneal disease",
-      "domain_id": "ocular-surface-cornea",
-      "path": "examples/ophthalmology/evidence_packets/ocular-surface-cornea-04.json",
       "status": "discovery_plan_only_pending_source_selection",
       "objective_query_count": 3
     },
@@ -179,14 +163,6 @@
       "objective_query_count": 3
     },
     {
-      "topic_id": "vitreoretinal-02",
-      "topic_name": "Retinal detachment and vitreoretinal emergencies",
-      "domain_id": "vitreoretinal",
-      "path": "examples/ophthalmology/evidence_packets/vitreoretinal-02.json",
-      "status": "discovery_plan_only_pending_source_selection",
-      "objective_query_count": 3
-    },
-    {
       "topic_id": "vitreoretinal-03",
       "topic_name": "Medical and surgical vitreoretinal management",
       "domain_id": "vitreoretinal",
@@ -223,14 +199,6 @@
       "topic_name": "Pediatric eye assessment and visual development",
       "domain_id": "pediatric",
       "path": "examples/ophthalmology/evidence_packets/pediatric-01.json",
-      "status": "discovery_plan_only_pending_source_selection",
-      "objective_query_count": 3
-    },
-    {
-      "topic_id": "pediatric-02",
-      "topic_name": "Amblyopia, strabismus and binocular vision",
-      "domain_id": "pediatric",
-      "path": "examples/ophthalmology/evidence_packets/pediatric-02.json",
       "status": "discovery_plan_only_pending_source_selection",
       "objective_query_count": 3
     },
@@ -315,14 +283,6 @@
       "objective_query_count": 3
     },
     {
-      "topic_id": "infection-02",
-      "topic_name": "Intraocular infection and endophthalmitis",
-      "domain_id": "infection",
-      "path": "examples/ophthalmology/evidence_packets/infection-02.json",
-      "status": "discovery_plan_only_pending_source_selection",
-      "objective_query_count": 3
-    },
-    {
       "topic_id": "infection-03",
       "topic_name": "Systemic infection, immunosuppression and the eye",
       "domain_id": "infection",
@@ -390,5 +350,44 @@
   "total_topic_packets": 52,
   "clinical_accuracy_verified": false,
   "faculty_review_required": true,
-  "notice": "Inventory includes five candidate-source packets and 47 discovery-only worklists. No packet is currently approved or generator-eligible."
+  "notice": "Inventory includes ten candidate-source packets and forty-two discovery-only worklists. Candidate sources are not faculty-approved, rights-cleared, or generator-eligible; no topic is currently approved for evidence-grounded generation.",
+  "newly_selected_candidate_source_packets": [
+    {
+      "topic_id": "foundations-01",
+      "topic_name": "Ocular anatomy, embryology and histology",
+      "path": "examples/ophthalmology/evidence_packets/foundations-01.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "ocular-surface-cornea-04",
+      "topic_name": "Infectious and inflammatory corneal disease",
+      "path": "examples/ophthalmology/evidence_packets/ocular-surface-cornea-04.json",
+      "candidate_source_count": 1,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "vitreoretinal-02",
+      "topic_name": "Retinal detachment and vitreoretinal emergencies",
+      "path": "examples/ophthalmology/evidence_packets/vitreoretinal-02.json",
+      "candidate_source_count": 1,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "pediatric-02",
+      "topic_name": "Amblyopia, strabismus and binocular vision",
+      "path": "examples/ophthalmology/evidence_packets/pediatric-02.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "infection-02",
+      "topic_name": "Intraocular infection and endophthalmitis",
+      "path": "examples/ophthalmology/evidence_packets/infection-02.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    }
+  ],
+  "candidate_source_packet_count": 10,
+  "discovery_plan_packet_count": 42
 }
