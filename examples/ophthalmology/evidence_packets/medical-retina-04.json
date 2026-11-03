@@ -5,11 +5,38 @@
   "topic_id": "medical-retina-04",
   "topic_name": "Inherited, inflammatory and toxic retinal disease",
   "domain_id": "medical-retina",
-  "packet_status": "discovery_plan_only_pending_source_selection",
+  "packet_status": "candidate_sources_pending_faculty_review",
   "clinical_accuracy_verified": false,
   "faculty_review_required": true,
-  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
-  "sources": [],
+  "notice": "Candidate bibliographic leads only. Full-text appraisal, source currency/supersession, lawful access, article-specific reuse rights, exact section/page locators, objective mapping and qualified faculty review remain pending. Snippets are intentionally empty; generator evidence preflight must continue to fail.",
+  "sources": [
+    {
+      "source_id": "aao-inherited-retinal-degeneration-guidelines-2022",
+      "canonical_url": "https://www.aao.org/education/clinical-statement/guidelines-on-clinical-assessment-of-patients-with",
+      "title": "Guidelines on Clinical Assessment of Patients with Inherited Retinal Degenerations",
+      "source_type": "professional_society_clinical_guideline",
+      "published_on": "2022",
+      "guideline_version": "AAO clinical statement, 2022",
+      "licence_or_reuse_status": "rights_unknown; verify current statement status and reuse terms",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "American Academy of Ophthalmology",
+      "currency_note": "Useful for phenotype assessment, imaging, electrophysiology and genetic testing; check for a newer revision and gene-therapy eligibility changes."
+    },
+    {
+      "source_id": "aao-hydroxychloroquine-retinopathy-recommendations-2026",
+      "canonical_url": "https://www.aao.org/education/clinical-statement/revised-recommendations-on-screening-chloroquine-h",
+      "title": "Recommendations on Screening for Hydroxychloroquine Retinopathy - 2026",
+      "source_type": "professional_society_clinical_recommendation",
+      "published_on": "2025-11",
+      "guideline_version": "AAO Board of Trustees revision approved October 2025; published/revised November 2025 as 2026 recommendations",
+      "licence_or_reuse_status": "rights_unknown; verify AAO statement reuse terms",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "American Academy of Ophthalmology",
+      "currency_note": "Current candidate for HCQ toxicity screening; covers hydroxychloroquine primarily, with limited additional evidence for chloroquine."
+    }
+  ],
   "snippets": [],
   "discovery_queries": [
     {
@@ -55,5 +82,6 @@
     "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
     "Map each snippet to the exact objective ID above.",
     "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
-  ]
+  ],
+  "curation_notice": "Candidate bibliography only; no source has been faculty-reviewed or approved for clinical claim grounding. Do not infer rights clearance from a public link or metadata record."
 }
