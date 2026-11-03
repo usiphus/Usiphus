@@ -5,11 +5,38 @@
   "topic_id": "uveitis-01",
   "topic_name": "Anatomical and clinical uveitis",
   "domain_id": "uveitis",
-  "packet_status": "discovery_plan_only_pending_source_selection",
+  "packet_status": "candidate_sources_pending_faculty_review",
   "clinical_accuracy_verified": false,
   "faculty_review_required": true,
-  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
-  "sources": [],
+  "notice": "Candidate bibliographic leads only. Full-text appraisal, source currency/supersession, lawful access, article-specific reuse rights, exact section/page locators, objective mapping and qualified faculty review remain pending. Snippets are intentionally empty; generator evidence preflight must continue to fail.",
+  "sources": [
+    {
+      "source_id": "jama-uveitis-adults-review-2025",
+      "canonical_url": "https://pubmed.ncbi.nlm.nih.gov/40434762/",
+      "title": "Uveitis in Adults: A Review",
+      "source_type": "peer_reviewed_clinical_review",
+      "published_on": "2025-08-05",
+      "guideline_version": "JAMA 2025;334(5):419-434; DOI 10.1001/jama.2025.4358",
+      "licence_or_reuse_status": "rights_unknown; PubMed metadata/link only; verify lawful full-text access and article-specific reuse terms",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "JAMA",
+      "currency_note": "Recent broad adult uveitis review; check full text and applicability to pediatric disease, infectious uveitis and local referral pathways."
+    },
+    {
+      "source_id": "sun-uveitis-nomenclature-2005",
+      "canonical_url": "https://pmc.ncbi.nlm.nih.gov/articles/8935739/",
+      "title": "Standardization of Uveitis Nomenclature for Reporting Clinical Data: Results of the First International Workshop",
+      "source_type": "international_consensus_classification",
+      "published_on": "2005-09",
+      "guideline_version": "SUN Working Group consensus; Am J Ophthalmol. 2005;140(3):509-516",
+      "licence_or_reuse_status": "rights_unknown; PMC full text availability does not itself establish reuse permission",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "American Journal of Ophthalmology / SUN Working Group",
+      "currency_note": "Foundational nomenclature and grading framework; not a current diagnostic or treatment guideline."
+    }
+  ],
   "snippets": [],
   "discovery_queries": [
     {
@@ -55,5 +82,6 @@
     "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
     "Map each snippet to the exact objective ID above.",
     "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
-  ]
+  ],
+  "curation_notice": "Candidate bibliography only; no source has been faculty-reviewed or approved for clinical claim grounding. Do not infer rights clearance from open access or a public download link."
 }
