@@ -21,20 +21,7 @@
       "review_status": "candidate_unreviewed",
       "access_status": "full_text_review_required",
       "publisher": "American Academy of Ophthalmology",
-      "currency_note": "Directly relevant to acute PVD, retinal breaks, examination and follow-up; U.S.-focused guideline and not a general retinal-detachment surgery manual."
-    },
-    {
-      "source_id": "aao-retinal-detachment-related-ppp-index",
-      "canonical_url": "https://www.aao.org/education/guidelines-browse?filter=Preferred+Practice+Patterns&sub=AllPreferredPracticePatterns",
-      "title": "AAO Preferred Practice Pattern collection: Retina/Vitreous guidance",
-      "source_type": "professional_guideline_collection",
-      "published_on": "accessed_2026-11-04",
-      "guideline_version": "AAO Retina/Vitreous PPP collection; identify the currently applicable retinal-detachment/surgery guideline during full-text review",
-      "licence_or_reuse_status": "rights_unknown; verify individual guideline and reuse terms",
-      "review_status": "candidate_unreviewed",
-      "access_status": "full_text_review_required",
-      "publisher": "American Academy of Ophthalmology",
-      "currency_note": "Discovery locator only; collection page is not itself a disease-specific evidence source. Select exact current guideline before any clinical use."
+      "currency_note": "Directly relevant to acute PVD, retinal breaks, examination and follow-up; U.S.-focused guideline and not a general retinal-detachment surgery manual. Locate and appraise a separate current retinal-detachment surgery guideline for broader operative objectives."
     }
   ],
   "snippets": [],
