@@ -84,13 +84,20 @@ Record:
 
 ## Current status
 
-The repository now contains the evidence packet validator, objective-specific
-scholarly discovery, a loader for per-topic JSON packets, and generator preflight
-before Ollama inference or checkpoint reuse. Five example ophthalmology packets
-are bundled as candidate-source/review prompts only. They are deliberately not
-eligible evidence: full-text review, rights/access verification, source-currentness
-checks and faculty approval have not been completed. The live pilot has **not**
-been run: it requires a local Ollama instance, pinned model, eligible curated
-evidence packets and a faculty-approved gold set. Do not report feasibility or
-clinical-quality success until the above measurements have actually been
-collected.
+The repository contains the evidence packet validator, objective-specific
+scholarly discovery, per-topic packet loading and generator preflight before
+Ollama inference or checkpoint reuse. The example ophthalmology evidence
+library now maps all 52 curriculum topics:
+
+- Five candidate-source packets have bibliographic candidates and review
+  prompts, but remain unreviewed and ineligible.
+- Forty-seven additional topic files are discovery-only worklists with
+  objective-specific PubMed, Europe PMC and Google Scholar links. They contain
+  no sources or snippets and are not claim-level evidence.
+
+No packet is faculty-approved, rights-cleared or clinically validated. The
+complete library therefore intentionally fails closed before inference. The
+live pilot has **not** been run: it still requires eligible curated evidence,
+a local Ollama instance, a pinned model and a faculty-approved gold set. Do not
+report feasibility or clinical-quality success until the required measurements
+have actually been collected.
