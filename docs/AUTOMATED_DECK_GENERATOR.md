@@ -257,12 +257,12 @@ The example ophthalmology curriculum has a per-topic packet/worklist for all
 52 topics under `examples/ophthalmology/evidence_packets/`. See
 `INDEX.json` and `README.md` for the inventory and curation workflow.
 
-- Five files are **candidate-source packets**: two glaucoma topics, diabetic
-  retinopathy, cataract surgery/perioperative care, and open-globe injury.
-  They contain candidate bibliographic sources and curator-authored review
-  prompts; source currency, full-text review, rights and faculty validation
-  remain pending.
-- The other 47 files are **discovery plans only**. Each contains three
+- Seventeen files are **candidate-source packets**: five original candidate
+  packets plus twelve topics advanced from discovery-only worklists after
+  topic-matched bibliographic leads were identified. They contain candidate
+  bibliographic metadata and curator review prompts; full-text review, rights,
+  currency and faculty validation remain pending.
+- The other 35 files are **discovery plans only**. Each contains three
   objective-specific PubMed, Europe PMC and Google Scholar query links,
   preferred source families and a curator checklist. They contain no sources
   or snippets and are not evidence packets eligible for generation.
