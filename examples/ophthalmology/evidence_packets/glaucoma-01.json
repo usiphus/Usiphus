@@ -5,11 +5,38 @@
   "topic_id": "glaucoma-01",
   "topic_name": "Glaucoma mechanisms and classification",
   "domain_id": "glaucoma",
-  "packet_status": "discovery_plan_only_pending_source_selection",
+  "packet_status": "candidate_sources_pending_faculty_review",
   "clinical_accuracy_verified": false,
   "faculty_review_required": true,
-  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
-  "sources": [],
+  "notice": "Candidate bibliographic leads only. Full-text appraisal, source currency, lawful access, article-specific reuse rights, exact section/page locators, objective mapping and qualified faculty review remain pending. No clinical evidence snippets are approved; generator evidence preflight must continue to fail.",
+  "sources": [
+    {
+      "source_id": "aao-poag-ppp-2025",
+      "canonical_url": "https://www.aao.org/education/preferred-practice-pattern/primary-open-angle-glaucoma-ppp",
+      "title": "Primary Open-Angle Glaucoma Preferred Practice Pattern",
+      "source_type": "professional_guideline",
+      "published_on": "2026-02-09",
+      "guideline_version": "AAO PPP 2025; published online Feb 9 2026",
+      "licence_or_reuse_status": "rights_unknown; personal-use download is permitted but reproduction requires written permission",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "American Academy of Ophthalmology",
+      "currency_note": "Covers POAG; pair with the 2025 Primary Angle-Closure Disease PPP. Secondary and congenital glaucoma still need dedicated sources."
+    },
+    {
+      "source_id": "aao-primary-angle-closure-ppp-2025",
+      "canonical_url": "https://www.aao.org/education/preferred-practice-pattern/primary-angle-closure-disease-ppp",
+      "title": "Primary Angle-Closure Disease Preferred Practice Pattern",
+      "source_type": "professional_guideline",
+      "published_on": "2026-02-09",
+      "guideline_version": "AAO PPP 2025; published online Feb 9 2026",
+      "licence_or_reuse_status": "rights_unknown; personal-use download is permitted but reproduction requires written permission",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "American Academy of Ophthalmology",
+      "currency_note": "Covers primary angle-closure disease; secondary and congenital glaucoma remain evidence gaps."
+    }
+  ],
   "snippets": [],
   "discovery_queries": [
     {
@@ -55,5 +82,6 @@
     "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
     "Map each snippet to the exact objective ID above.",
     "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
-  ]
+  ],
+  "curation_notice": "Sources are discovery candidates, not approved evidence. Rights and full-text access are unverified; snippets remain empty pending full-text review and objective-level curation."
 }
