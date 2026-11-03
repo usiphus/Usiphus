@@ -5,11 +5,51 @@
   "topic_id": "medical-retina-03",
   "topic_name": "Retinal vascular and hypertensive disorders",
   "domain_id": "medical-retina",
-  "packet_status": "discovery_plan_only_pending_source_selection",
+  "packet_status": "candidate_sources_pending_faculty_review",
   "clinical_accuracy_verified": false,
   "faculty_review_required": true,
-  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
-  "sources": [],
+  "notice": "Candidate bibliographic leads only. Full-text appraisal, source currency/supersession, lawful access, article-specific reuse rights, exact section/page locators, objective mapping and qualified faculty review remain pending. Snippets are intentionally empty; generator evidence preflight must continue to fail.",
+  "sources": [
+    {
+      "source_id": "aao-retinal-vein-occlusions-ppp-2024-updated-2026",
+      "canonical_url": "https://www.aao.org/education/preferred-practice-pattern/retinal-vein-occlusions-ppp",
+      "title": "Retinal Vein Occlusions Preferred Practice Pattern",
+      "source_type": "professional_guideline",
+      "published_on": "2025-02-07",
+      "guideline_version": "AAO Retina/Vitreous PPP 2024; updated June 2026; DOI 10.1016/j.ophtha.2024.12.025",
+      "licence_or_reuse_status": "rights_unknown; AAO permits personal download but reproduction/transmission requires written permission",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "American Academy of Ophthalmology",
+      "currency_note": "Updated June 2026 for aflibercept 8 mg; U.S.-focused guidance and not a substitute for systemic vascular risk assessment."
+    },
+    {
+      "source_id": "aao-retinal-artery-occlusions-ppp-2024",
+      "canonical_url": "https://www.aaojournal.org/article/S0161-6420%2824%2900788-7/fulltext",
+      "title": "Retinal and Ophthalmic Artery Occlusions Preferred Practice Pattern",
+      "source_type": "professional_guideline",
+      "published_on": "2025-02-07",
+      "guideline_version": "AAO Retina/Vitreous PPP 2024; Ophthalmology. 2025;132(4):P270-P302; DOI 10.1016/j.ophtha.2024.12.024",
+      "licence_or_reuse_status": "rights_unknown; AAO permits personal download but reproduction/transmission requires written permission",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "American Academy of Ophthalmology",
+      "currency_note": "Covers retinal/ophthalmic arterial occlusion and urgent stroke referral; does not cover the full hypertensive-retinopathy differential."
+    },
+    {
+      "source_id": "statpearls-hypertensive-retinopathy-2025",
+      "canonical_url": "https://www.ncbi.nlm.nih.gov/books/NBK525980/",
+      "title": "Hypertensive Retinopathy",
+      "source_type": "clinical_reference_chapter",
+      "published_on": "2025-07-06",
+      "guideline_version": "StatPearls [Internet]; last update July 6, 2025",
+      "licence_or_reuse_status": "rights_unknown; check chapter-specific reuse and attribution terms",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "NCBI Bookshelf / StatPearls Publishing",
+      "currency_note": "Clinical reference chapter for hypertensive retinal findings; confirm emergency thresholds and management against current hypertension guidance."
+    }
+  ],
   "snippets": [],
   "discovery_queries": [
     {
@@ -55,5 +95,6 @@
     "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
     "Map each snippet to the exact objective ID above.",
     "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
-  ]
+  ],
+  "curation_notice": "Candidate bibliography only; no source has been faculty-reviewed or approved for clinical claim grounding. Do not infer rights clearance from a public link or metadata record."
 }
