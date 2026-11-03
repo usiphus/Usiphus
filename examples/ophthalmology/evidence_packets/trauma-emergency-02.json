@@ -5,11 +5,38 @@
   "topic_id": "trauma-emergency-02",
   "topic_name": "Acute red eye, sudden visual loss and painful eye",
   "domain_id": "trauma-emergency",
-  "packet_status": "discovery_plan_only_pending_source_selection",
+  "packet_status": "candidate_sources_pending_faculty_review",
   "clinical_accuracy_verified": false,
   "faculty_review_required": true,
-  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
-  "sources": [],
+  "notice": "Candidate bibliographic leads only. Full-text appraisal, source currency/supersession, lawful access, article-specific reuse rights, exact section/page locators, objective mapping and qualified faculty review remain pending. Snippets are intentionally empty; generator evidence preflight must continue to fail.",
+  "sources": [
+    {
+      "source_id": "nsw-eye-emergency-manual-2023",
+      "canonical_url": "https://aci.health.nsw.gov.au/__data/assets/pdf_file/0013/155011/ACI-Eye-Emergency-Manual.pdf",
+      "title": "Eye Emergency Manual: An illustrated guide, Third edition",
+      "source_type": "government_clinical_manual",
+      "published_on": "2023-12",
+      "guideline_version": "NSW Agency for Clinical Innovation, Third edition",
+      "licence_or_reuse_status": "rights_unknown; verify NSW Health publication reuse terms before reproducing any material",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "NSW Agency for Clinical Innovation, NSW Health",
+      "currency_note": "Broad ED assessment and red-eye differential resource; Australian jurisdiction and local referral pathways require adaptation and faculty review."
+    },
+    {
+      "source_id": "rch-acute-red-eye-guideline",
+      "canonical_url": "https://www.rch.org.au/clinicalguide/guideline_index/acute_red_eye/",
+      "title": "Clinical Practice Guideline: Acute red eye",
+      "source_type": "institutional_clinical_guideline",
+      "published_on": "date_not_confirmed",
+      "guideline_version": "Royal Children's Hospital Melbourne clinical guideline; current page version to verify",
+      "licence_or_reuse_status": "rights_unknown; verify website content reuse terms",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "The Royal Children's Hospital Melbourne",
+      "currency_note": "Pediatric-only guidance; useful as a pediatric supplement, not a stand-alone adult acute-red-eye pathway."
+    }
+  ],
   "snippets": [],
   "discovery_queries": [
     {
@@ -55,5 +82,6 @@
     "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
     "Map each snippet to the exact objective ID above.",
     "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
-  ]
+  ],
+  "curation_notice": "Candidate bibliography only; no source has been faculty-reviewed or approved for clinical claim grounding. Do not infer rights clearance from open access or a public download link."
 }
