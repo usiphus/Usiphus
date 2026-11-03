@@ -99,14 +99,6 @@
       "objective_query_count": 3
     },
     {
-      "topic_id": "uveitis-01",
-      "topic_name": "Anatomical and clinical uveitis",
-      "domain_id": "uveitis",
-      "path": "examples/ophthalmology/evidence_packets/uveitis-01.json",
-      "status": "discovery_plan_only_pending_source_selection",
-      "objective_query_count": 3
-    },
-    {
       "topic_id": "uveitis-02",
       "topic_name": "Systemic inflammatory and masquerade syndromes",
       "domain_id": "uveitis",
@@ -143,14 +135,6 @@
       "topic_name": "Vitreous, posterior vitreous detachment and retinal breaks",
       "domain_id": "vitreoretinal",
       "path": "examples/ophthalmology/evidence_packets/vitreoretinal-01.json",
-      "status": "discovery_plan_only_pending_source_selection",
-      "objective_query_count": 3
-    },
-    {
-      "topic_id": "vitreoretinal-03",
-      "topic_name": "Medical and surgical vitreoretinal management",
-      "domain_id": "vitreoretinal",
-      "path": "examples/ophthalmology/evidence_packets/vitreoretinal-03.json",
       "status": "discovery_plan_only_pending_source_selection",
       "objective_query_count": 3
     },
@@ -243,14 +227,6 @@
       "objective_query_count": 3
     },
     {
-      "topic_id": "trauma-emergency-02",
-      "topic_name": "Acute red eye, sudden visual loss and painful eye",
-      "domain_id": "trauma-emergency",
-      "path": "examples/ophthalmology/evidence_packets/trauma-emergency-02.json",
-      "status": "discovery_plan_only_pending_source_selection",
-      "objective_query_count": 3
-    },
-    {
       "topic_id": "trauma-emergency-03",
       "topic_name": "Ophthalmic emergency pathways and postoperative complications",
       "domain_id": "trauma-emergency",
@@ -275,14 +251,6 @@
       "objective_query_count": 3
     },
     {
-      "topic_id": "systemic-pharmacology-01",
-      "topic_name": "Systemic disease and ocular manifestations",
-      "domain_id": "systemic-pharmacology",
-      "path": "examples/ophthalmology/evidence_packets/systemic-pharmacology-01.json",
-      "status": "discovery_plan_only_pending_source_selection",
-      "objective_query_count": 3
-    },
-    {
       "topic_id": "systemic-pharmacology-02",
       "topic_name": "Ophthalmic pharmacology and therapeutics",
       "domain_id": "systemic-pharmacology",
@@ -295,14 +263,6 @@
       "topic_name": "Ocular anaesthesia, perioperative medicine and patient safety",
       "domain_id": "systemic-pharmacology",
       "path": "examples/ophthalmology/evidence_packets/systemic-pharmacology-03.json",
-      "status": "discovery_plan_only_pending_source_selection",
-      "objective_query_count": 3
-    },
-    {
-      "topic_id": "surgery-rehabilitation-01",
-      "topic_name": "Ophthalmic lasers, injections and office procedures",
-      "domain_id": "surgery-rehabilitation",
-      "path": "examples/ophthalmology/evidence_packets/surgery-rehabilitation-01.json",
       "status": "discovery_plan_only_pending_source_selection",
       "objective_query_count": 3
     },
@@ -334,7 +294,7 @@
   "total_topic_packets": 52,
   "clinical_accuracy_verified": false,
   "faculty_review_required": true,
-  "notice": "Inventory includes twelve candidate-source packets and forty discovery-only worklists. Candidate sources are not faculty-approved, rights-cleared, or generator-eligible; no topic is currently approved for evidence-grounded generation.",
+  "notice": "Inventory includes seventeen candidate-source packets and thirty-five discovery-only worklists. Candidate sources are not faculty-approved, rights-cleared, or generator-eligible; no topic is currently approved for evidence-grounded generation.",
   "newly_selected_candidate_source_packets": [
     {
       "topic_id": "foundations-01",
@@ -384,8 +344,43 @@
       "path": "examples/ophthalmology/evidence_packets/medical-retina-01.json",
       "candidate_source_count": 1,
       "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "uveitis-01",
+      "topic_name": "Anatomical and clinical uveitis",
+      "path": "examples/ophthalmology/evidence_packets/uveitis-01.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "trauma-emergency-02",
+      "topic_name": "Acute red eye, sudden visual loss and painful eye",
+      "path": "examples/ophthalmology/evidence_packets/trauma-emergency-02.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "systemic-pharmacology-01",
+      "topic_name": "Systemic disease and ocular manifestations",
+      "path": "examples/ophthalmology/evidence_packets/systemic-pharmacology-01.json",
+      "candidate_source_count": 1,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "surgery-rehabilitation-01",
+      "topic_name": "Ophthalmic lasers, injections and office procedures",
+      "path": "examples/ophthalmology/evidence_packets/surgery-rehabilitation-01.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "vitreoretinal-03",
+      "topic_name": "Medical and surgical vitreoretinal management",
+      "path": "examples/ophthalmology/evidence_packets/vitreoretinal-03.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
     }
   ],
-  "candidate_source_packet_count": 12,
-  "discovery_plan_packet_count": 40
+  "candidate_source_packet_count": 17,
+  "discovery_plan_packet_count": 35
 }
