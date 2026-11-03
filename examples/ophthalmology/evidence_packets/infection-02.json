@@ -5,11 +5,38 @@
   "topic_id": "infection-02",
   "topic_name": "Intraocular infection and endophthalmitis",
   "domain_id": "infection",
-  "packet_status": "discovery_plan_only_pending_source_selection",
+  "packet_status": "candidate_sources_pending_faculty_review",
   "clinical_accuracy_verified": false,
   "faculty_review_required": true,
-  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
-  "sources": [],
+  "notice": "Candidate bibliographic leads only. Full-text appraisal, source currency, lawful access, article-specific reuse rights, exact section/page locators, objective mapping and qualified faculty review remain pending. No clinical evidence snippets are approved; generator evidence preflight must continue to fail.",
+  "sources": [
+    {
+      "source_id": "infectious-endophthalmitis-review-2025",
+      "canonical_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11794455/",
+      "title": "The diagnosis and treatment progress of infectious endophthalmitis",
+      "source_type": "peer_reviewed_review",
+      "published_on": "2025-02",
+      "guideline_version": "Eye (Lond). 2025;39(3):492-504; doi:10.1038/s41433-024-03474-7",
+      "licence_or_reuse_status": "rights_unknown; PMC record notes exclusive licence; verify permitted reuse",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "Nature / Eye",
+      "currency_note": "Recent review suitable as a synthesis lead, not a substitute for local emergency protocols or primary evidence."
+    },
+    {
+      "source_id": "nhs-highland-endophthalmitis-guideline-2026",
+      "canonical_url": "https://www.rightdecisions.scot.nhs.uk/tam-treatments-and-medicines-nhs-highland/adult-therapeutic-guidelines/eyes/ophthalmology-emergencies-guidelines/endophthalmitis-guidelines/",
+      "title": "Endophthalmitis (Guidelines)",
+      "source_type": "institutional_clinical_guideline",
+      "published_on": "2026-02-16",
+      "guideline_version": "NHS Highland TAM549 v1.2; reviewed 2026-02-16",
+      "licence_or_reuse_status": "rights_unknown; check NHS Scotland reuse terms",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "NHS Highland",
+      "currency_note": "Local UK protocol; use for pathway comparison only and do not transfer its drug regimen to other jurisdictions without faculty review."
+    }
+  ],
   "snippets": [],
   "discovery_queries": [
     {
@@ -55,5 +82,6 @@
     "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
     "Map each snippet to the exact objective ID above.",
     "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
-  ]
+  ],
+  "curation_notice": "Sources are discovery candidates, not approved evidence. Rights and full-text access are unverified; snippets remain empty pending full-text review and objective-level curation."
 }
