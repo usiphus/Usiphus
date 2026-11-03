@@ -99,46 +99,6 @@
       "objective_query_count": 3
     },
     {
-      "topic_id": "uveitis-02",
-      "topic_name": "Systemic inflammatory and masquerade syndromes",
-      "domain_id": "uveitis",
-      "path": "examples/ophthalmology/evidence_packets/uveitis-02.json",
-      "status": "discovery_plan_only_pending_source_selection",
-      "objective_query_count": 3
-    },
-    {
-      "topic_id": "uveitis-03",
-      "topic_name": "Uveitis treatment and complications",
-      "domain_id": "uveitis",
-      "path": "examples/ophthalmology/evidence_packets/uveitis-03.json",
-      "status": "discovery_plan_only_pending_source_selection",
-      "objective_query_count": 3
-    },
-    {
-      "topic_id": "medical-retina-03",
-      "topic_name": "Retinal vascular and hypertensive disorders",
-      "domain_id": "medical-retina",
-      "path": "examples/ophthalmology/evidence_packets/medical-retina-03.json",
-      "status": "discovery_plan_only_pending_source_selection",
-      "objective_query_count": 3
-    },
-    {
-      "topic_id": "medical-retina-04",
-      "topic_name": "Inherited, inflammatory and toxic retinal disease",
-      "domain_id": "medical-retina",
-      "path": "examples/ophthalmology/evidence_packets/medical-retina-04.json",
-      "status": "discovery_plan_only_pending_source_selection",
-      "objective_query_count": 3
-    },
-    {
-      "topic_id": "vitreoretinal-01",
-      "topic_name": "Vitreous, posterior vitreous detachment and retinal breaks",
-      "domain_id": "vitreoretinal",
-      "path": "examples/ophthalmology/evidence_packets/vitreoretinal-01.json",
-      "status": "discovery_plan_only_pending_source_selection",
-      "objective_query_count": 3
-    },
-    {
       "topic_id": "neuro-ophthalmology-01",
       "topic_name": "Optic nerve and afferent visual pathway",
       "domain_id": "neuro-ophthalmology",
@@ -294,7 +254,7 @@
   "total_topic_packets": 52,
   "clinical_accuracy_verified": false,
   "faculty_review_required": true,
-  "notice": "Inventory includes seventeen candidate-source packets and thirty-five discovery-only worklists. Candidate sources are not faculty-approved, rights-cleared, or generator-eligible; no topic is currently approved for evidence-grounded generation.",
+  "notice": "Inventory includes twenty-two candidate-source packets and thirty discovery-only worklists. Candidate sources are not faculty-approved, rights-cleared, or generator-eligible; no topic is currently approved for evidence-grounded generation.",
   "newly_selected_candidate_source_packets": [
     {
       "topic_id": "foundations-01",
@@ -379,8 +339,43 @@
       "path": "examples/ophthalmology/evidence_packets/vitreoretinal-03.json",
       "candidate_source_count": 2,
       "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "uveitis-02",
+      "topic_name": "Systemic inflammatory and masquerade syndromes",
+      "path": "examples/ophthalmology/evidence_packets/uveitis-02.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "uveitis-03",
+      "topic_name": "Uveitis treatment and complications",
+      "path": "examples/ophthalmology/evidence_packets/uveitis-03.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "medical-retina-03",
+      "topic_name": "Retinal vascular and hypertensive disorders",
+      "path": "examples/ophthalmology/evidence_packets/medical-retina-03.json",
+      "candidate_source_count": 3,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "medical-retina-04",
+      "topic_name": "Inherited, inflammatory and toxic retinal disease",
+      "path": "examples/ophthalmology/evidence_packets/medical-retina-04.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "vitreoretinal-01",
+      "topic_name": "Vitreous, posterior vitreous detachment and retinal breaks",
+      "path": "examples/ophthalmology/evidence_packets/vitreoretinal-01.json",
+      "candidate_source_count": 1,
+      "status": "candidate_sources_pending_faculty_review"
     }
   ],
-  "candidate_source_packet_count": 17,
-  "discovery_plan_packet_count": 35
+  "candidate_source_packet_count": 22,
+  "discovery_plan_packet_count": 30
 }
