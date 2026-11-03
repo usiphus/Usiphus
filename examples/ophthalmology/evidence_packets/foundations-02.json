@@ -1,0 +1,59 @@
+{
+  "packet_schema_version": "1.0",
+  "packet_id": "ophthalmology-foundations-02-discovery-plan-v1",
+  "specialty": "ophthalmology",
+  "topic_id": "foundations-02",
+  "topic_name": "Ocular physiology and visual neuroscience",
+  "domain_id": "foundations",
+  "packet_status": "discovery_plan_only_pending_source_selection",
+  "clinical_accuracy_verified": false,
+  "faculty_review_required": true,
+  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
+  "sources": [],
+  "snippets": [],
+  "discovery_queries": [
+    {
+      "query_id": "foundations-02-LO01",
+      "objective_id": "foundations-02-LO01",
+      "objective": "Explain tear film, corneal function, aqueous dynamics and lens physiology",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Explain+tear+film%2C+corneal+function%2C+aqueous+dynamics+and+lens+physiology)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Explain+tear+film%2C+corneal+function%2C+aqueous+dynamics+and+lens+physiology)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Explain+tear+film%2C+corneal+function%2C+aqueous+dynamics+and+lens+physiology)"
+      }
+    },
+    {
+      "query_id": "foundations-02-LO02",
+      "objective_id": "foundations-02-LO02",
+      "objective": "Describe phototransduction, retinal processing and visual pathways",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Describe+phototransduction%2C+retinal+processing+and+visual+pathways)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Describe+phototransduction%2C+retinal+processing+and+visual+pathways)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Describe+phototransduction%2C+retinal+processing+and+visual+pathways)"
+      }
+    },
+    {
+      "query_id": "foundations-02-LO03",
+      "objective_id": "foundations-02-LO03",
+      "objective": "Relate ocular physiology to common disease mechanisms",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Relate+ocular+physiology+to+common+disease+mechanisms)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Relate+ocular+physiology+to+common+disease+mechanisms)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Relate+ocular+physiology+to+common+disease+mechanisms)"
+      }
+    }
+  ],
+  "preferred_source_families": [
+    "Current AAO PPP/BCSC or relevant national/international guidance",
+    "Cochrane Eyes and Vision; PubMed/PMC/Europe PMC systematic reviews and primary studies",
+    "AAO EyeWiki and peer-reviewed specialty reviews for orientation, not sole guideline authority",
+    "AnkiWeb, DoctorDE, Geeky Medics and TeachMeSeries as exam-practice signals only; never clinical evidence"
+  ],
+  "curator_checklist": [
+    "Verify exact source, edition, date, jurisdiction and supersession status.",
+    "Review full text through a lawful access path and record article-specific reuse rights.",
+    "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
+    "Map each snippet to the exact objective ID above.",
+    "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
+  ]
+}

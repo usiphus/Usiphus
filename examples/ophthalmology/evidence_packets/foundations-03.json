@@ -1,0 +1,59 @@
+{
+  "packet_schema_version": "1.0",
+  "packet_id": "ophthalmology-foundations-03-discovery-plan-v1",
+  "specialty": "ophthalmology",
+  "topic_id": "foundations-03",
+  "topic_name": "Clinical optics, refraction and low vision",
+  "domain_id": "foundations",
+  "packet_status": "discovery_plan_only_pending_source_selection",
+  "clinical_accuracy_verified": false,
+  "faculty_review_required": true,
+  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
+  "sources": [],
+  "snippets": [],
+  "discovery_queries": [
+    {
+      "query_id": "foundations-03-LO01",
+      "objective_id": "foundations-03-LO01",
+      "objective": "Apply geometric optics, accommodation and refractive principles",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Apply+geometric+optics%2C+accommodation+and+refractive+principles)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Apply+geometric+optics%2C+accommodation+and+refractive+principles)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Apply+geometric+optics%2C+accommodation+and+refractive+principles)"
+      }
+    },
+    {
+      "query_id": "foundations-03-LO02",
+      "objective_id": "foundations-03-LO02",
+      "objective": "Assess myopia, hyperopia, astigmatism, presbyopia and anisometropia",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Assess+myopia%2C+hyperopia%2C+astigmatism%2C+presbyopia+and+anisometropia)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Assess+myopia%2C+hyperopia%2C+astigmatism%2C+presbyopia+and+anisometropia)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Assess+myopia%2C+hyperopia%2C+astigmatism%2C+presbyopia+and+anisometropia)"
+      }
+    },
+    {
+      "query_id": "foundations-03-LO03",
+      "objective_id": "foundations-03-LO03",
+      "objective": "Explain low-vision assessment, aids and rehabilitation",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Explain+low-vision+assessment%2C+aids+and+rehabilitation)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Explain+low-vision+assessment%2C+aids+and+rehabilitation)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Explain+low-vision+assessment%2C+aids+and+rehabilitation)"
+      }
+    }
+  ],
+  "preferred_source_families": [
+    "Current AAO PPP/BCSC or relevant national/international guidance",
+    "Cochrane Eyes and Vision; PubMed/PMC/Europe PMC systematic reviews and primary studies",
+    "AAO EyeWiki and peer-reviewed specialty reviews for orientation, not sole guideline authority",
+    "AnkiWeb, DoctorDE, Geeky Medics and TeachMeSeries as exam-practice signals only; never clinical evidence"
+  ],
+  "curator_checklist": [
+    "Verify exact source, edition, date, jurisdiction and supersession status.",
+    "Review full text through a lawful access path and record article-specific reuse rights.",
+    "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
+    "Map each snippet to the exact objective ID above.",
+    "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
+  ]
+}
