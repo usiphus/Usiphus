@@ -89,11 +89,11 @@ scholarly discovery, per-topic packet loading and generator preflight before
 Ollama inference or checkpoint reuse. The example ophthalmology evidence
 library now maps all 52 curriculum topics:
 
-- Five candidate-source packets have bibliographic candidates and review
+- Seventeen candidate-source packets have bibliographic candidates and review
   prompts, but remain unreviewed and ineligible.
-- Forty-seven additional topic files are discovery-only worklists with
-  objective-specific PubMed, Europe PMC and Google Scholar links. They contain
-  no sources or snippets and are not claim-level evidence.
+- Thirty-five topic files remain discovery-only worklists with objective-
+  specific PubMed, Europe PMC and Google Scholar links. They contain no
+  sources or snippets and are not claim-level evidence.
 
 No packet is faculty-approved, rights-cleared or clinically validated. The
 complete library therefore intentionally fails closed before inference. The
