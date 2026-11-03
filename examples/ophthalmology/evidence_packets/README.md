@@ -2,11 +2,11 @@
 
 This directory maps all 52 topics in the example ophthalmology curriculum to evidence curation work.
 
-- Ten files are **candidate-source packets**: five original candidate packets plus five topics advanced from discovery-only worklists after topic-matched bibliographic leads were identified. Candidate sources remain unreviewed and ineligible.
-- 42 files remain **discovery plans only**. Each contains objective-specific PubMed, Europe PMC and Google Scholar discovery links, preferred source families and a curation checklist. They contain no selected sources or snippets.
+- Twelve files are **candidate-source packets**: five original candidate packets plus seven topics advanced from discovery-only worklists after topic-matched bibliographic leads were identified. Candidate sources remain unreviewed and ineligible.
+- 40 files remain **discovery plans only**. Each contains objective-specific PubMed, Europe PMC and Google Scholar discovery links, preferred source families and a curation checklist. They contain no selected sources or snippets.
 - See `INDEX.json` for the full inventory and topic-level status.
 
-**No packet is faculty-approved, rights-cleared, or clinically validated.** The five newly populated packets contain candidate bibliographic metadata only. Full-text review, currency/supersession checks, article-specific reuse rights, exact locators, objective-level notes and faculty review are still pending. Their snippets arrays intentionally remain empty, so generator evidence preflight must continue to fail.
+**No packet is faculty-approved, rights-cleared, or clinically validated.** The seven newly populated packets contain candidate bibliographic metadata only. Full-text review, currency/supersession checks, article-specific reuse rights, exact locators, objective-level notes and faculty review are still pending. Their snippets arrays intentionally remain empty, so generator evidence preflight must continue to fail.
 
 ## First discovery batch
 
@@ -17,6 +17,9 @@ This directory maps all 52 topics in the example ophthalmology curriculum to evi
 | Retinal detachment and vitreoretinal emergencies | 1 | AAO PVD/retinal-break PPP is relevant but does not cover all detachment types or repair techniques |
 | Amblyopia, strabismus and binocular vision | 2 | AAO amblyopia and esotropia/exotropia PPPs; confirm current versions and objective coverage |
 | Intraocular infection and endophthalmitis | 2 | Recent review plus NHS Highland pathway; jurisdiction-specific pathway must not be transplanted uncritically |
+
+| Glaucoma mechanisms and classification | 2 | Current AAO POAG and primary angle-closure PPPs; secondary and congenital glaucoma still need dedicated sources |
+| Macular disease and age-related macular degeneration | 1 | AAO AMD PPP page reports interim updates through June 2026; inspect the current full PDF |
 
 ## Curation sequence
 
