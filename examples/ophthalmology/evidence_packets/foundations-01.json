@@ -5,11 +5,38 @@
   "topic_id": "foundations-01",
   "topic_name": "Ocular anatomy, embryology and histology",
   "domain_id": "foundations",
-  "packet_status": "discovery_plan_only_pending_source_selection",
+  "packet_status": "candidate_sources_pending_faculty_review",
   "clinical_accuracy_verified": false,
   "faculty_review_required": true,
-  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
-  "sources": [],
+  "notice": "Candidate bibliographic leads only. Full-text appraisal, source currency, lawful access, article-specific reuse rights, exact section/page locators, objective mapping and qualified faculty review remain pending. No clinical evidence snippets are approved; generator evidence preflight must continue to fail.",
+  "sources": [
+    {
+      "source_id": "ncbi-statpearls-embryology-eye-2023",
+      "canonical_url": "https://www.ncbi.nlm.nih.gov/books/NBK538480/",
+      "title": "Embryology, Eye",
+      "source_type": "open_medical_reference",
+      "published_on": "2023-03-27",
+      "guideline_version": "StatPearls entry; last updated 2023-03-27",
+      "licence_or_reuse_status": "rights_unknown; verify NCBI Bookshelf chapter reuse terms",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "NCBI Bookshelf / StatPearls",
+      "currency_note": "Useful for ocular embryologic origins; verify updates and primary references."
+    },
+    {
+      "source_id": "ncbi-statpearls-optic-cup-2026",
+      "canonical_url": "https://www.ncbi.nlm.nih.gov/books/NBK545150/",
+      "title": "Embryology, Optic Cup",
+      "source_type": "open_medical_reference",
+      "published_on": "2026-06-18",
+      "guideline_version": "StatPearls entry; last updated 2026-06-18",
+      "licence_or_reuse_status": "rights_unknown; verify NCBI Bookshelf chapter reuse terms",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "NCBI Bookshelf / StatPearls",
+      "currency_note": "Recent developmental overview; check all content against standard anatomy/histology texts."
+    }
+  ],
   "snippets": [],
   "discovery_queries": [
     {
@@ -55,5 +82,6 @@
     "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
     "Map each snippet to the exact objective ID above.",
     "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
-  ]
+  ],
+  "curation_notice": "Sources are discovery candidates, not approved evidence. Rights and full-text access are unverified; snippets remain empty pending full-text review and objective-level curation."
 }
