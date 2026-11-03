@@ -5,11 +5,38 @@
   "topic_id": "vitreoretinal-03",
   "topic_name": "Medical and surgical vitreoretinal management",
   "domain_id": "vitreoretinal",
-  "packet_status": "discovery_plan_only_pending_source_selection",
+  "packet_status": "candidate_sources_pending_faculty_review",
   "clinical_accuracy_verified": false,
   "faculty_review_required": true,
-  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
-  "sources": [],
+  "notice": "Candidate bibliographic leads only. Full-text appraisal, source currency/supersession, lawful access, article-specific reuse rights, exact section/page locators, objective mapping and qualified faculty review remain pending. Snippets are intentionally empty; generator evidence preflight must continue to fail.",
+  "sources": [
+    {
+      "source_id": "aao-pvd-retinal-breaks-ppp-2024",
+      "canonical_url": "https://www.aao.org/education/preferred-practice-pattern/posterior-vitreous-detachment-retinal-breaks-latti",
+      "title": "Posterior Vitreous Detachment, Retinal Breaks, and Lattice Degeneration Preferred Practice Pattern",
+      "source_type": "professional_guideline",
+      "published_on": "2025-02-07",
+      "guideline_version": "AAO Retina/Vitreous PPP 2024; Ophthalmology. 2025;132(4):P163-P196",
+      "licence_or_reuse_status": "rights_unknown; AAO permits personal download but reproduction/transmission requires written permission",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "American Academy of Ophthalmology",
+      "currency_note": "Strong for PVD, retinal breaks and early RRD recognition; does not cover all vitreoretinal surgical techniques or tamponade decisions."
+    },
+    {
+      "source_id": "aao-idiopathic-macular-hole-ppp-2024",
+      "canonical_url": "https://www.aao.org/education/preferred-practice-pattern/idiopathic-macular-hole-ppp",
+      "title": "Idiopathic Macular Hole Preferred Practice Pattern",
+      "source_type": "professional_guideline",
+      "published_on": "2025-02-07",
+      "guideline_version": "AAO Retina/Vitreous PPP 2024; Ophthalmology. 2025;132(4):P234-P269",
+      "licence_or_reuse_status": "rights_unknown; AAO permits personal download but reproduction/transmission requires written permission",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "American Academy of Ophthalmology",
+      "currency_note": "Relevant to vitrectomy, tamponade and postoperative positioning for macular-hole surgery; narrow disease scope and not a general vitrectomy manual."
+    }
+  ],
   "snippets": [],
   "discovery_queries": [
     {
@@ -55,5 +82,6 @@
     "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
     "Map each snippet to the exact objective ID above.",
     "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
-  ]
+  ],
+  "curation_notice": "Candidate bibliography only; no source has been faculty-reviewed or approved for clinical claim grounding. Do not infer rights clearance from open access or a public download link."
 }
