@@ -99,14 +99,6 @@
       "objective_query_count": 3
     },
     {
-      "topic_id": "glaucoma-01",
-      "topic_name": "Glaucoma mechanisms and classification",
-      "domain_id": "glaucoma",
-      "path": "examples/ophthalmology/evidence_packets/glaucoma-01.json",
-      "status": "discovery_plan_only_pending_source_selection",
-      "objective_query_count": 3
-    },
-    {
       "topic_id": "uveitis-01",
       "topic_name": "Anatomical and clinical uveitis",
       "domain_id": "uveitis",
@@ -127,14 +119,6 @@
       "topic_name": "Uveitis treatment and complications",
       "domain_id": "uveitis",
       "path": "examples/ophthalmology/evidence_packets/uveitis-03.json",
-      "status": "discovery_plan_only_pending_source_selection",
-      "objective_query_count": 3
-    },
-    {
-      "topic_id": "medical-retina-01",
-      "topic_name": "Macular disease and age-related macular degeneration",
-      "domain_id": "medical-retina",
-      "path": "examples/ophthalmology/evidence_packets/medical-retina-01.json",
       "status": "discovery_plan_only_pending_source_selection",
       "objective_query_count": 3
     },
@@ -350,7 +334,7 @@
   "total_topic_packets": 52,
   "clinical_accuracy_verified": false,
   "faculty_review_required": true,
-  "notice": "Inventory includes ten candidate-source packets and forty-two discovery-only worklists. Candidate sources are not faculty-approved, rights-cleared, or generator-eligible; no topic is currently approved for evidence-grounded generation.",
+  "notice": "Inventory includes twelve candidate-source packets and forty discovery-only worklists. Candidate sources are not faculty-approved, rights-cleared, or generator-eligible; no topic is currently approved for evidence-grounded generation.",
   "newly_selected_candidate_source_packets": [
     {
       "topic_id": "foundations-01",
@@ -386,8 +370,22 @@
       "path": "examples/ophthalmology/evidence_packets/infection-02.json",
       "candidate_source_count": 2,
       "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "glaucoma-01",
+      "topic_name": "Glaucoma mechanisms and classification",
+      "path": "examples/ophthalmology/evidence_packets/glaucoma-01.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "medical-retina-01",
+      "topic_name": "Macular disease and age-related macular degeneration",
+      "path": "examples/ophthalmology/evidence_packets/medical-retina-01.json",
+      "candidate_source_count": 1,
+      "status": "candidate_sources_pending_faculty_review"
     }
   ],
-  "candidate_source_packet_count": 10,
-  "discovery_plan_packet_count": 42
+  "candidate_source_packet_count": 12,
+  "discovery_plan_packet_count": 40
 }
