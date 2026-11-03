@@ -5,11 +5,38 @@
   "topic_id": "surgery-rehabilitation-01",
   "topic_name": "Ophthalmic lasers, injections and office procedures",
   "domain_id": "surgery-rehabilitation",
-  "packet_status": "discovery_plan_only_pending_source_selection",
+  "packet_status": "candidate_sources_pending_faculty_review",
   "clinical_accuracy_verified": false,
   "faculty_review_required": true,
-  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
-  "sources": [],
+  "notice": "Candidate bibliographic leads only. Full-text appraisal, source currency/supersession, lawful access, article-specific reuse rights, exact section/page locators, objective mapping and qualified faculty review remain pending. Snippets are intentionally empty; generator evidence preflight must continue to fail.",
+  "sources": [
+    {
+      "source_id": "aao-laser-surgery-statement-2025",
+      "canonical_url": "https://www.aao.org/education/clinical-statement/laser-surgery-statement",
+      "title": "Laser Surgery - 2025",
+      "source_type": "professional_society_policy_statement",
+      "published_on": "2025-02-08",
+      "guideline_version": "AAO Board of Trustees policy statement, revised/approved Feb 8 2025",
+      "licence_or_reuse_status": "rights_unknown; personal download/reproduction terms must be checked; no copying of statement text",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "American Academy of Ophthalmology",
+      "currency_note": "Policy on qualifications and safety of medical laser surgery; not a procedure-specific technique manual."
+    },
+    {
+      "source_id": "rcophth-intravitreal-injection-2018",
+      "canonical_url": "https://www.rcophth.ac.uk/wp-content/uploads/2022/02/Intravitreal-Injection-Therapy-August-2018-1.pdf",
+      "title": "Intravitreal Injection Therapy: Ophthalmic Service Guidance",
+      "source_type": "professional_society_service_guidance",
+      "published_on": "2018-08",
+      "guideline_version": "Royal College of Ophthalmologists 2018 guidance; review date February 2021",
+      "licence_or_reuse_status": "rights_unknown; verify RCOphth document reuse terms",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "Royal College of Ophthalmologists",
+      "currency_note": "Contains service, asepsis, consent and injection workflow material; review date is 2021, so verify supersession and current infection-prevention recommendations before use."
+    }
+  ],
   "snippets": [],
   "discovery_queries": [
     {
@@ -55,5 +82,6 @@
     "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
     "Map each snippet to the exact objective ID above.",
     "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
-  ]
+  ],
+  "curation_notice": "Candidate bibliography only; no source has been faculty-reviewed or approved for clinical claim grounding. Do not infer rights clearance from open access or a public download link."
 }
