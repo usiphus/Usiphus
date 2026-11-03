@@ -5,11 +5,25 @@
   "topic_id": "ocular-surface-cornea-04",
   "topic_name": "Infectious and inflammatory corneal disease",
   "domain_id": "ocular-surface-cornea",
-  "packet_status": "discovery_plan_only_pending_source_selection",
+  "packet_status": "candidate_sources_pending_faculty_review",
   "clinical_accuracy_verified": false,
   "faculty_review_required": true,
-  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
-  "sources": [],
+  "notice": "Candidate bibliographic leads only. Full-text appraisal, source currency, lawful access, article-specific reuse rights, exact section/page locators, objective mapping and qualified faculty review remain pending. No clinical evidence snippets are approved; generator evidence preflight must continue to fail.",
+  "sources": [
+    {
+      "source_id": "aao-bacterial-keratitis-ppp-2023",
+      "canonical_url": "https://www.aao.org/education/preferred-practice-pattern/bacterial-keratitis-ppp-2023",
+      "title": "Bacterial Keratitis Preferred Practice Pattern",
+      "source_type": "professional_guideline",
+      "published_on": "2024-02",
+      "guideline_version": "AAO PPP 2023; published/posted Feb 2024",
+      "licence_or_reuse_status": "rights_unknown; verify guideline PDF reuse terms",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "American Academy of Ophthalmology",
+      "currency_note": "Strong match for bacterial keratitis only; add separate current sources for fungal, viral and Acanthamoeba disease."
+    }
+  ],
   "snippets": [],
   "discovery_queries": [
     {
@@ -55,5 +69,6 @@
     "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
     "Map each snippet to the exact objective ID above.",
     "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
-  ]
+  ],
+  "curation_notice": "Sources are discovery candidates, not approved evidence. Rights and full-text access are unverified; snippets remain empty pending full-text review and objective-level curation."
 }
