@@ -251,23 +251,23 @@ available but is explicitly reported as `unreviewed_source_gap`; it is not
 evidence-grounded. A local model pilot and faculty evaluation are still required.
 
 
-### Loading the bundled candidate evidence packets
+### Loading the bundled ophthalmology evidence library
 
-The example ophthalmology curriculum now includes five topic-specific packet
-files under `examples/ophthalmology/evidence_packets/`:
+The example ophthalmology curriculum has a per-topic packet/worklist for all
+52 topics under `examples/ophthalmology/evidence_packets/`. See
+`INDEX.json` and `README.md` for the inventory and curation workflow.
 
-- `glaucoma-02.json` and `glaucoma-03.json` — AAO Primary Open-Angle Glaucoma PPP (2026).
-- `medical-retina-02.json` — AAO Diabetic Retinopathy PPP (2025).
-- `lens-refractive-02.json` — AAO Cataract in the Adult Eye PPP (2021; older edition; supersession check required).
-- `trauma-emergency-01.json` — AAO open-globe educational review (2020; not a formal current guideline).
+- Five files are **candidate-source packets**: two glaucoma topics, diabetic
+  retinopathy, cataract surgery/perioperative care, and open-globe injury.
+  They contain candidate bibliographic sources and curator-authored review
+  prompts; source currency, full-text review, rights and faculty validation
+  remain pending.
+- The other 47 files are **discovery plans only**. Each contains three
+  objective-specific PubMed, Europe PMC and Google Scholar query links,
+  preferred source families and a curator checklist. They contain no sources
+  or snippets and are not evidence packets eligible for generation.
 
-These are **candidate-source packets**, not approved clinical evidence. They contain
-bibliographic metadata and curator-authored section-level review prompts, not
-faculty-verified claim excerpts. Rights are deliberately marked unknown and
-source access/review statuses remain pending. The packet loader never upgrades
-these statuses automatically.
-
-Load them with:
+Load the library with:
 
 ```bash
 python usiphus_auto_deck.py --generate \
@@ -276,21 +276,19 @@ python usiphus_auto_deck.py --generate \
   --formats both --output-dir build/ophthalmology
 ```
 
-The command intentionally stops **before any Ollama request** while the
-bundled packets remain unreviewed. This is expected fail-closed behavior, not a
-generation failure. A qualified reviewer must inspect the full source, confirm
-that the edition is current and applicable, establish the lawful access/reuse
-basis, replace curator prompts with concise verified evidence notes/snippets,
-supply exact section/page locators and objective mappings, and record the
-review in the packet. Do not simply change `review_status` to bypass the gate.
-The source validator checks metadata and traceability; it cannot prove that a
-snippet entails a claim.
+With the complete library attached, the generator intentionally stops before
+any Ollama request: every supplied packet is currently ineligible. This is
+expected fail-closed behavior. To proceed with evidence-grounded generation,
+a qualified reviewer must select actual sources, verify currentness and lawful
+full-text access, clear article-specific reuse rights, create concise
+independently authored evidence notes or permitted excerpts with exact
+locators, map snippets to the exact objective IDs, and record faculty review.
+Do not simply change status fields to bypass preflight.
 
-Topics without a packet can still be generated as explicitly ungrounded drafts
-when the evidence directory is used, but their reports must retain
-`unreviewed_source_gap`. A supplied but ineligible packet blocks that topic
-before inference. Checkpoints are also subject to the same packet preflight
-because packet contents participate in the topic signature.
+If the evidence directory is omitted, the generator can still produce
+explicitly ungrounded drafts, which must retain `unreviewed_source_gap` and
+must not be represented as evidence-grounded or clinically approved.
+Checkpoint reuse is subject to the same packet preflight.
 
 ## Curriculum and clinical governance
 
