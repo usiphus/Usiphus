@@ -171,7 +171,7 @@ def main() -> int:
             raise ValueError("Both JSON roots must be objects")
         report = compute_coverage(curriculum, generated)
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\\n", encoding="utf-8")
+        args.output.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"coverage_report: {exc}", file=sys.stderr)
         return 2
