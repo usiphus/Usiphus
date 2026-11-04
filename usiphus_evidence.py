@@ -49,9 +49,10 @@ def validate_evidence_source(source: dict[str, Any]) -> list[str]:
         errors.append("source full text has not been reviewed through an eligible access path")
     rights = _text(source.get("licence_or_reuse_status")).casefold()
     verified_rights_markers = (
-        "permission_confirmed", "written_permission", "public domain",
-        "cc0", "cc by", "cc-by", "apache-2.0", "mit license",
-        "government open licence", "government open license",
+        "permission_confirmed", "written_permission_confirmed",
+        "public_domain_confirmed", "cc0_confirmed", "cc_by_confirmed",
+        "cc-by_confirmed", "apache-2.0_confirmed", "mit_license_confirmed",
+        "government_open_licence_confirmed", "government_open_license_confirmed",
     )
     if not any(marker in rights for marker in verified_rights_markers):
         errors.append("reuse/access rights are not explicitly verified by a recognized permission or licence marker")
