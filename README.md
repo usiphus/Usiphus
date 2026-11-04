@@ -88,7 +88,7 @@ For a fully offline export from existing cards (no Ollama required):
 
     python usiphus_auto_deck.py --cards ophthalmology_cards.json --formats both --output-dir build/ophthalmology
 
-Install optional exporters with `python -m pip install genanki python-pptx`. The generator writes the shared card source, quality report, Anki package and PowerPoint. Generated clinical material remains unreviewed until a qualified faculty member verifies every claim, answer and reference. The default is at most 25 local model requests and 3,500 output tokens per topic; this curriculum uses 22 requests. Override with `--max-ollama-calls` and `--max-output-tokens`. Local generation uses your computer's resources and model storage.
+Install optional exporters with `python -m pip install genanki python-pptx`. The generator writes the shared card source, quality report, Anki package and PowerPoint. It also writes a curriculum coverage report before export. Independently recheck saved artifacts with `python scripts/coverage_report.py --curriculum examples/ophthalmology/curriculum.json --generated build/ophthalmology/generated_cards.json --output build/ophthalmology/coverage_report.rechecked.json`; the recheck exits non-zero on objective gaps or traceability errors. Generated clinical material remains unreviewed until a qualified faculty member verifies every claim, answer and reference. The default is at most 25 local model requests and 3,500 output tokens per topic; this curriculum uses 22 requests. Override with `--max-ollama-calls` and `--max-output-tokens`. Local generation uses your computer's resources and model storage.
 
 ## Recommended workflows
 
