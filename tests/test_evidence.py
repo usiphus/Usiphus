@@ -45,6 +45,31 @@ class EvidenceTests(unittest.TestCase):
         result = evidence.validate_evidence_packet(value)
         self.assertFalse(result["evidence_ready"])
 
+    def test_arbitrary_rights_note_does_not_pass_as_permission(self):
+        value = packet()
+        value["sources"][0]["licence_or_reuse_status"] = "probably fine to reuse"
+        result = evidence.validate_evidence_packet(value)
+        self.assertFalse(result["evidence_ready"])
+        self.assertTrue(any(
+            "reuse/access rights" in error
+            for error in result["source_errors"]["guideline-1"]
+        ))
+
+    def test_cc_by_claim_without_confirmed_rights_does_not_pass(self):
+        value = packet()
+        value["sources"][0]["licence_or_reuse_status"] = (
+            "CC BY 4.0 stated by article; independently verify"
+        )
+        result = evidence.validate_evidence_packet(value)
+        self.assertFalse(result["evidence_ready"])
+
+    def test_candidate_source_cannot_be_made_eligible_by_rights_metadata(self):
+        value = packet()
+        value["sources"][0]["review_status"] = "candidate_unreviewed"
+        value["sources"][0]["licence_or_reuse_status"] = "permission_confirmed"
+        result = evidence.validate_evidence_packet(value)
+        self.assertFalse(result["evidence_ready"])
+
     def test_claim_must_match_source_and_locator(self):
         card = {"prompt": "What is the principle?", "answer": "A sufficiently detailed educational answer.",
                 "evidence_claims": [{"claim_id": "c1", "text": "The stated recommendation.",
