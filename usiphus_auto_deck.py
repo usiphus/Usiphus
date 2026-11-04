@@ -15,10 +15,12 @@ import socket
 import sys
 import hashlib
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 from typing import Any
 
+from usiphus_common import atomic_write_text
 from usiphus_core import coerce_record, evaluate_quality, report_to_dict
 from usiphus_generation_quality import (
     build_generation_coverage_report,
@@ -30,6 +32,7 @@ from usiphus_evidence import (
     validate_card_evidence, validate_evidence_packet,
 )
 from usiphus_v7 import export_apkg
+from usiphus_lib.ollama import local_ollama_url
 
 DEFAULT_OLLAMA_MODEL = "llama3.1:8b"
 DEFAULT_OLLAMA_URL = "http://localhost:11434"
@@ -54,6 +57,56 @@ def _extract_json(text: str) -> Any:
     return json.loads(text[start : end + 1])
 
 
+class CallBudget:
+    """Hard cap on real Ollama requests for one run (``--max-ollama-calls``).
+
+    Quality and format retries each send a request, so the cap is enforced per request,
+    not per topic.  ``consume`` is called *before* a request is built and raises
+    ``RuntimeError`` outside the retry handlers so exhaustion can never be retried away.
+    """
+
+    def __init__(self, limit: int) -> None:
+        self.limit = limit
+        self.used = 0
+
+    def consume(self) -> None:
+        if self.used >= self.limit:
+            raise RuntimeError(
+                f"--max-ollama-calls budget of {self.limit} requests is exhausted after {self.used} requests; "
+                "raise the limit or reduce topics, cards per topic or retries"
+            )
+        self.used += 1
+
+
+def normalize_ollama_url(value: Any, *, allow_remote: bool = False) -> str:
+    """Return a base URL for Ollama.
+
+    Accepts Ollama's own ``host:port`` convention (``OLLAMA_HOST=127.0.0.1:11434``) by adding
+    ``http://``.  Only loopback hosts are accepted unless ``allow_remote`` is set, matching
+    ``usiphus_generate``: curricula and curated evidence packets must not leave the machine by accident.
+    """
+    raw = str(value or "").strip() or DEFAULT_OLLAMA_URL
+    if "://" not in raw:
+        raw = f"http://{raw}"
+    if not allow_remote:
+        return local_ollama_url(raw)
+    parsed = urllib.parse.urlsplit(raw)
+    if parsed.scheme not in {"http", "https"} or not parsed.hostname:
+        raise ValueError("Ollama URL must be an http(s) URL with a host")
+    return raw.rstrip("/")
+
+
+def infer_specialty(cards: list[Any]) -> str | None:
+    """The single specialty named by every card that names one, else None (never guess)."""
+    found: dict[str, str] = {}
+    for card in cards:
+        if isinstance(card, dict):
+            value = str(card.get("specialty") or "").strip()
+            if value:
+                found.setdefault(value.casefold(), value)
+    return next(iter(found.values())) if len(found) == 1 else None
+
+
 def requested_card_mix(
     count: int, overrides: dict[str, Any] | None = None
 ) -> dict[str, int]:
@@ -74,7 +127,7 @@ def requested_card_mix(
         if sum(mix.values()) != count:
             raise ValueError(f"card_mix must sum to card_count ({count})")
         return mix
-    mix = {kind: 0 for kind in VALID_CARD_MIX_TYPES}
+    mix = dict.fromkeys(CARD_TYPE_CYCLE, 0)   # fixed order: iterating a set varies with PYTHONHASHSEED
     for index in range(count):
         mix[CARD_TYPE_CYCLE[index % len(CARD_TYPE_CYCLE)]] += 1
     return {kind: amount for kind, amount in mix.items() if amount}
@@ -91,6 +144,8 @@ def generate_topic_cards(
     max_output_tokens: int,
     request_timeout: int = 300,
     max_retries: int = 3,
+    budget: CallBudget | None = None,
+    allow_remote: bool = False,
 ) -> list[dict[str, Any]]:
     objectives = topic.get("learning_objectives", [])
     source_refs = topic.get("reference_sources", [])
@@ -138,7 +193,7 @@ def generate_topic_cards(
         "Use original wording; do not copy textbook passages. evidence_status must be unreviewed."
     )
 
-    base_url = ollama_url.rstrip("/")
+    base_url = normalize_ollama_url(ollama_url, allow_remote=allow_remote)
     last_error = None
     topic_name = topic.get("name") or topic.get("topic") or "topic"
 
@@ -172,6 +227,8 @@ def generate_topic_cards(
             method="POST",
         )
 
+        if budget is not None:
+            budget.consume()   # outside the try block: exhaustion must not be retried
         try:
             # Ollama streams newline-delimited JSON. The socket timeout now
             # measures inactivity between chunks rather than total generation time.
@@ -268,6 +325,8 @@ def generate_validated_topic_cards(
     max_output_tokens: int,
     request_timeout: int = 300,
     quality_attempts: int = 3,
+    budget: CallBudget | None = None,
+    allow_remote: bool = False,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Regenerate bounded batches with actionable feedback until topic gates pass."""
     working_topic = dict(topic)
@@ -279,6 +338,7 @@ def generate_validated_topic_cards(
             ollama_url=ollama_url, count=count,
             max_output_tokens=max_output_tokens,
             request_timeout=request_timeout, max_retries=2,
+            budget=budget, allow_remote=allow_remote,
         )
         try:
             report = validate_topic_cards(
@@ -310,7 +370,10 @@ def generate_validated_topic_cards(
                 ]
                 report["evidence_status"] = "evidence_mapped_unreviewed"
                 for card in cards:
-                    card["evidence_status"] = "evidence_mapped_unreviewed"
+                    # card["evidence_status"] stays in usiphus_core's shared vocabulary ("unreviewed"): faculty
+                    # have not reviewed it, and any other value is rejected by evaluate_quality at export time.
+                    # The grounding is recorded separately.
+                    card["evidence_mapping_status"] = "evidence_mapped"
             else:
                 report["evidence_status"] = "unreviewed_source_gap"
             return cards, report
@@ -453,14 +516,8 @@ def export_powerpoint(
 
 
 def _atomic_write_json(path: Path, payload: Any) -> None:
-    """Write JSON atomically so an interrupted run cannot leave a partial checkpoint."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
-    temporary.replace(path)
+    """Write JSON atomically (unique temp file, fsync) so an interrupted run cannot leave a partial file."""
+    atomic_write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", path)
 
 
 def _checkpoint_key(index: int, topic: dict[str, Any]) -> str:
@@ -522,6 +579,8 @@ def build(args: argparse.Namespace) -> int:
                 f"--max-ollama-calls permits {args.max_ollama_calls}. "
                 "Reduce topics or raise the limit."
             )
+        ollama_url = normalize_ollama_url(args.ollama_url, allow_remote=args.allow_remote_ollama)
+        budget = CallBudget(args.max_ollama_calls)
         if not 256 <= args.max_output_tokens <= 16000:
             raise ValueError("--max-output-tokens must be between 256 and 16000")
         if args.cards_per_topic < 1 or args.cards_per_topic > 50:
@@ -580,16 +639,18 @@ def build(args: argparse.Namespace) -> int:
                 if curriculum.get("curriculum_domains"):
                     cards, topic_quality_report = generate_validated_topic_cards(
                         topic, specialty=specialty, level=level, model=args.model,
-                        ollama_url=args.ollama_url, count=count,
+                        ollama_url=ollama_url, count=count,
                         max_output_tokens=args.max_output_tokens,
                         request_timeout=args.ollama_timeout,
+                        budget=budget, allow_remote=args.allow_remote_ollama,
                     )
                 else:
                     cards = generate_topic_cards(
                         topic, specialty=specialty, level=level, model=args.model,
-                        ollama_url=args.ollama_url, count=count,
+                        ollama_url=ollama_url, count=count,
                         max_output_tokens=args.max_output_tokens,
                         request_timeout=args.ollama_timeout,
+                        budget=budget, allow_remote=args.allow_remote_ollama,
                     )
             if curriculum.get("curriculum_domains"):
                 if topic_quality_report is None:
@@ -615,7 +676,7 @@ def build(args: argparse.Namespace) -> int:
         )
         if not isinstance(raw_cards, list) or not raw_cards:
             raise ValueError("Cards file must contain a non-empty list")
-        specialty = specialty or "ophthalmology"
+        specialty = specialty or infer_specialty(raw_cards) or "ophthalmology"  # legacy default
         level = level or "medical students"
     else:
         raise ValueError("Supply --generate --curriculum or --cards")
@@ -640,35 +701,19 @@ def build(args: argparse.Namespace) -> int:
         if not coverage_report["all_topics_covered"]:
             print("Coverage gate blocked export: one or more curriculum topics are incomplete", file=sys.stderr)
             return 2
-    (out / "generated_cards.json").write_text(
-        json.dumps(
-            {
-                "specialty": specialty,
-                "learner_level": level,
-                "generation_notice": "AI-generated draft; faculty review required",
-                "cards": raw_cards,
-            },
-            indent=2,
-            ensure_ascii=False,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
-    (out / "quality_report.json").write_text(
-        json.dumps(
-            {
-                **report_to_dict(report),
-                "curriculum_blueprint": blueprint_summary,
-                "generation_coverage": coverage_report,
-                "faculty_review_required": True,
-                "clinical_accuracy_verified": False,
-            },
-            indent=2,
-            ensure_ascii=False,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
+    _atomic_write_json(out / "generated_cards.json", {
+        "specialty": specialty,
+        "learner_level": level,
+        "generation_notice": "AI-generated draft; faculty review required",
+        "cards": raw_cards,
+    })
+    _atomic_write_json(out / "quality_report.json", {
+        **report_to_dict(report),
+        "curriculum_blueprint": blueprint_summary,
+        "generation_coverage": coverage_report,
+        "faculty_review_required": True,
+        "clinical_accuracy_verified": False,
+    })
     if report.error_count and not args.force:
         print(
             f"Quality gate blocked export: {report.error_count} errors; inspect {out / 'quality_report.json'}",
@@ -727,6 +772,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=int,
         default=500,
         help="Maximum local generation requests (default: 500)",
+    )
+    p.add_argument(
+        "--allow-remote-ollama",
+        action="store_true",
+        help="Permit a non-loopback Ollama host. Curriculum text and evidence packets are sent to that host.",
     )
     p.add_argument(
         "--ollama-timeout",

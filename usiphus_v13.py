@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """Usiphus V13 — deterministic validation and privacy assurance for V12 bundles.
 
@@ -10,7 +9,6 @@ from __future__ import annotations
 
 import argparse
 import csv
-import hashlib
 import json
 import logging
 import math
@@ -21,6 +19,10 @@ from collections.abc import Sequence
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
+from usiphus_lib.errors import UsiphusError
+from usiphus_lib.hashing import sha256_file
+from usiphus_lib.files import atomic_write_text
+from usiphus_lib.files import JsonReadPolicy, read_json_file, uniform
 
 VERSION = "13.0.0"
 LOG = logging.getLogger("usiphus.v13")
@@ -45,7 +47,7 @@ DIRECT_IDENTIFIERS = {
 }
 
 
-class ValidationError(ValueError):
+class ValidationError(UsiphusError):
     """Raised when an input artifact violates the V13 data contract."""
 
 
@@ -55,13 +57,10 @@ def require(condition: bool, message: str) -> None:
 
 
 def read_json(path: Path) -> Any:
-    require(path.is_file(), f"Missing required file: {path}")
-    require(path.stat().st_size <= MAX_BYTES, f"File exceeds 50 MiB: {path}")
-    try:
-        with path.open("r", encoding="utf-8-sig") as handle:
-            return json.load(handle)
-    except (json.JSONDecodeError, UnicodeDecodeError) as exc:
-        raise ValidationError(f"Invalid UTF-8 JSON in {path}: {exc}") from exc
+    return read_json_file(path, JsonReadPolicy(
+        error=uniform(ValidationError), missing="Missing required file: {path}",
+        too_large="File exceeds {limit_mib} MiB: {path}", invalid="Invalid UTF-8 JSON in {path}: {exc}",
+        invalid_on=(json.JSONDecodeError, UnicodeDecodeError), max_bytes=MAX_BYTES))
 
 
 def parse_timestamp(value: Any, label: str) -> datetime:
@@ -84,14 +83,6 @@ def parse_uuid4(value: Any, label: str) -> str:
     require(parsed.version == 4 and str(parsed) == value.lower(),
             f"{label} must be a canonical UUIDv4 pseudonym")
     return str(parsed)
-
-
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest()
 
 
 def scan_for_direct_identifiers(value: Any, path: str = "$") -> list[str]:
@@ -329,7 +320,7 @@ def validate_v12_outputs(output_dir: Path, specialty: str,
         source = input_dir / filename
         require(isinstance(entry, dict) and source.is_file(),
                 f"Manifest/input missing for {key}")
-        require(entry.get("sha256") == sha256(source),
+        require(entry.get("sha256") == sha256_file(source),
                 f"Input hash mismatch for {key}; source changed after V12 run")
         require(entry.get("bytes") == source.stat().st_size,
                 f"Input byte-size mismatch for {key}")
@@ -365,21 +356,6 @@ def validate_v12_outputs(output_dir: Path, specialty: str,
         "manifest_outputs_verified": len(OUTPUTS[:3]),
         "learner_id_leaks": 0,
     }
-
-
-def atomic_write(path: Path, content: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = None
-    try:
-        with tempfile.NamedTemporaryFile("w", encoding="utf-8",
-                                         dir=path.parent, delete=False) as handle:
-            temporary = handle.name
-            handle.write(content)
-            handle.flush()
-        Path(temporary).replace(path)
-    finally:
-        if temporary and Path(temporary).exists():
-            Path(temporary).unlink()
 
 
 def validate_bundle(input_dir: Path, output_dir: Path, report_path: Path,
@@ -474,7 +450,7 @@ def run_self_test() -> int:
             manifest_inputs = {}
             for key, filename in INPUTS.items():
                 path = self.inputs / filename
-                manifest_inputs[key] = {"sha256": sha256(path), "bytes": path.stat().st_size}
+                manifest_inputs[key] = {"sha256": sha256_file(path), "bytes": path.stat().st_size}
             (self.outputs / "v12_manifest.json").write_text(json.dumps({
                 "usiphus_version": "12.0.0", "inputs": manifest_inputs,
                 "outputs": list(OUTPUTS[:3])}))
@@ -598,7 +574,7 @@ def run_self_test() -> int:
             self.assertTrue(scan_for_direct_identifiers({"Email": "x"}))
         def test_deterministic_hash(self):
             p = self.inputs / "curriculum.json"
-            self.assertEqual(sha256(p), sha256(p))
+            self.assertEqual(sha256_file(p), sha256_file(p))
         def test_cohort_floor_enforced(self):
             p = self.inputs / "cohort_analytics.json"
             p.write_text(json.dumps({"specialty": "urology", "minimum_cohort_size": 4,
@@ -651,7 +627,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 2
     try:
         report = validate_bundle(Path(args.input_dir), Path(args.output_dir), Path(args.report))
-        atomic_write(Path(args.report), json.dumps(report, indent=2, ensure_ascii=False) + "\n")
+        atomic_write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", Path(args.report))
         LOG.info("V13 validation passed for %s; report: %s", report["specialty"], args.report)
         return 0
     except (ValidationError, OSError, TypeError) as exc:

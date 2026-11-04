@@ -1,4 +1,3 @@
-
 """Second hardening pass: asymmetric signing + anchors, release ledger, pointer publishing, portability.
 
 Run with: python -m unittest discover -s tests -t . -v   (synthetic, non-clinical data only)
@@ -24,6 +23,7 @@ ROOT = base.ROOT
 import usiphus_audit as audit
 import usiphus_ledger as ledger_mod
 import usiphus_signing as sg
+from usiphus_lib.hashing import sha256_file
 
 v11, v14, v15, mig = base.v11, base.v14, base.v15, base.mig
 HAVE_OPENSSL = shutil.which("openssl") is not None
@@ -336,7 +336,7 @@ class PointerPublishing(unittest.TestCase):
                 self.assertEqual((current / "payload.txt").read_text(), f"s{i}")
                 pointer = json.loads((out / "current.json").read_text())
                 self.assertEqual(pointer["release_id"], current.name)
-                self.assertEqual(pointer["manifest_sha256"], v14.digest(current / "v14_manifest.json"))
+                self.assertEqual(pointer["manifest_sha256"], sha256_file(current / "v14_manifest.json"))
             kept = sorted(p.name for p in (out / "releases").iterdir())
             self.assertEqual(len(kept), 2); self.assertEqual(kept[-1], seen[-1]); self.assertNotIn(seen[0], kept)
             self.assertTrue((out / v14.MARKER).is_file())

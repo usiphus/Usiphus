@@ -8,16 +8,17 @@ from __future__ import annotations
 
 import argparse
 import csv
-import hashlib
 import html
 import json
-import os
 import re
 import sys
-import tempfile
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+from usiphus_lib.errors import UsiphusError
+from usiphus_lib.hashing import canonical_json as canonical, digest_value
+from usiphus_lib.text import clean
+from usiphus_lib.files import atomic_write_text, write_json
 
 VERSION = "20.0.0"
 MAX_BYTES = 25 * 1024 * 1024
@@ -33,17 +34,8 @@ PII_PATTERNS = {
     "national_id_candidate": re.compile(r"(?<!\d)\d{9,14}(?!\d)"),
 }
 
-class V20Error(ValueError):
+class V20Error(UsiphusError):
     """Invalid V20 input or workflow state."""
-
-def clean(value: Any) -> str:
-    return " ".join(str(value or "").strip().split())
-
-def canonical(value: Any) -> str:
-    return json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
-
-def digest(value: Any) -> str:
-    return hashlib.sha256(canonical(value).encode("utf-8")).hexdigest()
 
 def parse_time(value: Any) -> datetime | None:
     if not clean(value):
@@ -57,23 +49,6 @@ def parse_time(value: Any) -> datetime | None:
 def pii_kinds(value: Any) -> list[str]:
     raw = str(value or "")
     return [name for name, pattern in PII_PATTERNS.items() if pattern.search(raw)]
-
-def atomic_write(path: Path, content: str) -> None:
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    fd, tmp = tempfile.mkstemp(prefix="." + path.name + ".", suffix=".tmp", dir=str(path.parent))
-    try:
-        with os.fdopen(fd, "w", encoding="utf-8", newline="") as handle:
-            handle.write(content)
-            handle.flush()
-            os.fsync(handle.fileno())
-        os.replace(tmp, path)
-    finally:
-        if os.path.exists(tmp):
-            os.unlink(tmp)
-
-def write_json(value: Any, path: Path) -> None:
-    atomic_write(path, json.dumps(value, indent=2, sort_keys=True, ensure_ascii=False) + "\n")
 
 def read_input(path: Path) -> dict[str, Any]:
     if not path.is_file():
@@ -259,7 +234,7 @@ def build_report(payload: dict[str, Any]) -> dict[str, Any]:
         "with_possible_pii": sum(bool(pii_kinds(x.get("text"))) for x in feedback),
         "retention_due_count": (sum(bool(parse_time(x.get("retention_until")) and parse_time(x.get("retention_until")) <= as_of) for x in feedback) if as_of else None),
     }
-    summary = {"schema_version": 1, "engine_version": VERSION, "input_sha256": digest(payload),
+    summary = {"schema_version": 1, "engine_version": VERSION, "input_sha256": digest_value(payload),
                "feedback": feedback_summary, "actions": action_summary, "artifacts": artifact_summary,
                "issue_counts": {"error": error_count, "warning": warning_count},
                "version_diffs": len(diffs)}
@@ -270,7 +245,7 @@ def build_report(payload: dict[str, Any]) -> dict[str, Any]:
         preview.append({"artifact_id": aid, "version": clean(latest.get("version")),
                         "artifact_type": clean(latest.get("artifact_type")),
                         "title": clean(latest.get("title")), "status": clean(latest.get("status") or "draft"),
-                        "content_sha256": digest(latest.get("content"))})
+                        "content_sha256": digest_value(latest.get("content"))})
     return {"schema_version": 1, "engine_version": VERSION, "summary": summary,
             "issues": queue, "version_diffs": diffs, "release_preview": preview,
             "publication_gate": "blocked" if error_count else ("review_required" if warning_count else "ready_for_faculty_review"),
@@ -323,7 +298,7 @@ def main(argv: list[str] | None = None) -> int:
         # Structured authoring export deliberately excludes feedback/comment text.
         authored = {"schema_version": 1, "artifacts": payload.get("artifacts", [])}
         write_json(authored, args.output_dir / "v20_authoring_export.json")
-        atomic_write(args.output_dir / "v20_release_preview.html", html_preview(report))
+        atomic_write_text(html_preview(report), args.output_dir / "v20_release_preview.html")
         with (args.output_dir / "v20_action_queue.csv").open("w", encoding="utf-8", newline="") as handle:
             writer = csv.DictWriter(handle, fieldnames=["action_id","title","owner_label","status","due_at","feedback_count"])
             writer.writeheader()

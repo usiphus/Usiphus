@@ -74,46 +74,46 @@
   "note": "Hashes support integrity/change detection; timestamps vary and byte-identical bundles are not promised.",
   "outputs": {
     ".usiphus_v14_bundle": {
-      "bytes": 78,
-      "sha256": "20ff04b61fd3f07314be35364b9b14d89fca400efc36b21d64e5b405c6b95992"
+      "bytes": 79,
+      "sha256": "39d3f61db11de13a29f872284cf501ec3425a82d6c3744b7fd1b09426e1fab80"
     },
     "release_report.md": {
-      "bytes": 669,
-      "sha256": "eeb75f3c0c26cb22c143094c5c757da0e27403accb031cd5ecbeb5e8cf18dacb"
+      "bytes": 695,
+      "sha256": "a43fa578aac2bb1aa70b0841dff14b8c36076c25e45a6e736c7a27dcdb376da4"
     },
     "release_summary.json": {
-      "bytes": 1000,
+      "bytes": 1040,
       "sha256": "<SHA256 of volatile release_summary.json>"
     },
-    "v12/faculty_review_queue.csv": {
-      "bytes": 63,
-      "sha256": "87b7036850058b2d5cfd82c248b33b4c4b01d051cc6234e0bee8933a533ec544"
+    "v12\\faculty_review_queue.csv": {
+      "bytes": 64,
+      "sha256": "c79c472bb400767e2e26543abb86c0986d810a673a683cfffecd7d240d5b9b22"
     },
-    "v12/platform_report.json": {
-      "bytes": 2283,
+    "v12\\platform_report.json": {
+      "bytes": 2358,
       "sha256": "<SHA256 of volatile v12/platform_report.json>"
     },
-    "v12/release_checklist.json": {
-      "bytes": 957,
-      "sha256": "aa8c0b1dc8665f1fc798ac1678ff61cf7dfc632c0ce0946576f80fefce5aa59e"
+    "v12\\release_checklist.json": {
+      "bytes": 989,
+      "sha256": "9964d2445d3fbad4c680ef16376fba2b4e084b6ab1786d713dbad0fa919e1260"
     },
-    "v12/v12_manifest.json": {
-      "bytes": 1277,
-      "sha256": "1d76ba27a7719ce7504f5d33c72074359eac3f460e5c0b17cf0e1e650b4fdebc"
+    "v12\\v12_manifest.json": {
+      "bytes": 1321,
+      "sha256": "053cba217ea81dcb943c9692f07052a35b98247e5d33cc2ccac7631d2e0fd88b"
     },
     "v13_validation_report.json": {
-      "bytes": 1177,
+      "bytes": 1209,
       "sha256": "<SHA256 of volatile v13_validation_report.json>"
     },
-    "v15/v15_findings.csv": {
+    "v15\\v15_findings.csv": {
       "bytes": 31,
       "sha256": "0d3d1faff5fc847d5939c6078a9b3dc382c9368cebceece62346dccecf110dbf"
     },
-    "v15/v15_governance_report.json": {
+    "v15\\v15_governance_report.json": {
       "bytes": 977,
       "sha256": "9512ea42f5617e90d5df28119eb0e13558638ce3d24253a44d21da978e26fc4c"
     },
-    "v15/v15_governance_report.md": {
+    "v15\\v15_governance_report.md": {
       "bytes": 392,
       "sha256": "5c23561438bdeb4b6768ec180f20ad37d9e0199eabfe08ba00b3608829c219cb"
     }

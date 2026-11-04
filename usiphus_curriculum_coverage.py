@@ -14,6 +14,7 @@ from collections import Counter, defaultdict
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
+from usiphus_lib.ids import objective_id as make_objective_id
 
 VERSION = "1.0.0"
 
@@ -35,7 +36,7 @@ def analyze_coverage(curriculum: dict[str, Any], discovery: dict[str, Any],
         raise ValueError("curriculum.topics and discovery.resources must be arrays")
     topic_by_id = {str(t.get("id", "")): t for t in topics}
     objective_ids = {
-        tid: {f"{tid}-LO{i:02d}" for i, _ in enumerate(_objectives(topic), 1)}
+        tid: {make_objective_id(tid, i) for i, _ in enumerate(_objectives(topic), 1)}
         for tid, topic in topic_by_id.items()
     }
     mapped: dict[str, list[dict[str, Any]]] = defaultdict(list)
@@ -66,9 +67,9 @@ def analyze_coverage(curriculum: dict[str, Any], discovery: dict[str, Any],
         covered_objectives &= objective_ids.get(tid, set())
         objectives = _objectives(topic)
         missing = [
-            {"objective_id": f"{tid}-LO{i:02d}", "objective": objective}
+            {"objective_id": make_objective_id(tid, i), "objective": objective}
             for i, objective in enumerate(objectives, 1)
-            if f"{tid}-LO{i:02d}" not in covered_objectives
+            if make_objective_id(tid, i) not in covered_objectives
         ]
         source_counts = Counter(str(r.get("source_id", "unknown")) for r in found)
         approved = sum(r.get("review_status") == "approved" for r in found)

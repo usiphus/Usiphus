@@ -21,6 +21,9 @@ from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
+from usiphus_lib.errors import UsiphusError
+from usiphus_lib.text import clean
+from usiphus_lib.ids import objective_id as make_objective_id
 
 VERSION = "1.0.0"
 USER_AGENT = "Usiphus-ResourceDiscovery/1.0 (educational metadata discovery)"
@@ -63,12 +66,8 @@ SOURCE_ROLES = {
 }
 
 
-class DiscoveryError(ValueError):
+class DiscoveryError(UsiphusError):
     """Invalid curriculum or discovery configuration."""
-
-
-def _clean(value: Any) -> str:
-    return " ".join(str(value or "").strip().split())
 
 
 def _tokens(value: str) -> set[str]:
@@ -122,7 +121,7 @@ def _query_for(topic: dict[str, Any]) -> str:
     # Search the canonical topic phrase for high recall. Learning objectives,
     # exam emphasis and coverage tags are applied during local matching rather
     # than AND-combined into provider syntax, which can suppress useful results.
-    return _clean(topic.get("name") or topic.get("topic"))[:240]
+    return clean(topic.get("name") or topic.get("topic"))[:240]
 
 
 def _record(source_id: str, title: str, url: str, *, publisher: str = "",
@@ -135,19 +134,19 @@ def _record(source_id: str, title: str, url: str, *, publisher: str = "",
     return {
         "resource_id": _stable_id(source_id, canonical_url, title),
         "source_id": source_id,
-        "title": _clean(title),
+        "title": clean(title),
         "canonical_url": canonical_url or url,
         "source_type": source_id,
-        "publisher": _clean(publisher),
+        "publisher": clean(publisher),
         "authors": authors or [],
-        "published_on": _clean(published),
-        "doi": _clean(doi),
-        "pmid": _clean(pmid),
-        "pmcid": _clean(pmcid),
-        "abstract": _clean(abstract)[:1800],
-        "licence_or_reuse_status": _clean(licence) or "not_verified",
+        "published_on": clean(published),
+        "doi": clean(doi),
+        "pmid": clean(pmid),
+        "pmcid": clean(pmcid),
+        "abstract": clean(abstract)[:1800],
+        "licence_or_reuse_status": clean(licence) or "not_verified",
         "access_status": access_status,
-        "article_type": _clean(article_type),
+        "article_type": clean(article_type),
         "discovery_provider": provider,
         "evidence_role": SOURCE_ROLES.get(source_id, "learning_resource"),
         "review_status": "unreviewed",
@@ -261,7 +260,7 @@ def _search_links(source_id: str, query: str) -> list[dict[str, Any]]:
 
 def score_resource(resource: dict[str, Any], topic: dict[str, Any]) -> tuple[float, list[str]]:
     topic_text = " ".join([
-        _clean(topic.get("name") or topic.get("topic")),
+        clean(topic.get("name") or topic.get("topic")),
         " ".join(topic.get("learning_objectives", [])),
         " ".join(topic.get("exam_emphasis", [])),
         " ".join(topic.get("coverage_tags", [])),
@@ -289,7 +288,7 @@ def match_resource(resource: dict[str, Any], topic: dict[str, Any]) -> dict[str,
     for index, objective in enumerate(topic.get("learning_objectives", []), 1):
         obj_tokens = _tokens(objective)
         if obj_tokens and len(obj_tokens & title_abstract) / len(obj_tokens) >= 0.2:
-            result["matched_objective_ids"].append(f"{topic.get('id', 'topic')}-LO{index:02d}")
+            result["matched_objective_ids"].append(make_objective_id(topic.get('id', 'topic'), index))
     return result
 
 
@@ -325,7 +324,7 @@ def discover_topic(topic: dict[str, Any], *, limit: int = 5, timeout: int = DEFA
                 if objective_id:
                     title_abstract = _tokens(item.get("title", "") + " " + item.get("abstract", ""))
                     objective = next((x for i, x in enumerate(topic.get("learning_objectives", []), 1)
-                                      if f"{topic.get('id', 'topic')}-LO{i:02d}" == objective_id), "")
+                                      if make_objective_id(topic.get('id', 'topic'), i) == objective_id), "")
                     objective_tokens = _tokens(objective)
                     if objective_tokens and len(objective_tokens & title_abstract) / len(objective_tokens) >= 0.15:
                         matched["matched_objective_ids"] = sorted(
@@ -346,10 +345,10 @@ def discover_topic(topic: dict[str, Any], *, limit: int = 5, timeout: int = DEFA
     scholarly_providers = [x for x in ("pubmed", "pubmed_central", "cureus_open_access")
                            if x in providers]
     for index, objective in enumerate(topic.get("learning_objectives", []), 1):
-        objective_query = _clean(objective)[:240]
+        objective_query = clean(objective)[:240]
         if not objective_query:
             continue
-        objective_id = f"{topic.get('id', 'topic')}-LO{index:02d}"
+        objective_id = make_objective_id(topic.get('id', 'topic'), index)
         for provider in scholarly_providers:
             run_provider(provider, objective_query, objective_id)
 
@@ -381,7 +380,7 @@ def discover_curriculum(curriculum: dict[str, Any], *, limit: int = 5,
     topics = curriculum.get("topics")
     if not isinstance(topics, list) or not topics:
         raise DiscoveryError("Curriculum must contain a non-empty topics array")
-    specialty = _clean(curriculum.get("specialty"))
+    specialty = clean(curriculum.get("specialty"))
     if not specialty:
         raise DiscoveryError("Curriculum specialty is required")
     selected = topics[:max_topics] if max_topics else topics

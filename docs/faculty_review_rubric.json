@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Usiphus Faculty Review Rubric",
+  "version": "1.0.0",
+  "description": "Standard rubric for automated screening + human faculty review",
+  "categories": [
+    {
+      "id": "accuracy",
+      "name": "Clinical Accuracy",
+      "description": "Claims align with current evidence and guidelines",
+      "weight": 0.35,
+      "checks": [
+        "No outdated recommendations",
+        "Claims match cited references",
+        "Risks/benefits balanced and correct",
+        "No absolute statements where evidence is limited"
+      ]
+    },
+    {
+      "id": "completeness",
+      "name": "Completeness & Clarity",
+      "description": "Clear, appropriate, and covers required scope",
+      "weight": 0.20,
+      "checks": [
+        "Learning objective fully addressed",
+        "Language clear and unambiguous",
+        "Key distinctions/contrasts present",
+        "Appropriate depth for learner level"
+      ]
+    },
+    {
+      "id": "currency",
+      "name": "Source & Content Currency",
+      "description": "References and content are up to date",
+      "weight": 0.15,
+      "checks": [
+        "References <5 years (or clearly marked older)",
+        "Guideline references current",
+        "No superseded practice recommendations"
+      ]
+    },
+    {
+      "id": "consistency",
+      "name": "Internal Consistency",
+      "description": "Aligned with other curriculum content",
+      "weight": 0.15,
+      "checks": [
+        "Terms used consistently across cards",
+        "No contradictions within or across topics",
+        "Dosing/durations consistent"
+      ]
+    },
+    {
+      "id": "suitability",
+      "name": "Educational & Exam Suitability",
+      "description": "Appropriate for stated audience and purpose",
+      "weight": 0.15,
+      "checks": [
+        "Matches exam blueprint emphasis",
+        "Not overly detailed/simplified for level",
+        "Safe — no dangerous oversimplification"
+      ]
+    }
+  ],
+  "thresholds": {
+    "auto_approve": 85,
+    "flag_for_review": 65,
+    "block_until_review": 0
+  },
+  "actions": {
+    ">=85": "✅ Auto-screened — ready for batch faculty sign-off",
+    "65-84": "⚠️ Flagged — spot-check recommended",
+    "<65": "🔴 Priority — full faculty review required"
+  }
+}

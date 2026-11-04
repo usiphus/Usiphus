@@ -1,0 +1,1 @@
+ERROR: Evidence packet for T1 has no eligible reviewed snippets (0 eligible sources, 0 eligible snippets). No model request was made. Faculty must verify full-text access, reuse rights, source currency, snippets and objective mappings.

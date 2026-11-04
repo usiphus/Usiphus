@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """Release ledger: protects aggregate cohort statistics against differencing ACROSS releases.
 
@@ -35,13 +34,14 @@ from typing import Any
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from usiphus_common import atomic_write_text
+from usiphus_lib.errors import UsiphusError
 
 VERSION = "1.0.0"
 LEDGER_SCHEMA = 1
 MODES = ("subset", "strict")
 
 
-class LedgerError(ValueError):
+class LedgerError(UsiphusError):
     pass
 
 

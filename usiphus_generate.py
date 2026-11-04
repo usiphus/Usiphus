@@ -6,15 +6,17 @@ import argparse
 import json
 import logging
 import math
-import os
 import re
-import tempfile
 import urllib.error
 import urllib.parse
 import urllib.request
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
+from usiphus_lib.errors import UsiphusError
+from usiphus_lib.files import atomic_write_text
+from usiphus_lib.files import JsonReadPolicy, read_json_file, uniform
+from usiphus_lib.ollama import local_ollama_url as shared_local_ollama_url
 
 LOG = logging.getLogger("usiphus.generate")
 MAX_CONFIG_BYTES = 2 * 1024 * 1024
@@ -99,44 +101,19 @@ def card_response_schema(
     return schema
 
 
-class GenerationError(ValueError):
+class GenerationError(UsiphusError):
     """Raised when generator configuration, source material, or model output is invalid."""
 
 
 def read_json(path: Path, max_bytes: int | None = MAX_CONFIG_BYTES) -> Any:
-    if not path.is_file():
-        raise GenerationError(f"File not found: {path}")
-    if max_bytes is not None and path.stat().st_size > max_bytes:
-        raise GenerationError(f"JSON file exceeds {max_bytes} bytes: {path}")
-    try:
-        return json.loads(path.read_text(encoding="utf-8-sig"))
-    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise GenerationError(f"Cannot read JSON file {path}: {exc}") from exc
+    return read_json_file(path, JsonReadPolicy(
+        error=uniform(GenerationError), missing="File not found: {path}",
+        too_large="JSON file exceeds {limit} bytes: {path}", invalid="Cannot read JSON file {path}: {exc}",
+        invalid_on=(OSError, UnicodeDecodeError, json.JSONDecodeError), max_bytes=max_bytes))
 
 
 def local_ollama_url(value: Any) -> str:
-    raw = str(value or "").strip()
-    parsed = urllib.parse.urlsplit(raw)
-    if (
-        parsed.scheme not in {"http", "https"}
-        or parsed.hostname not in {"localhost", "127.0.0.1", "::1"}
-        or parsed.username
-        or parsed.password
-        or parsed.query
-        or parsed.fragment
-        or parsed.path not in {"", "/"}
-    ):
-        raise GenerationError("Ollama base_url must be a local loopback URL, such as http://localhost:11434")
-    try:
-        port = parsed.port
-    except ValueError as exc:
-        raise GenerationError("Ollama base_url has an invalid port") from exc
-    netloc = parsed.hostname
-    if ":" in netloc:
-        netloc = f"[{netloc}]"
-    if port is not None:
-        netloc = f"{netloc}:{port}"
-    return f"{parsed.scheme}://{netloc}"
+    return shared_local_ollama_url(value, error=GenerationError)
 
 
 def load_config(path: Path) -> tuple[dict[str, Any], Path]:
@@ -574,21 +551,6 @@ def validate_generated(
     return generated
 
 
-def atomic_write(path: Path, text: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temp_name = None
-    try:
-        with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as handle:
-            temp_name = handle.name
-            handle.write(text)
-            handle.flush()
-            os.fsync(handle.fileno())
-        os.replace(temp_name, path)
-    finally:
-        if temp_name and os.path.exists(temp_name):
-            os.unlink(temp_name)
-
-
 def run(config: dict[str, Any], request_fn: Callable[..., str] = call_ollama) -> int:
     curriculum_payload = read_json(Path(config["curriculum"]))
     if not isinstance(curriculum_payload, dict) or not isinstance(curriculum_payload.get("competencies"), list):
@@ -723,7 +685,7 @@ def run(config: dict[str, Any], request_fn: Callable[..., str] = call_ollama) ->
             "review_notice": "Generated cards are unreviewed drafts. Verify every clinical statement against the cited source and obtain qualified review before use.",
             "cards": all_cards,
         }
-        atomic_write(output, json.dumps(result, indent=2, ensure_ascii=False) + "\n")
+        atomic_write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", output)
 
     write_checkpoint()
     no_progress = {str(row.get("id") or row.get("competency_id")).casefold(): 0 for row in competencies}

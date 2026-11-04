@@ -9,42 +9,26 @@ from __future__ import annotations
 
 import argparse
 import csv
-import hashlib
 import html
 import json
 import logging
 import math
-import os
 import re
-import tempfile
 from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 from statistics import median
 from typing import Any
+from usiphus_lib.errors import UsiphusError
+from usiphus_lib.hashing import sha256_file
+from usiphus_lib.text import clean
+from usiphus_lib.files import atomic_write_text, write_json
+from usiphus_lib.files import JsonReadPolicy, read_json_file
 
 VERSION = "17.0.0"
 CONTRACT_VERSION = 1
 MAX_BYTES = 50 * 1024 * 1024
 LOG = logging.getLogger("usiphus.v17")
-
-try:
-    from usiphus_common import atomic_write_text
-except ImportError:  # Standalone source recovery / direct module execution.
-    def atomic_write_text(text: str, destination: Path) -> None:
-        destination = Path(destination)
-        destination.parent.mkdir(parents=True, exist_ok=True)
-        fd, name = tempfile.mkstemp(prefix="." + destination.name + ".", suffix=".tmp",
-                                    dir=str(destination.parent))
-        try:
-            with os.fdopen(fd, "w", encoding="utf-8", newline="") as handle:
-                handle.write(text)
-                handle.flush()
-                os.fsync(handle.fileno())
-            os.replace(name, destination)
-        finally:
-            if os.path.exists(name):
-                os.unlink(name)
 
 
 CONTRACTS: dict[str, dict[str, Any]] = {
@@ -82,7 +66,7 @@ CONTRACTS: dict[str, dict[str, Any]] = {
 }
 
 
-class V17Error(ValueError):
+class V17Error(UsiphusError):
     """An actionable V17 error with a stable machine-readable code."""
 
     def __init__(self, code: str, message: str):
@@ -90,35 +74,15 @@ class V17Error(ValueError):
         self.code = code
 
 
-def clean(value: Any) -> str:
-    return re.sub(r"\s+", " ", str(value or "").strip())
+_READ_ERROR_CODES = {"missing": "V17-E001", "too_large": "V17-E002", "invalid": "V17-E003", "unreadable": "V17-E004"}
 
 
 def read_json(path: Path) -> Any:
-    path = Path(path)
-    if not path.is_file():
-        raise V17Error("V17-E001", f"Input file does not exist: {path}")
-    if path.stat().st_size > MAX_BYTES:
-        raise V17Error("V17-E002", f"Input exceeds {MAX_BYTES} bytes: {path}")
-    try:
-        with path.open("r", encoding="utf-8-sig") as handle:
-            return json.load(handle)
-    except json.JSONDecodeError as exc:
-        raise V17Error("V17-E003", f"Invalid JSON in {path} at line {exc.lineno}, column {exc.colno}") from exc
-    except (OSError, UnicodeDecodeError) as exc:
-        raise V17Error("V17-E004", f"Cannot read {path}: {exc}") from exc
-
-
-def write_json(path: Path, payload: Any) -> None:
-    atomic_write_text(json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False) + "\n", path)
-
-
-def digest(path: Path) -> str:
-    value = hashlib.sha256()
-    with Path(path).open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            value.update(chunk)
-    return value.hexdigest()
+    return read_json_file(path, JsonReadPolicy(
+        error=lambda kind, message: V17Error(_READ_ERROR_CODES[kind], message),
+        missing="Input file does not exist: {path}", too_large="Input exceeds {limit} bytes: {path}",
+        invalid="Invalid JSON in {path} at line {lineno}, column {colno}", invalid_on=(json.JSONDecodeError,),
+        unreadable="Cannot read {path}: {exc}", unreadable_on=(OSError, UnicodeDecodeError), max_bytes=MAX_BYTES))
 
 
 def timezone_aware(value: Any) -> bool:
@@ -267,7 +231,6 @@ def load_curriculum(payload: Any) -> tuple[str, list[dict[str, Any]]]:
                       "required": row.get("required", True), "weight": float(row.get("weight", 1.0)),
                       "objectives": sorted({clean(x) for x in row.get("learning_objectives", []) if clean(x)})})
     return clean(data["specialty"]).casefold(), comps
-
 
 
 def find_exact_duplicate_cards(cards: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
@@ -666,19 +629,19 @@ def run_analysis(args: argparse.Namespace) -> dict[str, Any]:
     if pilot_summary is not None:
         outputs["v17_pilot_metrics_summary.json"] = pilot_summary
     for name, payload in outputs.items():
-        write_json(out / name, payload)
+        write_json(payload, out / name)
     atomic_write_text(dashboard_html(quality, impact), out / "v17_dashboard.html")
     write_pilot_template(out / "v17_pilot_metrics_template.csv")
     manifest = {"schema_version": 1, "usiphus_version": VERSION,
-                "inputs": {key: {"path": str(path), "sha256": digest(path), "bytes": path.stat().st_size}
+                "inputs": {key: {"path": str(path), "sha256": sha256_file(path), "bytes": path.stat().st_size}
                            for key, path in sorted(paths.items())},
                 "outputs": {}, "summary": quality["summary"],
                 "limitations": ["This is an analysis report, not a governed V16 release.",
                                 "Faculty/learner pilot validation must be performed by the institution."]}
     for path in sorted(out.iterdir()):
         if path.is_file() and path.name != "v17_manifest.json":
-            manifest["outputs"][path.name] = {"sha256": digest(path), "bytes": path.stat().st_size}
-    write_json(out / "v17_manifest.json", manifest)
+            manifest["outputs"][path.name] = {"sha256": sha256_file(path), "bytes": path.stat().st_size}
+    write_json(manifest, out / "v17_manifest.json")
     return {"status": "complete", "output_dir": str(out), "summary": quality["summary"],
             "review_queue_items": len(queue), "impact_comparison_available": impact["comparison_available"]}
 
@@ -792,7 +755,7 @@ def main(argv: list[str] | None = None) -> int:
                 if not args.migration_output:
                     parser.error("--migration-output is required with --migrate")
                 migrated = migrate_document(args.contract_type, payload)
-                write_json(Path(args.migration_output), migrated)
+                write_json(migrated, Path(args.migration_output))
                 print(json.dumps({"status": "migrated", "output": args.migration_output,
                                   "meaning_changed": False}, indent=2))
                 return 0

@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """Usiphus V15 — governed evidence registry hardening and impact analysis.
 
@@ -37,35 +36,20 @@ AUDIT_KEY_ENV = "USIPHUS_AUDIT_HMAC_KEY"
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from usiphus_common import atomic_write_text, csv_safe, valid_iso_date
 from usiphus_signing import SigningError, TrustedKeys, load_anchor_file
+from usiphus_lib.errors import UsiphusError
+from usiphus_lib.hashing import digest_value
+from usiphus_lib.text import clean
+from usiphus_lib.files import JsonReadPolicy, read_json_file, uniform
 
 TRUSTED_KEYS_ENV = "USIPHUS_AUDIT_TRUSTED_KEYS"
 
 
-class V15Error(ValueError):
+class V15Error(UsiphusError):
     """Invalid V15 input or policy."""
 
 
-def clean(value: Any) -> str:
-    return " ".join(str(value or "").strip().split())
-
-
-def canonical_json(value: Any) -> str:
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
-
-
-def digest(value: Any) -> str:
-    return hashlib.sha256(canonical_json(value).encode("utf-8")).hexdigest()
-
-
 def read_json(path: Path) -> Any:
-    if not path.is_file():
-        raise V15Error(f"Input file not found: {path}")
-    if path.stat().st_size > 50 * 1024 * 1024:
-        raise V15Error(f"Input exceeds 50 MiB: {path}")
-    try:
-        return json.loads(path.read_text(encoding="utf-8-sig"))
-    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise V15Error(f"Invalid JSON in {path}: {exc}") from exc
+    return read_json_file(path, JsonReadPolicy(error=uniform(V15Error)))
 
 
 def records(payload: Any, key: str, label: str) -> list[dict[str, Any]]:
@@ -149,7 +133,7 @@ def verify_hash_chain(events: Any, hmac_key: bytes | None = None, expected_head:
             continue
         supplied = clean(event.get("event_hash"))
         payload = {k: v for k, v in event.items() if k not in ("event_hash", "signature")}
-        expected = digest(payload)
+        expected = digest_value(payload)
         if clean(event.get("previous_hash")) != previous:
             issues.append(f"event {index} previous_hash does not match the prior event")
         if supplied != expected:
@@ -205,7 +189,7 @@ def build_event(previous_hash: str, actor: str, action: str,
         "timestamp": timestamp,
         "details": dict(details or {}),
     }
-    event["event_hash"] = digest(event)
+    event["event_hash"] = digest_value(event)
     if signer is not None:
         event["signature"] = signer.sign(event["event_hash"])
     elif hmac_key is not None:

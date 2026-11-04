@@ -33,6 +33,66 @@
     "body": null,
     "method": "GET",
     "timeout": 20,
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=Recognise+acute+urinary+retention&retmode=json&retmax=3&sort=relevance"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=101%2C102&retmode=json"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=OPEN_ACCESS%3AY+AND+%28Recognise+acute+urinary+retention%29&format=json&pageSize=3&resultType=core"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=JOURNAL%3A%22Cureus%22+AND+%28Recognise+acute+urinary+retention%29&format=json&pageSize=3&resultType=core"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=Outline+initial+management&retmode=json&retmax=3&sort=relevance"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=OPEN_ACCESS%3AY+AND+%28Outline+initial+management%29&format=json&pageSize=3&resultType=core"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=JOURNAL%3A%22Cureus%22+AND+%28Outline+initial+management%29&format=json&pageSize=3&resultType=core"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=Identify+complications+of+catheterisation&retmode=json&retmax=3&sort=relevance"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=OPEN_ACCESS%3AY+AND+%28Identify+complications+of+catheterisation%29&format=json&pageSize=3&resultType=core"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=JOURNAL%3A%22Cureus%22+AND+%28Identify+complications+of+catheterisation%29&format=json&pageSize=3&resultType=core"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
     "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=Renal+colic&retmode=json&retmax=3&sort=relevance"
   },
   {
@@ -52,5 +112,59 @@
     "method": "GET",
     "timeout": 20,
     "url": "https://api.crossref.org/works?query.bibliographic=Renal+colic&rows=3&select=DOI%2Ctitle%2Cauthor%2Cpublished%2Ccontainer-title%2Ctype%2CURL"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=Select+imaging+for+renal+colic&retmode=json&retmax=3&sort=relevance"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=OPEN_ACCESS%3AY+AND+%28Select+imaging+for+renal+colic%29&format=json&pageSize=3&resultType=core"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=JOURNAL%3A%22Cureus%22+AND+%28Select+imaging+for+renal+colic%29&format=json&pageSize=3&resultType=core"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=Identify+indications+for+urgent+intervention&retmode=json&retmax=3&sort=relevance"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=OPEN_ACCESS%3AY+AND+%28Identify+indications+for+urgent+intervention%29&format=json&pageSize=3&resultType=core"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=JOURNAL%3A%22Cureus%22+AND+%28Identify+indications+for+urgent+intervention%29&format=json&pageSize=3&resultType=core"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=Counsel+on+analgesia+and+follow-up&retmode=json&retmax=3&sort=relevance"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=OPEN_ACCESS%3AY+AND+%28Counsel+on+analgesia+and+follow-up%29&format=json&pageSize=3&resultType=core"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=JOURNAL%3A%22Cureus%22+AND+%28Counsel+on+analgesia+and+follow-up%29&format=json&pageSize=3&resultType=core"
   }
 ]

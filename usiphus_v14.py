@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """Usiphus V16: one governed release using the compatible V14 command."""
 from __future__ import annotations
@@ -6,7 +5,6 @@ from __future__ import annotations
 import argparse
 import contextlib
 import ctypes
-import hashlib
 import importlib.util
 import json
 import logging
@@ -27,6 +25,9 @@ FILES = {"cards":"cards.json","curriculum":"curriculum.json","mapping":"mapping.
          "cohort_analytics":"cohort_analytics.json","review_schedule":"review_schedule.csv"}
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
 from usiphus_common import atomic_write_text
+from usiphus_lib.errors import UsiphusError
+from usiphus_lib.hashing import sha256_file
+from usiphus_lib.files import write_json
 
 MARKER = ".usiphus_v14_bundle"
 POINTER_MARKER_TEXT = "usiphus-v14-pointer-root\nThis directory holds immutable releases and a current.json pointer managed by Usiphus V14.\n"
@@ -34,14 +35,8 @@ PUBLISH_MODES = {"auto", "pointer"}
 V15_KEYS = {"v15_sources","v15_claims","v15_evidence_mode","v15_block_on_failure","v15_minimum_reviewers","v15_require_registered_sources","v15_require_signed_audit","v15_require_audit_anchor","v15_audit_trusted_keys","v15_anchors"}
 ALLOWED = {"schema_version","inputs","output_dir","as_of","max_evidence_age_days","run_regression_tests","publish_mode","keep_releases","require_release_ledger"} | V15_KEYS
 
-class ReleaseError(ValueError):
+class ReleaseError(UsiphusError):
     pass
-
-def digest(path):
-    h=hashlib.sha256()
-    with Path(path).open("rb") as f:
-        for chunk in iter(lambda:f.read(1024*1024),b""): h.update(chunk)
-    return h.hexdigest()
 
 def engine(version):
     name=f"usiphus_v{version}"
@@ -131,14 +126,6 @@ def load_config(filename):
                v15_require_signed_audit=signed,v15_require_audit_anchor=anchored,publish_mode=publish_mode,keep_releases=keep,require_release_ledger=need_ledger)
     return cfg,path
 
-def write_json(path,value):
-    temp=Path(str(path)+".tmp-"+uuid.uuid4().hex)
-    try:
-        temp.write_text(json.dumps(value,indent=2,sort_keys=True,ensure_ascii=False)+"\n",encoding="utf-8")
-        temp.replace(path)
-    finally:
-        if temp.exists(): temp.unlink()
-
 def _marker_kind(target):
     marker=target/MARKER
     if not marker.is_file(): return None
@@ -219,7 +206,7 @@ def publish_pointer(stage,target,keep):
     except OSError: shutil.move(str(stage),str(dest))   # different filesystem: copy, then the pointer swap below is still atomic
     manifest=dest/"v14_manifest.json"
     pointer={"schema_version":1,"release_id":rid,"path":f"releases/{rid}","published_at":now.isoformat().replace("+00:00","Z"),
-             "manifest_sha256":digest(manifest) if manifest.is_file() else None}
+             "manifest_sha256":sha256_file(manifest) if manifest.is_file() else None}
     atomic_write_text(json.dumps(pointer,indent=2,sort_keys=True)+"\n",target/"current.json")
     for old in sorted((p for p in releases.iterdir() if p.is_dir() and p.name!=rid),key=lambda p:p.name,reverse=True)[max(keep-1,0):]:
         shutil.rmtree(old,ignore_errors=True)
@@ -300,7 +287,7 @@ def _run_release_locked(cfg,config_path,target):
         stages.append({"stage":"V12 integration","status":"passed"})
         validation=engines[13].validate_bundle(source,out,stage/"v13_validation_report.json",require_release_ledger=cfg.get("require_release_ledger",False))
         if validation.get("validation_status")!="passed": raise ReleaseError("V13 validation failed")
-        write_json(stage/"v13_validation_report.json",validation)
+        write_json(validation,stage/"v13_validation_report.json")
         stages.append({"stage":"V13 validation","status":"passed"})
         checklist=json.loads((out/"release_checklist.json").read_text(encoding="utf-8"))
         v12_ready=checklist.get("release_ready") is True
@@ -348,7 +335,7 @@ def _run_release_locked(cfg,config_path,target):
                      "findings":v15_result["findings"] if v15_result else []},
                  "generated_at":now,"stages":stages,
                  "boundary":"Software status only; not clinical approval, educational validity, competence, anonymization, or legal compliance."}
-        write_json(stage/"release_summary.json",summary)
+        write_json(summary,stage/"release_summary.json")
         report=["# Usiphus V16 governed release report","",f"- Specialty: {summary['specialty']}",
                 f"- Release status: **{status.upper()}**","","| Stage | Status |","|---|---|"]
         report += [f"| {x['stage']} | {x['status']} |" for x in stages]
@@ -373,21 +360,21 @@ def _run_release_locked(cfg,config_path,target):
         source_hashes={}
         for key,original in cfg["inputs"].items():
             snap=staged[key]
-            source_hashes[key]={"path":original,"sha256":digest(snap),"bytes":snap.stat().st_size}
+            source_hashes[key]={"path":original,"sha256":sha256_file(snap),"bytes":snap.stat().st_size}
         for key,original in cfg["v15"].items():
             snap=v15_staged[key]
-            source_hashes[key]={"path":original,"sha256":digest(snap),"bytes":snap.stat().st_size}
+            source_hashes[key]={"path":original,"sha256":sha256_file(snap),"bytes":snap.stat().st_size}
         report_hashes={}
         if (stage/"v15").is_dir():
-            report_hashes={p.name:{"sha256":digest(p),"bytes":p.stat().st_size}
+            report_hashes={p.name:{"sha256":sha256_file(p),"bytes":p.stat().st_size}
                            for p in sorted((stage/"v15").iterdir()) if p.is_file()}
         shutil.rmtree(source)
         shutil.rmtree(v15_source)
-        output_hashes={str(p.relative_to(stage)):{"sha256":digest(p),"bytes":p.stat().st_size}
+        output_hashes={str(p.relative_to(stage)):{"sha256":sha256_file(p),"bytes":p.stat().st_size}
                        for p in sorted(stage.rglob("*")) if p.is_file()}
         manifest={"schema_version":2,"usiphus_version":VERSION,
             "engine_versions":{f"v{v}":engines[v].VERSION for v in engines},
-            "config_sha256":digest(config_path),"inputs":source_hashes,"outputs":output_hashes,
+            "config_sha256":sha256_file(config_path),"inputs":source_hashes,"outputs":output_hashes,
             "release_policy":{"v15_enabled":15 in engines,
                 "v15_evidence_mode":cfg["v15_evidence_mode"] if cfg.get("v15") else "not_configured",
                 "v15_block_on_failure":cfg.get("v15_block_on_failure",True),
@@ -400,7 +387,7 @@ def _run_release_locked(cfg,config_path,target):
             "governance_report_hashes":report_hashes,
             "release_status":status,"generated_at":now,
             "note":"Hashes support integrity/change detection; timestamps vary and byte-identical bundles are not promised."}
-        write_json(stage/"v14_manifest.json",manifest)
+        write_json(manifest,stage/"v14_manifest.json")
         mode=publish(stage,target,cfg.get("publish_mode","auto"),cfg.get("keep_releases",5)); LOG.info("Published release bundle (%s)",mode)
         summary["output_dir"]=str(target)
         summary["manifest"]=str(published_manifest_path(target,mode))
@@ -411,7 +398,7 @@ def self_test():
     class Tests(unittest.TestCase):
         def test_hash_changes(self):
             with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
-                p=Path(d)/"x"; p.write_text("a"); a=digest(p); p.write_text("b"); self.assertNotEqual(a,digest(p))
+                p=Path(d)/"x"; p.write_text("a"); a=sha256_file(p); p.write_text("b"); self.assertNotEqual(a,sha256_file(p))
         def test_config_resolves_paths_and_defaults(self):
             with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
                 root=Path(d)

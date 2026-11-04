@@ -5,6 +5,7 @@ import unittest
 from pathlib import Path
 
 import usiphus_review
+from usiphus_lib.files import atomic_write_text
 
 
 class CardReviewTests(unittest.TestCase):
@@ -60,7 +61,7 @@ class CardReviewTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "reviews.json"
             usiphus_review.record_decision(self.store, "reviewer-a", "OPH-001", "keep")
-            usiphus_review.atomic_write(path, json.dumps(self.store))
+            atomic_write_text(json.dumps(self.store), path)
             loaded = usiphus_review.load_store(path)
             self.assertEqual(
                 loaded["reviewer_profiles"]["reviewer-a"]["decisions"]["OPH-001"]["decision"],

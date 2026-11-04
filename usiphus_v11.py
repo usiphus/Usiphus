@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """Usiphus V11 — privacy-aware adaptive learning and assessment analytics.
 
@@ -32,16 +31,16 @@ SETTINGS_KEYS = {"prior_alpha", "prior_beta", "mastery_thresholds", "interval_da
 LOG = logging.getLogger("usiphus.v11")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import usiphus_ledger as ledger_mod
+from usiphus_lib.text import strip_text
+from usiphus_lib.files import atomic_write_text
+from usiphus_lib.files import JsonReadPolicy, read_json_file, uniform
 
 LEARNER_KEYS = {"learner_id", "consent_granted", "consented_at", "consent_revoked_at"}
 ATTEMPT_KEYS = {"attempt_id", "learner_id", "card_id", "answered_at", "score"}
 FORBIDDEN_KEYS = {"name", "full_name", "email", "phone", "address", "date_of_birth", "dob", "password", "free_text", "response_text"}
 
-def clean(value: Any) -> str:
-    return str(value or "").strip()
-
 def parse_time(value: Any, label: str) -> datetime:
-    raw = clean(value)
+    raw = strip_text(value)
     if not raw: raise ValueError(f"{label} is required")
     try: parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
     except ValueError: raise ValueError(f"{label} must be an ISO-8601 timestamp") from None
@@ -50,7 +49,7 @@ def parse_time(value: Any, label: str) -> datetime:
     return parsed.astimezone(UTC)
 
 def learner_uuid(value: Any) -> str:
-    raw = clean(value)
+    raw = strip_text(value)
     try: parsed = uuid.UUID(raw)
     except (ValueError, AttributeError): raise ValueError("learner_id must be an opaque UUIDv4 pseudonym") from None
     if parsed.version != 4 or str(parsed) != raw.lower():
@@ -58,9 +57,10 @@ def learner_uuid(value: Any) -> str:
     return str(parsed)
 
 def read_json(path: Path) -> Any:
-    if not path.is_file(): raise ValueError(f"Input file does not exist: {path}")
-    if path.stat().st_size > 50 * 1024 * 1024: raise ValueError(f"Input exceeds 50 MiB: {path}")
-    with path.open("r", encoding="utf-8-sig") as handle: return json.load(handle)
+    # Historical behaviour kept as-is: malformed JSON and bad UTF-8 propagate unwrapped (invalid_on=()).
+    return read_json_file(path, JsonReadPolicy(
+        error=uniform(ValueError), missing="Input file does not exist: {path}",
+        too_large="Input exceeds {limit_mib} MiB: {path}", invalid=None, invalid_on=()))
 
 def reject_extra_keys(record: dict[str, Any], allowed: set[str], label: str) -> None:
     keys = set(record)
@@ -72,12 +72,12 @@ def load_curriculum(path: Path) -> tuple[str, list[dict[str, Any]]]:
     payload = read_json(path)
     if not isinstance(payload, dict) or not isinstance(payload.get("competencies"), list):
         raise ValueError("V10 curriculum must contain a competencies list")
-    specialty = clean(payload.get("specialty")).casefold()
+    specialty = strip_text(payload.get("specialty")).casefold()
     if not specialty: raise ValueError("Curriculum specialty is required")
     competencies, seen = [], set()
     for index, item in enumerate(payload["competencies"]):
         if not isinstance(item, dict): raise ValueError(f"Competency {index} must be an object")
-        cid, title = clean(item.get("competency_id") or item.get("id")), clean(item.get("title") or item.get("name"))
+        cid, title = strip_text(item.get("competency_id") or item.get("id")), strip_text(item.get("title") or item.get("name"))
         if not cid or not title or cid.casefold() in seen: raise ValueError(f"Competency {index} requires a unique ID and title")
         if cid[:1] in ("=", "+", "-", "@"): raise ValueError(f"Competency ID {cid!r} must not start with a spreadsheet formula character")
         seen.add(cid.casefold())
@@ -85,7 +85,7 @@ def load_curriculum(path: Path) -> tuple[str, list[dict[str, Any]]]:
         if isinstance(weight, bool) or not isinstance(weight, (int,float)) or not math.isfinite(weight) or weight <= 0:
             raise ValueError(f"Competency {cid} must have a finite positive weight")
         if not isinstance(required, bool): raise ValueError(f"Competency {cid} required must be boolean")
-        competencies.append({"competency_id":cid,"title":title,"domain":clean(item.get("domain") or "Uncategorized"),"weight":float(weight),"required":required})
+        competencies.append({"competency_id":cid,"title":title,"domain":strip_text(item.get("domain") or "Uncategorized"),"weight":float(weight),"required":required})
     if not competencies: raise ValueError("Curriculum must contain at least one competency")
     return specialty, competencies
 
@@ -93,16 +93,16 @@ def load_verified_card_map(path: Path, competency_ids: set[str], specialty: str)
     payload = read_json(path)
     if not isinstance(payload, dict) or not isinstance(payload.get("candidates"), list):
         raise ValueError("Mapping report must be a V10 curriculum_coverage.json with candidates")
-    if clean(payload.get("specialty")).casefold() != specialty.casefold():
+    if strip_text(payload.get("specialty")).casefold() != specialty.casefold():
         raise ValueError("V10 mapping report specialty does not match the curriculum")
     card_map: dict[str,set[str]] = defaultdict(set)
     for row in payload["candidates"]:
         if not isinstance(row, dict): raise ValueError("Mapping candidate rows must be objects")
         if row.get("status") != "verified": continue
-        if clean(row.get("method")) != "faculty-approved" or not clean(row.get("reviewer")):
+        if strip_text(row.get("method")) != "faculty-approved" or not strip_text(row.get("reviewer")):
             raise ValueError("Verified mapping lacks faculty-approved provenance (method, reviewer, reviewed_at)")
         parse_time(row.get("reviewed_at"), "Verified mapping reviewed_at")
-        card_id, cid = clean(row.get("card_id")), clean(row.get("competency_id"))
+        card_id, cid = strip_text(row.get("card_id")), strip_text(row.get("competency_id"))
         if not card_id or cid.casefold() not in competency_ids: raise ValueError("Verified mapping contains an unknown card or competency ID")
         card_map[card_id].add(cid)
     if not card_map: raise ValueError("V10 mapping report contains no verified card-to-competency mappings")
@@ -164,7 +164,7 @@ def load_events(path: Path, as_of: datetime):
     for i,item in enumerate(payload["attempts"]):
         if not isinstance(item,dict): raise ValueError(f"Attempt {i} must be an object")
         reject_extra_keys(item,ATTEMPT_KEYS,f"Attempt {i}")
-        aid=clean(item.get("attempt_id"))
+        aid=strip_text(item.get("attempt_id"))
         if not aid or aid in seen: raise ValueError(f"Attempt {i} requires a unique attempt_id")
         seen.add(aid)
         lid=learner_uuid(item.get("learner_id"))
@@ -180,7 +180,7 @@ def load_events(path: Path, as_of: datetime):
         score=item.get("score")
         if isinstance(score,bool) or not isinstance(score,(int,float)) or not math.isfinite(score) or not 0<=score<=1:
             raise ValueError(f"Attempt {aid} score must be finite and between 0 and 1")
-        card=clean(item.get("card_id"))
+        card=strip_text(item.get("card_id"))
         if not card: raise ValueError(f"Attempt {aid} requires card_id")
         accepted.append({"attempt_id":aid,"learner_id":lid,"card_id":card,"answered_at":when,"score":float(score)})
     return accepted,counts,cohort_min,retention
@@ -312,26 +312,17 @@ def build_analytics(specialty,competencies,card_map,attempts,excluded,cohort_min
         "release_ledger":ledger_summary}
     return learner_report,cohort_report,sorted(schedule,key=lambda x:(x["next_due_at"],x["learner_id"],x["competency_id"]))
 
-def atomic_write(path: Path,content: str):
-    path.parent.mkdir(parents=True,exist_ok=True); temp=None
-    try:
-        with tempfile.NamedTemporaryFile("w",encoding="utf-8",dir=path.parent,delete=False) as handle:
-            temp=handle.name; handle.write(content); handle.flush()
-        Path(temp).replace(path)
-    finally:
-        if temp and Path(temp).exists(): Path(temp).unlink()
-
 def write_outputs(output,learner,cohort,schedule):
-    atomic_write(output/"learner_progress.json",json.dumps(learner,indent=2,ensure_ascii=False)+"\n")
-    atomic_write(output/"cohort_analytics.json",json.dumps(cohort,indent=2,ensure_ascii=False)+"\n")
+    atomic_write_text(json.dumps(learner,indent=2,ensure_ascii=False)+"\n",output/"learner_progress.json")
+    atomic_write_text(json.dumps(cohort,indent=2,ensure_ascii=False)+"\n",output/"cohort_analytics.json")
     import io
     buf=io.StringIO(); fields=["learner_id","competency_id","next_due_at","recommended_interval_days","status","mastery_estimate"]
     writer=csv.DictWriter(buf,fieldnames=fields); writer.writeheader(); writer.writerows(schedule)
-    atomic_write(output/"review_schedule.csv",buf.getvalue())
+    atomic_write_text(buf.getvalue(),output/"review_schedule.csv")
     manifest={"usiphus_version":VERSION,"schema_version":SCHEMA_VERSION,
         "outputs":["learner_progress.json","cohort_analytics.json","review_schedule.csv"],
         "source_files_modified":False,"privacy_note":"Outputs contain pseudonymous learner identifiers; protect as sensitive educational records."}
-    atomic_write(output/"v11_manifest.json",json.dumps(manifest,indent=2)+"\n")
+    atomic_write_text(json.dumps(manifest,indent=2)+"\n",output/"v11_manifest.json")
 
 def run(curriculum_path,mapping_path,attempts_path,output,settings_path,as_of_raw,
         ledger_path=None,ledger_mode="subset",update_ledger=True):

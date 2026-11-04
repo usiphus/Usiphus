@@ -1,0 +1,3646 @@
+--- a/README.md
++++ b/README.md
+@@ -131,6 +131,7 @@
+     python usiphus_v17.py --self-test
+     python usiphus_v18.py --self-test
+     python usiphus_v19.py --self-test
++    python usiphus_v20.py --self-test
+     python -m unittest discover -s tests -v
+ 
+ ## V18 — Evidence lifecycle operations
+@@ -187,6 +188,7 @@
+ - V16 governed release: docs/V16_GOVERNED_RELEASE.md
+ - V15 evidence governance: docs/V15_EVIDENCE_GOVERNANCE.md
+ - V14 unified release platform: docs/V14_UNIFIED_RELEASE_PLATFORM.md
++- Shared helper library (`usiphus_lib`): docs/SHARED_LIBRARY.md
+ - Safety, privacy, and security checklist: docs/SAFETY_AND_PRIVACY.md
+ 
+ ## Curriculum-aware resource discovery
+--- a/tests/test_hardening2.py
++++ b/tests/test_hardening2.py
+@@ -23,6 +23,7 @@
+ import usiphus_audit as audit
+ import usiphus_ledger as ledger_mod
+ import usiphus_signing as sg
++from usiphus_lib.hashing import sha256_file
+ 
+ v11, v14, v15, mig = base.v11, base.v14, base.v15, base.mig
+ HAVE_OPENSSL = shutil.which("openssl") is not None
+@@ -335,7 +336,7 @@
+                 self.assertEqual((current / "payload.txt").read_text(), f"s{i}")
+                 pointer = json.loads((out / "current.json").read_text())
+                 self.assertEqual(pointer["release_id"], current.name)
+-                self.assertEqual(pointer["manifest_sha256"], v14.digest(current / "v14_manifest.json"))
++                self.assertEqual(pointer["manifest_sha256"], sha256_file(current / "v14_manifest.json"))
+             kept = sorted(p.name for p in (out / "releases").iterdir())
+             self.assertEqual(len(kept), 2); self.assertEqual(kept[-1], seen[-1]); self.assertNotIn(seen[0], kept)
+             self.assertTrue((out / v14.MARKER).is_file())
+--- a/tests/test_review.py
++++ b/tests/test_review.py
+@@ -5,6 +5,7 @@
+ from pathlib import Path
+ 
+ import usiphus_review
++from usiphus_lib.files import atomic_write_text
+ 
+ 
+ class CardReviewTests(unittest.TestCase):
+@@ -60,7 +61,7 @@
+         with tempfile.TemporaryDirectory() as directory:
+             path = Path(directory) / "reviews.json"
+             usiphus_review.record_decision(self.store, "reviewer-a", "OPH-001", "keep")
+-            usiphus_review.atomic_write(path, json.dumps(self.store))
++            atomic_write_text(json.dumps(self.store), path)
+             loaded = usiphus_review.load_store(path)
+             self.assertEqual(
+                 loaded["reviewer_profiles"]["reviewer-a"]["decisions"]["OPH-001"]["decision"],
+--- a/usiphus_audit.py
++++ b/usiphus_audit.py
+@@ -34,6 +34,7 @@
+ import usiphus_signing as sig
+ import usiphus_v15 as v15
+ from usiphus_common import atomic_write_text
++from usiphus_lib.text import clean
+ 
+ VERSION = "1.0.0"
+ 
+@@ -85,7 +86,7 @@
+         raise sig.SigningError("Specify exactly one of --output or --in-place")
+     source = Path(args.claims)
+     payload, rows = _load_claims(source)
+-    claim = next((r for r in rows if v15.clean(r.get("claim_id")) == args.claim_id), None)
++    claim = next((r for r in rows if clean(r.get("claim_id")) == args.claim_id), None)
+     if claim is None:
+         raise sig.SigningError(f"Claim not found: {args.claim_id}")
+     events = claim.get("audit_events")
+@@ -105,7 +106,7 @@
+     previous = events[-1]["event_hash"] if events else "0" * 64
+     event = v15.build_event(previous, args.actor, args.action, args.timestamp or _now(), details, signer=_signer(args))
+     candidate = events + [event]
+-    new_status = args.to or v15.clean(claim.get("status") or "draft")
++    new_status = args.to or clean(claim.get("status") or "draft")
+     problems = v15.audit_workflow_issues(candidate, new_status.casefold())
+     if problems:
+         raise sig.SigningError("Refusing to append: " + "; ".join(problems))
+@@ -122,7 +123,7 @@
+     for r in rows:
+         events = r.get("audit_events")
+         if isinstance(events, list) and events and isinstance(events[-1], dict) and events[-1].get("event_hash"):
+-            heads[v15.clean(r.get("claim_id"))] = str(events[-1]["event_hash"])
++            heads[clean(r.get("claim_id"))] = str(events[-1]["event_hash"])
+     return heads
+ 
+ 
+@@ -141,11 +142,11 @@
+     anchors = sig.load_anchor_file(args.anchors, trusted) if args.anchors else None
+     problems: list[dict[str, Any]] = []
+     for r in rows:
+-        cid = v15.clean(r.get("claim_id"))
++        cid = clean(r.get("claim_id"))
+         events = r.get("audit_events")
+         if events is None:
+             continue
+-        head = v15.clean(anchors.get(cid)) if anchors is not None else v15.clean(r.get("audit_anchor"))
++        head = clean(anchors.get(cid)) if anchors is not None else clean(r.get("audit_anchor"))
+         issues = v15.verify_hash_chain(events, expected_head=head, verifier=trusted)
+         if anchors is not None and events and not head:
+             issues.append("claim has audit events but no entry in the signed anchor file")
+--- a/usiphus_auto_deck.py
++++ b/usiphus_auto_deck.py
+@@ -31,8 +31,8 @@
+     load_topic_evidence_packets, preflight_topic_evidence,
+     validate_card_evidence, validate_evidence_packet,
+ )
+-from usiphus_generate import local_ollama_url
+ from usiphus_v7 import export_apkg
++from usiphus_lib.ollama import local_ollama_url
+ 
+ DEFAULT_OLLAMA_MODEL = "llama3.1:8b"
+ DEFAULT_OLLAMA_URL = "http://localhost:11434"
+--- a/usiphus_common.py
++++ b/usiphus_common.py
+@@ -13,15 +13,13 @@
+ import html
+ import json
+ import logging
+-import os
+ import re
+-import tempfile
+ import urllib.error
+ import urllib.request
+ from collections.abc import Sequence
+ from datetime import date
+-from pathlib import Path
+ from typing import Any
++from usiphus_lib.files import atomic_write_text  # noqa: F401  re-exported: engines import it from here
+ 
+ COMMON_VERSION = "1.0.0"
+ LOG = logging.getLogger("usiphus.common")
+@@ -209,29 +207,6 @@
+ # --------------------------------------------------------------------------
+ # Output helpers
+ # --------------------------------------------------------------------------
+-def atomic_write_text(text: str, destination: Path) -> None:
+-    destination = Path(destination)
+-    destination.parent.mkdir(parents=True, exist_ok=True)
+-    temp_name: str | None = None
+-    try:
+-        with tempfile.NamedTemporaryFile(
+-            mode="w", encoding="utf-8", newline="", dir=destination.parent,
+-            prefix=f".{destination.name}.", suffix=".tmp", delete=False,
+-        ) as handle:
+-            temp_name = handle.name
+-            handle.write(text)
+-            handle.flush()
+-            os.fsync(handle.fileno())
+-        os.replace(temp_name, destination)
+-        temp_name = None
+-    finally:
+-        if temp_name:
+-            try:
+-                os.unlink(temp_name)
+-            except FileNotFoundError:
+-                pass
+-
+-
+ def csv_safe(value: Any) -> str:
+     """Neutralise spreadsheet formula injection in text cells (=, +, -, @, TAB, CR)."""
+     text = "" if value is None else str(value)
+--- a/usiphus_competencies.py
++++ b/usiphus_competencies.py
+@@ -13,6 +13,7 @@
+ from typing import Any
+ 
+ import usiphus_generate as generation
++from usiphus_lib.files import atomic_write_text
+ 
+ LOG = logging.getLogger("usiphus.competencies")
+ LEVELS = {"remember", "understand", "apply", "analyze", "evaluate", "create"}
+@@ -271,7 +272,7 @@
+             "review_notice": "AI-generated draft competencies are unvalidated. Faculty must verify scope, completeness, wording, and source support before curriculum use.",
+             "competencies": competencies,
+         }
+-        generation.atomic_write(output, json.dumps(result, indent=2, ensure_ascii=False) + "\n")
++        atomic_write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", output)
+ 
+     write_checkpoint()
+     calls = 0
+--- a/usiphus_curriculum_coverage.py
++++ b/usiphus_curriculum_coverage.py
+@@ -14,6 +14,7 @@
+ from datetime import UTC, datetime
+ from pathlib import Path
+ from typing import Any
++from usiphus_lib.ids import objective_id as make_objective_id
+ 
+ VERSION = "1.0.0"
+ 
+@@ -35,7 +36,7 @@
+         raise ValueError("curriculum.topics and discovery.resources must be arrays")
+     topic_by_id = {str(t.get("id", "")): t for t in topics}
+     objective_ids = {
+-        tid: {f"{tid}-LO{i:02d}" for i, _ in enumerate(_objectives(topic), 1)}
++        tid: {make_objective_id(tid, i) for i, _ in enumerate(_objectives(topic), 1)}
+         for tid, topic in topic_by_id.items()
+     }
+     mapped: dict[str, list[dict[str, Any]]] = defaultdict(list)
+@@ -66,9 +67,9 @@
+         covered_objectives &= objective_ids.get(tid, set())
+         objectives = _objectives(topic)
+         missing = [
+-            {"objective_id": f"{tid}-LO{i:02d}", "objective": objective}
++            {"objective_id": make_objective_id(tid, i), "objective": objective}
+             for i, objective in enumerate(objectives, 1)
+-            if f"{tid}-LO{i:02d}" not in covered_objectives
++            if make_objective_id(tid, i) not in covered_objectives
+         ]
+         source_counts = Counter(str(r.get("source_id", "unknown")) for r in found)
+         approved = sum(r.get("review_status") == "approved" for r in found)
+--- a/usiphus_evidence.py
++++ b/usiphus_evidence.py
+@@ -10,6 +10,7 @@
+ from pathlib import Path
+ from urllib.parse import urlsplit
+ from typing import Any
++from usiphus_lib.ids import objective_id as make_objective_id
+ 
+ _NUMBER = r"\d+(?:[.,]\d+)?"
+ RISK_PATTERNS = {
+@@ -248,7 +249,7 @@
+     for topic in topics:
+         topic_id = _text(topic.get("id"))
+         for index, objective in enumerate(topic.get("learning_objectives", []), 1):
+-            objective_id = f"{topic_id}-LO{index:02d}"
++            objective_id = make_objective_id(topic_id, index)
+             matches = [s["snippet_id"] for s in eligible
+                        if objective_id in s.get("matched_objective_ids", [])]
+             mapping[objective_id] = {
+--- a/usiphus_generate.py
++++ b/usiphus_generate.py
+@@ -6,15 +6,17 @@
+ import json
+ import logging
+ import math
+-import os
+ import re
+-import tempfile
+ import urllib.error
+ import urllib.parse
+ import urllib.request
+ from collections.abc import Callable
+ from pathlib import Path
+ from typing import Any
++from usiphus_lib.errors import UsiphusError
++from usiphus_lib.files import atomic_write_text
++from usiphus_lib.files import JsonReadPolicy, read_json_file, uniform
++from usiphus_lib.ollama import local_ollama_url as shared_local_ollama_url
+ 
+ LOG = logging.getLogger("usiphus.generate")
+ MAX_CONFIG_BYTES = 2 * 1024 * 1024
+@@ -99,44 +101,19 @@
+     return schema
+ 
+ 
+-class GenerationError(ValueError):
++class GenerationError(UsiphusError):
+     """Raised when generator configuration, source material, or model output is invalid."""
+ 
+ 
+ def read_json(path: Path, max_bytes: int | None = MAX_CONFIG_BYTES) -> Any:
+-    if not path.is_file():
+-        raise GenerationError(f"File not found: {path}")
+-    if max_bytes is not None and path.stat().st_size > max_bytes:
+-        raise GenerationError(f"JSON file exceeds {max_bytes} bytes: {path}")
+-    try:
+-        return json.loads(path.read_text(encoding="utf-8-sig"))
+-    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+-        raise GenerationError(f"Cannot read JSON file {path}: {exc}") from exc
++    return read_json_file(path, JsonReadPolicy(
++        error=uniform(GenerationError), missing="File not found: {path}",
++        too_large="JSON file exceeds {limit} bytes: {path}", invalid="Cannot read JSON file {path}: {exc}",
++        invalid_on=(OSError, UnicodeDecodeError, json.JSONDecodeError), max_bytes=max_bytes))
+ 
+ 
+ def local_ollama_url(value: Any) -> str:
+-    raw = str(value or "").strip()
+-    parsed = urllib.parse.urlsplit(raw)
+-    if (
+-        parsed.scheme not in {"http", "https"}
+-        or parsed.hostname not in {"localhost", "127.0.0.1", "::1"}
+-        or parsed.username
+-        or parsed.password
+-        or parsed.query
+-        or parsed.fragment
+-        or parsed.path not in {"", "/"}
+-    ):
+-        raise GenerationError("Ollama base_url must be a local loopback URL, such as http://localhost:11434")
+-    try:
+-        port = parsed.port
+-    except ValueError as exc:
+-        raise GenerationError("Ollama base_url has an invalid port") from exc
+-    netloc = parsed.hostname
+-    if ":" in netloc:
+-        netloc = f"[{netloc}]"
+-    if port is not None:
+-        netloc = f"{netloc}:{port}"
+-    return f"{parsed.scheme}://{netloc}"
++    return shared_local_ollama_url(value, error=GenerationError)
+ 
+ 
+ def load_config(path: Path) -> tuple[dict[str, Any], Path]:
+@@ -574,21 +551,6 @@
+     return generated
+ 
+ 
+-def atomic_write(path: Path, text: str) -> None:
+-    path.parent.mkdir(parents=True, exist_ok=True)
+-    temp_name = None
+-    try:
+-        with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as handle:
+-            temp_name = handle.name
+-            handle.write(text)
+-            handle.flush()
+-            os.fsync(handle.fileno())
+-        os.replace(temp_name, path)
+-    finally:
+-        if temp_name and os.path.exists(temp_name):
+-            os.unlink(temp_name)
+-
+-
+ def run(config: dict[str, Any], request_fn: Callable[..., str] = call_ollama) -> int:
+     curriculum_payload = read_json(Path(config["curriculum"]))
+     if not isinstance(curriculum_payload, dict) or not isinstance(curriculum_payload.get("competencies"), list):
+@@ -723,7 +685,7 @@
+             "review_notice": "Generated cards are unreviewed drafts. Verify every clinical statement against the cited source and obtain qualified review before use.",
+             "cards": all_cards,
+         }
+-        atomic_write(output, json.dumps(result, indent=2, ensure_ascii=False) + "\n")
++        atomic_write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", output)
+ 
+     write_checkpoint()
+     no_progress = {str(row.get("id") or row.get("competency_id")).casefold(): 0 for row in competencies}
+--- a/usiphus_ledger.py
++++ b/usiphus_ledger.py
+@@ -34,13 +34,14 @@
+ 
+ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+ from usiphus_common import atomic_write_text
++from usiphus_lib.errors import UsiphusError
+ 
+ VERSION = "1.0.0"
+ LEDGER_SCHEMA = 1
+ MODES = ("subset", "strict")
+ 
+ 
+-class LedgerError(ValueError):
++class LedgerError(UsiphusError):
+     pass
+ 
+ 
+--- a/usiphus_resource_discovery.py
++++ b/usiphus_resource_discovery.py
+@@ -21,6 +21,9 @@
+ from datetime import UTC, datetime
+ from pathlib import Path
+ from typing import Any
++from usiphus_lib.errors import UsiphusError
++from usiphus_lib.text import clean
++from usiphus_lib.ids import objective_id as make_objective_id
+ 
+ VERSION = "1.0.0"
+ USER_AGENT = "Usiphus-ResourceDiscovery/1.0 (educational metadata discovery)"
+@@ -63,12 +66,8 @@
+ }
+ 
+ 
+-class DiscoveryError(ValueError):
++class DiscoveryError(UsiphusError):
+     """Invalid curriculum or discovery configuration."""
+-
+-
+-def _clean(value: Any) -> str:
+-    return " ".join(str(value or "").strip().split())
+ 
+ 
+ def _tokens(value: str) -> set[str]:
+@@ -122,7 +121,7 @@
+     # Search the canonical topic phrase for high recall. Learning objectives,
+     # exam emphasis and coverage tags are applied during local matching rather
+     # than AND-combined into provider syntax, which can suppress useful results.
+-    return _clean(topic.get("name") or topic.get("topic"))[:240]
++    return clean(topic.get("name") or topic.get("topic"))[:240]
+ 
+ 
+ def _record(source_id: str, title: str, url: str, *, publisher: str = "",
+@@ -135,19 +134,19 @@
+     return {
+         "resource_id": _stable_id(source_id, canonical_url, title),
+         "source_id": source_id,
+-        "title": _clean(title),
++        "title": clean(title),
+         "canonical_url": canonical_url or url,
+         "source_type": source_id,
+-        "publisher": _clean(publisher),
++        "publisher": clean(publisher),
+         "authors": authors or [],
+-        "published_on": _clean(published),
+-        "doi": _clean(doi),
+-        "pmid": _clean(pmid),
+-        "pmcid": _clean(pmcid),
+-        "abstract": _clean(abstract)[:1800],
+-        "licence_or_reuse_status": _clean(licence) or "not_verified",
++        "published_on": clean(published),
++        "doi": clean(doi),
++        "pmid": clean(pmid),
++        "pmcid": clean(pmcid),
++        "abstract": clean(abstract)[:1800],
++        "licence_or_reuse_status": clean(licence) or "not_verified",
+         "access_status": access_status,
+-        "article_type": _clean(article_type),
++        "article_type": clean(article_type),
+         "discovery_provider": provider,
+         "evidence_role": SOURCE_ROLES.get(source_id, "learning_resource"),
+         "review_status": "unreviewed",
+@@ -261,7 +260,7 @@
+ 
+ def score_resource(resource: dict[str, Any], topic: dict[str, Any]) -> tuple[float, list[str]]:
+     topic_text = " ".join([
+-        _clean(topic.get("name") or topic.get("topic")),
++        clean(topic.get("name") or topic.get("topic")),
+         " ".join(topic.get("learning_objectives", [])),
+         " ".join(topic.get("exam_emphasis", [])),
+         " ".join(topic.get("coverage_tags", [])),
+@@ -289,7 +288,7 @@
+     for index, objective in enumerate(topic.get("learning_objectives", []), 1):
+         obj_tokens = _tokens(objective)
+         if obj_tokens and len(obj_tokens & title_abstract) / len(obj_tokens) >= 0.2:
+-            result["matched_objective_ids"].append(f"{topic.get('id', 'topic')}-LO{index:02d}")
++            result["matched_objective_ids"].append(make_objective_id(topic.get('id', 'topic'), index))
+     return result
+ 
+ 
+@@ -325,7 +324,7 @@
+                 if objective_id:
+                     title_abstract = _tokens(item.get("title", "") + " " + item.get("abstract", ""))
+                     objective = next((x for i, x in enumerate(topic.get("learning_objectives", []), 1)
+-                                      if f"{topic.get('id', 'topic')}-LO{i:02d}" == objective_id), "")
++                                      if make_objective_id(topic.get('id', 'topic'), i) == objective_id), "")
+                     objective_tokens = _tokens(objective)
+                     if objective_tokens and len(objective_tokens & title_abstract) / len(objective_tokens) >= 0.15:
+                         matched["matched_objective_ids"] = sorted(
+@@ -346,10 +345,10 @@
+     scholarly_providers = [x for x in ("pubmed", "pubmed_central", "cureus_open_access")
+                            if x in providers]
+     for index, objective in enumerate(topic.get("learning_objectives", []), 1):
+-        objective_query = _clean(objective)[:240]
++        objective_query = clean(objective)[:240]
+         if not objective_query:
+             continue
+-        objective_id = f"{topic.get('id', 'topic')}-LO{index:02d}"
++        objective_id = make_objective_id(topic.get('id', 'topic'), index)
+         for provider in scholarly_providers:
+             run_provider(provider, objective_query, objective_id)
+ 
+@@ -381,7 +380,7 @@
+     topics = curriculum.get("topics")
+     if not isinstance(topics, list) or not topics:
+         raise DiscoveryError("Curriculum must contain a non-empty topics array")
+-    specialty = _clean(curriculum.get("specialty"))
++    specialty = clean(curriculum.get("specialty"))
+     if not specialty:
+         raise DiscoveryError("Curriculum specialty is required")
+     selected = topics[:max_topics] if max_topics else topics
+--- a/usiphus_review.py
++++ b/usiphus_review.py
+@@ -6,11 +6,13 @@
+ import json
+ import logging
+ import os
+-import tempfile
+ from collections.abc import Callable
+ from datetime import UTC, datetime
+ from pathlib import Path
+ from typing import Any
++from usiphus_lib.errors import UsiphusError
++from usiphus_lib.files import atomic_write_text
++from usiphus_lib.files import JsonReadPolicy, read_json_file, uniform
+ 
+ LOG = logging.getLogger("usiphus.review")
+ MAX_FILE_BYTES = 50 * 1024 * 1024
+@@ -18,19 +20,15 @@
+ DECISIONS = {"keep", "edit", "reject"}
+ 
+ 
+-class ReviewError(ValueError):
++class ReviewError(UsiphusError):
+     """Raised when review input or persisted decisions are invalid."""
+ 
+ 
+ def read_json(path: Path) -> Any:
+-    if not path.is_file():
+-        raise ReviewError(f"File not found: {path}")
+-    if path.stat().st_size > MAX_FILE_BYTES:
+-        raise ReviewError(f"File exceeds {MAX_FILE_BYTES} bytes: {path}")
+-    try:
+-        return json.loads(path.read_text(encoding="utf-8-sig"))
+-    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+-        raise ReviewError(f"Cannot read JSON file {path}: {exc}") from exc
++    return read_json_file(path, JsonReadPolicy(
++        error=uniform(ReviewError), missing="File not found: {path}", too_large="File exceeds {limit} bytes: {path}",
++        invalid="Cannot read JSON file {path}: {exc}",
++        invalid_on=(OSError, UnicodeDecodeError, json.JSONDecodeError), max_bytes=MAX_FILE_BYTES))
+ 
+ 
+ def load_cards(path: Path) -> list[dict[str, Any]]:
+@@ -68,21 +66,6 @@
+             if not isinstance(decision, dict) or decision.get("decision") not in DECISIONS:
+                 raise ReviewError(f"Malformed decision for {reviewer_id}/{card_id}")
+     return payload
+-
+-
+-def atomic_write(path: Path, text: str) -> None:
+-    path.parent.mkdir(parents=True, exist_ok=True)
+-    temp_name = None
+-    try:
+-        with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as handle:
+-            temp_name = handle.name
+-            handle.write(text)
+-            handle.flush()
+-            os.fsync(handle.fileno())
+-        os.replace(temp_name, path)
+-    finally:
+-        if temp_name and os.path.exists(temp_name):
+-            os.unlink(temp_name)
+ 
+ 
+ def record_decision(
+@@ -244,10 +227,10 @@
+     store = load_store(store_path)
+     profile = store.setdefault("reviewer_profiles", {}).setdefault(reviewer_id, {"decisions": {}})
+     review_cards(cards, store, reviewer_id, redo=redo)
+-    atomic_write(store_path, json.dumps(store, indent=2, ensure_ascii=False) + "\n")
++    atomic_write_text(json.dumps(store, indent=2, ensure_ascii=False) + "\n", store_path)
+     if export_path:
+         export = build_export(cards, profile, reviewer_id)
+-        atomic_write(export_path, json.dumps(export, indent=2, ensure_ascii=False) + "\n")
++        atomic_write_text(json.dumps(export, indent=2, ensure_ascii=False) + "\n", export_path)
+         LOG.info("Wrote %d personally selected cards to %s", len(export["cards"]), export_path)
+     LOG.info("Saved review decisions for local profile %s to %s", reviewer_id, store_path)
+     LOG.warning("Reviewer profiles are labels, not authenticated accounts; protect the local review file.")
+--- a/usiphus_signing.py
++++ b/usiphus_signing.py
+@@ -29,14 +29,15 @@
+ from typing import Any
+ 
+ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+-from usiphus_common import atomic_write_text
++from usiphus_lib.errors import UsiphusError
++from usiphus_lib.hashing import digest_value
+ 
+ VERSION = "1.0.0"
+ ALGORITHM = "ed25519"
+ PASSPHRASE_ENV = "USIPHUS_AUDIT_KEY_PASSPHRASE"
+ 
+ 
+-class SigningError(ValueError):
++class SigningError(UsiphusError):
+     pass
+ 
+ 
+@@ -283,7 +284,7 @@
+ # --------------------------------------------------------------------------
+ def _anchor_message(doc: dict[str, Any]) -> str:
+     body = {k: doc[k] for k in ("schema_version", "generated_at", "signed_by", "anchors")}
+-    return hashlib.sha256(json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")).hexdigest()
++    return digest_value(body)
+ 
+ 
+ def build_anchor_document(anchors: dict[str, str], signer: Ed25519Signer, actor: str, generated_at: str) -> dict[str, Any]:
+@@ -316,5 +317,3 @@
+     return verify_anchor_document(doc, trusted)
+ 
+ 
+-def write_json(path: Path, payload: Any) -> None:
+-    atomic_write_text(json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False) + "\n", path)
+--- a/usiphus_v10.py
++++ b/usiphus_v10.py
+@@ -49,6 +49,7 @@
+ 
+ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+ from usiphus_common import csv_safe
++from usiphus_lib.text import clean
+ 
+ 
+ @dataclass(frozen=True)
+@@ -114,10 +115,6 @@
+     unmapped_card_ids: list[str] = field(default_factory=list)
+     candidates: list[dict[str, Any]] = field(default_factory=list)
+     warnings: list[str] = field(default_factory=list)
+-
+-
+-def clean(value: Any) -> str:
+-    return re.sub(r"\s+", " ", str(value or "").strip())
+ 
+ 
+ def string_tuple(value: Any) -> tuple[str, ...]:
+--- a/usiphus_v11.py
++++ b/usiphus_v11.py
+@@ -31,16 +31,16 @@
+ LOG = logging.getLogger("usiphus.v11")
+ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+ import usiphus_ledger as ledger_mod
++from usiphus_lib.text import strip_text
++from usiphus_lib.files import atomic_write_text
++from usiphus_lib.files import JsonReadPolicy, read_json_file, uniform
+ 
+ LEARNER_KEYS = {"learner_id", "consent_granted", "consented_at", "consent_revoked_at"}
+ ATTEMPT_KEYS = {"attempt_id", "learner_id", "card_id", "answered_at", "score"}
+ FORBIDDEN_KEYS = {"name", "full_name", "email", "phone", "address", "date_of_birth", "dob", "password", "free_text", "response_text"}
+ 
+-def clean(value: Any) -> str:
+-    return str(value or "").strip()
+-
+ def parse_time(value: Any, label: str) -> datetime:
+-    raw = clean(value)
++    raw = strip_text(value)
+     if not raw: raise ValueError(f"{label} is required")
+     try: parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+     except ValueError: raise ValueError(f"{label} must be an ISO-8601 timestamp") from None
+@@ -49,7 +49,7 @@
+     return parsed.astimezone(UTC)
+ 
+ def learner_uuid(value: Any) -> str:
+-    raw = clean(value)
++    raw = strip_text(value)
+     try: parsed = uuid.UUID(raw)
+     except (ValueError, AttributeError): raise ValueError("learner_id must be an opaque UUIDv4 pseudonym") from None
+     if parsed.version != 4 or str(parsed) != raw.lower():
+@@ -57,9 +57,10 @@
+     return str(parsed)
+ 
+ def read_json(path: Path) -> Any:
+-    if not path.is_file(): raise ValueError(f"Input file does not exist: {path}")
+-    if path.stat().st_size > 50 * 1024 * 1024: raise ValueError(f"Input exceeds 50 MiB: {path}")
+-    with path.open("r", encoding="utf-8-sig") as handle: return json.load(handle)
++    # Historical behaviour kept as-is: malformed JSON and bad UTF-8 propagate unwrapped (invalid_on=()).
++    return read_json_file(path, JsonReadPolicy(
++        error=uniform(ValueError), missing="Input file does not exist: {path}",
++        too_large="Input exceeds {limit_mib} MiB: {path}", invalid=None, invalid_on=()))
+ 
+ def reject_extra_keys(record: dict[str, Any], allowed: set[str], label: str) -> None:
+     keys = set(record)
+@@ -71,12 +72,12 @@
+     payload = read_json(path)
+     if not isinstance(payload, dict) or not isinstance(payload.get("competencies"), list):
+         raise ValueError("V10 curriculum must contain a competencies list")
+-    specialty = clean(payload.get("specialty")).casefold()
++    specialty = strip_text(payload.get("specialty")).casefold()
+     if not specialty: raise ValueError("Curriculum specialty is required")
+     competencies, seen = [], set()
+     for index, item in enumerate(payload["competencies"]):
+         if not isinstance(item, dict): raise ValueError(f"Competency {index} must be an object")
+-        cid, title = clean(item.get("competency_id") or item.get("id")), clean(item.get("title") or item.get("name"))
++        cid, title = strip_text(item.get("competency_id") or item.get("id")), strip_text(item.get("title") or item.get("name"))
+         if not cid or not title or cid.casefold() in seen: raise ValueError(f"Competency {index} requires a unique ID and title")
+         if cid[:1] in ("=", "+", "-", "@"): raise ValueError(f"Competency ID {cid!r} must not start with a spreadsheet formula character")
+         seen.add(cid.casefold())
+@@ -84,7 +85,7 @@
+         if isinstance(weight, bool) or not isinstance(weight, (int,float)) or not math.isfinite(weight) or weight <= 0:
+             raise ValueError(f"Competency {cid} must have a finite positive weight")
+         if not isinstance(required, bool): raise ValueError(f"Competency {cid} required must be boolean")
+-        competencies.append({"competency_id":cid,"title":title,"domain":clean(item.get("domain") or "Uncategorized"),"weight":float(weight),"required":required})
++        competencies.append({"competency_id":cid,"title":title,"domain":strip_text(item.get("domain") or "Uncategorized"),"weight":float(weight),"required":required})
+     if not competencies: raise ValueError("Curriculum must contain at least one competency")
+     return specialty, competencies
+ 
+@@ -92,16 +93,16 @@
+     payload = read_json(path)
+     if not isinstance(payload, dict) or not isinstance(payload.get("candidates"), list):
+         raise ValueError("Mapping report must be a V10 curriculum_coverage.json with candidates")
+-    if clean(payload.get("specialty")).casefold() != specialty.casefold():
++    if strip_text(payload.get("specialty")).casefold() != specialty.casefold():
+         raise ValueError("V10 mapping report specialty does not match the curriculum")
+     card_map: dict[str,set[str]] = defaultdict(set)
+     for row in payload["candidates"]:
+         if not isinstance(row, dict): raise ValueError("Mapping candidate rows must be objects")
+         if row.get("status") != "verified": continue
+-        if clean(row.get("method")) != "faculty-approved" or not clean(row.get("reviewer")):
++        if strip_text(row.get("method")) != "faculty-approved" or not strip_text(row.get("reviewer")):
+             raise ValueError("Verified mapping lacks faculty-approved provenance (method, reviewer, reviewed_at)")
+         parse_time(row.get("reviewed_at"), "Verified mapping reviewed_at")
+-        card_id, cid = clean(row.get("card_id")), clean(row.get("competency_id"))
++        card_id, cid = strip_text(row.get("card_id")), strip_text(row.get("competency_id"))
+         if not card_id or cid.casefold() not in competency_ids: raise ValueError("Verified mapping contains an unknown card or competency ID")
+         card_map[card_id].add(cid)
+     if not card_map: raise ValueError("V10 mapping report contains no verified card-to-competency mappings")
+@@ -163,7 +164,7 @@
+     for i,item in enumerate(payload["attempts"]):
+         if not isinstance(item,dict): raise ValueError(f"Attempt {i} must be an object")
+         reject_extra_keys(item,ATTEMPT_KEYS,f"Attempt {i}")
+-        aid=clean(item.get("attempt_id"))
++        aid=strip_text(item.get("attempt_id"))
+         if not aid or aid in seen: raise ValueError(f"Attempt {i} requires a unique attempt_id")
+         seen.add(aid)
+         lid=learner_uuid(item.get("learner_id"))
+@@ -179,7 +180,7 @@
+         score=item.get("score")
+         if isinstance(score,bool) or not isinstance(score,(int,float)) or not math.isfinite(score) or not 0<=score<=1:
+             raise ValueError(f"Attempt {aid} score must be finite and between 0 and 1")
+-        card=clean(item.get("card_id"))
++        card=strip_text(item.get("card_id"))
+         if not card: raise ValueError(f"Attempt {aid} requires card_id")
+         accepted.append({"attempt_id":aid,"learner_id":lid,"card_id":card,"answered_at":when,"score":float(score)})
+     return accepted,counts,cohort_min,retention
+@@ -311,26 +312,17 @@
+         "release_ledger":ledger_summary}
+     return learner_report,cohort_report,sorted(schedule,key=lambda x:(x["next_due_at"],x["learner_id"],x["competency_id"]))
+ 
+-def atomic_write(path: Path,content: str):
+-    path.parent.mkdir(parents=True,exist_ok=True); temp=None
+-    try:
+-        with tempfile.NamedTemporaryFile("w",encoding="utf-8",dir=path.parent,delete=False) as handle:
+-            temp=handle.name; handle.write(content); handle.flush()
+-        Path(temp).replace(path)
+-    finally:
+-        if temp and Path(temp).exists(): Path(temp).unlink()
+-
+ def write_outputs(output,learner,cohort,schedule):
+-    atomic_write(output/"learner_progress.json",json.dumps(learner,indent=2,ensure_ascii=False)+"\n")
+-    atomic_write(output/"cohort_analytics.json",json.dumps(cohort,indent=2,ensure_ascii=False)+"\n")
++    atomic_write_text(json.dumps(learner,indent=2,ensure_ascii=False)+"\n",output/"learner_progress.json")
++    atomic_write_text(json.dumps(cohort,indent=2,ensure_ascii=False)+"\n",output/"cohort_analytics.json")
+     import io
+     buf=io.StringIO(); fields=["learner_id","competency_id","next_due_at","recommended_interval_days","status","mastery_estimate"]
+     writer=csv.DictWriter(buf,fieldnames=fields); writer.writeheader(); writer.writerows(schedule)
+-    atomic_write(output/"review_schedule.csv",buf.getvalue())
++    atomic_write_text(buf.getvalue(),output/"review_schedule.csv")
+     manifest={"usiphus_version":VERSION,"schema_version":SCHEMA_VERSION,
+         "outputs":["learner_progress.json","cohort_analytics.json","review_schedule.csv"],
+         "source_files_modified":False,"privacy_note":"Outputs contain pseudonymous learner identifiers; protect as sensitive educational records."}
+-    atomic_write(output/"v11_manifest.json",json.dumps(manifest,indent=2)+"\n")
++    atomic_write_text(json.dumps(manifest,indent=2)+"\n",output/"v11_manifest.json")
+ 
+ def run(curriculum_path,mapping_path,attempts_path,output,settings_path,as_of_raw,
+         ledger_path=None,ledger_mode="subset",update_ledger=True):
+--- a/usiphus_v12.py
++++ b/usiphus_v12.py
+@@ -10,7 +10,6 @@
+ 
+ import argparse
+ import csv
+-import hashlib
+ import io
+ import json
+ import logging
+@@ -27,6 +26,10 @@
+ 
+ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+ from usiphus_common import csv_safe, valid_iso_date
++from usiphus_lib.hashing import sha256_file
++from usiphus_lib.text import strip_text
++from usiphus_lib.files import atomic_write_text
++from usiphus_lib.files import JsonReadPolicy, read_json_file, uniform
+ 
+ WORKFLOW = ("draft", "in_review", "approved", "published")
+ TRANSITIONS = {
+@@ -38,20 +41,10 @@
+ MAX_BYTES = 50 * 1024 * 1024
+ 
+ 
+-def clean(value: Any) -> str:
+-    return str(value or "").strip()
+-
+-
+ def read_json(path: Path) -> Any:
+-    if not path.is_file():
+-        raise ValueError(f"Input file does not exist: {path}")
+-    if path.stat().st_size > MAX_BYTES:
+-        raise ValueError(f"Input exceeds 50 MiB: {path}")
+-    try:
+-        with path.open("r", encoding="utf-8-sig") as handle:
+-            return json.load(handle)
+-    except json.JSONDecodeError as exc:
+-        raise ValueError(f"Invalid JSON in {path}: {exc}") from exc
++    return read_json_file(path, JsonReadPolicy(
++        error=uniform(ValueError), missing="Input file does not exist: {path}",
++        too_large="Input exceeds {limit_mib} MiB: {path}", invalid_on=(json.JSONDecodeError,), max_bytes=MAX_BYTES))
+ 
+ 
+ def records_from(payload: Any, key: str, label: str) -> list[dict[str, Any]]:
+@@ -66,8 +59,8 @@
+     rows = records_from(payload, "cards", "Cards")
+     result: dict[str, dict[str, Any]] = {}
+     for i, row in enumerate(rows):
+-        cid = clean(row.get("card_id") or row.get("id"))
+-        card_specialty = clean(row.get("specialty")).casefold()
++        cid = strip_text(row.get("card_id") or row.get("id"))
++        card_specialty = strip_text(row.get("specialty")).casefold()
+         if not cid or cid in result:
+             raise ValueError(f"Card {i} requires a unique card_id/id")
+         if card_specialty != specialty:
+@@ -82,22 +75,22 @@
+     payload = read_json(path)
+     if not isinstance(payload, dict) or not isinstance(payload.get("competencies"), list):
+         raise ValueError("Curriculum must contain a competencies list")
+-    specialty = clean(payload.get("specialty")).casefold()
++    specialty = strip_text(payload.get("specialty")).casefold()
+     if not specialty:
+         raise ValueError("Curriculum specialty is required")
+     result, seen = [], set()
+     for i, row in enumerate(payload["competencies"]):
+         if not isinstance(row, dict):
+             raise ValueError(f"Competency {i} must be an object")
+-        cid = clean(row.get("competency_id") or row.get("id"))
++        cid = strip_text(row.get("competency_id") or row.get("id"))
+         if not cid or cid.casefold() in seen:
+             raise ValueError(f"Competency {i} requires a unique ID")
+         seen.add(cid.casefold())
+         required = row.get("required", True)
+         if not isinstance(required, bool):
+             raise ValueError(f"Competency {cid} required must be boolean")
+-        result.append({"id": cid, "title": clean(row.get("title") or row.get("name")) or cid,
+-                       "domain": clean(row.get("domain") or "Uncategorized"),
++        result.append({"id": cid, "title": strip_text(row.get("title") or row.get("name")) or cid,
++                       "domain": strip_text(row.get("domain") or "Uncategorized"),
+                        "required": required, "weight": row.get("weight", 1.0)})
+     if not result:
+         raise ValueError("Curriculum must contain at least one competency")
+@@ -106,7 +99,7 @@
+ 
+ def tz_timestamp_ok(value: Any) -> bool:
+     try:
+-        parsed = datetime.fromisoformat(clean(value).replace("Z", "+00:00"))
++        parsed = datetime.fromisoformat(strip_text(value).replace("Z", "+00:00"))
+         return parsed.tzinfo is not None and parsed.utcoffset() is not None
+     except ValueError:
+         return False
+@@ -116,7 +109,7 @@
+     payload = read_json(path)
+     if not isinstance(payload, dict) or not isinstance(payload.get("candidates"), list):
+         raise ValueError("Mapping must be a V10 curriculum coverage report with candidates")
+-    if clean(payload.get("specialty")).casefold() != specialty:
++    if strip_text(payload.get("specialty")).casefold() != specialty:
+         raise ValueError("Mapping specialty does not match curriculum")
+     verified: dict[str, set[str]] = {}
+     queue = []
+@@ -124,15 +117,15 @@
+     for i, row in enumerate(payload["candidates"]):
+         if not isinstance(row, dict):
+             raise ValueError(f"Mapping candidate {i} must be an object")
+-        card, comp, status = clean(row.get("card_id")), clean(row.get("competency_id")), clean(row.get("status")).casefold()
++        card, comp, status = strip_text(row.get("card_id")), strip_text(row.get("competency_id")), strip_text(row.get("status")).casefold()
+         if not card or card not in cards or not comp:
+             raise ValueError(f"Mapping candidate {i} references an unknown card or has no competency ID")
+         if status not in {"verified", "suggested", "pending", "invalid"}:
+             raise ValueError(f"Mapping candidate {i} has unsupported status '{status}'")
+         if status != "invalid" and comp.casefold() not in competencies:
+             raise ValueError(f"Mapping candidate {i} references an unknown competency")
+-        if status == "verified" and (clean(row.get("method")).casefold() != "faculty-approved"
+-                                     or not clean(row.get("reviewer")) or not tz_timestamp_ok(row.get("reviewed_at"))):
++        if status == "verified" and (strip_text(row.get("method")).casefold() != "faculty-approved"
++                                     or not strip_text(row.get("reviewer")) or not tz_timestamp_ok(row.get("reviewed_at"))):
+             raise ValueError(f"Mapping candidate {i} is 'verified' without faculty-approved provenance "
+                              "(method, reviewer, timezone-aware reviewed_at)")
+         key = (card, comp.casefold(), status)
+@@ -154,7 +147,7 @@
+ 
+ def validate_evidence_audit(record: dict[str, Any]) -> list[str]:
+     issues = []
+-    status = clean(record.get("status") or "draft").casefold()
++    status = strip_text(record.get("status") or "draft").casefold()
+     if status not in WORKFLOW:
+         return [f"invalid workflow status: {status}"]
+     audit = record.get("audit_trail") or []
+@@ -165,9 +158,9 @@
+         if not isinstance(event, dict):
+             issues.append(f"audit event {i} must be an object")
+             continue
+-        target = clean(event.get("to")).casefold()
+-        actor = clean(event.get("actor"))
+-        valid_date = valid_iso_date(clean(event.get("date")))
++        target = strip_text(event.get("to")).casefold()
++        actor = strip_text(event.get("actor"))
++        valid_date = valid_iso_date(strip_text(event.get("date")))
+         if target not in WORKFLOW or target not in TRANSITIONS.get(previous, set()):
+             issues.append(f"invalid workflow transition at event {i}: {previous} -> {target}")
+         if not actor:
+@@ -189,23 +182,23 @@
+     queue, findings, covered = [], [], set()
+     ids = set()
+     for i, row in enumerate(rows):
+-        claim_id, card_id = clean(row.get("claim_id")), clean(row.get("card_id"))
+-        status = clean(row.get("status") or "draft").casefold()
++        claim_id, card_id = strip_text(row.get("claim_id")), strip_text(row.get("card_id"))
++        status = strip_text(row.get("status") or "draft").casefold()
+         issues = []
+         if not claim_id or claim_id in ids:
+             issues.append("claim_id is missing or duplicated")
+         ids.add(claim_id)
+         if card_id not in cards:
+             issues.append("claim maps to an unknown card")
+-        if not clean(row.get("claim")):
++        if not strip_text(row.get("claim")):
+             issues.append("claim text is missing")
+-        if not clean(row.get("reference")) or not clean(row.get("source_type")):
++        if not strip_text(row.get("reference")) or not strip_text(row.get("source_type")):
+             issues.append("reference and source_type are required")
+         issues.extend(validate_evidence_audit(row))
+         if status not in {"approved", "published"}:
+             issues.append(f"release blocked: evidence status is {status}, not approved/published")
+         if status in {"approved", "published"}:
+-            raw_date = clean(row.get("reviewed_on"))
++            raw_date = strip_text(row.get("reviewed_on"))
+             if not valid_iso_date(raw_date):
+                 issues.append("approved/published evidence requires reviewed_on YYYY-MM-DD")
+             else:
+@@ -214,7 +207,7 @@
+                     issues.append("reviewed_on is in the future")
+                 elif (as_of - reviewed).days > max_age_days:
+                     issues.append(f"evidence review is stale (>{max_age_days} days)")
+-            if not clean(row.get("reviewer")):
++            if not strip_text(row.get("reviewer")):
+                 issues.append("approved/published evidence requires reviewer")
+         if status in {"approved", "published"} and not issues:
+             covered.add(card_id)
+@@ -230,7 +223,7 @@
+ 
+ def validate_v11(path: Path, specialty: str, competencies: set[str]):
+     progress = read_json(path)
+-    if not isinstance(progress, dict) or clean(progress.get("specialty")).casefold() != specialty:
++    if not isinstance(progress, dict) or strip_text(progress.get("specialty")).casefold() != specialty:
+         raise ValueError("V11 learner progress specialty does not match curriculum")
+     learners = progress.get("learners")
+     if not isinstance(learners, list):
+@@ -241,9 +234,9 @@
+         if not isinstance(learner, dict) or not isinstance(learner.get("competencies"), list):
+             raise ValueError("Malformed V11 learner progress record")
+         for item in learner["competencies"]:
+-            if not isinstance(item, dict) or clean(item.get("competency_id")).casefold() not in competencies:
++            if not isinstance(item, dict) or strip_text(item.get("competency_id")).casefold() not in competencies:
+                 raise ValueError("V11 progress references an unknown competency")
+-            pairs.add((clean(learner.get("learner_id")), clean(item.get("competency_id")).casefold()))
++            pairs.add((strip_text(learner.get("learner_id")), strip_text(item.get("competency_id")).casefold()))
+             rows += 1
+     summary = {"active_learners": len(learners),
+                "accepted_attempts": int(progress.get("accepted_attempts", 0)),
+@@ -254,14 +247,14 @@
+ 
+ def validate_cohort(path: Path, specialty: str, competencies: set[str]):
+     payload = read_json(path)
+-    if not isinstance(payload, dict) or clean(payload.get("specialty")).casefold() != specialty:
++    if not isinstance(payload, dict) or strip_text(payload.get("specialty")).casefold() != specialty:
+         raise ValueError("V11 cohort analytics specialty does not match curriculum")
+     rows = payload.get("competencies")
+     if not isinstance(rows, list):
+         raise ValueError("V11 cohort analytics must contain competencies")
+     suppressed = 0
+     for row in rows:
+-        if not isinstance(row, dict) or clean(row.get("competency_id")).casefold() not in competencies:
++        if not isinstance(row, dict) or strip_text(row.get("competency_id")).casefold() not in competencies:
+             raise ValueError("Cohort analytics references an unknown competency")
+         if not isinstance(row.get("suppressed"), bool):
+             raise ValueError("Each cohort row must declare suppressed as boolean")
+@@ -283,37 +276,15 @@
+             raise ValueError("V11 review schedule CSV is missing required columns")
+         count = 0
+         for row in reader:
+-            if clean(row.get("competency_id")).casefold() not in competencies:
++            if strip_text(row.get("competency_id")).casefold() not in competencies:
+                 raise ValueError("Review schedule references an unknown competency")
+-            pairs.add((clean(row.get("learner_id")), clean(row.get("competency_id")).casefold()))
++            pairs.add((strip_text(row.get("learner_id")), strip_text(row.get("competency_id")).casefold()))
+             count += 1
+     return count, pairs
+ 
+ 
+ def load_schedule(path: Path, competencies: set[str]):
+     return read_schedule(path, competencies)[0]
+-
+-
+-def atomic_write(path: Path, content: str):
+-    path.parent.mkdir(parents=True, exist_ok=True)
+-    temp = None
+-    try:
+-        with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as handle:
+-            temp = handle.name
+-            handle.write(content)
+-            handle.flush()
+-        Path(temp).replace(path)
+-    finally:
+-        if temp and Path(temp).exists():
+-            Path(temp).unlink()
+-
+-
+-def sha256(path: Path) -> str:
+-    digest = hashlib.sha256()
+-    with path.open("rb") as handle:
+-        for block in iter(lambda: handle.read(1024 * 1024), b""):
+-            digest.update(block)
+-    return digest.hexdigest()
+ 
+ 
+ def run(args) -> int:
+@@ -398,10 +369,10 @@
+     writer = csv.DictWriter(queue_buf, fieldnames=fields)
+     writer.writeheader()
+     writer.writerows([{k: csv_safe(v) for k, v in row.items()} for row in queue])
+-    atomic_write(output / "platform_report.json", json.dumps(report, indent=2, ensure_ascii=False) + "\n")
+-    atomic_write(output / "faculty_review_queue.csv", queue_buf.getvalue())
+-    atomic_write(output / "release_checklist.json", json.dumps(checklist, indent=2) + "\n")
+-    inputs = {name: {"sha256": sha256(Path(path)), "bytes": Path(path).stat().st_size}
++    atomic_write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", output / "platform_report.json")
++    atomic_write_text(queue_buf.getvalue(), output / "faculty_review_queue.csv")
++    atomic_write_text(json.dumps(checklist, indent=2) + "\n", output / "release_checklist.json")
++    inputs = {name: {"sha256": sha256_file(Path(path)), "bytes": Path(path).stat().st_size}
+               for name, path in {"cards": args.cards, "curriculum": args.curriculum,
+                 "mapping": args.mapping, "evidence": args.evidence,
+                 "learner_progress": args.learner_progress, "cohort_analytics": args.cohort_analytics,
+@@ -411,7 +382,7 @@
+                 "source_files_modified": False,
+                 "privacy": {"individual_learner_ids_exported": False,
+                             "source_learner_progress_contains_sensitive_pseudonymous_records": True}}
+-    atomic_write(output / "v12_manifest.json", json.dumps(manifest, indent=2) + "\n")
++    atomic_write_text(json.dumps(manifest, indent=2) + "\n", output / "v12_manifest.json")
+     LOG.info("V12 generated platform report; release_ready=%s; faculty review items=%d",
+              ready, len(queue))
+     return 0
+@@ -538,7 +509,7 @@
+             with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
+                 p = Path(d) / "source.json"
+                 p.write_text('{"a":1}')
+-                self.assertEqual(sha256(p),sha256(p))
++                self.assertEqual(sha256_file(p),sha256_file(p))
+         def test_no_individual_ids_in_platform_summary(self):
+             # The integration summary is deliberately constructed from counts only.
+             summary = {"active_learners": 2, "accepted_attempts": 10}
+--- a/usiphus_v13.py
++++ b/usiphus_v13.py
+@@ -9,7 +9,6 @@
+ 
+ import argparse
+ import csv
+-import hashlib
+ import json
+ import logging
+ import math
+@@ -20,6 +19,10 @@
+ from datetime import UTC, datetime
+ from pathlib import Path
+ from typing import Any
++from usiphus_lib.errors import UsiphusError
++from usiphus_lib.hashing import sha256_file
++from usiphus_lib.files import atomic_write_text
++from usiphus_lib.files import JsonReadPolicy, read_json_file, uniform
+ 
+ VERSION = "13.0.0"
+ LOG = logging.getLogger("usiphus.v13")
+@@ -44,7 +47,7 @@
+ }
+ 
+ 
+-class ValidationError(ValueError):
++class ValidationError(UsiphusError):
+     """Raised when an input artifact violates the V13 data contract."""
+ 
+ 
+@@ -54,13 +57,10 @@
+ 
+ 
+ def read_json(path: Path) -> Any:
+-    require(path.is_file(), f"Missing required file: {path}")
+-    require(path.stat().st_size <= MAX_BYTES, f"File exceeds 50 MiB: {path}")
+-    try:
+-        with path.open("r", encoding="utf-8-sig") as handle:
+-            return json.load(handle)
+-    except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+-        raise ValidationError(f"Invalid UTF-8 JSON in {path}: {exc}") from exc
++    return read_json_file(path, JsonReadPolicy(
++        error=uniform(ValidationError), missing="Missing required file: {path}",
++        too_large="File exceeds {limit_mib} MiB: {path}", invalid="Invalid UTF-8 JSON in {path}: {exc}",
++        invalid_on=(json.JSONDecodeError, UnicodeDecodeError), max_bytes=MAX_BYTES))
+ 
+ 
+ def parse_timestamp(value: Any, label: str) -> datetime:
+@@ -83,14 +83,6 @@
+     require(parsed.version == 4 and str(parsed) == value.lower(),
+             f"{label} must be a canonical UUIDv4 pseudonym")
+     return str(parsed)
+-
+-
+-def sha256(path: Path) -> str:
+-    digest = hashlib.sha256()
+-    with path.open("rb") as handle:
+-        for block in iter(lambda: handle.read(1024 * 1024), b""):
+-            digest.update(block)
+-    return digest.hexdigest()
+ 
+ 
+ def scan_for_direct_identifiers(value: Any, path: str = "$") -> list[str]:
+@@ -328,7 +320,7 @@
+         source = input_dir / filename
+         require(isinstance(entry, dict) and source.is_file(),
+                 f"Manifest/input missing for {key}")
+-        require(entry.get("sha256") == sha256(source),
++        require(entry.get("sha256") == sha256_file(source),
+                 f"Input hash mismatch for {key}; source changed after V12 run")
+         require(entry.get("bytes") == source.stat().st_size,
+                 f"Input byte-size mismatch for {key}")
+@@ -364,21 +356,6 @@
+         "manifest_outputs_verified": len(OUTPUTS[:3]),
+         "learner_id_leaks": 0,
+     }
+-
+-
+-def atomic_write(path: Path, content: str) -> None:
+-    path.parent.mkdir(parents=True, exist_ok=True)
+-    temporary = None
+-    try:
+-        with tempfile.NamedTemporaryFile("w", encoding="utf-8",
+-                                         dir=path.parent, delete=False) as handle:
+-            temporary = handle.name
+-            handle.write(content)
+-            handle.flush()
+-        Path(temporary).replace(path)
+-    finally:
+-        if temporary and Path(temporary).exists():
+-            Path(temporary).unlink()
+ 
+ 
+ def validate_bundle(input_dir: Path, output_dir: Path, report_path: Path,
+@@ -473,7 +450,7 @@
+             manifest_inputs = {}
+             for key, filename in INPUTS.items():
+                 path = self.inputs / filename
+-                manifest_inputs[key] = {"sha256": sha256(path), "bytes": path.stat().st_size}
++                manifest_inputs[key] = {"sha256": sha256_file(path), "bytes": path.stat().st_size}
+             (self.outputs / "v12_manifest.json").write_text(json.dumps({
+                 "usiphus_version": "12.0.0", "inputs": manifest_inputs,
+                 "outputs": list(OUTPUTS[:3])}))
+@@ -597,7 +574,7 @@
+             self.assertTrue(scan_for_direct_identifiers({"Email": "x"}))
+         def test_deterministic_hash(self):
+             p = self.inputs / "curriculum.json"
+-            self.assertEqual(sha256(p), sha256(p))
++            self.assertEqual(sha256_file(p), sha256_file(p))
+         def test_cohort_floor_enforced(self):
+             p = self.inputs / "cohort_analytics.json"
+             p.write_text(json.dumps({"specialty": "urology", "minimum_cohort_size": 4,
+@@ -650,7 +627,7 @@
+         return 2
+     try:
+         report = validate_bundle(Path(args.input_dir), Path(args.output_dir), Path(args.report))
+-        atomic_write(Path(args.report), json.dumps(report, indent=2, ensure_ascii=False) + "\n")
++        atomic_write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", Path(args.report))
+         LOG.info("V13 validation passed for %s; report: %s", report["specialty"], args.report)
+         return 0
+     except (ValidationError, OSError, TypeError) as exc:
+--- a/usiphus_v14.py
++++ b/usiphus_v14.py
+@@ -5,7 +5,6 @@
+ import argparse
+ import contextlib
+ import ctypes
+-import hashlib
+ import importlib.util
+ import json
+ import logging
+@@ -26,6 +25,9 @@
+          "cohort_analytics":"cohort_analytics.json","review_schedule":"review_schedule.csv"}
+ sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
+ from usiphus_common import atomic_write_text
++from usiphus_lib.errors import UsiphusError
++from usiphus_lib.hashing import sha256_file
++from usiphus_lib.files import write_json
+ 
+ MARKER = ".usiphus_v14_bundle"
+ POINTER_MARKER_TEXT = "usiphus-v14-pointer-root\nThis directory holds immutable releases and a current.json pointer managed by Usiphus V14.\n"
+@@ -33,14 +35,8 @@
+ V15_KEYS = {"v15_sources","v15_claims","v15_evidence_mode","v15_block_on_failure","v15_minimum_reviewers","v15_require_registered_sources","v15_require_signed_audit","v15_require_audit_anchor","v15_audit_trusted_keys","v15_anchors"}
+ ALLOWED = {"schema_version","inputs","output_dir","as_of","max_evidence_age_days","run_regression_tests","publish_mode","keep_releases","require_release_ledger"} | V15_KEYS
+ 
+-class ReleaseError(ValueError):
++class ReleaseError(UsiphusError):
+     pass
+-
+-def digest(path):
+-    h=hashlib.sha256()
+-    with Path(path).open("rb") as f:
+-        for chunk in iter(lambda:f.read(1024*1024),b""): h.update(chunk)
+-    return h.hexdigest()
+ 
+ def engine(version):
+     name=f"usiphus_v{version}"
+@@ -130,14 +126,6 @@
+                v15_require_signed_audit=signed,v15_require_audit_anchor=anchored,publish_mode=publish_mode,keep_releases=keep,require_release_ledger=need_ledger)
+     return cfg,path
+ 
+-def write_json(path,value):
+-    temp=Path(str(path)+".tmp-"+uuid.uuid4().hex)
+-    try:
+-        temp.write_text(json.dumps(value,indent=2,sort_keys=True,ensure_ascii=False)+"\n",encoding="utf-8")
+-        temp.replace(path)
+-    finally:
+-        if temp.exists(): temp.unlink()
+-
+ def _marker_kind(target):
+     marker=target/MARKER
+     if not marker.is_file(): return None
+@@ -218,7 +206,7 @@
+     except OSError: shutil.move(str(stage),str(dest))   # different filesystem: copy, then the pointer swap below is still atomic
+     manifest=dest/"v14_manifest.json"
+     pointer={"schema_version":1,"release_id":rid,"path":f"releases/{rid}","published_at":now.isoformat().replace("+00:00","Z"),
+-             "manifest_sha256":digest(manifest) if manifest.is_file() else None}
++             "manifest_sha256":sha256_file(manifest) if manifest.is_file() else None}
+     atomic_write_text(json.dumps(pointer,indent=2,sort_keys=True)+"\n",target/"current.json")
+     for old in sorted((p for p in releases.iterdir() if p.is_dir() and p.name!=rid),key=lambda p:p.name,reverse=True)[max(keep-1,0):]:
+         shutil.rmtree(old,ignore_errors=True)
+@@ -299,7 +287,7 @@
+         stages.append({"stage":"V12 integration","status":"passed"})
+         validation=engines[13].validate_bundle(source,out,stage/"v13_validation_report.json",require_release_ledger=cfg.get("require_release_ledger",False))
+         if validation.get("validation_status")!="passed": raise ReleaseError("V13 validation failed")
+-        write_json(stage/"v13_validation_report.json",validation)
++        write_json(validation,stage/"v13_validation_report.json")
+         stages.append({"stage":"V13 validation","status":"passed"})
+         checklist=json.loads((out/"release_checklist.json").read_text(encoding="utf-8"))
+         v12_ready=checklist.get("release_ready") is True
+@@ -347,7 +335,7 @@
+                      "findings":v15_result["findings"] if v15_result else []},
+                  "generated_at":now,"stages":stages,
+                  "boundary":"Software status only; not clinical approval, educational validity, competence, anonymization, or legal compliance."}
+-        write_json(stage/"release_summary.json",summary)
++        write_json(summary,stage/"release_summary.json")
+         report=["# Usiphus V16 governed release report","",f"- Specialty: {summary['specialty']}",
+                 f"- Release status: **{status.upper()}**","","| Stage | Status |","|---|---|"]
+         report += [f"| {x['stage']} | {x['status']} |" for x in stages]
+@@ -372,21 +360,21 @@
+         source_hashes={}
+         for key,original in cfg["inputs"].items():
+             snap=staged[key]
+-            source_hashes[key]={"path":original,"sha256":digest(snap),"bytes":snap.stat().st_size}
++            source_hashes[key]={"path":original,"sha256":sha256_file(snap),"bytes":snap.stat().st_size}
+         for key,original in cfg["v15"].items():
+             snap=v15_staged[key]
+-            source_hashes[key]={"path":original,"sha256":digest(snap),"bytes":snap.stat().st_size}
++            source_hashes[key]={"path":original,"sha256":sha256_file(snap),"bytes":snap.stat().st_size}
+         report_hashes={}
+         if (stage/"v15").is_dir():
+-            report_hashes={p.name:{"sha256":digest(p),"bytes":p.stat().st_size}
++            report_hashes={p.name:{"sha256":sha256_file(p),"bytes":p.stat().st_size}
+                            for p in sorted((stage/"v15").iterdir()) if p.is_file()}
+         shutil.rmtree(source)
+         shutil.rmtree(v15_source)
+-        output_hashes={str(p.relative_to(stage)):{"sha256":digest(p),"bytes":p.stat().st_size}
++        output_hashes={str(p.relative_to(stage)):{"sha256":sha256_file(p),"bytes":p.stat().st_size}
+                        for p in sorted(stage.rglob("*")) if p.is_file()}
+         manifest={"schema_version":2,"usiphus_version":VERSION,
+             "engine_versions":{f"v{v}":engines[v].VERSION for v in engines},
+-            "config_sha256":digest(config_path),"inputs":source_hashes,"outputs":output_hashes,
++            "config_sha256":sha256_file(config_path),"inputs":source_hashes,"outputs":output_hashes,
+             "release_policy":{"v15_enabled":15 in engines,
+                 "v15_evidence_mode":cfg["v15_evidence_mode"] if cfg.get("v15") else "not_configured",
+                 "v15_block_on_failure":cfg.get("v15_block_on_failure",True),
+@@ -399,7 +387,7 @@
+             "governance_report_hashes":report_hashes,
+             "release_status":status,"generated_at":now,
+             "note":"Hashes support integrity/change detection; timestamps vary and byte-identical bundles are not promised."}
+-        write_json(stage/"v14_manifest.json",manifest)
++        write_json(manifest,stage/"v14_manifest.json")
+         mode=publish(stage,target,cfg.get("publish_mode","auto"),cfg.get("keep_releases",5)); LOG.info("Published release bundle (%s)",mode)
+         summary["output_dir"]=str(target)
+         summary["manifest"]=str(published_manifest_path(target,mode))
+@@ -410,7 +398,7 @@
+     class Tests(unittest.TestCase):
+         def test_hash_changes(self):
+             with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
+-                p=Path(d)/"x"; p.write_text("a"); a=digest(p); p.write_text("b"); self.assertNotEqual(a,digest(p))
++                p=Path(d)/"x"; p.write_text("a"); a=sha256_file(p); p.write_text("b"); self.assertNotEqual(a,sha256_file(p))
+         def test_config_resolves_paths_and_defaults(self):
+             with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
+                 root=Path(d)
+--- a/usiphus_v15.py
++++ b/usiphus_v15.py
+@@ -36,35 +36,20 @@
+ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+ from usiphus_common import atomic_write_text, csv_safe, valid_iso_date
+ from usiphus_signing import SigningError, TrustedKeys, load_anchor_file
++from usiphus_lib.errors import UsiphusError
++from usiphus_lib.hashing import digest_value
++from usiphus_lib.text import clean
++from usiphus_lib.files import JsonReadPolicy, read_json_file, uniform
+ 
+ TRUSTED_KEYS_ENV = "USIPHUS_AUDIT_TRUSTED_KEYS"
+ 
+ 
+-class V15Error(ValueError):
++class V15Error(UsiphusError):
+     """Invalid V15 input or policy."""
+ 
+ 
+-def clean(value: Any) -> str:
+-    return " ".join(str(value or "").strip().split())
+-
+-
+-def canonical_json(value: Any) -> str:
+-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+-
+-
+-def digest(value: Any) -> str:
+-    return hashlib.sha256(canonical_json(value).encode("utf-8")).hexdigest()
+-
+-
+ def read_json(path: Path) -> Any:
+-    if not path.is_file():
+-        raise V15Error(f"Input file not found: {path}")
+-    if path.stat().st_size > 50 * 1024 * 1024:
+-        raise V15Error(f"Input exceeds 50 MiB: {path}")
+-    try:
+-        return json.loads(path.read_text(encoding="utf-8-sig"))
+-    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+-        raise V15Error(f"Invalid JSON in {path}: {exc}") from exc
++    return read_json_file(path, JsonReadPolicy(error=uniform(V15Error)))
+ 
+ 
+ def records(payload: Any, key: str, label: str) -> list[dict[str, Any]]:
+@@ -148,7 +133,7 @@
+             continue
+         supplied = clean(event.get("event_hash"))
+         payload = {k: v for k, v in event.items() if k not in ("event_hash", "signature")}
+-        expected = digest(payload)
++        expected = digest_value(payload)
+         if clean(event.get("previous_hash")) != previous:
+             issues.append(f"event {index} previous_hash does not match the prior event")
+         if supplied != expected:
+@@ -204,7 +189,7 @@
+         "timestamp": timestamp,
+         "details": dict(details or {}),
+     }
+-    event["event_hash"] = digest(event)
++    event["event_hash"] = digest_value(event)
+     if signer is not None:
+         event["signature"] = signer.sign(event["event_hash"])
+     elif hmac_key is not None:
+--- a/usiphus_v17.py
++++ b/usiphus_v17.py
+@@ -9,42 +9,26 @@
+ 
+ import argparse
+ import csv
+-import hashlib
+ import html
+ import json
+ import logging
+ import math
+-import os
+ import re
+-import tempfile
+ from collections import defaultdict
+ from datetime import datetime
+ from pathlib import Path
+ from statistics import median
+ from typing import Any
++from usiphus_lib.errors import UsiphusError
++from usiphus_lib.hashing import sha256_file
++from usiphus_lib.text import clean
++from usiphus_lib.files import atomic_write_text, write_json
++from usiphus_lib.files import JsonReadPolicy, read_json_file
+ 
+ VERSION = "17.0.0"
+ CONTRACT_VERSION = 1
+ MAX_BYTES = 50 * 1024 * 1024
+ LOG = logging.getLogger("usiphus.v17")
+-
+-try:
+-    from usiphus_common import atomic_write_text
+-except ImportError:  # Standalone source recovery / direct module execution.
+-    def atomic_write_text(text: str, destination: Path) -> None:
+-        destination = Path(destination)
+-        destination.parent.mkdir(parents=True, exist_ok=True)
+-        fd, name = tempfile.mkstemp(prefix="." + destination.name + ".", suffix=".tmp",
+-                                    dir=str(destination.parent))
+-        try:
+-            with os.fdopen(fd, "w", encoding="utf-8", newline="") as handle:
+-                handle.write(text)
+-                handle.flush()
+-                os.fsync(handle.fileno())
+-            os.replace(name, destination)
+-        finally:
+-            if os.path.exists(name):
+-                os.unlink(name)
+ 
+ 
+ CONTRACTS: dict[str, dict[str, Any]] = {
+@@ -82,7 +66,7 @@
+ }
+ 
+ 
+-class V17Error(ValueError):
++class V17Error(UsiphusError):
+     """An actionable V17 error with a stable machine-readable code."""
+ 
+     def __init__(self, code: str, message: str):
+@@ -90,35 +74,15 @@
+         self.code = code
+ 
+ 
+-def clean(value: Any) -> str:
+-    return re.sub(r"\s+", " ", str(value or "").strip())
++_READ_ERROR_CODES = {"missing": "V17-E001", "too_large": "V17-E002", "invalid": "V17-E003", "unreadable": "V17-E004"}
+ 
+ 
+ def read_json(path: Path) -> Any:
+-    path = Path(path)
+-    if not path.is_file():
+-        raise V17Error("V17-E001", f"Input file does not exist: {path}")
+-    if path.stat().st_size > MAX_BYTES:
+-        raise V17Error("V17-E002", f"Input exceeds {MAX_BYTES} bytes: {path}")
+-    try:
+-        with path.open("r", encoding="utf-8-sig") as handle:
+-            return json.load(handle)
+-    except json.JSONDecodeError as exc:
+-        raise V17Error("V17-E003", f"Invalid JSON in {path} at line {exc.lineno}, column {exc.colno}") from exc
+-    except (OSError, UnicodeDecodeError) as exc:
+-        raise V17Error("V17-E004", f"Cannot read {path}: {exc}") from exc
+-
+-
+-def write_json(path: Path, payload: Any) -> None:
+-    atomic_write_text(json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False) + "\n", path)
+-
+-
+-def digest(path: Path) -> str:
+-    value = hashlib.sha256()
+-    with Path(path).open("rb") as handle:
+-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+-            value.update(chunk)
+-    return value.hexdigest()
++    return read_json_file(path, JsonReadPolicy(
++        error=lambda kind, message: V17Error(_READ_ERROR_CODES[kind], message),
++        missing="Input file does not exist: {path}", too_large="Input exceeds {limit} bytes: {path}",
++        invalid="Invalid JSON in {path} at line {lineno}, column {colno}", invalid_on=(json.JSONDecodeError,),
++        unreadable="Cannot read {path}: {exc}", unreadable_on=(OSError, UnicodeDecodeError), max_bytes=MAX_BYTES))
+ 
+ 
+ def timezone_aware(value: Any) -> bool:
+@@ -269,7 +233,6 @@
+     return clean(data["specialty"]).casefold(), comps
+ 
+ 
+-
+ def find_exact_duplicate_cards(cards: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+     """Find exact normalized prompt duplicates; candidates always require human review."""
+     groups: dict[str, list[str]] = defaultdict(list)
+@@ -666,19 +629,19 @@
+     if pilot_summary is not None:
+         outputs["v17_pilot_metrics_summary.json"] = pilot_summary
+     for name, payload in outputs.items():
+-        write_json(out / name, payload)
++        write_json(payload, out / name)
+     atomic_write_text(dashboard_html(quality, impact), out / "v17_dashboard.html")
+     write_pilot_template(out / "v17_pilot_metrics_template.csv")
+     manifest = {"schema_version": 1, "usiphus_version": VERSION,
+-                "inputs": {key: {"path": str(path), "sha256": digest(path), "bytes": path.stat().st_size}
++                "inputs": {key: {"path": str(path), "sha256": sha256_file(path), "bytes": path.stat().st_size}
+                            for key, path in sorted(paths.items())},
+                 "outputs": {}, "summary": quality["summary"],
+                 "limitations": ["This is an analysis report, not a governed V16 release.",
+                                 "Faculty/learner pilot validation must be performed by the institution."]}
+     for path in sorted(out.iterdir()):
+         if path.is_file() and path.name != "v17_manifest.json":
+-            manifest["outputs"][path.name] = {"sha256": digest(path), "bytes": path.stat().st_size}
+-    write_json(out / "v17_manifest.json", manifest)
++            manifest["outputs"][path.name] = {"sha256": sha256_file(path), "bytes": path.stat().st_size}
++    write_json(manifest, out / "v17_manifest.json")
+     return {"status": "complete", "output_dir": str(out), "summary": quality["summary"],
+             "review_queue_items": len(queue), "impact_comparison_available": impact["comparison_available"]}
+ 
+@@ -792,7 +755,7 @@
+                 if not args.migration_output:
+                     parser.error("--migration-output is required with --migrate")
+                 migrated = migrate_document(args.contract_type, payload)
+-                write_json(Path(args.migration_output), migrated)
++                write_json(migrated, Path(args.migration_output))
+                 print(json.dumps({"status": "migrated", "output": args.migration_output,
+                                   "meaning_changed": False}, indent=2))
+                 return 0
+--- a/usiphus_v18.py
++++ b/usiphus_v18.py
+@@ -9,9 +9,6 @@
+ 
+ import argparse
+ import csv
+-import hashlib
+-import json
+-import os
+ import re
+ import sys
+ import tempfile
+@@ -20,6 +17,11 @@
+ from pathlib import Path
+ from typing import Any
+ from urllib.parse import urlsplit, urlunsplit
++from usiphus_lib.errors import UsiphusError
++from usiphus_lib.hashing import digest_value, sha256_hex
++from usiphus_lib.text import clean
++from usiphus_lib.files import atomic_write_text, write_json
++from usiphus_lib.files import JsonReadPolicy, read_json_file, uniform
+ 
+ VERSION = "18.0.0"
+ MAX_BYTES = 50 * 1024 * 1024
+@@ -39,56 +41,12 @@
+ VALID_DECISIONS = {"accepted", "rejected", "deferred"}
+ 
+ 
+-class V18Error(ValueError):
++class V18Error(UsiphusError):
+     """Invalid V18 input or policy."""
+ 
+ 
+-def clean(value: Any) -> str:
+-    return " ".join(str(value or "").strip().split())
+-
+-
+-def canonical_json(value: Any) -> str:
+-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+-
+-
+-def digest_bytes(value: bytes) -> str:
+-    return hashlib.sha256(value).hexdigest()
+-
+-
+-def digest(value: Any) -> str:
+-    return digest_bytes(canonical_json(value).encode("utf-8"))
+-
+-
+ def read_json(path: Path) -> Any:
+-    path = Path(path)
+-    if not path.is_file():
+-        raise V18Error(f"Input file not found: {path}")
+-    if path.stat().st_size > MAX_BYTES:
+-        raise V18Error(f"Input exceeds {MAX_BYTES // (1024 * 1024)} MiB: {path}")
+-    try:
+-        return json.loads(path.read_text(encoding="utf-8-sig"))
+-    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+-        raise V18Error(f"Invalid JSON in {path}: {exc}") from exc
+-
+-
+-def write_text(text: str, destination: Path) -> None:
+-    destination = Path(destination)
+-    destination.parent.mkdir(parents=True, exist_ok=True)
+-    fd, name = tempfile.mkstemp(prefix="." + destination.name + ".", suffix=".tmp",
+-                                dir=str(destination.parent))
+-    try:
+-        with os.fdopen(fd, "w", encoding="utf-8", newline="") as handle:
+-            handle.write(text)
+-            handle.flush()
+-            os.fsync(handle.fileno())
+-        os.replace(name, destination)
+-    finally:
+-        if os.path.exists(name):
+-            os.unlink(name)
+-
+-
+-def write_json(value: Any, destination: Path) -> None:
+-    write_text(json.dumps(value, indent=2, sort_keys=True, ensure_ascii=False) + "\n", destination)
++    return read_json_file(path, JsonReadPolicy(error=uniform(V18Error), max_bytes=MAX_BYTES))
+ 
+ 
+ def records(payload: Any, key: str, label: str) -> list[dict[str, Any]]:
+@@ -153,7 +111,7 @@
+     content_path = clean(source.get("content_path"))
+     if content_path:
+         path = contained_file(source_root, content_path)
+-        actual = digest_bytes(path.read_bytes())
++        actual = sha256_hex(path.read_bytes())
+         if content_hash and content_hash != actual:
+             raise V18Error(f"Provided content_sha256 does not match content_path for {source.get('source_id')}")
+         content_hash = actual
+@@ -526,7 +484,7 @@
+                  "reviewer_label": clean(decision.get("reviewer_label")),
+                  "rationale": clean(decision.get("rationale")),
+                  "decided_at": clean(decision.get("decided_at"))}
+-        event["event_hash"] = digest(event)
++        event["event_hash"] = digest_value(event)
+         previous_hash = event["event_hash"]
+         audit_events.append(event)
+ 
+@@ -564,7 +522,7 @@
+     count = sum(len(values) for values in impact.values())
+     base = CHANGE_WEIGHTS.get(kind, 100)
+     score = base + min(100, count * 10)
+-    return {"queue_id": digest({"kind": kind, "source_id": source_id, **details})[:16],
++    return {"queue_id": digest_value({"kind": kind, "source_id": source_id, **details})[:16],
+             "event_type": kind, "source_id": source_id, "priority_score": score,
+             "affected_artifacts": impact, "rationale": rationale, **details}
+ 
+@@ -600,7 +558,7 @@
+     lines += ["", "## Boundaries", report["policy"]["clinical_boundary"],
+               report["policy"]["human_control"], report["policy"]["reviewer_identity"],
+               report["policy"]["hash_chain"], ""]
+-    write_text("\n".join(lines), output_dir / "v18_evidence_lifecycle_report.md")
++    atomic_write_text("\n".join(lines), output_dir / "v18_evidence_lifecycle_report.md")
+     buffer = []
+     for item in report["review_queue"]:
+         buffer.append({"priority_score": item["priority_score"], "event_type": item["event_type"],
+@@ -618,12 +576,12 @@
+     writer = csv.DictWriter(stream, fieldnames=fields)
+     writer.writeheader()
+     writer.writerows(buffer)
+-    write_text(stream.getvalue(), output_dir / "v18_review_queue.csv")
++    atomic_write_text(stream.getvalue(), output_dir / "v18_review_queue.csv")
+     input_hashes = report.get("input_hashes", {})
+     output_hashes = {}
+     for path in sorted(output_dir.iterdir()):
+         if path.is_file() and path.name != "v18_manifest.json":
+-            output_hashes[path.name] = digest_bytes(path.read_bytes())
++            output_hashes[path.name] = sha256_hex(path.read_bytes())
+     write_json({"schema_version": 1, "usiphus_version": VERSION,
+                 "input_sha256": input_hashes, "output_sha256": output_hashes},
+                output_dir / "v18_manifest.json")
+@@ -650,7 +608,7 @@
+     )
+     inputs = [sources_path, claims_path] + [Path(p) for p in
+              (args.previous_state, args.cards, args.assessments, args.osce, args.release_links, args.decisions) if p]
+-    report["input_hashes"] = {str(path): digest_bytes(path.read_bytes()) for path in inputs}
++    report["input_hashes"] = {str(path): sha256_hex(path.read_bytes()) for path in inputs}
+     write_outputs(report, Path(args.output_dir))
+     return report
+ 
+--- a/usiphus_v19.py
++++ b/usiphus_v19.py
+@@ -10,59 +10,28 @@
+ import csv
+ import hashlib
+ import json
+-import os
+ import re
+ import sys
+-import tempfile
+ from collections import defaultdict
+ from pathlib import Path
+ from typing import Any
+ from urllib.parse import urlsplit
++from usiphus_lib.errors import UsiphusError
++from usiphus_lib.hashing import digest_value
++from usiphus_lib.files import atomic_write_text, write_json
++from usiphus_lib.files import JsonReadPolicy, read_json_file, uniform
++from usiphus_lib.text import clean
+ 
+ VERSION = "19.0.0"
+ MAX_BYTES = 25 * 1024 * 1024
+ STATES = {"draft", "in_review", "approved", "retired"}
+ LEVELS = {"remember", "understand", "apply", "analyze", "evaluate", "create"}
+ 
+-class V19Error(ValueError):
++class V19Error(UsiphusError):
+     """Invalid V19 input or policy."""
+ 
+-def text(value: Any) -> str:
+-    return " ".join(str(value or "").strip().split())
+-
+-def canonical(value: Any) -> str:
+-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+-
+-def sha(value: Any) -> str:
+-    return hashlib.sha256(canonical(value).encode("utf-8")).hexdigest()
+-
+ def read_json(path: Path) -> Any:
+-    path = Path(path)
+-    if not path.is_file():
+-        raise V19Error(f"Input file not found: {path}")
+-    if path.stat().st_size > MAX_BYTES:
+-        raise V19Error(f"Input exceeds {MAX_BYTES // (1024 * 1024)} MiB: {path}")
+-    try:
+-        return json.loads(path.read_text(encoding="utf-8-sig"))
+-    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+-        raise V19Error(f"Invalid JSON in {path}: {exc}") from exc
+-
+-def write_text(value: str, path: Path) -> None:
+-    path = Path(path)
+-    path.parent.mkdir(parents=True, exist_ok=True)
+-    fd, temp_name = tempfile.mkstemp(prefix="." + path.name + ".", suffix=".tmp", dir=str(path.parent))
+-    try:
+-        with os.fdopen(fd, "w", encoding="utf-8", newline="") as handle:
+-            handle.write(value)
+-            handle.flush()
+-            os.fsync(handle.fileno())
+-        os.replace(temp_name, path)
+-    finally:
+-        if os.path.exists(temp_name):
+-            os.unlink(temp_name)
+-
+-def write_json(value: Any, path: Path) -> None:
+-    write_text(json.dumps(value, indent=2, ensure_ascii=False, sort_keys=True) + "\n", path)
++    return read_json_file(path, JsonReadPolicy(error=uniform(V19Error), max_bytes=MAX_BYTES))
+ 
+ def rows(payload: Any, key: str) -> list[dict[str, Any]]:
+     data = payload.get(key, []) if isinstance(payload, dict) else None
+@@ -72,7 +41,7 @@
+ 
+ def valid_http_url(value: Any) -> bool:
+     try:
+-        p = urlsplit(text(value))
++        p = urlsplit(clean(value))
+         return p.scheme in {"http", "https"} and bool(p.hostname) and not p.username and not p.password
+     except ValueError:
+         return False
+@@ -84,33 +53,33 @@
+                  issues: list[dict[str, str]]) -> dict[str, dict[str, Any]]:
+     seen: dict[str, dict[str, Any]] = {}
+     for index, item in enumerate(items):
+-        ident = text(item.get(id_key))
++        ident = clean(item.get(id_key))
+         if not ident:
+             issues.append(flag(kind, f"row-{index+1}", "error", f"{id_key} is required"))
+         elif ident in seen:
+             issues.append(flag(kind, ident, "error", f"duplicate {id_key}"))
+         else:
+             seen[ident] = item
+-        state = text(item.get("status") or "draft")
++        state = clean(item.get("status") or "draft")
+         if state not in STATES:
+             issues.append(flag(kind, ident or f"row-{index+1}", "error", f"unsupported status: {state}"))
+-        if state == "approved" and not text(item.get("reviewer_label")):
++        if state == "approved" and not clean(item.get("reviewer_label")):
+             issues.append(flag(kind, ident, "warning", "approved status has no reviewer_label"))
+-        if state == "approved" and not text(item.get("reviewed_at")):
++        if state == "approved" and not clean(item.get("reviewed_at")):
+             issues.append(flag(kind, ident, "warning", "approved status has no reviewed_at timestamp"))
+     return seen
+ 
+ def check_blueprint(blueprint: list[dict[str, Any]], issues: list[dict[str, str]]) -> None:
+     check_unique(blueprint, "objective_id", "blueprint", issues)
+     for obj in blueprint:
+-        oid = text(obj.get("objective_id"))
+-        if not text(obj.get("specialty")):
++        oid = clean(obj.get("objective_id"))
++        if not clean(obj.get("specialty")):
+             issues.append(flag("blueprint", oid, "error", "specialty is required"))
+-        if not text(obj.get("competency_id")):
++        if not clean(obj.get("competency_id")):
+             issues.append(flag("blueprint", oid, "error", "competency_id is required"))
+-        if text(obj.get("cognitive_level")).casefold() not in LEVELS:
++        if clean(obj.get("cognitive_level")).casefold() not in LEVELS:
+             issues.append(flag("blueprint", oid, "warning", "cognitive_level is missing or outside the supported taxonomy"))
+-        if not text(obj.get("assessment_method")):
++        if not clean(obj.get("assessment_method")):
+             issues.append(flag("blueprint", oid, "warning", "assessment_method is missing"))
+ 
+ def check_mcqs(items: list[dict[str, Any]], blueprint_ids: set[str],
+@@ -118,13 +87,13 @@
+     check_unique(items, "item_id", "mcq", issues)
+     prompts: dict[str, list[str]] = defaultdict(list)
+     for item in items:
+-        ident = text(item.get("item_id"))
+-        stem = text(item.get("stem"))
++        ident = clean(item.get("item_id"))
++        stem = clean(item.get("stem"))
+         if not stem:
+             issues.append(flag("mcq", ident, "error", "stem is required"))
+         if len(stem.split()) < 8:
+             issues.append(flag("mcq", ident, "warning", "very short stem; check whether sufficient context is supplied"))
+-        lead = text(item.get("lead_in"))
++        lead = clean(item.get("lead_in"))
+         if not lead:
+             issues.append(flag("mcq", ident, "error", "focused lead_in is required"))
+         elif not lead.endswith("?"):
+@@ -133,8 +102,8 @@
+         if not isinstance(opts, list) or len(opts) < 3 or any(not isinstance(o, dict) for o in opts):
+             issues.append(flag("mcq", ident, "error", "options must contain at least three option objects"))
+             opts = []
+-        labels = [text(o.get("label")) for o in opts]
+-        bodies = [text(o.get("text")) for o in opts]
++        labels = [clean(o.get("label")) for o in opts]
++        bodies = [clean(o.get("text")) for o in opts]
+         if len(set(labels)) != len(labels) or any(not x for x in labels):
+             issues.append(flag("mcq", ident, "error", "option labels must be present and unique"))
+         if any(not x for x in bodies):
+@@ -144,12 +113,12 @@
+             issues.append(flag("mcq", ident, "error", "exactly one option must be marked correct for single-best-answer format"))
+         if len({x.casefold() for x in bodies if x}) != len([x for x in bodies if x]):
+             issues.append(flag("mcq", ident, "warning", "duplicate option text candidate"))
+-        if not text(item.get("answer_rationale")):
++        if not clean(item.get("answer_rationale")):
+             issues.append(flag("mcq", ident, "warning", "answer rationale is missing"))
+         wrong = [o for o in opts if o.get("correct") is not True]
+-        if wrong and any(not text(o.get("rationale")) for o in wrong):
++        if wrong and any(not clean(o.get("rationale")) for o in wrong):
+             issues.append(flag("mcq", ident, "warning", "one or more distractors lack rationale"))
+-        if not text(item.get("evidence_ref")):
++        if not clean(item.get("evidence_ref")):
+             issues.append(flag("mcq", ident, "warning", "clinical evidence_ref is missing"))
+         for field in ("objective_ids", "competency_ids"):
+             values = item.get(field, [])
+@@ -158,7 +127,7 @@
+                 continue
+             if field == "objective_ids":
+                 for oid in values:
+-                    if text(oid) not in blueprint_ids:
++                    if clean(oid) not in blueprint_ids:
+                         issues.append(flag("mcq", ident, "warning", f"objective not found in blueprint: {oid}"))
+         norm = re.sub(r"\s+", " ", stem.casefold()).strip()
+         if norm:
+@@ -175,9 +144,9 @@
+     required = ("candidate_instructions", "role_player_brief", "setup_equipment",
+                 "examiner_instructions", "global_rating_scale", "marking_rubric")
+     for station in stations:
+-        ident = text(station.get("station_id"))
++        ident = clean(station.get("station_id"))
+         for field in required:
+-            if not text(station.get(field)):
++            if not clean(station.get(field)):
+                 issues.append(flag("osce", ident, "error", f"{field} is required"))
+         duration = station.get("duration_minutes")
+         if isinstance(duration, bool) or not isinstance(duration, int) or not 1 <= duration <= 60:
+@@ -187,60 +156,60 @@
+             issues.append(flag("osce", ident, "error", "checklist must contain at least one criterion"))
+         else:
+             for index, criterion in enumerate(checklist):
+-                if not isinstance(criterion, dict) or not text(criterion.get("criterion")):
++                if not isinstance(criterion, dict) or not clean(criterion.get("criterion")):
+                     issues.append(flag("osce", ident, "error", f"checklist criterion {index+1} is incomplete"))
+         if not isinstance(station.get("critical_actions", []), list):
+             issues.append(flag("osce", ident, "error", "critical_actions must be a list"))
+         for oid in station.get("objective_ids", []) if isinstance(station.get("objective_ids", []), list) else []:
+-            if text(oid) not in blueprint_ids:
++            if clean(oid) not in blueprint_ids:
+                 issues.append(flag("osce", ident, "warning", f"objective not found in blueprint: {oid}"))
+-        if station.get("media") and not text(station.get("media_license")):
++        if station.get("media") and not clean(station.get("media_license")):
+             issues.append(flag("osce", ident, "warning", "media supplied without documented media_license/provenance"))
+ 
+ def check_challenges(challenges: list[dict[str, Any]], blueprint_ids: set[str],
+                      issues: list[dict[str, str]]) -> None:
+     check_unique(challenges, "challenge_id", "challenge", issues)
+     for case in challenges:
+-        ident = text(case.get("challenge_id"))
+-        if not text(case.get("case_stem")):
++        ident = clean(case.get("challenge_id"))
++        if not clean(case.get("case_stem")):
+             issues.append(flag("challenge", ident, "error", "case_stem is required"))
+         clues = case.get("clues")
+-        if not isinstance(clues, list) or not clues or any(not text(x) for x in clues):
++        if not isinstance(clues, list) or not clues or any(not clean(x) for x in clues):
+             issues.append(flag("challenge", ident, "error", "clues must be a non-empty ordered list of text"))
+         answers = case.get("accepted_answers")
+-        if not isinstance(answers, list) or not any(text(x) for x in answers):
++        if not isinstance(answers, list) or not any(clean(x) for x in answers):
+             issues.append(flag("challenge", ident, "error", "accepted_answers must contain at least one answer"))
+-        if not text(case.get("explanation")):
++        if not clean(case.get("explanation")):
+             issues.append(flag("challenge", ident, "error", "explanation is required"))
+-        if not text(case.get("differential_rationale")):
++        if not clean(case.get("differential_rationale")):
+             issues.append(flag("challenge", ident, "warning", "differential_rationale is missing"))
+-        if not text(case.get("provenance")):
++        if not clean(case.get("provenance")):
+             issues.append(flag("challenge", ident, "warning", "case provenance/attribution is missing"))
+-        if case.get("media") and (not text(case.get("media_license")) or not text(case.get("media_provenance"))):
++        if case.get("media") and (not clean(case.get("media_license")) or not clean(case.get("media_provenance"))):
+             issues.append(flag("challenge", ident, "error", "media requires explicit license and provenance"))
+         for oid in case.get("objective_ids", []) if isinstance(case.get("objective_ids", []), list) else []:
+-            if text(oid) not in blueprint_ids:
++            if clean(oid) not in blueprint_ids:
+                 issues.append(flag("challenge", ident, "warning", f"objective not found in blueprint: {oid}"))
+ 
+ def check_directory(entries: list[dict[str, Any]], issues: list[dict[str, str]]) -> None:
+     check_unique(entries, "entry_id", "directory", issues)
+     for entry in entries:
+-        ident = text(entry.get("entry_id"))
++        ident = clean(entry.get("entry_id"))
+         if not valid_http_url(entry.get("url")):
+             issues.append(flag("directory", ident, "error", "url must be a safe HTTP(S) URL without embedded credentials"))
+-        if not text(entry.get("provider")):
++        if not clean(entry.get("provider")):
+             issues.append(flag("directory", ident, "error", "provider is required"))
+-        if text(entry.get("reuse_status")) not in {"unknown", "link_only", "licensed", "permission_granted", "prohibited"}:
++        if clean(entry.get("reuse_status")) not in {"unknown", "link_only", "licensed", "permission_granted", "prohibited"}:
+             issues.append(flag("directory", ident, "error", "reuse_status must explicitly describe content rights"))
+-        if entry.get("embed_allowed") is True and text(entry.get("reuse_status")) not in {"licensed", "permission_granted"}:
++        if entry.get("embed_allowed") is True and clean(entry.get("reuse_status")) not in {"licensed", "permission_granted"}:
+             issues.append(flag("directory", ident, "error", "embedding requires licensed or permission_granted status"))
+-        if not text(entry.get("last_checked_at")):
++        if not clean(entry.get("last_checked_at")):
+             issues.append(flag("directory", ident, "warning", "last_checked_at is missing"))
+ 
+ def descriptive_stats(stats: list[dict[str, Any]], issues: list[dict[str, str]]) -> list[dict[str, Any]]:
+     output = []
+     for index, row in enumerate(stats):
+-        ident = text(row.get("item_id")) or f"row-{index+1}"
++        ident = clean(row.get("item_id")) or f"row-{index+1}"
+         n, correct, missing = row.get("cohort_size"), row.get("correct_count"), row.get("missing_count", 0)
+         if any(isinstance(x, bool) or not isinstance(x, int) for x in (n, correct, missing)) or n <= 0 or not 0 <= correct <= n or not 0 <= missing <= n:
+             issues.append(flag("statistics", ident, "error", "cohort_size, correct_count and missing_count must be valid non-negative integer counts"))
+@@ -249,7 +218,7 @@
+             issues.append(flag("statistics", ident, "error", "correct_count + missing_count cannot exceed cohort_size"))
+             continue
+         output.append({
+-            "item_id": ident, "item_version": text(row.get("item_version")),
++            "item_id": ident, "item_version": clean(row.get("item_version")),
+             "cohort_size": n, "correct_count": correct, "missing_count": missing,
+             "proportion_correct": round(correct / (n - missing), 4) if n > missing else None,
+             "missing_rate": round(missing / n, 4),
+@@ -270,7 +239,7 @@
+     issues: list[dict[str, str]] = []
+     duplicates: list[dict[str, Any]] = []
+     check_blueprint(blueprint, issues)
+-    blueprint_ids = {text(x.get("objective_id")) for x in blueprint if text(x.get("objective_id"))}
++    blueprint_ids = {clean(x.get("objective_id")) for x in blueprint if clean(x.get("objective_id"))}
+     check_mcqs(mcqs, blueprint_ids, issues, duplicates)
+     check_osce(osce, blueprint_ids, issues)
+     check_challenges(challenges, blueprint_ids, issues)
+@@ -278,7 +247,7 @@
+     stat_summary = descriptive_stats(stats, issues)
+     counts = {level: sum(1 for x in issues if x["severity"] == level) for level in ("error", "warning")}
+     artifacts = (blueprint, mcqs, osce, challenges, directory)
+-    manifest = {"schema_version": 1, "engine_version": VERSION, "input_sha256": sha(payload),
++    manifest = {"schema_version": 1, "engine_version": VERSION, "input_sha256": digest_value(payload),
+                 "artifact_counts": {"blueprint_objectives": len(blueprint), "mcqs": len(mcqs),
+                                     "osce_stations": len(osce), "challenges": len(challenges),
+                                     "external_directory_entries": len(directory)},
+@@ -324,7 +293,7 @@
+         for item in report["review_queue"]:
+             lines.append(f"- **{item['severity'].upper()} · {item['kind']} · {item['artifact_id']}** — {item['message']}")
+         lines += ["", "## Governance", "", report["governance_note"], ""]
+-        write_text("\n".join(lines), args.output_dir / "v19_assessment_studio_report.md")
++        atomic_write_text("\n".join(lines), args.output_dir / "v19_assessment_studio_report.md")
+         with (args.output_dir / "v19_review_queue.csv").open("w", encoding="utf-8", newline="") as handle:
+             writer = csv.DictWriter(handle, fieldnames=["severity", "kind", "artifact_id", "message"])
+             writer.writeheader()
+--- a/usiphus_v20.py
++++ b/usiphus_v20.py
+@@ -8,16 +8,17 @@
+ 
+ import argparse
+ import csv
+-import hashlib
+ import html
+ import json
+-import os
+ import re
+ import sys
+-import tempfile
+ from datetime import datetime
+ from pathlib import Path
+ from typing import Any
++from usiphus_lib.errors import UsiphusError
++from usiphus_lib.hashing import canonical_json as canonical, digest_value
++from usiphus_lib.text import clean
++from usiphus_lib.files import atomic_write_text, write_json
+ 
+ VERSION = "20.0.0"
+ MAX_BYTES = 25 * 1024 * 1024
+@@ -33,17 +34,8 @@
+     "national_id_candidate": re.compile(r"(?<!\d)\d{9,14}(?!\d)"),
+ }
+ 
+-class V20Error(ValueError):
++class V20Error(UsiphusError):
+     """Invalid V20 input or workflow state."""
+-
+-def clean(value: Any) -> str:
+-    return " ".join(str(value or "").strip().split())
+-
+-def canonical(value: Any) -> str:
+-    return json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
+-
+-def digest(value: Any) -> str:
+-    return hashlib.sha256(canonical(value).encode("utf-8")).hexdigest()
+ 
+ def parse_time(value: Any) -> datetime | None:
+     if not clean(value):
+@@ -57,23 +49,6 @@
+ def pii_kinds(value: Any) -> list[str]:
+     raw = str(value or "")
+     return [name for name, pattern in PII_PATTERNS.items() if pattern.search(raw)]
+-
+-def atomic_write(path: Path, content: str) -> None:
+-    path = Path(path)
+-    path.parent.mkdir(parents=True, exist_ok=True)
+-    fd, tmp = tempfile.mkstemp(prefix="." + path.name + ".", suffix=".tmp", dir=str(path.parent))
+-    try:
+-        with os.fdopen(fd, "w", encoding="utf-8", newline="") as handle:
+-            handle.write(content)
+-            handle.flush()
+-            os.fsync(handle.fileno())
+-        os.replace(tmp, path)
+-    finally:
+-        if os.path.exists(tmp):
+-            os.unlink(tmp)
+-
+-def write_json(value: Any, path: Path) -> None:
+-    atomic_write(path, json.dumps(value, indent=2, sort_keys=True, ensure_ascii=False) + "\n")
+ 
+ def read_input(path: Path) -> dict[str, Any]:
+     if not path.is_file():
+@@ -259,7 +234,7 @@
+         "with_possible_pii": sum(bool(pii_kinds(x.get("text"))) for x in feedback),
+         "retention_due_count": (sum(bool(parse_time(x.get("retention_until")) and parse_time(x.get("retention_until")) <= as_of) for x in feedback) if as_of else None),
+     }
+-    summary = {"schema_version": 1, "engine_version": VERSION, "input_sha256": digest(payload),
++    summary = {"schema_version": 1, "engine_version": VERSION, "input_sha256": digest_value(payload),
+                "feedback": feedback_summary, "actions": action_summary, "artifacts": artifact_summary,
+                "issue_counts": {"error": error_count, "warning": warning_count},
+                "version_diffs": len(diffs)}
+@@ -270,7 +245,7 @@
+         preview.append({"artifact_id": aid, "version": clean(latest.get("version")),
+                         "artifact_type": clean(latest.get("artifact_type")),
+                         "title": clean(latest.get("title")), "status": clean(latest.get("status") or "draft"),
+-                        "content_sha256": digest(latest.get("content"))})
++                        "content_sha256": digest_value(latest.get("content"))})
+     return {"schema_version": 1, "engine_version": VERSION, "summary": summary,
+             "issues": queue, "version_diffs": diffs, "release_preview": preview,
+             "publication_gate": "blocked" if error_count else ("review_required" if warning_count else "ready_for_faculty_review"),
+@@ -323,7 +298,7 @@
+         # Structured authoring export deliberately excludes feedback/comment text.
+         authored = {"schema_version": 1, "artifacts": payload.get("artifacts", [])}
+         write_json(authored, args.output_dir / "v20_authoring_export.json")
+-        atomic_write(args.output_dir / "v20_release_preview.html", html_preview(report))
++        atomic_write_text(html_preview(report), args.output_dir / "v20_release_preview.html")
+         with (args.output_dir / "v20_action_queue.csv").open("w", encoding="utf-8", newline="") as handle:
+             writer = csv.DictWriter(handle, fieldnames=["action_id","title","owner_label","status","due_at","feedback_count"])
+             writer.writeheader()
+--- /dev/null
++++ b/docs/SHARED_LIBRARY.md
+@@ -0,0 +1,61 @@
++# Shared library (`usiphus_lib`)
++
++Every engine used to carry its own copy of the same small helpers. They now live once in `usiphus_lib/`
++(standard library only). The package is named `usiphus_lib`, not `usiphus`, because `usiphus.py` is the
++command dispatcher.
++
++| Module | What it provides |
++|---|---|
++| `errors` | `UsiphusError`, the common base of all 12 engine errors. It is still a `ValueError`, so existing `except ValueError` handlers keep working. |
++| `files` | `atomic_write_text(text, destination)`, `write_json(payload, destination)`, `json_text`, and `read_json_file` with `JsonReadPolicy`. |
++| `hashing` | `canonical_json`, `sha256_hex`, `digest_value` (SHA-256 of canonical JSON), `sha256_file`. |
++| `text` | `clean` (trim and collapse internal whitespace) and `strip_text` (trim only). |
++| `ids` | `objective_id(topic_id, index)`, e.g. `T1-LO02`. Discovery, evidence and coverage must agree on it. |
++| `ollama` | `local_ollama_url`, the loopback-only Ollama address guard. |
++
++## Conventions
++
++* **Content first, destination second**: `atomic_write_text(text, path)`, `write_json(payload, path)`.
++* **Writes are atomic and durable**: unique temp file in the target directory, `fsync`, then rename. `newline=""`
++  keeps `"\n"` as `"\n"` on every platform, so hashes of generated files do not depend on the OS.
++* **Hash canonical JSON, never `str(value)`**: use `digest_value` or `canonical_json`.
++* **Engines raise their own error class** (subclass of `UsiphusError`) so callers can tell engines apart.
++
++## Reading JSON: one function, per-engine policy
++
++`read_json_file(path, policy)` holds the logic (is it a file, size limit, UTF-8 with BOM, decode errors). Each
++engine keeps a small `read_json` wrapper that states *its* error class, messages and limit as a `JsonReadPolicy`,
++because the engines historically reported problems differently (V17 even returns stable error codes `V17-E001`..`E004`).
++The differences are now visible in one place per engine and can be unified later by editing the policy:
++
++* V11 deliberately passes malformed JSON and bad UTF-8 through unwrapped (`invalid_on=()`).
++* V12 wraps malformed JSON but lets bad UTF-8 through.
++* V19 uses a 25 MiB limit, the other engines 50 MiB (V12/V13/V18) or 2 MiB (generate config).
++
++Changing a message or limit changes behaviour: re-record `tests/data/helper_contracts.json` and say so in the commit.
++
++## Deliberately not shared
++
++* Time parsing (`parse_time`, `parse_timestamp`, `parse_as_of`): the engines validate different formats and fail differently.
++* `usiphus_audit`, `usiphus_ledger`, `usiphus_auto_deck` and `usiphus_migrate` write JSON with their own layouts
++  (no sorted keys or ASCII-escaped); changing them would change output bytes.
++* `usiphus_auto_deck._checkpoint_key` hashes JSON with default separators. Making it canonical would invalidate every
++  existing checkpoint.
++* `usiphus_migrate._clean` treats `0` as `"0"`, unlike `text.clean`.
++
++## Consequences to know about
++
++* **Engines are no longer single-file scripts.** Copying one `usiphus_vNN.py` elsewhere does not work; the
++  `usiphus_lib/` folder must sit next to it (as `usiphus_common.py` and `usiphus_core.py` already had to).
++* **Platform behaviour**: V11, V12, V13, `usiphus_generate`, `usiphus_review` and V20 previously opened text files in
++  default mode, so on Windows their output used CRLF; they now write LF like the other engines. V11, V13 and V14 also
++  gained `fsync`.
++* `read_json` wrappers now accept `str` paths as well as `Path`.
++
++## Guarding the design
++
++* `tests/test_helper_contracts.py` pins, per engine, what each helper returns, raises (type, message, code, cause) and writes.
++  It was recorded before consolidation and must keep passing.
++* `tests/test_architecture.py` fails if an engine defines its own copy of a shared helper, if `usiphus_lib` imports an
++  engine, or if it uses a non-standard-library module.
++* `tests/test_usiphus_lib.py` unit-tests the library itself.
+--- /dev/null
++++ b/tests/data/helper_contracts.json
+@@ -0,0 +1,754 @@
++{
++  "pure": {
++    "usiphus_generate.local_ollama_url": [
++      {
++        "ok": "http://localhost:11434"
++      },
++      {
++        "ok": "https://localhost"
++      },
++      {
++        "ok": "http://127.0.0.1:11434"
++      },
++      {
++        "ok": "http://[::1]:11434"
++      },
++      {
++        "cause": null,
++        "code": null,
++        "message": "Ollama base_url must be a local loopback URL, such as http://localhost:11434",
++        "raised": "GenerationError"
++      },
++      {
++        "cause": null,
++        "code": null,
++        "message": "Ollama base_url must be a local loopback URL, such as http://localhost:11434",
++        "raised": "GenerationError"
++      },
++      {
++        "cause": null,
++        "code": null,
++        "message": "Ollama base_url must be a local loopback URL, such as http://localhost:11434",
++        "raised": "GenerationError"
++      },
++      {
++        "cause": "ValueError",
++        "code": null,
++        "message": "Ollama base_url has an invalid port",
++        "raised": "GenerationError"
++      },
++      {
++        "cause": null,
++        "code": null,
++        "message": "Ollama base_url must be a local loopback URL, such as http://localhost:11434",
++        "raised": "GenerationError"
++      },
++      {
++        "cause": null,
++        "code": null,
++        "message": "Ollama base_url must be a local loopback URL, such as http://localhost:11434",
++        "raised": "GenerationError"
++      },
++      {
++        "cause": null,
++        "code": null,
++        "message": "Ollama base_url must be a local loopback URL, such as http://localhost:11434",
++        "raised": "GenerationError"
++      },
++      {
++        "cause": null,
++        "code": null,
++        "message": "Ollama base_url must be a local loopback URL, such as http://localhost:11434",
++        "raised": "GenerationError"
++      },
++      {
++        "cause": null,
++        "code": null,
++        "message": "Ollama base_url must be a local loopback URL, such as http://localhost:11434",
++        "raised": "GenerationError"
++      }
++    ],
++    "usiphus_migrate._clean": [
++      "",
++      "",
++      "a  b\t\nc",
++      "x y",
++      "tab\there",
++      "0",
++      "5",
++      "a\u001cb",
++      "z",
++      "['l']",
++      "False"
++    ],
++    "usiphus_resource_discovery._clean": [
++      "",
++      "",
++      "a b c",
++      "x y",
++      "tab here",
++      "",
++      "5",
++      "a b",
++      "z",
++      "['l']",
++      ""
++    ],
++    "usiphus_v10.clean": [
++      "",
++      "",
++      "a b c",
++      "x y",
++      "tab here",
++      "",
++      "5",
++      "a b",
++      "z",
++      "['l']",
++      ""
++    ],
++    "usiphus_v11.clean": [
++      "",
++      "",
++      "a  b\t\nc",
++      "x y",
++      "tab\there",
++      "",
++      "5",
++      "a\u001cb",
++      "z",
++      "['l']",
++      ""
++    ],
++    "usiphus_v12.clean": [
++      "",
++      "",
++      "a  b\t\nc",
++      "x y",
++      "tab\there",
++      "",
++      "5",
++      "a\u001cb",
++      "z",
++      "['l']",
++      ""
++    ],
++    "usiphus_v12.sha256": "4039f80785d4fd20c48a182b547865c83d25c518a7fa3fbbc1d977f382527274",
++    "usiphus_v13.sha256": "4039f80785d4fd20c48a182b547865c83d25c518a7fa3fbbc1d977f382527274",
++    "usiphus_v14.digest": "4039f80785d4fd20c48a182b547865c83d25c518a7fa3fbbc1d977f382527274",
++    "usiphus_v15.canonical_json": "{\"a\":\"ü ☃\",\"b\":[1,{\"a\":null,\"z\":\"é\"}],\"n\":1.5}",
++    "usiphus_v15.clean": [
++      "",
++      "",
++      "a b c",
++      "x y",
++      "tab here",
++      "",
++      "5",
++      "a b",
++      "z",
++      "['l']",
++      ""
++    ],
++    "usiphus_v15.digest": "cc6d39d878250c3233501ae82a1f335616084b0923a76c89322b6fc91bf45376",
++    "usiphus_v17.clean": [
++      "",
++      "",
++      "a b c",
++      "x y",
++      "tab here",
++      "",
++      "5",
++      "a b",
++      "z",
++      "['l']",
++      ""
++    ],
++    "usiphus_v17.digest": "4039f80785d4fd20c48a182b547865c83d25c518a7fa3fbbc1d977f382527274",
++    "usiphus_v18.canonical_json": "{\"a\":\"ü ☃\",\"b\":[1,{\"a\":null,\"z\":\"é\"}],\"n\":1.5}",
++    "usiphus_v18.clean": [
++      "",
++      "",
++      "a b c",
++      "x y",
++      "tab here",
++      "",
++      "5",
++      "a b",
++      "z",
++      "['l']",
++      ""
++    ],
++    "usiphus_v18.digest": "cc6d39d878250c3233501ae82a1f335616084b0923a76c89322b6fc91bf45376",
++    "usiphus_v18.digest_bytes": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
++    "usiphus_v19.canonical": "{\"a\":\"ü ☃\",\"b\":[1,{\"a\":null,\"z\":\"é\"}],\"n\":1.5}",
++    "usiphus_v20.canonical": "{\"a\":\"ü ☃\",\"b\":[1,{\"a\":null,\"z\":\"é\"}],\"n\":1.5}",
++    "usiphus_v20.clean": [
++      "",
++      "",
++      "a b c",
++      "x y",
++      "tab here",
++      "",
++      "5",
++      "a b",
++      "z",
++      "['l']",
++      ""
++    ],
++    "usiphus_v20.digest": "cc6d39d878250c3233501ae82a1f335616084b0923a76c89322b6fc91bf45376"
++  },
++  "read_json": {
++    "usiphus_generate": {
++      "bad_json": {
++        "cause": "JSONDecodeError",
++        "code": null,
++        "message": "Cannot read JSON file <TMP>/bad_json.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)",
++        "raised": "GenerationError"
++      },
++      "bad_utf8": {
++        "cause": "UnicodeDecodeError",
++        "code": null,
++        "message": "Cannot read JSON file <TMP>/bad_utf8.json: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
++        "raised": "GenerationError"
++      },
++      "bom": {
++        "ok": {
++          "a": [
++            1,
++            2
++          ]
++        }
++      },
++      "directory": {
++        "cause": null,
++        "code": null,
++        "message": "File not found: <TMP>",
++        "raised": "GenerationError"
++      },
++      "empty": {
++        "cause": "JSONDecodeError",
++        "code": null,
++        "message": "Cannot read JSON file <TMP>/empty.json: Expecting value: line 1 column 1 (char 0)",
++        "raised": "GenerationError"
++      },
++      "missing": {
++        "cause": null,
++        "code": null,
++        "message": "File not found: <TMP>/absent.json",
++        "raised": "GenerationError"
++      },
++      "too_large": {
++        "cause": null,
++        "code": null,
++        "message": "JSON file exceeds 2097152 bytes: <TMP>/big.json",
++        "raised": "GenerationError"
++      },
++      "valid": {
++        "ok": {
++          "a": 1
++        }
++      }
++    },
++    "usiphus_review": {
++      "bad_json": {
++        "cause": "JSONDecodeError",
++        "code": null,
++        "message": "Cannot read JSON file <TMP>/bad_json.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)",
++        "raised": "ReviewError"
++      },
++      "bad_utf8": {
++        "cause": "UnicodeDecodeError",
++        "code": null,
++        "message": "Cannot read JSON file <TMP>/bad_utf8.json: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
++        "raised": "ReviewError"
++      },
++      "bom": {
++        "ok": {
++          "a": [
++            1,
++            2
++          ]
++        }
++      },
++      "directory": {
++        "cause": null,
++        "code": null,
++        "message": "File not found: <TMP>",
++        "raised": "ReviewError"
++      },
++      "empty": {
++        "cause": "JSONDecodeError",
++        "code": null,
++        "message": "Cannot read JSON file <TMP>/empty.json: Expecting value: line 1 column 1 (char 0)",
++        "raised": "ReviewError"
++      },
++      "missing": {
++        "cause": null,
++        "code": null,
++        "message": "File not found: <TMP>/absent.json",
++        "raised": "ReviewError"
++      },
++      "too_large": {
++        "cause": null,
++        "code": null,
++        "message": "File exceeds 52428800 bytes: <TMP>/big.json",
++        "raised": "ReviewError"
++      },
++      "valid": {
++        "ok": {
++          "a": 1
++        }
++      }
++    },
++    "usiphus_v11": {
++      "bad_json": {
++        "cause": null,
++        "code": null,
++        "message": "Expecting property name enclosed in double quotes: line 1 column 2 (char 1)",
++        "raised": "JSONDecodeError"
++      },
++      "bad_utf8": {
++        "cause": null,
++        "code": null,
++        "message": "'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
++        "raised": "UnicodeDecodeError"
++      },
++      "bom": {
++        "ok": {
++          "a": [
++            1,
++            2
++          ]
++        }
++      },
++      "directory": {
++        "cause": null,
++        "code": null,
++        "message": "Input file does not exist: <TMP>",
++        "raised": "ValueError"
++      },
++      "empty": {
++        "cause": null,
++        "code": null,
++        "message": "Expecting value: line 1 column 1 (char 0)",
++        "raised": "JSONDecodeError"
++      },
++      "missing": {
++        "cause": null,
++        "code": null,
++        "message": "Input file does not exist: <TMP>/absent.json",
++        "raised": "ValueError"
++      },
++      "too_large": {
++        "cause": null,
++        "code": null,
++        "message": "Input exceeds 50 MiB: <TMP>/big.json",
++        "raised": "ValueError"
++      },
++      "valid": {
++        "ok": {
++          "a": 1
++        }
++      }
++    },
++    "usiphus_v12": {
++      "bad_json": {
++        "cause": "JSONDecodeError",
++        "code": null,
++        "message": "Invalid JSON in <TMP>/bad_json.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)",
++        "raised": "ValueError"
++      },
++      "bad_utf8": {
++        "cause": null,
++        "code": null,
++        "message": "'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
++        "raised": "UnicodeDecodeError"
++      },
++      "bom": {
++        "ok": {
++          "a": [
++            1,
++            2
++          ]
++        }
++      },
++      "directory": {
++        "cause": null,
++        "code": null,
++        "message": "Input file does not exist: <TMP>",
++        "raised": "ValueError"
++      },
++      "empty": {
++        "cause": "JSONDecodeError",
++        "code": null,
++        "message": "Invalid JSON in <TMP>/empty.json: Expecting value: line 1 column 1 (char 0)",
++        "raised": "ValueError"
++      },
++      "missing": {
++        "cause": null,
++        "code": null,
++        "message": "Input file does not exist: <TMP>/absent.json",
++        "raised": "ValueError"
++      },
++      "too_large": {
++        "cause": null,
++        "code": null,
++        "message": "Input exceeds 50 MiB: <TMP>/big.json",
++        "raised": "ValueError"
++      },
++      "valid": {
++        "ok": {
++          "a": 1
++        }
++      }
++    },
++    "usiphus_v13": {
++      "bad_json": {
++        "cause": "JSONDecodeError",
++        "code": null,
++        "message": "Invalid UTF-8 JSON in <TMP>/bad_json.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)",
++        "raised": "ValidationError"
++      },
++      "bad_utf8": {
++        "cause": "UnicodeDecodeError",
++        "code": null,
++        "message": "Invalid UTF-8 JSON in <TMP>/bad_utf8.json: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
++        "raised": "ValidationError"
++      },
++      "bom": {
++        "ok": {
++          "a": [
++            1,
++            2
++          ]
++        }
++      },
++      "directory": {
++        "cause": null,
++        "code": null,
++        "message": "Missing required file: <TMP>",
++        "raised": "ValidationError"
++      },
++      "empty": {
++        "cause": "JSONDecodeError",
++        "code": null,
++        "message": "Invalid UTF-8 JSON in <TMP>/empty.json: Expecting value: line 1 column 1 (char 0)",
++        "raised": "ValidationError"
++      },
++      "missing": {
++        "cause": null,
++        "code": null,
++        "message": "Missing required file: <TMP>/absent.json",
++        "raised": "ValidationError"
++      },
++      "too_large": {
++        "cause": null,
++        "code": null,
++        "message": "File exceeds 50 MiB: <TMP>/big.json",
++        "raised": "ValidationError"
++      },
++      "valid": {
++        "ok": {
++          "a": 1
++        }
++      }
++    },
++    "usiphus_v15": {
++      "bad_json": {
++        "cause": "JSONDecodeError",
++        "code": null,
++        "message": "Invalid JSON in <TMP>/bad_json.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)",
++        "raised": "V15Error"
++      },
++      "bad_utf8": {
++        "cause": "UnicodeDecodeError",
++        "code": null,
++        "message": "Invalid JSON in <TMP>/bad_utf8.json: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
++        "raised": "V15Error"
++      },
++      "bom": {
++        "ok": {
++          "a": [
++            1,
++            2
++          ]
++        }
++      },
++      "directory": {
++        "cause": null,
++        "code": null,
++        "message": "Input file not found: <TMP>",
++        "raised": "V15Error"
++      },
++      "empty": {
++        "cause": "JSONDecodeError",
++        "code": null,
++        "message": "Invalid JSON in <TMP>/empty.json: Expecting value: line 1 column 1 (char 0)",
++        "raised": "V15Error"
++      },
++      "missing": {
++        "cause": null,
++        "code": null,
++        "message": "Input file not found: <TMP>/absent.json",
++        "raised": "V15Error"
++      },
++      "too_large": {
++        "cause": null,
++        "code": null,
++        "message": "Input exceeds 50 MiB: <TMP>/big.json",
++        "raised": "V15Error"
++      },
++      "valid": {
++        "ok": {
++          "a": 1
++        }
++      }
++    },
++    "usiphus_v17": {
++      "bad_json": {
++        "cause": "JSONDecodeError",
++        "code": "V17-E003",
++        "message": "Invalid JSON in <TMP>/bad_json.json at line 1, column 2",
++        "raised": "V17Error"
++      },
++      "bad_utf8": {
++        "cause": "UnicodeDecodeError",
++        "code": "V17-E004",
++        "message": "Cannot read <TMP>/bad_utf8.json: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
++        "raised": "V17Error"
++      },
++      "bom": {
++        "ok": {
++          "a": [
++            1,
++            2
++          ]
++        }
++      },
++      "directory": {
++        "cause": null,
++        "code": "V17-E001",
++        "message": "Input file does not exist: <TMP>",
++        "raised": "V17Error"
++      },
++      "empty": {
++        "cause": "JSONDecodeError",
++        "code": "V17-E003",
++        "message": "Invalid JSON in <TMP>/empty.json at line 1, column 1",
++        "raised": "V17Error"
++      },
++      "missing": {
++        "cause": null,
++        "code": "V17-E001",
++        "message": "Input file does not exist: <TMP>/absent.json",
++        "raised": "V17Error"
++      },
++      "too_large": {
++        "cause": null,
++        "code": "V17-E002",
++        "message": "Input exceeds 52428800 bytes: <TMP>/big.json",
++        "raised": "V17Error"
++      },
++      "valid": {
++        "ok": {
++          "a": 1
++        }
++      }
++    },
++    "usiphus_v18": {
++      "bad_json": {
++        "cause": "JSONDecodeError",
++        "code": null,
++        "message": "Invalid JSON in <TMP>/bad_json.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)",
++        "raised": "V18Error"
++      },
++      "bad_utf8": {
++        "cause": "UnicodeDecodeError",
++        "code": null,
++        "message": "Invalid JSON in <TMP>/bad_utf8.json: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
++        "raised": "V18Error"
++      },
++      "bom": {
++        "ok": {
++          "a": [
++            1,
++            2
++          ]
++        }
++      },
++      "directory": {
++        "cause": null,
++        "code": null,
++        "message": "Input file not found: <TMP>",
++        "raised": "V18Error"
++      },
++      "empty": {
++        "cause": "JSONDecodeError",
++        "code": null,
++        "message": "Invalid JSON in <TMP>/empty.json: Expecting value: line 1 column 1 (char 0)",
++        "raised": "V18Error"
++      },
++      "missing": {
++        "cause": null,
++        "code": null,
++        "message": "Input file not found: <TMP>/absent.json",
++        "raised": "V18Error"
++      },
++      "too_large": {
++        "cause": null,
++        "code": null,
++        "message": "Input exceeds 50 MiB: <TMP>/big.json",
++        "raised": "V18Error"
++      },
++      "valid": {
++        "ok": {
++          "a": 1
++        }
++      }
++    },
++    "usiphus_v19": {
++      "bad_json": {
++        "cause": "JSONDecodeError",
++        "code": null,
++        "message": "Invalid JSON in <TMP>/bad_json.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)",
++        "raised": "V19Error"
++      },
++      "bad_utf8": {
++        "cause": "UnicodeDecodeError",
++        "code": null,
++        "message": "Invalid JSON in <TMP>/bad_utf8.json: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
++        "raised": "V19Error"
++      },
++      "bom": {
++        "ok": {
++          "a": [
++            1,
++            2
++          ]
++        }
++      },
++      "directory": {
++        "cause": null,
++        "code": null,
++        "message": "Input file not found: <TMP>",
++        "raised": "V19Error"
++      },
++      "empty": {
++        "cause": "JSONDecodeError",
++        "code": null,
++        "message": "Invalid JSON in <TMP>/empty.json: Expecting value: line 1 column 1 (char 0)",
++        "raised": "V19Error"
++      },
++      "missing": {
++        "cause": null,
++        "code": null,
++        "message": "Input file not found: <TMP>/absent.json",
++        "raised": "V19Error"
++      },
++      "too_large": {
++        "cause": null,
++        "code": null,
++        "message": "Input exceeds 25 MiB: <TMP>/big.json",
++        "raised": "V19Error"
++      },
++      "valid": {
++        "ok": {
++          "a": 1
++        }
++      }
++    }
++  },
++  "writes": {
++    "usiphus_common.atomic_write_text": {
++      "bytes": "line1\nline2\r\nünïcode ☃\nx",
++      "siblings": [
++        "out.txt"
++      ]
++    },
++    "usiphus_generate.atomic_write": {
++      "bytes": "line1\nline2\r\nünïcode ☃\nx",
++      "siblings": [
++        "out.txt"
++      ]
++    },
++    "usiphus_review.atomic_write": {
++      "bytes": "line1\nline2\r\nünïcode ☃\nx",
++      "siblings": [
++        "out.txt"
++      ]
++    },
++    "usiphus_signing.write_json": {
++      "bytes": "{\n  \"a\": \"ü ☃\",\n  \"b\": [\n    1,\n    {\n      \"a\": null,\n      \"z\": \"é\"\n    }\n  ],\n  \"n\": 1.5\n}\n",
++      "siblings": [
++        "out.json"
++      ]
++    },
++    "usiphus_v11.atomic_write": {
++      "bytes": "line1\nline2\r\nünïcode ☃\nx",
++      "siblings": [
++        "out.txt"
++      ]
++    },
++    "usiphus_v12.atomic_write": {
++      "bytes": "line1\nline2\r\nünïcode ☃\nx",
++      "siblings": [
++        "out.txt"
++      ]
++    },
++    "usiphus_v13.atomic_write": {
++      "bytes": "line1\nline2\r\nünïcode ☃\nx",
++      "siblings": [
++        "out.txt"
++      ]
++    },
++    "usiphus_v14.write_json": {
++      "bytes": "{\n  \"a\": \"ü ☃\",\n  \"b\": [\n    1,\n    {\n      \"a\": null,\n      \"z\": \"é\"\n    }\n  ],\n  \"n\": 1.5\n}\n",
++      "siblings": [
++        "out.json"
++      ]
++    },
++    "usiphus_v17.write_json": {
++      "bytes": "{\n  \"a\": \"ü ☃\",\n  \"b\": [\n    1,\n    {\n      \"a\": null,\n      \"z\": \"é\"\n    }\n  ],\n  \"n\": 1.5\n}\n",
++      "siblings": [
++        "out.json"
++      ]
++    },
++    "usiphus_v18.write_json": {
++      "bytes": "{\n  \"a\": \"ü ☃\",\n  \"b\": [\n    1,\n    {\n      \"a\": null,\n      \"z\": \"é\"\n    }\n  ],\n  \"n\": 1.5\n}\n",
++      "siblings": [
++        "out.json"
++      ]
++    },
++    "usiphus_v18.write_text": {
++      "bytes": "line1\nline2\r\nünïcode ☃\nx",
++      "siblings": [
++        "out.txt"
++      ]
++    },
++    "usiphus_v19.write_json": {
++      "bytes": "{\n  \"a\": \"ü ☃\",\n  \"b\": [\n    1,\n    {\n      \"a\": null,\n      \"z\": \"é\"\n    }\n  ],\n  \"n\": 1.5\n}\n",
++      "siblings": [
++        "out.json"
++      ]
++    },
++    "usiphus_v19.write_text": {
++      "bytes": "line1\nline2\r\nünïcode ☃\nx",
++      "siblings": [
++        "out.txt"
++      ]
++    },
++    "usiphus_v20.atomic_write": {
++      "bytes": "line1\nline2\r\nünïcode ☃\nx",
++      "siblings": [
++        "out.txt"
++      ]
++    },
++    "usiphus_v20.write_json": {
++      "bytes": "{\n  \"a\": \"ü ☃\",\n  \"b\": [\n    1,\n    {\n      \"a\": null,\n      \"z\": \"é\"\n    }\n  ],\n  \"n\": 1.5\n}\n",
++      "siblings": [
++        "out.json"
++      ]
++    }
++  }
++}
+--- /dev/null
++++ b/tests/test_architecture.py
+@@ -0,0 +1,84 @@
++"""Keep the shared-library design from eroding.
++
++``usiphus_lib`` exists so each helper has one implementation.  These tests fail when an engine grows its own
++copy again, when the library starts depending on an engine, or when it picks up a third-party dependency.
++"""
++from __future__ import annotations
++
++import ast
++import sys
++import unittest
++from pathlib import Path
++
++ROOT = Path(__file__).resolve().parents[1]
++LIB = ROOT / "usiphus_lib"
++
++# Helpers that must exist only in usiphus_lib.  (``read_json`` is intentionally absent: each engine keeps a thin
++# wrapper that states its own error class, messages and size limit as a ``JsonReadPolicy``.)
++SHARED_NAMES = {
++    "atomic_write", "atomic_write_text", "write_json", "write_text", "json_text",
++    "digest", "digest_bytes", "digest_value", "sha256", "sha256_hex", "sha256_file",
++    "canonical", "canonical_json", "clean", "strip_text", "local_ollama_url_impl",
++}
++# Engines may re-export a shared helper under its own name by importing it; they may not *define* one.
++ALLOWED_DEFINITIONS: dict[str, set[str]] = {
++    # usiphus_generate keeps a one-line adapter that raises its own GenerationError.
++    "usiphus_generate.py": {"local_ollama_url"},
++}
++
++
++def engine_files() -> list[Path]:
++    return sorted([*ROOT.glob("usiphus*.py"), ROOT / "extract_python.py"])
++
++
++def top_level_defs(path: Path) -> set[str]:
++    return {n.name for n in ast.parse(path.read_text(encoding="utf-8")).body if isinstance(n, ast.FunctionDef)}
++
++
++class SharedLibraryArchitecture(unittest.TestCase):
++    def test_engines_do_not_redefine_shared_helpers(self) -> None:
++        offenders = []
++        for path in engine_files():
++            clashes = (top_level_defs(path) & SHARED_NAMES) - ALLOWED_DEFINITIONS.get(path.name, set())
++            if clashes:
++                offenders.append(f"{path.name}: {sorted(clashes)}")
++        self.assertEqual(offenders, [], "define these once in usiphus_lib and import them")
++
++    def test_library_never_imports_an_engine(self) -> None:
++        engines = {p.stem for p in engine_files()}
++        offenders = []
++        for path in sorted(LIB.glob("*.py")):
++            for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
++                modules = ([a.name for a in node.names] if isinstance(node, ast.Import)
++                           else [node.module or ""] if isinstance(node, ast.ImportFrom) else [])
++                offenders += [f"{path.name} imports {m}" for m in modules if m.split(".")[0] in engines]
++        self.assertEqual(offenders, [], "dependencies must point from engines to usiphus_lib, never back")
++
++    def test_library_uses_only_the_standard_library(self) -> None:
++        stdlib = set(sys.stdlib_module_names)
++        offenders = []
++        for path in sorted(LIB.glob("*.py")):
++            for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
++                modules = ([a.name for a in node.names] if isinstance(node, ast.Import)
++                           else [node.module or ""] if isinstance(node, ast.ImportFrom) and node.level == 0 else [])
++                offenders += [f"{path.name}: {m}" for m in modules
++                              if m and m.split(".")[0] not in stdlib and m.split(".")[0] != "usiphus_lib"]
++        self.assertEqual(offenders, [])
++
++    def test_every_library_module_is_documented_in_the_package_docstring(self) -> None:
++        doc = ast.get_docstring(ast.parse((LIB / "__init__.py").read_text(encoding="utf-8"))) or ""
++        for path in sorted(LIB.glob("*.py")):
++            if path.stem != "__init__":
++                with self.subTest(module=path.stem):
++                    self.assertIn(f"``{path.stem}``", doc)
++
++    def test_engines_import_the_library_by_absolute_name(self) -> None:
++        for path in engine_files():
++            for node in ast.walk(ast.parse(path.read_text(encoding="utf-8"))):
++                if isinstance(node, ast.ImportFrom) and (node.module or "").startswith("usiphus_lib"):
++                    with self.subTest(file=path.name, line=node.lineno):
++                        self.assertEqual(node.level, 0)
++
++
++if __name__ == "__main__":
++    unittest.main()
+--- /dev/null
++++ b/tests/test_helper_contracts.py
+@@ -0,0 +1,254 @@
++"""Characterization ("contract") tests for helpers that used to be copy-pasted across engines.
++
++Step 3 consolidates them into ``usiphus_lib``.  These tests were recorded from the code *before* that
++change and must keep passing afterwards: they pin, per engine, what each helper returns, which exception
++type and message it raises, which bytes it writes and which hash it produces.
++
++    python -m unittest tests.test_helper_contracts          # check
++    python tests/test_helper_contracts.py --record           # re-record (only for an intended change)
++"""
++from __future__ import annotations
++
++import hashlib
++import importlib
++import json
++import os
++import re
++import sys
++import tempfile
++import unittest
++from pathlib import Path
++
++ROOT = Path(__file__).resolve().parents[1]
++if str(ROOT) not in sys.path:
++    sys.path.insert(0, str(ROOT))
++DATA = Path(__file__).with_name("data") / "helper_contracts.json"
++
++READ_JSON = ["usiphus_generate", "usiphus_review", "usiphus_v11", "usiphus_v12", "usiphus_v13",
++             "usiphus_v15", "usiphus_v17", "usiphus_v18", "usiphus_v19"]
++LIMIT_NAMES = ("MAX_CONFIG_BYTES", "MAX_FILE_BYTES", "MAX_BYTES")
++TEXT_FIRST = [("usiphus_v18", "write_text"), ("usiphus_v19", "write_text"), ("usiphus_common", "atomic_write_text")]
++PATH_FIRST = [("usiphus_generate", "atomic_write"), ("usiphus_review", "atomic_write"), ("usiphus_v11", "atomic_write"),
++              ("usiphus_v12", "atomic_write"), ("usiphus_v13", "atomic_write"), ("usiphus_v20", "atomic_write")]
++JSON_PATH_FIRST = [("usiphus_signing", "write_json"), ("usiphus_v14", "write_json"), ("usiphus_v17", "write_json")]
++JSON_VALUE_FIRST = [("usiphus_v18", "write_json"), ("usiphus_v19", "write_json"), ("usiphus_v20", "write_json")]
++CANONICAL = [("usiphus_v15", "canonical_json"), ("usiphus_v18", "canonical_json"),
++             ("usiphus_v19", "canonical"), ("usiphus_v20", "canonical")]
++VALUE_DIGEST = [("usiphus_v15", "digest"), ("usiphus_v18", "digest"), ("usiphus_v20", "digest")]
++FILE_DIGEST = [("usiphus_v14", "digest"), ("usiphus_v17", "digest"), ("usiphus_v12", "sha256"), ("usiphus_v13", "sha256")]
++CLEAN = [("usiphus_v10", "clean"), ("usiphus_v11", "clean"), ("usiphus_v12", "clean"), ("usiphus_v15", "clean"),
++         ("usiphus_v17", "clean"), ("usiphus_v18", "clean"), ("usiphus_v20", "clean"),
++         ("usiphus_resource_discovery", "_clean"), ("usiphus_migrate", "_clean")]
++CLEAN_INPUTS = [None, "", "  a  b\t\nc ", "x\u00a0y", "tab\there", 0, 5, "a\x1cb", " \u2003z\u2003 ", ["l"], False]
++PAYLOAD = {"b": [1, {"z": "é", "a": None}], "a": "ü \u2603", "n": 1.5}
++ERRORS = ["usiphus_generate.GenerationError", "usiphus_ledger.LedgerError", "usiphus_resource_discovery.DiscoveryError",
++          "usiphus_review.ReviewError", "usiphus_signing.SigningError", "usiphus_v13.ValidationError",
++          "usiphus_v14.ReleaseError", "usiphus_v15.V15Error", "usiphus_v17.V17Error", "usiphus_v18.V18Error",
++          "usiphus_v19.V19Error", "usiphus_v20.V20Error"]
++OLLAMA_INPUTS = ["http://localhost:11434", "https://localhost", "http://127.0.0.1:11434/", "http://[::1]:11434",
++                 "http://example.com:11434", "localhost:11434", "http://user:pw@localhost:11434", "http://localhost:99999",
++                 "http://localhost:11434/api", "http://localhost:11434?x=1", "", None, "ftp://localhost"]
++
++
++def mod(name: str):
++    return importlib.import_module(name)
++
++
++# Helpers that moved out of an engine into usiphus_lib.  The contract keeps the ORIGINAL name and calling
++# convention, so each entry is the shared function wrapped to accept the old arguments.
++def _lib(path: str, attr: str):
++    return getattr(importlib.import_module(path), attr)
++
++
++MOVED = {
++    ("usiphus_v15", "digest"): lambda: _lib("usiphus_lib.hashing", "digest_value"),
++    ("usiphus_v18", "digest"): lambda: _lib("usiphus_lib.hashing", "digest_value"),
++    ("usiphus_v20", "digest"): lambda: _lib("usiphus_lib.hashing", "digest_value"),
++    ("usiphus_v18", "digest_bytes"): lambda: _lib("usiphus_lib.hashing", "sha256_hex"),
++    ("usiphus_v19", "canonical"): lambda: _lib("usiphus_lib.hashing", "canonical_json"),
++    ("usiphus_v15", "canonical_json"): lambda: _lib("usiphus_lib.hashing", "canonical_json"),
++    ("usiphus_v18", "canonical_json"): lambda: _lib("usiphus_lib.hashing", "canonical_json"),
++    ("usiphus_v14", "digest"): lambda: _lib("usiphus_lib.hashing", "sha256_file"),
++    ("usiphus_v17", "digest"): lambda: _lib("usiphus_lib.hashing", "sha256_file"),
++    ("usiphus_v12", "sha256"): lambda: _lib("usiphus_lib.hashing", "sha256_file"),
++    ("usiphus_v13", "sha256"): lambda: _lib("usiphus_lib.hashing", "sha256_file"),
++    ("usiphus_v11", "clean"): lambda: _lib("usiphus_lib.text", "strip_text"),
++    # writers: the contract still calls them with the ORIGINAL argument order
++    **{(m, "atomic_write"): (lambda: _path_first(_lib("usiphus_lib.files", "atomic_write_text")))
++       for m in ("usiphus_generate", "usiphus_review", "usiphus_v11", "usiphus_v12", "usiphus_v13", "usiphus_v20")},
++    **{(m, "write_text"): (lambda: _lib("usiphus_lib.files", "atomic_write_text")) for m in ("usiphus_v18", "usiphus_v19")},
++    ("usiphus_signing", "write_json"): lambda: _path_first(_lib("usiphus_lib.files", "write_json")),
++    ("usiphus_v14", "write_json"): lambda: _path_first(_lib("usiphus_lib.files", "write_json")),
++    ("usiphus_v17", "write_json"): lambda: _path_first(_lib("usiphus_lib.files", "write_json")),
++    **{(m, "write_json"): (lambda: _lib("usiphus_lib.files", "write_json")) for m in ("usiphus_v18", "usiphus_v19", "usiphus_v20")},
++    ("usiphus_v12", "clean"): lambda: _lib("usiphus_lib.text", "strip_text"),
++    ("usiphus_resource_discovery", "_clean"): lambda: _lib("usiphus_lib.text", "clean"),
++}
++
++
++def _path_first(content_first):
++    """Adapt a (content, destination) function to the old (destination, content) calling convention."""
++    return lambda destination, content: content_first(content, destination)
++
++
++def fn_of(name: str, fn: str):
++    """The callable for ``name.fn`` as the contract calls it, following MOVED when the engine no longer defines it."""
++    module = mod(name)
++    if hasattr(module, fn) and (name, fn) not in MOVED:
++        return getattr(module, fn)
++    if (name, fn) in MOVED:
++        return MOVED[(name, fn)]()
++    raise AttributeError(f"{name}.{fn} is gone and not listed in MOVED")
++
++
++def normalise(text: str, tmp: Path) -> str:
++    return text.replace(str(tmp), "<TMP>").replace(tmp.as_posix(), "<TMP>")
++
++
++def outcome(call, tmp: Path):
++    try:
++        value = call()
++    except BaseException as exc:  # noqa: BLE001 - recording any outcome is the point
++        return {"raised": type(exc).__name__, "message": normalise(str(exc), tmp),
++                "code": getattr(exc, "code", None), "cause": type(exc.__cause__).__name__ if exc.__cause__ else None}
++    return {"ok": value}
++
++
++def limit_of(module) -> int:
++    for name in LIMIT_NAMES:
++        if hasattr(module, name):
++            return getattr(module, name)
++    return 50 * 1024 * 1024
++
++
++def read_json_outcomes(name: str) -> dict:
++    module, results = mod(name), {}
++    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as raw:
++        tmp = Path(raw).resolve()
++        files = {"valid": b'{"a": 1}', "bom": b'\xef\xbb\xbf{"a": [1, 2]}', "bad_json": b"{nope",
++                 "bad_utf8": b"\xff\xfe{}", "empty": b""}
++        for key, data in files.items():
++            (tmp / f"{key}.json").write_bytes(data)
++            results[key] = outcome(lambda p=tmp / f"{key}.json": module.read_json(p), tmp)
++        results["missing"] = outcome(lambda: module.read_json(tmp / "absent.json"), tmp)
++        results["directory"] = outcome(lambda: module.read_json(tmp), tmp)
++        big = tmp / "big.json"
++        with big.open("wb") as handle:
++            handle.truncate(limit_of(module) + 1)          # sparse: size is checked before reading
++        results["too_large"] = outcome(lambda: module.read_json(big), tmp)
++    return results
++
++
++def write_outcomes() -> dict:
++    results = {}
++    text = "line1\nline2\r\nünïcode ☃\n"
++    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as raw:
++        tmp = Path(raw).resolve()
++        for index, (name, fn) in enumerate(TEXT_FIRST + PATH_FIRST):
++            target = tmp / f"d{index}" / "nested" / "out.txt"
++            call = fn_of(name, fn)
++            (call(text, target) if (name, fn) in TEXT_FIRST else call(target, text))
++            call(text + "x", target) if (name, fn) in TEXT_FIRST else call(target, text + "x")      # overwrite
++            results[f"{name}.{fn}"] = {"bytes": target.read_bytes().decode("utf-8"),
++                                       "siblings": sorted(p.name for p in target.parent.iterdir())}
++        for index, (name, fn) in enumerate(JSON_PATH_FIRST + JSON_VALUE_FIRST):
++            target = tmp / f"j{index}" / "out.json"
++            target.parent.mkdir()
++            call = fn_of(name, fn)
++            (call(target, PAYLOAD) if (name, fn) in JSON_PATH_FIRST else call(PAYLOAD, target))
++            results[f"{name}.{fn}"] = {"bytes": target.read_bytes().decode("utf-8"),
++                                       "siblings": sorted(p.name for p in target.parent.iterdir())}
++    return results
++
++
++def pure_outcomes() -> dict:
++    results = {}
++    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as raw:
++        tmp = Path(raw).resolve()
++        blob = tmp / "blob.bin"
++        blob.write_bytes(b"usiphus\x00\xff" * 300_000)          # > 1 MiB so chunked hashing is exercised
++        for name, fn in CANONICAL:
++            results[f"{name}.{fn}"] = fn_of(name, fn)(PAYLOAD)
++        for name, fn in VALUE_DIGEST:
++            results[f"{name}.{fn}"] = fn_of(name, fn)(PAYLOAD)
++        for name, fn in FILE_DIGEST:
++            results[f"{name}.{fn}"] = fn_of(name, fn)(blob if fn == "sha256" else str(blob))
++        results["usiphus_v18.digest_bytes"] = fn_of("usiphus_v18", "digest_bytes")(b"abc")
++        for name, fn in CLEAN:
++            results[f"{name}.{fn}"] = [fn_of(name, fn)(value) for value in CLEAN_INPUTS]
++        generate = mod("usiphus_generate")
++        results["usiphus_generate.local_ollama_url"] = [outcome(lambda v=v: fn_of("usiphus_generate", "local_ollama_url")(v), tmp)
++                                                        for v in OLLAMA_INPUTS]
++    return results
++
++
++def hierarchy() -> dict:
++    out = {}
++    for dotted in ERRORS:
++        module_name, cls_name = dotted.split(".")
++        cls = getattr(mod(module_name), cls_name)
++        out[dotted] = {"is_value_error": issubclass(cls, ValueError), "is_exception_only": cls.__bases__ != (ValueError,)}
++    return out
++
++
++def collect() -> dict:
++    data = {"read_json": {name: read_json_outcomes(name) for name in READ_JSON},
++            "writes": write_outcomes(), "pure": pure_outcomes()}
++    return json.loads(json.dumps(data, ensure_ascii=False))     # normalise tuples/None the way JSON will
++
++
++class HelperContracts(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls) -> None:
++        cls.expected = json.loads(DATA.read_text(encoding="utf-8"))
++        cls.actual = collect()
++
++    def test_read_json_contract_per_engine(self) -> None:
++        for name in READ_JSON:
++            for case, expected in self.expected["read_json"][name].items():
++                with self.subTest(engine=name, case=case):
++                    self.assertEqual(self.actual["read_json"][name][case], expected)
++
++    def test_write_contract_per_engine(self) -> None:
++        for key, expected in self.expected["writes"].items():
++            with self.subTest(writer=key):
++                self.assertEqual(self.actual["writes"][key], expected)
++
++    def test_hashing_text_and_ollama_contract_per_engine(self) -> None:
++        for key, expected in self.expected["pure"].items():
++            with self.subTest(helper=key):
++                self.assertEqual(self.actual["pure"][key], expected)
++
++    def test_every_engine_error_is_a_value_error(self) -> None:
++        for dotted, facts in hierarchy().items():
++            with self.subTest(error=dotted):
++                self.assertTrue(facts["is_value_error"])
++
++    def test_recording_covers_every_helper_family(self) -> None:
++        self.assertEqual(sorted(self.expected), ["pure", "read_json", "writes"])
++        self.assertEqual(len(self.expected["read_json"]), len(READ_JSON))
++        self.assertGreaterEqual(len(self.expected["writes"]), 15)
++        self.assertGreaterEqual(len(self.expected["pure"]), 22)
++
++
++class SigningHashContract(unittest.TestCase):
++    def test_anchor_message_hash_is_pinned(self) -> None:
++        """The anchor signature covers this hash; it must not change when canonical JSON code is touched.
++
++        The expected value was produced by the original hand-rolled implementation, before it was replaced
++        by ``usiphus_lib.hashing.digest_value``.  The golden audit scenario cannot pin it (anchor signatures
++        contain a timestamp), and sign/verify would stay self-consistent even if the hash silently changed.
++        """
++        doc = {"schema_version": 1, "generated_at": "2026-01-01T00:00:00Z", "signed_by": "alice",
++               "anchors": {"C2": "ff00", "C1": "é☃"}, "signature": "ignored"}
++        self.assertEqual(mod("usiphus_signing")._anchor_message(doc),
++                         "adf95aa7e755c11bb44376a7f2f97caf1ad9bd83a58b7872481d1e59085b1bd6")
++
++
++if __name__ == "__main__":
++    if "--record" in sys.argv:
++        DATA.parent.mkdir(exist_ok=True)
++        DATA.write_text(json.dumps(collect(), indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
++        print(f"recorded {DATA}")
++    else:
++        unittest.main()
+--- /dev/null
++++ b/tests/test_usiphus_lib.py
+@@ -0,0 +1,213 @@
++from __future__ import annotations
++
++import hashlib
++import json
++import os
++import re
++import sys
++import tempfile
++import unittest
++from pathlib import Path
++from unittest.mock import patch
++
++ROOT = Path(__file__).resolve().parents[1]
++if str(ROOT) not in sys.path:
++    sys.path.insert(0, str(ROOT))
++
++from usiphus_lib import files, hashing, ids, ollama, text  # noqa: E402
++from usiphus_lib.errors import UsiphusError  # noqa: E402
++
++
++class Tmp(unittest.TestCase):
++    def setUp(self) -> None:
++        self._tmp = tempfile.TemporaryDirectory(ignore_cleanup_errors=True)
++        self.addCleanup(self._tmp.cleanup)
++        self.tmp = Path(self._tmp.name)
++
++
++class ErrorsTests(unittest.TestCase):
++    def test_usiphus_error_is_a_value_error(self) -> None:
++        self.assertTrue(issubclass(UsiphusError, ValueError))
++        with self.assertRaises(ValueError):
++            raise UsiphusError("x")
++
++    def test_every_engine_error_derives_from_usiphus_error(self) -> None:
++        import importlib
++        for dotted in ("usiphus_generate.GenerationError", "usiphus_ledger.LedgerError",
++                       "usiphus_resource_discovery.DiscoveryError", "usiphus_review.ReviewError",
++                       "usiphus_signing.SigningError", "usiphus_v13.ValidationError", "usiphus_v14.ReleaseError",
++                       "usiphus_v15.V15Error", "usiphus_v17.V17Error", "usiphus_v18.V18Error",
++                       "usiphus_v19.V19Error", "usiphus_v20.V20Error"):
++            module_name, class_name = dotted.split(".")
++            with self.subTest(error=dotted):
++                self.assertTrue(issubclass(getattr(importlib.import_module(module_name), class_name), UsiphusError))
++
++
++class AtomicWriteTests(Tmp):
++    def test_creates_parents_overwrites_and_leaves_no_temp_files(self) -> None:
++        target = self.tmp / "a" / "b" / "out.txt"
++        files.atomic_write_text("one", target)
++        files.atomic_write_text("two", target)
++        self.assertEqual(target.read_text(encoding="utf-8"), "two")
++        self.assertEqual([p.name for p in target.parent.iterdir()], ["out.txt"])
++
++    def test_newlines_and_unicode_are_written_exactly(self) -> None:
++        target = self.tmp / "out.txt"
++        files.atomic_write_text("a\nb\r\nü ☃\n", target)
++        self.assertEqual(target.read_bytes(), "a\nb\r\nü ☃\n".encode("utf-8"))
++
++    def test_failed_replace_keeps_old_file_and_removes_temp(self) -> None:
++        target = self.tmp / "out.txt"
++        files.atomic_write_text("old", target)
++        with patch("usiphus_lib.files.os.replace", side_effect=OSError("boom")):
++            with self.assertRaises(OSError):
++                files.atomic_write_text("new", target)
++        self.assertEqual(target.read_text(encoding="utf-8"), "old")
++        self.assertEqual([p.name for p in self.tmp.iterdir()], ["out.txt"])
++
++    def test_data_is_fsynced_before_the_rename(self) -> None:
++        order: list[str] = []
++        real_fsync, real_replace = os.fsync, os.replace
++        with patch("usiphus_lib.files.os.fsync", side_effect=lambda fd: (order.append("fsync"), real_fsync(fd))[1]), \
++                patch("usiphus_lib.files.os.replace", side_effect=lambda a, b: (order.append("replace"), real_replace(a, b))[1]):
++            files.atomic_write_text("x", self.tmp / "o.txt")
++        self.assertEqual(order, ["fsync", "replace"])
++
++    def test_write_json_uses_the_standard_layout(self) -> None:
++        target = self.tmp / "o.json"
++        files.write_json({"b": 1, "a": "é"}, target)
++        self.assertEqual(target.read_text(encoding="utf-8"), '{\n  "a": "é",\n  "b": 1\n}\n')
++        self.assertEqual(files.json_text({"z": [1]}), '{\n  "z": [\n    1\n  ]\n}\n')
++
++
++class ReadJsonTests(Tmp):
++    class Boom(Exception):
++        def __init__(self, kind: str, message: str) -> None:
++            super().__init__(message)
++            self.kind = kind
++
++    def policy(self, **kwargs):
++        return files.JsonReadPolicy(error=lambda kind, message: self.Boom(kind, message), **kwargs)
++
++    def test_valid_file_with_bom(self) -> None:
++        p = self.tmp / "a.json"
++        p.write_bytes(b'\xef\xbb\xbf{"a": [1]}')
++        self.assertEqual(files.read_json_file(p, self.policy()), {"a": [1]})
++        self.assertEqual(files.read_json_file(str(p), self.policy()), {"a": [1]})   # str paths accepted
++
++    def test_missing_and_directory_report_missing(self) -> None:
++        for target in (self.tmp / "nope.json", self.tmp):
++            with self.subTest(target=target.name):
++                with self.assertRaises(self.Boom) as caught:
++                    files.read_json_file(target, self.policy(missing="gone: {path}"))
++                self.assertEqual(caught.exception.kind, "missing")
++                self.assertTrue(str(caught.exception).startswith("gone: "))
++
++    def test_too_large_reports_limit_in_both_units(self) -> None:
++        p = self.tmp / "big.json"
++        p.write_bytes(b"x" * 11)
++        with self.assertRaises(self.Boom) as caught:
++            files.read_json_file(p, self.policy(max_bytes=10, too_large="{limit} bytes / {limit_mib} MiB: {path}"))
++        self.assertEqual(caught.exception.kind, "too_large")
++        self.assertIn("10 bytes / 0 MiB", str(caught.exception))
++        p.write_text("{}", encoding="utf-8")
++        self.assertEqual(files.read_json_file(p, self.policy(max_bytes=None)), {})
++
++    def test_invalid_json_and_bad_utf8_are_wrapped_with_cause(self) -> None:
++        for name, data in (("j", b"{nope"), ("u", b"\xff\xfe{}"), ("e", b"")):
++            p = self.tmp / f"{name}.json"
++            p.write_bytes(data)
++            with self.subTest(case=name):
++                with self.assertRaises(self.Boom) as caught:
++                    files.read_json_file(p, self.policy(invalid="bad {path}: {exc}"))
++                self.assertEqual(caught.exception.kind, "invalid")
++                self.assertIsInstance(caught.exception.__cause__, ValueError)
++
++    def test_unlisted_exceptions_propagate_unchanged(self) -> None:
++        p = self.tmp / "j.json"
++        p.write_text("{nope", encoding="utf-8")
++        with self.assertRaises(json.JSONDecodeError):
++            files.read_json_file(p, self.policy(invalid_on=()))
++
++    def test_unreadable_kind_and_line_column_placeholders(self) -> None:
++        p = self.tmp / "j.json"
++        p.write_text("{\n nope", encoding="utf-8")
++        policy = self.policy(invalid="line {lineno}, column {colno}", invalid_on=(json.JSONDecodeError,),
++                             unreadable="cannot read {path}: {exc}", unreadable_on=(UnicodeDecodeError,))
++        with self.assertRaises(self.Boom) as caught:
++            files.read_json_file(p, policy)
++        self.assertEqual(str(caught.exception), "line 2, column 2")
++        p.write_bytes(b"\xff")
++        with self.assertRaises(self.Boom) as caught:
++            files.read_json_file(p, policy)
++        self.assertEqual(caught.exception.kind, "unreadable")
++
++    def test_uniform_factory_ignores_kind(self) -> None:
++        class MyError(Exception):
++            pass
++        self.assertIsInstance(files.uniform(MyError)("missing", "m"), MyError)
++        self.assertEqual(str(files.uniform(MyError)("invalid", "m")), "m")
++
++    def test_with_limit_returns_a_new_policy(self) -> None:
++        base = self.policy()
++        self.assertEqual(base.with_limit(5).max_bytes, 5)
++        self.assertEqual(base.max_bytes, files.DEFAULT_MAX_BYTES)
++
++
++class HashingTests(Tmp):
++    def test_canonical_json_is_sorted_compact_unicode(self) -> None:
++        self.assertEqual(hashing.canonical_json({"b": 1, "a": ["é", None]}), '{"a":["é",null],"b":1}')
++
++    def test_sha256_hex_accepts_bytes_and_text(self) -> None:
++        self.assertEqual(hashing.sha256_hex(b"abc"), hashlib.sha256(b"abc").hexdigest())
++        self.assertEqual(hashing.sha256_hex("é"), hashlib.sha256("é".encode()).hexdigest())
++
++    def test_digest_value_hashes_the_canonical_form_and_ignores_key_order(self) -> None:
++        a, b = {"x": 1, "y": [2, 3]}, {"y": [2, 3], "x": 1}
++        self.assertEqual(hashing.digest_value(a), hashing.digest_value(b))
++        self.assertEqual(hashing.digest_value(a), hashlib.sha256(hashing.canonical_json(a).encode()).hexdigest())
++
++    def test_sha256_file_matches_hashlib_around_chunk_boundaries(self) -> None:
++        for size in (0, 1, 1023, 1024, 1025, 5000):
++            data = os.urandom(size)
++            p = self.tmp / f"f{size}"
++            p.write_bytes(data)
++            with self.subTest(size=size):
++                self.assertEqual(hashing.sha256_file(p, chunk_size=1024), hashlib.sha256(data).hexdigest())
++                self.assertEqual(hashing.sha256_file(str(p)), hashlib.sha256(data).hexdigest())
++
++
++class TextIdsOllamaTests(unittest.TestCase):
++    def test_clean_collapses_and_strip_text_preserves(self) -> None:
++        self.assertEqual(text.clean("  a \t b\n\u00a0c "), "a b c")
++        self.assertEqual(text.strip_text("  a \t b  "), "a \t b")
++        for fn in (text.clean, text.strip_text):
++            self.assertEqual([fn(None), fn(""), fn(0), fn(False)], ["", "", "", ""])
++        self.assertEqual(text.clean(5), "5")
++
++    def test_clean_matches_the_regex_form_used_before_consolidation(self) -> None:
++        for value in ("a\x1cb", " \u2003z\u2003 ", "tab\there", "x\u00a0y", "\u0085n"):
++            self.assertEqual(text.clean(value), re.sub(r"\s+", " ", str(value or "").strip()))
++
++    def test_objective_id_format(self) -> None:
++        self.assertEqual(ids.objective_id("retina-01", 2), "retina-01-LO02")
++        self.assertEqual(ids.objective_id("t", 12), "t-LO12")
++
++    def test_local_ollama_url_accepts_loopback_only(self) -> None:
++        self.assertEqual(ollama.local_ollama_url("http://127.0.0.1:11434/"), "http://127.0.0.1:11434")
++        self.assertEqual(ollama.local_ollama_url("http://[::1]:11434"), "http://[::1]:11434")
++        for bad in ("http://example.com", "ftp://localhost", "http://u:p@localhost", "http://localhost/api", "", None):
++            with self.subTest(bad=bad), self.assertRaises(ValueError):
++                ollama.local_ollama_url(bad)
++
++    def test_local_ollama_url_raises_the_requested_class(self) -> None:
++        class Mine(Exception):
++            pass
++        with self.assertRaises(Mine):
++            ollama.local_ollama_url("http://example.com", error=Mine)
++        with self.assertRaises(Mine):
++            ollama.local_ollama_url("http://localhost:99999", error=Mine)
++
++
++if __name__ == "__main__":
++    unittest.main()
+--- /dev/null
++++ b/usiphus_lib/__init__.py
+@@ -0,0 +1,15 @@
++"""Shared building blocks for the Usiphus engines.
++
++Every ``usiphus_vNN.py`` engine used to carry its own copy of the same small helpers (JSON reading,
++atomic writes, canonical hashing, whitespace cleaning).  They live here once so a fix lands everywhere:
++
++* ``errors``  - ``UsiphusError``, the common base of every engine error (still a ``ValueError``)
++* ``files``   - ``atomic_write_text``, ``write_json``, ``read_json_file`` + ``JsonReadPolicy``
++* ``hashing`` - ``canonical_json``, ``sha256_hex``, ``digest_value``, ``sha256_file``
++* ``text``    - ``clean`` (collapse whitespace) and ``strip_text`` (strip only)
++* ``ids``     - ``objective_id``, the stable learning-objective identifier
++* ``ollama``  - ``local_ollama_url``, the loopback-only Ollama address guard
++
++The package is named ``usiphus_lib`` (not ``usiphus``) because ``usiphus.py`` is the command dispatcher.
++It uses only the standard library, like the rest of the project.
++"""
+--- /dev/null
++++ b/usiphus_lib/errors.py
+@@ -0,0 +1,10 @@
++"""Common base class for engine errors."""
++from __future__ import annotations
++
++
++class UsiphusError(ValueError):
++    """Base of every Usiphus engine error.
++
++    It remains a ``ValueError`` so existing ``except ValueError`` handlers keep working, while new code can
++    catch ``UsiphusError`` to handle "an engine rejected its input" without also catching programming errors.
++    """
+--- /dev/null
++++ b/usiphus_lib/files.py
+@@ -0,0 +1,98 @@
++"""Reading and writing files the way every engine needs to."""
++from __future__ import annotations
++
++import json
++import os
++import tempfile
++from collections.abc import Callable
++from dataclasses import dataclass, replace
++from pathlib import Path
++from typing import Any
++
++DEFAULT_MAX_BYTES = 50 * 1024 * 1024
++BYTES_PER_MIB = 1024 * 1024
++
++
++def atomic_write_text(text: str, destination: str | Path) -> None:
++    """Write ``text`` to ``destination`` atomically and durably.
++
++    The text goes to a uniquely named temp file in the same directory, is flushed and ``fsync``-ed, then
++    renamed over the destination, so readers never see a partial file and an interrupted run leaves the old
++    file intact.  ``newline=""`` keeps ``"\\n"`` as ``"\\n"`` on every platform (hashes of outputs stay stable).
++    """
++    destination = Path(destination)
++    destination.parent.mkdir(parents=True, exist_ok=True)
++    temp_name: str | None = None
++    try:
++        with tempfile.NamedTemporaryFile(
++            mode="w", encoding="utf-8", newline="", dir=destination.parent,
++            prefix=f".{destination.name}.", suffix=".tmp", delete=False,
++        ) as handle:
++            temp_name = handle.name
++            handle.write(text)
++            handle.flush()
++            os.fsync(handle.fileno())
++        os.replace(temp_name, destination)
++        temp_name = None
++    finally:
++        if temp_name:
++            try:
++                os.unlink(temp_name)
++            except FileNotFoundError:
++                pass
++
++
++def json_text(payload: Any) -> str:
++    """The project's standard JSON layout: 2-space indent, sorted keys, real unicode, trailing newline."""
++    return json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
++
++
++def write_json(payload: Any, destination: str | Path) -> None:
++    """Atomically write ``payload`` as standard-layout JSON (content first, destination second)."""
++    atomic_write_text(json_text(payload), destination)
++
++
++@dataclass(frozen=True)
++class JsonReadPolicy:
++    """How one engine reports problems while reading a JSON input.
++
++    ``error(kind, message)`` builds the exception to raise; ``kind`` is ``"missing"``, ``"too_large"``,
++    ``"invalid"`` or ``"unreadable"``.  Message templates may use ``{path}``, ``{exc}``, ``{lineno}``,
++    ``{colno}``, ``{limit}`` (bytes) and ``{limit_mib}``.  Exceptions listed in ``invalid_on`` /
++    ``unreadable_on`` are wrapped (with ``from exc``); anything else propagates unchanged.
++    """
++
++    error: Callable[[str, str], Exception]
++    missing: str = "Input file not found: {path}"
++    too_large: str = "Input exceeds {limit_mib} MiB: {path}"
++    invalid: str | None = "Invalid JSON in {path}: {exc}"
++    invalid_on: tuple[type[BaseException], ...] = (UnicodeDecodeError, json.JSONDecodeError)
++    unreadable: str | None = None
++    unreadable_on: tuple[type[BaseException], ...] = ()
++    max_bytes: int | None = DEFAULT_MAX_BYTES
++
++    def with_limit(self, max_bytes: int | None) -> JsonReadPolicy:
++        return replace(self, max_bytes=max_bytes)
++
++
++def uniform(error_class: type[Exception]) -> Callable[[str, str], Exception]:
++    """Error factory for engines whose single exception class ignores the failure kind."""
++    return lambda kind, message: error_class(message)
++
++
++def read_json_file(path: str | Path, policy: JsonReadPolicy) -> Any:
++    """Read a UTF-8 (BOM tolerated) JSON file, reporting problems as ``policy`` dictates."""
++    path = Path(path)
++    if not path.is_file():
++        raise policy.error("missing", policy.missing.format(path=path))
++    limit = policy.max_bytes
++    if limit is not None and path.stat().st_size > limit:
++        raise policy.error("too_large", policy.too_large.format(path=path, limit=limit, limit_mib=limit // BYTES_PER_MIB))
++    try:
++        with path.open("r", encoding="utf-8-sig") as handle:
++            return json.load(handle)
++    except policy.invalid_on as exc:
++        raise policy.error("invalid", (policy.invalid or "{exc}").format(
++            path=path, exc=exc, lineno=getattr(exc, "lineno", None), colno=getattr(exc, "colno", None))) from exc
++    except policy.unreadable_on as exc:
++        raise policy.error("unreadable", (policy.unreadable or "{exc}").format(path=path, exc=exc)) from exc
+--- /dev/null
++++ b/usiphus_lib/hashing.py
+@@ -0,0 +1,33 @@
++"""Hashing and canonical serialisation used for digests, hash chains and manifests."""
++from __future__ import annotations
++
++import hashlib
++import json
++from pathlib import Path
++from typing import Any
++
++CHUNK_BYTES = 1024 * 1024
++
++
++def canonical_json(value: Any) -> str:
++    """Deterministic JSON text: sorted keys, compact separators, real unicode.  Hash *this*, not ``str(value)``."""
++    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
++
++
++def sha256_hex(data: bytes | str) -> str:
++    """SHA-256 hex digest of bytes (text is encoded as UTF-8)."""
++    return hashlib.sha256(data.encode("utf-8") if isinstance(data, str) else data).hexdigest()
++
++
++def digest_value(value: Any) -> str:
++    """SHA-256 of the canonical JSON form of ``value``."""
++    return sha256_hex(canonical_json(value))
++
++
++def sha256_file(path: str | Path, chunk_size: int = CHUNK_BYTES) -> str:
++    """SHA-256 of a file, read in chunks so large inputs do not need to fit in memory."""
++    digest = hashlib.sha256()
++    with Path(path).open("rb") as handle:
++        for block in iter(lambda: handle.read(chunk_size), b""):
++            digest.update(block)
++    return digest.hexdigest()
+--- /dev/null
++++ b/usiphus_lib/ids.py
+@@ -0,0 +1,10 @@
++"""Stable identifiers shared by several engines."""
++from __future__ import annotations
++
++
++def objective_id(topic_id: str, index: int) -> str:
++    """Identifier of the ``index``-th (1-based) learning objective of a topic, e.g. ``"retina-01-LO02"``.
++
++    Resource discovery, evidence packets and curriculum coverage must all agree on this format.
++    """
++    return f"{topic_id}-LO{index:02d}"
+--- /dev/null
++++ b/usiphus_lib/ollama.py
+@@ -0,0 +1,38 @@
++"""Guard for the address of the local Ollama server."""
++from __future__ import annotations
++
++import urllib.parse
++from typing import Any
++
++LOOPBACK_HOSTS = {"localhost", "127.0.0.1", "::1"}
++LOOPBACK_MESSAGE = "Ollama base_url must be a local loopback URL, such as http://localhost:11434"
++
++
++def local_ollama_url(value: Any, error: type[Exception] = ValueError) -> str:
++    """Validate and normalise a loopback-only Ollama base URL (scheme + host[:port], nothing else).
++
++    Curriculum text and curated evidence are sent to this address, so non-loopback hosts, credentials,
++    paths, queries and fragments are refused.  ``error`` is the exception class to raise.
++    """
++    raw = str(value or "").strip()
++    parsed = urllib.parse.urlsplit(raw)
++    if (
++        parsed.scheme not in {"http", "https"}
++        or parsed.hostname not in LOOPBACK_HOSTS
++        or parsed.username
++        or parsed.password
++        or parsed.query
++        or parsed.fragment
++        or parsed.path not in {"", "/"}
++    ):
++        raise error(LOOPBACK_MESSAGE)
++    try:
++        port = parsed.port
++    except ValueError as exc:
++        raise error("Ollama base_url has an invalid port") from exc
++    netloc = parsed.hostname
++    if ":" in netloc:
++        netloc = f"[{netloc}]"
++    if port is not None:
++        netloc = f"{netloc}:{port}"
++    return f"{parsed.scheme}://{netloc}"
+--- /dev/null
++++ b/usiphus_lib/text.py
+@@ -0,0 +1,20 @@
++"""Small text normalisers.  The two functions are deliberately different; pick by intent."""
++from __future__ import annotations
++
++from typing import Any
++
++
++def clean(value: Any) -> str:
++    """Text with surrounding whitespace removed and every internal whitespace run collapsed to one space.
++
++    ``None`` and other falsy values become ``""``.
++    """
++    return " ".join(str(value or "").strip().split())
++
++
++def strip_text(value: Any) -> str:
++    """Text with only the surrounding whitespace removed (internal spacing preserved).
++
++    ``None`` and other falsy values become ``""``.
++    """
++    return str(value or "").strip()

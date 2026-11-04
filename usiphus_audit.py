@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """Usiphus audit tool: create signing keys, append signed audit events, export and verify anchors.
 
@@ -35,6 +34,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import usiphus_signing as sig
 import usiphus_v15 as v15
 from usiphus_common import atomic_write_text
+from usiphus_lib.text import clean
 
 VERSION = "1.0.0"
 
@@ -86,7 +86,7 @@ def cmd_append(args: argparse.Namespace) -> dict[str, Any]:
         raise sig.SigningError("Specify exactly one of --output or --in-place")
     source = Path(args.claims)
     payload, rows = _load_claims(source)
-    claim = next((r for r in rows if v15.clean(r.get("claim_id")) == args.claim_id), None)
+    claim = next((r for r in rows if clean(r.get("claim_id")) == args.claim_id), None)
     if claim is None:
         raise sig.SigningError(f"Claim not found: {args.claim_id}")
     events = claim.get("audit_events")
@@ -106,7 +106,7 @@ def cmd_append(args: argparse.Namespace) -> dict[str, Any]:
     previous = events[-1]["event_hash"] if events else "0" * 64
     event = v15.build_event(previous, args.actor, args.action, args.timestamp or _now(), details, signer=_signer(args))
     candidate = events + [event]
-    new_status = args.to or v15.clean(claim.get("status") or "draft")
+    new_status = args.to or clean(claim.get("status") or "draft")
     problems = v15.audit_workflow_issues(candidate, new_status.casefold())
     if problems:
         raise sig.SigningError("Refusing to append: " + "; ".join(problems))
@@ -123,7 +123,7 @@ def _heads(rows: list[dict[str, Any]]) -> dict[str, str]:
     for r in rows:
         events = r.get("audit_events")
         if isinstance(events, list) and events and isinstance(events[-1], dict) and events[-1].get("event_hash"):
-            heads[v15.clean(r.get("claim_id"))] = str(events[-1]["event_hash"])
+            heads[clean(r.get("claim_id"))] = str(events[-1]["event_hash"])
     return heads
 
 
@@ -142,11 +142,11 @@ def cmd_verify(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
     anchors = sig.load_anchor_file(args.anchors, trusted) if args.anchors else None
     problems: list[dict[str, Any]] = []
     for r in rows:
-        cid = v15.clean(r.get("claim_id"))
+        cid = clean(r.get("claim_id"))
         events = r.get("audit_events")
         if events is None:
             continue
-        head = v15.clean(anchors.get(cid)) if anchors is not None else v15.clean(r.get("audit_anchor"))
+        head = clean(anchors.get(cid)) if anchors is not None else clean(r.get("audit_anchor"))
         issues = v15.verify_hash_chain(events, expected_head=head, verifier=trusted)
         if anchors is not None and events and not head:
             issues.append("claim has audit events but no entry in the signed anchor file")

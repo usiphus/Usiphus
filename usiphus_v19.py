@@ -10,59 +10,28 @@ import argparse
 import csv
 import hashlib
 import json
-import os
 import re
 import sys
-import tempfile
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit
+from usiphus_lib.errors import UsiphusError
+from usiphus_lib.hashing import digest_value
+from usiphus_lib.files import atomic_write_text, write_json
+from usiphus_lib.files import JsonReadPolicy, read_json_file, uniform
+from usiphus_lib.text import clean
 
 VERSION = "19.0.0"
 MAX_BYTES = 25 * 1024 * 1024
 STATES = {"draft", "in_review", "approved", "retired"}
 LEVELS = {"remember", "understand", "apply", "analyze", "evaluate", "create"}
 
-class V19Error(ValueError):
+class V19Error(UsiphusError):
     """Invalid V19 input or policy."""
 
-def text(value: Any) -> str:
-    return " ".join(str(value or "").strip().split())
-
-def canonical(value: Any) -> str:
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
-
-def sha(value: Any) -> str:
-    return hashlib.sha256(canonical(value).encode("utf-8")).hexdigest()
-
 def read_json(path: Path) -> Any:
-    path = Path(path)
-    if not path.is_file():
-        raise V19Error(f"Input file not found: {path}")
-    if path.stat().st_size > MAX_BYTES:
-        raise V19Error(f"Input exceeds {MAX_BYTES // (1024 * 1024)} MiB: {path}")
-    try:
-        return json.loads(path.read_text(encoding="utf-8-sig"))
-    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise V19Error(f"Invalid JSON in {path}: {exc}") from exc
-
-def write_text(value: str, path: Path) -> None:
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    fd, temp_name = tempfile.mkstemp(prefix="." + path.name + ".", suffix=".tmp", dir=str(path.parent))
-    try:
-        with os.fdopen(fd, "w", encoding="utf-8", newline="") as handle:
-            handle.write(value)
-            handle.flush()
-            os.fsync(handle.fileno())
-        os.replace(temp_name, path)
-    finally:
-        if os.path.exists(temp_name):
-            os.unlink(temp_name)
-
-def write_json(value: Any, path: Path) -> None:
-    write_text(json.dumps(value, indent=2, ensure_ascii=False, sort_keys=True) + "\n", path)
+    return read_json_file(path, JsonReadPolicy(error=uniform(V19Error), max_bytes=MAX_BYTES))
 
 def rows(payload: Any, key: str) -> list[dict[str, Any]]:
     data = payload.get(key, []) if isinstance(payload, dict) else None
@@ -72,7 +41,7 @@ def rows(payload: Any, key: str) -> list[dict[str, Any]]:
 
 def valid_http_url(value: Any) -> bool:
     try:
-        p = urlsplit(text(value))
+        p = urlsplit(clean(value))
         return p.scheme in {"http", "https"} and bool(p.hostname) and not p.username and not p.password
     except ValueError:
         return False
@@ -84,33 +53,33 @@ def check_unique(items: list[dict[str, Any]], id_key: str, kind: str,
                  issues: list[dict[str, str]]) -> dict[str, dict[str, Any]]:
     seen: dict[str, dict[str, Any]] = {}
     for index, item in enumerate(items):
-        ident = text(item.get(id_key))
+        ident = clean(item.get(id_key))
         if not ident:
             issues.append(flag(kind, f"row-{index+1}", "error", f"{id_key} is required"))
         elif ident in seen:
             issues.append(flag(kind, ident, "error", f"duplicate {id_key}"))
         else:
             seen[ident] = item
-        state = text(item.get("status") or "draft")
+        state = clean(item.get("status") or "draft")
         if state not in STATES:
             issues.append(flag(kind, ident or f"row-{index+1}", "error", f"unsupported status: {state}"))
-        if state == "approved" and not text(item.get("reviewer_label")):
+        if state == "approved" and not clean(item.get("reviewer_label")):
             issues.append(flag(kind, ident, "warning", "approved status has no reviewer_label"))
-        if state == "approved" and not text(item.get("reviewed_at")):
+        if state == "approved" and not clean(item.get("reviewed_at")):
             issues.append(flag(kind, ident, "warning", "approved status has no reviewed_at timestamp"))
     return seen
 
 def check_blueprint(blueprint: list[dict[str, Any]], issues: list[dict[str, str]]) -> None:
     check_unique(blueprint, "objective_id", "blueprint", issues)
     for obj in blueprint:
-        oid = text(obj.get("objective_id"))
-        if not text(obj.get("specialty")):
+        oid = clean(obj.get("objective_id"))
+        if not clean(obj.get("specialty")):
             issues.append(flag("blueprint", oid, "error", "specialty is required"))
-        if not text(obj.get("competency_id")):
+        if not clean(obj.get("competency_id")):
             issues.append(flag("blueprint", oid, "error", "competency_id is required"))
-        if text(obj.get("cognitive_level")).casefold() not in LEVELS:
+        if clean(obj.get("cognitive_level")).casefold() not in LEVELS:
             issues.append(flag("blueprint", oid, "warning", "cognitive_level is missing or outside the supported taxonomy"))
-        if not text(obj.get("assessment_method")):
+        if not clean(obj.get("assessment_method")):
             issues.append(flag("blueprint", oid, "warning", "assessment_method is missing"))
 
 def check_mcqs(items: list[dict[str, Any]], blueprint_ids: set[str],
@@ -118,13 +87,13 @@ def check_mcqs(items: list[dict[str, Any]], blueprint_ids: set[str],
     check_unique(items, "item_id", "mcq", issues)
     prompts: dict[str, list[str]] = defaultdict(list)
     for item in items:
-        ident = text(item.get("item_id"))
-        stem = text(item.get("stem"))
+        ident = clean(item.get("item_id"))
+        stem = clean(item.get("stem"))
         if not stem:
             issues.append(flag("mcq", ident, "error", "stem is required"))
         if len(stem.split()) < 8:
             issues.append(flag("mcq", ident, "warning", "very short stem; check whether sufficient context is supplied"))
-        lead = text(item.get("lead_in"))
+        lead = clean(item.get("lead_in"))
         if not lead:
             issues.append(flag("mcq", ident, "error", "focused lead_in is required"))
         elif not lead.endswith("?"):
@@ -133,8 +102,8 @@ def check_mcqs(items: list[dict[str, Any]], blueprint_ids: set[str],
         if not isinstance(opts, list) or len(opts) < 3 or any(not isinstance(o, dict) for o in opts):
             issues.append(flag("mcq", ident, "error", "options must contain at least three option objects"))
             opts = []
-        labels = [text(o.get("label")) for o in opts]
-        bodies = [text(o.get("text")) for o in opts]
+        labels = [clean(o.get("label")) for o in opts]
+        bodies = [clean(o.get("text")) for o in opts]
         if len(set(labels)) != len(labels) or any(not x for x in labels):
             issues.append(flag("mcq", ident, "error", "option labels must be present and unique"))
         if any(not x for x in bodies):
@@ -144,12 +113,12 @@ def check_mcqs(items: list[dict[str, Any]], blueprint_ids: set[str],
             issues.append(flag("mcq", ident, "error", "exactly one option must be marked correct for single-best-answer format"))
         if len({x.casefold() for x in bodies if x}) != len([x for x in bodies if x]):
             issues.append(flag("mcq", ident, "warning", "duplicate option text candidate"))
-        if not text(item.get("answer_rationale")):
+        if not clean(item.get("answer_rationale")):
             issues.append(flag("mcq", ident, "warning", "answer rationale is missing"))
         wrong = [o for o in opts if o.get("correct") is not True]
-        if wrong and any(not text(o.get("rationale")) for o in wrong):
+        if wrong and any(not clean(o.get("rationale")) for o in wrong):
             issues.append(flag("mcq", ident, "warning", "one or more distractors lack rationale"))
-        if not text(item.get("evidence_ref")):
+        if not clean(item.get("evidence_ref")):
             issues.append(flag("mcq", ident, "warning", "clinical evidence_ref is missing"))
         for field in ("objective_ids", "competency_ids"):
             values = item.get(field, [])
@@ -158,7 +127,7 @@ def check_mcqs(items: list[dict[str, Any]], blueprint_ids: set[str],
                 continue
             if field == "objective_ids":
                 for oid in values:
-                    if text(oid) not in blueprint_ids:
+                    if clean(oid) not in blueprint_ids:
                         issues.append(flag("mcq", ident, "warning", f"objective not found in blueprint: {oid}"))
         norm = re.sub(r"\s+", " ", stem.casefold()).strip()
         if norm:
@@ -175,9 +144,9 @@ def check_osce(stations: list[dict[str, Any]], blueprint_ids: set[str],
     required = ("candidate_instructions", "role_player_brief", "setup_equipment",
                 "examiner_instructions", "global_rating_scale", "marking_rubric")
     for station in stations:
-        ident = text(station.get("station_id"))
+        ident = clean(station.get("station_id"))
         for field in required:
-            if not text(station.get(field)):
+            if not clean(station.get(field)):
                 issues.append(flag("osce", ident, "error", f"{field} is required"))
         duration = station.get("duration_minutes")
         if isinstance(duration, bool) or not isinstance(duration, int) or not 1 <= duration <= 60:
@@ -187,60 +156,60 @@ def check_osce(stations: list[dict[str, Any]], blueprint_ids: set[str],
             issues.append(flag("osce", ident, "error", "checklist must contain at least one criterion"))
         else:
             for index, criterion in enumerate(checklist):
-                if not isinstance(criterion, dict) or not text(criterion.get("criterion")):
+                if not isinstance(criterion, dict) or not clean(criterion.get("criterion")):
                     issues.append(flag("osce", ident, "error", f"checklist criterion {index+1} is incomplete"))
         if not isinstance(station.get("critical_actions", []), list):
             issues.append(flag("osce", ident, "error", "critical_actions must be a list"))
         for oid in station.get("objective_ids", []) if isinstance(station.get("objective_ids", []), list) else []:
-            if text(oid) not in blueprint_ids:
+            if clean(oid) not in blueprint_ids:
                 issues.append(flag("osce", ident, "warning", f"objective not found in blueprint: {oid}"))
-        if station.get("media") and not text(station.get("media_license")):
+        if station.get("media") and not clean(station.get("media_license")):
             issues.append(flag("osce", ident, "warning", "media supplied without documented media_license/provenance"))
 
 def check_challenges(challenges: list[dict[str, Any]], blueprint_ids: set[str],
                      issues: list[dict[str, str]]) -> None:
     check_unique(challenges, "challenge_id", "challenge", issues)
     for case in challenges:
-        ident = text(case.get("challenge_id"))
-        if not text(case.get("case_stem")):
+        ident = clean(case.get("challenge_id"))
+        if not clean(case.get("case_stem")):
             issues.append(flag("challenge", ident, "error", "case_stem is required"))
         clues = case.get("clues")
-        if not isinstance(clues, list) or not clues or any(not text(x) for x in clues):
+        if not isinstance(clues, list) or not clues or any(not clean(x) for x in clues):
             issues.append(flag("challenge", ident, "error", "clues must be a non-empty ordered list of text"))
         answers = case.get("accepted_answers")
-        if not isinstance(answers, list) or not any(text(x) for x in answers):
+        if not isinstance(answers, list) or not any(clean(x) for x in answers):
             issues.append(flag("challenge", ident, "error", "accepted_answers must contain at least one answer"))
-        if not text(case.get("explanation")):
+        if not clean(case.get("explanation")):
             issues.append(flag("challenge", ident, "error", "explanation is required"))
-        if not text(case.get("differential_rationale")):
+        if not clean(case.get("differential_rationale")):
             issues.append(flag("challenge", ident, "warning", "differential_rationale is missing"))
-        if not text(case.get("provenance")):
+        if not clean(case.get("provenance")):
             issues.append(flag("challenge", ident, "warning", "case provenance/attribution is missing"))
-        if case.get("media") and (not text(case.get("media_license")) or not text(case.get("media_provenance"))):
+        if case.get("media") and (not clean(case.get("media_license")) or not clean(case.get("media_provenance"))):
             issues.append(flag("challenge", ident, "error", "media requires explicit license and provenance"))
         for oid in case.get("objective_ids", []) if isinstance(case.get("objective_ids", []), list) else []:
-            if text(oid) not in blueprint_ids:
+            if clean(oid) not in blueprint_ids:
                 issues.append(flag("challenge", ident, "warning", f"objective not found in blueprint: {oid}"))
 
 def check_directory(entries: list[dict[str, Any]], issues: list[dict[str, str]]) -> None:
     check_unique(entries, "entry_id", "directory", issues)
     for entry in entries:
-        ident = text(entry.get("entry_id"))
+        ident = clean(entry.get("entry_id"))
         if not valid_http_url(entry.get("url")):
             issues.append(flag("directory", ident, "error", "url must be a safe HTTP(S) URL without embedded credentials"))
-        if not text(entry.get("provider")):
+        if not clean(entry.get("provider")):
             issues.append(flag("directory", ident, "error", "provider is required"))
-        if text(entry.get("reuse_status")) not in {"unknown", "link_only", "licensed", "permission_granted", "prohibited"}:
+        if clean(entry.get("reuse_status")) not in {"unknown", "link_only", "licensed", "permission_granted", "prohibited"}:
             issues.append(flag("directory", ident, "error", "reuse_status must explicitly describe content rights"))
-        if entry.get("embed_allowed") is True and text(entry.get("reuse_status")) not in {"licensed", "permission_granted"}:
+        if entry.get("embed_allowed") is True and clean(entry.get("reuse_status")) not in {"licensed", "permission_granted"}:
             issues.append(flag("directory", ident, "error", "embedding requires licensed or permission_granted status"))
-        if not text(entry.get("last_checked_at")):
+        if not clean(entry.get("last_checked_at")):
             issues.append(flag("directory", ident, "warning", "last_checked_at is missing"))
 
 def descriptive_stats(stats: list[dict[str, Any]], issues: list[dict[str, str]]) -> list[dict[str, Any]]:
     output = []
     for index, row in enumerate(stats):
-        ident = text(row.get("item_id")) or f"row-{index+1}"
+        ident = clean(row.get("item_id")) or f"row-{index+1}"
         n, correct, missing = row.get("cohort_size"), row.get("correct_count"), row.get("missing_count", 0)
         if any(isinstance(x, bool) or not isinstance(x, int) for x in (n, correct, missing)) or n <= 0 or not 0 <= correct <= n or not 0 <= missing <= n:
             issues.append(flag("statistics", ident, "error", "cohort_size, correct_count and missing_count must be valid non-negative integer counts"))
@@ -249,7 +218,7 @@ def descriptive_stats(stats: list[dict[str, Any]], issues: list[dict[str, str]])
             issues.append(flag("statistics", ident, "error", "correct_count + missing_count cannot exceed cohort_size"))
             continue
         output.append({
-            "item_id": ident, "item_version": text(row.get("item_version")),
+            "item_id": ident, "item_version": clean(row.get("item_version")),
             "cohort_size": n, "correct_count": correct, "missing_count": missing,
             "proportion_correct": round(correct / (n - missing), 4) if n > missing else None,
             "missing_rate": round(missing / n, 4),
@@ -270,7 +239,7 @@ def analyze(payload: dict[str, Any]) -> dict[str, Any]:
     issues: list[dict[str, str]] = []
     duplicates: list[dict[str, Any]] = []
     check_blueprint(blueprint, issues)
-    blueprint_ids = {text(x.get("objective_id")) for x in blueprint if text(x.get("objective_id"))}
+    blueprint_ids = {clean(x.get("objective_id")) for x in blueprint if clean(x.get("objective_id"))}
     check_mcqs(mcqs, blueprint_ids, issues, duplicates)
     check_osce(osce, blueprint_ids, issues)
     check_challenges(challenges, blueprint_ids, issues)
@@ -278,7 +247,7 @@ def analyze(payload: dict[str, Any]) -> dict[str, Any]:
     stat_summary = descriptive_stats(stats, issues)
     counts = {level: sum(1 for x in issues if x["severity"] == level) for level in ("error", "warning")}
     artifacts = (blueprint, mcqs, osce, challenges, directory)
-    manifest = {"schema_version": 1, "engine_version": VERSION, "input_sha256": sha(payload),
+    manifest = {"schema_version": 1, "engine_version": VERSION, "input_sha256": digest_value(payload),
                 "artifact_counts": {"blueprint_objectives": len(blueprint), "mcqs": len(mcqs),
                                     "osce_stations": len(osce), "challenges": len(challenges),
                                     "external_directory_entries": len(directory)},
@@ -324,7 +293,7 @@ def main(argv: list[str] | None = None) -> int:
         for item in report["review_queue"]:
             lines.append(f"- **{item['severity'].upper()} · {item['kind']} · {item['artifact_id']}** — {item['message']}")
         lines += ["", "## Governance", "", report["governance_note"], ""]
-        write_text("\n".join(lines), args.output_dir / "v19_assessment_studio_report.md")
+        atomic_write_text("\n".join(lines), args.output_dir / "v19_assessment_studio_report.md")
         with (args.output_dir / "v19_review_queue.csv").open("w", encoding="utf-8", newline="") as handle:
             writer = csv.DictWriter(handle, fieldnames=["severity", "kind", "artifact_id", "message"])
             writer.writeheader()

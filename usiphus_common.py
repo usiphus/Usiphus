@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """Usiphus shared helpers (used by V7-V15).
 
@@ -14,15 +13,13 @@ import hashlib
 import html
 import json
 import logging
-import os
 import re
-import tempfile
 import urllib.error
 import urllib.request
 from collections.abc import Sequence
 from datetime import date
-from pathlib import Path
 from typing import Any
+from usiphus_lib.files import atomic_write_text  # noqa: F401  re-exported: engines import it from here
 
 COMMON_VERSION = "1.0.0"
 LOG = logging.getLogger("usiphus.common")
@@ -210,29 +207,6 @@ def find_near_duplicate_pairs(cards: Sequence[Any], threshold: float = 0.78) -> 
 # --------------------------------------------------------------------------
 # Output helpers
 # --------------------------------------------------------------------------
-def atomic_write_text(text: str, destination: Path) -> None:
-    destination = Path(destination)
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    temp_name: str | None = None
-    try:
-        with tempfile.NamedTemporaryFile(
-            mode="w", encoding="utf-8", newline="", dir=destination.parent,
-            prefix=f".{destination.name}.", suffix=".tmp", delete=False,
-        ) as handle:
-            temp_name = handle.name
-            handle.write(text)
-            handle.flush()
-            os.fsync(handle.fileno())
-        os.replace(temp_name, destination)
-        temp_name = None
-    finally:
-        if temp_name:
-            try:
-                os.unlink(temp_name)
-            except FileNotFoundError:
-                pass
-
-
 def csv_safe(value: Any) -> str:
     """Neutralise spreadsheet formula injection in text cells (=, +, -, @, TAB, CR)."""
     text = "" if value is None else str(value)

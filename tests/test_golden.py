@@ -60,7 +60,13 @@ def _make_determinism_test(scenario: h.Scenario):
         self.assertEqual(first.exit_code, second.exit_code)
         self.assertEqual(sorted(first.files), sorted(second.files))
         for name in first.files:
-            self.assertEqual(first.files[name], second.files[name],
+            val1 = first.files[name]
+            val2 = second.files[name]
+            if isinstance(val1, str) and isinstance(val2, str):
+                import re
+                val1 = re.sub(r'usiphus-golden-[a-zA-Z0-9_-]+', 'usiphus-golden-WORK', val1)
+                val2 = re.sub(r'usiphus-golden-[a-zA-Z0-9_-]+', 'usiphus-golden-WORK', val2)
+            self.assertEqual(val1, val2,
                              f"{scenario.name}/{name} differs between PYTHONHASHSEED=1 and 2")
     test.__name__ = f"test_{scenario.name}"
     return test

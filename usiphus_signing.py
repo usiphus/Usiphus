@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """Asymmetric (Ed25519) signing for Usiphus audit events and anchor files.
 
@@ -30,14 +29,15 @@ from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from usiphus_common import atomic_write_text
+from usiphus_lib.errors import UsiphusError
+from usiphus_lib.hashing import digest_value
 
 VERSION = "1.0.0"
 ALGORITHM = "ed25519"
 PASSPHRASE_ENV = "USIPHUS_AUDIT_KEY_PASSPHRASE"
 
 
-class SigningError(ValueError):
+class SigningError(UsiphusError):
     pass
 
 
@@ -104,7 +104,6 @@ def passphrase_from_env(name: str = PASSPHRASE_ENV) -> bytes | None:
 # --------------------------------------------------------------------------
 def generate_keypair(private_path: Path, public_path: Path, passphrase: bytes | None = None) -> str:
     """Create an Ed25519 key pair. Returns the key_id. Refuses to overwrite existing files."""
-    global public_pem, private_pem
     private_path, public_path = Path(private_path), Path(public_path)
     for path in (private_path, public_path):
         if path.exists():
@@ -182,7 +181,6 @@ class Ed25519Signer:
                 os.environ.pop(k, None) if v is None else os.environ.__setitem__(k, v)
 
     def sign(self, message: str) -> str:
-        global raw
         data = message.encode("utf-8")
         if self._key is not None:
             raw = self._key.sign(data)
@@ -286,7 +284,7 @@ def trusted_entry(actor: str, public_path: str | Path) -> dict[str, str]:
 # --------------------------------------------------------------------------
 def _anchor_message(doc: dict[str, Any]) -> str:
     body = {k: doc[k] for k in ("schema_version", "generated_at", "signed_by", "anchors")}
-    return hashlib.sha256(json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")).hexdigest()
+    return digest_value(body)
 
 
 def build_anchor_document(anchors: dict[str, str], signer: Ed25519Signer, actor: str, generated_at: str) -> dict[str, Any]:
@@ -319,5 +317,3 @@ def load_anchor_file(path: str | Path, trusted: TrustedKeys) -> dict[str, str]:
     return verify_anchor_document(doc, trusted)
 
 
-def write_json(path: Path, payload: Any) -> None:
-    atomic_write_text(json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False) + "\n", path)

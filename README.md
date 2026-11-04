@@ -131,6 +131,7 @@ Run all engine self-tests and unit/integration tests:
     python usiphus_v17.py --self-test
     python usiphus_v18.py --self-test
     python usiphus_v19.py --self-test
+    python usiphus_v20.py --self-test
     python -m unittest discover -s tests -v
 
 ## V18 — Evidence lifecycle operations
@@ -187,6 +188,7 @@ Learner progress, item-level response data and review schedules can be sensitive
 - V16 governed release: docs/V16_GOVERNED_RELEASE.md
 - V15 evidence governance: docs/V15_EVIDENCE_GOVERNANCE.md
 - V14 unified release platform: docs/V14_UNIFIED_RELEASE_PLATFORM.md
+- Shared helper library (`usiphus_lib`): docs/SHARED_LIBRARY.md
 - Safety, privacy, and security checklist: docs/SAFETY_AND_PRIVACY.md
 
 ## Curriculum-aware resource discovery

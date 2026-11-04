@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """Usiphus V10 — Specialty Curriculum Mapping & Coverage Intelligence.
 
@@ -50,6 +49,7 @@ LOG = logging.getLogger("usiphus.v10")
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from usiphus_common import csv_safe
+from usiphus_lib.text import clean
 
 
 @dataclass(frozen=True)
@@ -115,10 +115,6 @@ class CurriculumReport:
     unmapped_card_ids: list[str] = field(default_factory=list)
     candidates: list[dict[str, Any]] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
-
-
-def clean(value: Any) -> str:
-    return re.sub(r"\s+", " ", str(value or "").strip())
 
 
 def string_tuple(value: Any) -> tuple[str, ...]:

@@ -53,7 +53,7 @@ exit=0
 --- stdout ---
 {
   "anchors": 1,
-  "output": "<WORK>/out/anchors.json",
+  "output": "C:\\Users\\YOUSE\\AppData\\Local\\Temp\\usiphus-golden-audit_signed_chain_and_tamper-jnud5ql1\\out\\anchors.json",
   "next_step": "Store this file where the claims editors cannot alter it (signed git tag, auditor email, WORM storage, RFC 3161 timestamp)."
 }
 --- stderr ---

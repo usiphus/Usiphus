@@ -1,3 +1,5 @@
+import contextlib
+import io
 import json
 import tempfile
 import unittest
@@ -120,7 +122,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             def __iter__(self):
                 yield (json.dumps({"message": response["message"], "done": True}) + "\n").encode()
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
-            with self.assertRaisesRegex(ValueError, "requested exactly 1"):
+            with self.assertRaisesRegex(RuntimeError, "requested exactly 1"), contextlib.redirect_stderr(io.StringIO()):
                 generator.generate_topic_cards(
                     {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
                     model="test-model", ollama_url="http://localhost:11434",
@@ -136,7 +138,7 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
             def __iter__(self):
                 yield (json.dumps({"message": response["message"], "done": True}) + "\n").encode()
         with patch.object(generator.urllib.request, "urlopen", return_value=FakeResponse()):
-            with self.assertRaisesRegex(ValueError, "requested exactly 2"):
+            with self.assertRaisesRegex(RuntimeError, "requested exactly 2"), contextlib.redirect_stderr(io.StringIO()):
                 generator.generate_topic_cards(
                     {"name": "Cataract"}, specialty="ophthalmology", level="medical students",
                     model="test-model", ollama_url="http://localhost:11434",
@@ -192,7 +194,9 @@ class AutomatedDeckGeneratorTests(unittest.TestCase):
         payload = json.loads(sent["messages"][1]["content"])
         self.assertEqual(payload["curriculum_domain"], "Vitreoretinal disease and surgery")
         self.assertEqual(payload["domain_id"], "vitreoretinal")
-        self.assertEqual(payload["coverage_tags"], ["retinal detachment"])\n        self.assertTrue(sent["stream"])\n        self.assertEqual(sent["keep_alive"], "30m")
+        self.assertEqual(payload["coverage_tags"], ["retinal detachment"])
+        self.assertTrue(sent["stream"])
+        self.assertEqual(sent["keep_alive"], "30m")
 
     def test_curriculum_rejects_topic_with_unknown_domain(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -13,9 +13,71 @@ from pathlib import Path
 from typing import Any
 
 import usiphus_generate as generation
+from usiphus_lib.files import atomic_write_text
+from .usiphus_rxnorm import validate_drug_terms
+from .usiphus_loinc import validate_lab_terms
 
 LOG = logging.getLogger("usiphus.competencies")
 LEVELS = {"remember", "understand", "apply", "analyze", "evaluate", "create"}
+
+# Simple patterns to find drug/lab mentions in text
+DRUG_PATTERN = re.compile(
+    r'\b('
+    r'aspirin|paracetamol|acetaminophen|ibuprofen|metformin|lisinopril|'
+    r'atorvastatin|amlodipine|omeprazole|simvastatin|hydrochlorothiazide|'
+    r'furosemide|metoprolol|losartan|amoxicillin|prednisone|'
+    r'insulin|heparin|warfarin|digoxin|levothyroxine|albuterol|salbutamol'
+    r')\b',
+    re.IGNORECASE
+)
+
+LAB_PATTERN = re.compile(
+    r'\b('
+    r'hemoglobin|hb|hba1c|a1c|glucose|creatinine|urea|sodium|potassium|'
+    r'chloride|bicarbonate|calcium|phosphate|bilirubin|albumin|'
+    r'creatinine clearance|egfr|wbc|rbc|platelet|esr|crp|'
+    r'cholesterol|ldl|hdl|triglyceride|troponin|inr|ptt'
+    r')\b',
+    re.IGNORECASE
+)
+
+
+def extract_drug_terms(text: str) -> list[str]:
+    """Find all drug mentions in text"""
+    return list(set(m.group(0).strip() for m in DRUG_PATTERN.finditer(text)))
+
+
+def extract_lab_terms(text: str) -> list[str]:
+    """Find all lab test mentions in text"""
+    return list(set(m.group(0).strip() for m in LAB_PATTERN.finditer(text)))
+
+
+def validate_competency_terms(text: str) -> dict[str, Any]:
+    """Run RxNorm + LOINC validation on competency text — returns issues list"""
+    drugs = extract_drug_terms(text)
+    labs = extract_lab_terms(text)
+
+    report = {"drugs": [], "labs": [], "warnings": []}
+
+    if drugs:
+        drug_report = validate_drug_terms(drugs)
+        report["drugs"] = drug_report["details"]
+        for inc in drug_report["inconsistencies"]:
+            report["warnings"].append({
+                "type": "drug_inconsistency",
+                "message": f"Variants for {inc['preferred_name']}: {', '.join(inc['variants'])}"
+            })
+
+    if labs:
+        lab_report = validate_lab_terms(labs)
+        report["labs"] = lab_report["details"]
+        for inc in lab_report["inconsistencies"]:
+            report["warnings"].append({
+                "type": "lab_inconsistency",
+                "message": f"Variants for {inc['loinc_code']}: {', '.join(inc['variants'])}"
+            })
+
+    return report
 
 
 def load_config(path: Path) -> tuple[dict[str, Any], Path]:
@@ -190,6 +252,11 @@ def validate_competencies(
             continue
         seen_titles.add(title_key)
         refs = list(dict.fromkeys(sources[source_id]["reference"] for source_id in source_ids))
+        
+        # Run RxNorm + LOINC validation on competency text
+        comp_text = f"{title} {description} {' '.join(objectives)}"
+        term_report = validate_competency_terms(comp_text)
+
         generated.append({
             "id": f"AUTO-{prefix}-{first_number + len(generated):04d}",
             "title": title,
@@ -202,6 +269,11 @@ def validate_competencies(
             "tags": [specialty, domain],
             "source_ids": list(dict.fromkeys(source_ids)),
             "source_references": refs,
+            "terminology": {
+                "drugs": term_report["drugs"],
+                "labs": term_report["labs"],
+            },
+            "warnings": term_report["warnings"],
             "competency_status": "unvalidated_draft",
         })
     return generated
@@ -268,70 +340,4 @@ def run(config: dict[str, Any], request_fn: Callable[..., str] = generation.call
                 {"title": row["title"], "reference": row["reference"]}
                 for row in config["source_material"]
             ],
-            "review_notice": "AI-generated draft competencies are unvalidated. Faculty must verify scope, completeness, wording, and source support before curriculum use.",
-            "competencies": competencies,
-        }
-        generation.atomic_write(output, json.dumps(result, indent=2, ensure_ascii=False) + "\n")
-
-    write_checkpoint()
-    calls = 0
-    while (
-        no_progress < config["max_no_progress_batches"]
-        and (config["max_batches"] is None or calls < config["max_batches"])
-    ):
-        existing_titles = [str(row.get("title") or "") for row in competencies]
-        prompt = competency_prompt(config["specialty"], config["batch_size"], source_text, existing_titles)
-        raw = request_fn(
-            config["generator"]["base_url"],
-            config["generator"]["model"],
-            prompt,
-            config["generator"].get("timeout_seconds", 180),
-            config["generator"].get("temperature", 0.2),
-        )
-        calls += 1
-        rows = validate_competencies(raw, config["specialty"], source_rows, next_number, config["batch_size"])
-        new_rows = []
-        for row in rows:
-            title_key = re.sub(r"\W+", " ", row["title"].casefold()).strip()
-            if title_key in title_keys:
-                continue
-            while True:
-                competency_id = f"AUTO-{prefix}-{next_number:04d}"
-                next_number += 1
-                if competency_id.casefold() not in known_ids:
-                    break
-            row["id"] = competency_id
-            title_keys.add(title_key)
-            known_ids.add(row["id"].casefold())
-            new_rows.append(row)
-        if new_rows:
-            competencies.extend(new_rows)
-            no_progress = 0
-            LOG.info("Added %d draft competencies", len(new_rows))
-            write_checkpoint()
-        else:
-            no_progress += 1
-            LOG.info("No new competencies (%d/%d consecutive batches)", no_progress, config["max_no_progress_batches"])
-    if calls >= (config["max_batches"] or calls + 1) and config["max_batches"] is not None:
-        LOG.info("Stopped after %d batch(es); checkpoint saved for resuming", calls)
-    LOG.info("Wrote %d new competencies to %s (%d total)", len(competencies) - previous_count, output, len(competencies))
-    return 0
-
-
-def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Draft source-linked curriculum competencies using local Ollama")
-    parser.add_argument("--config", help="Path to competency generator JSON config")
-    args = parser.parse_args(argv)
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s | %(message)s")
-    if not args.config:
-        parser.error("--config is required")
-    try:
-        config, _ = load_config(Path(args.config))
-        return run(config)
-    except (generation.GenerationError, OSError, TypeError, ValueError) as exc:
-        LOG.error("%s", exc)
-        return 2
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+            "review_notice": "AI-generated draft competencies are un

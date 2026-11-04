@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """Usiphus V12 — integrated specialty learning platform coordinator.
 
@@ -11,7 +10,6 @@ from __future__ import annotations
 
 import argparse
 import csv
-import hashlib
 import io
 import json
 import logging
@@ -28,6 +26,10 @@ LOG = logging.getLogger("usiphus.v12")
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from usiphus_common import csv_safe, valid_iso_date
+from usiphus_lib.hashing import sha256_file
+from usiphus_lib.text import strip_text
+from usiphus_lib.files import atomic_write_text
+from usiphus_lib.files import JsonReadPolicy, read_json_file, uniform
 
 WORKFLOW = ("draft", "in_review", "approved", "published")
 TRANSITIONS = {
@@ -39,20 +41,10 @@ TRANSITIONS = {
 MAX_BYTES = 50 * 1024 * 1024
 
 
-def clean(value: Any) -> str:
-    return str(value or "").strip()
-
-
 def read_json(path: Path) -> Any:
-    if not path.is_file():
-        raise ValueError(f"Input file does not exist: {path}")
-    if path.stat().st_size > MAX_BYTES:
-        raise ValueError(f"Input exceeds 50 MiB: {path}")
-    try:
-        with path.open("r", encoding="utf-8-sig") as handle:
-            return json.load(handle)
-    except json.JSONDecodeError as exc:
-        raise ValueError(f"Invalid JSON in {path}: {exc}") from exc
+    return read_json_file(path, JsonReadPolicy(
+        error=uniform(ValueError), missing="Input file does not exist: {path}",
+        too_large="Input exceeds {limit_mib} MiB: {path}", invalid_on=(json.JSONDecodeError,), max_bytes=MAX_BYTES))
 
 
 def records_from(payload: Any, key: str, label: str) -> list[dict[str, Any]]:
@@ -67,8 +59,8 @@ def load_cards(path: Path, specialty: str) -> dict[str, dict[str, Any]]:
     rows = records_from(payload, "cards", "Cards")
     result: dict[str, dict[str, Any]] = {}
     for i, row in enumerate(rows):
-        cid = clean(row.get("card_id") or row.get("id"))
-        card_specialty = clean(row.get("specialty")).casefold()
+        cid = strip_text(row.get("card_id") or row.get("id"))
+        card_specialty = strip_text(row.get("specialty")).casefold()
         if not cid or cid in result:
             raise ValueError(f"Card {i} requires a unique card_id/id")
         if card_specialty != specialty:
@@ -83,22 +75,22 @@ def load_curriculum(path: Path) -> tuple[str, list[dict[str, Any]]]:
     payload = read_json(path)
     if not isinstance(payload, dict) or not isinstance(payload.get("competencies"), list):
         raise ValueError("Curriculum must contain a competencies list")
-    specialty = clean(payload.get("specialty")).casefold()
+    specialty = strip_text(payload.get("specialty")).casefold()
     if not specialty:
         raise ValueError("Curriculum specialty is required")
     result, seen = [], set()
     for i, row in enumerate(payload["competencies"]):
         if not isinstance(row, dict):
             raise ValueError(f"Competency {i} must be an object")
-        cid = clean(row.get("competency_id") or row.get("id"))
+        cid = strip_text(row.get("competency_id") or row.get("id"))
         if not cid or cid.casefold() in seen:
             raise ValueError(f"Competency {i} requires a unique ID")
         seen.add(cid.casefold())
         required = row.get("required", True)
         if not isinstance(required, bool):
             raise ValueError(f"Competency {cid} required must be boolean")
-        result.append({"id": cid, "title": clean(row.get("title") or row.get("name")) or cid,
-                       "domain": clean(row.get("domain") or "Uncategorized"),
+        result.append({"id": cid, "title": strip_text(row.get("title") or row.get("name")) or cid,
+                       "domain": strip_text(row.get("domain") or "Uncategorized"),
                        "required": required, "weight": row.get("weight", 1.0)})
     if not result:
         raise ValueError("Curriculum must contain at least one competency")
@@ -107,7 +99,7 @@ def load_curriculum(path: Path) -> tuple[str, list[dict[str, Any]]]:
 
 def tz_timestamp_ok(value: Any) -> bool:
     try:
-        parsed = datetime.fromisoformat(clean(value).replace("Z", "+00:00"))
+        parsed = datetime.fromisoformat(strip_text(value).replace("Z", "+00:00"))
         return parsed.tzinfo is not None and parsed.utcoffset() is not None
     except ValueError:
         return False
@@ -117,7 +109,7 @@ def load_mapping(path: Path, specialty: str, cards: set[str], competencies: set[
     payload = read_json(path)
     if not isinstance(payload, dict) or not isinstance(payload.get("candidates"), list):
         raise ValueError("Mapping must be a V10 curriculum coverage report with candidates")
-    if clean(payload.get("specialty")).casefold() != specialty:
+    if strip_text(payload.get("specialty")).casefold() != specialty:
         raise ValueError("Mapping specialty does not match curriculum")
     verified: dict[str, set[str]] = {}
     queue = []
@@ -125,15 +117,15 @@ def load_mapping(path: Path, specialty: str, cards: set[str], competencies: set[
     for i, row in enumerate(payload["candidates"]):
         if not isinstance(row, dict):
             raise ValueError(f"Mapping candidate {i} must be an object")
-        card, comp, status = clean(row.get("card_id")), clean(row.get("competency_id")), clean(row.get("status")).casefold()
+        card, comp, status = strip_text(row.get("card_id")), strip_text(row.get("competency_id")), strip_text(row.get("status")).casefold()
         if not card or card not in cards or not comp:
             raise ValueError(f"Mapping candidate {i} references an unknown card or has no competency ID")
         if status not in {"verified", "suggested", "pending", "invalid"}:
             raise ValueError(f"Mapping candidate {i} has unsupported status '{status}'")
         if status != "invalid" and comp.casefold() not in competencies:
             raise ValueError(f"Mapping candidate {i} references an unknown competency")
-        if status == "verified" and (clean(row.get("method")).casefold() != "faculty-approved"
-                                     or not clean(row.get("reviewer")) or not tz_timestamp_ok(row.get("reviewed_at"))):
+        if status == "verified" and (strip_text(row.get("method")).casefold() != "faculty-approved"
+                                     or not strip_text(row.get("reviewer")) or not tz_timestamp_ok(row.get("reviewed_at"))):
             raise ValueError(f"Mapping candidate {i} is 'verified' without faculty-approved provenance "
                              "(method, reviewer, timezone-aware reviewed_at)")
         key = (card, comp.casefold(), status)
@@ -155,7 +147,7 @@ def load_mapping(path: Path, specialty: str, cards: set[str], competencies: set[
 
 def validate_evidence_audit(record: dict[str, Any]) -> list[str]:
     issues = []
-    status = clean(record.get("status") or "draft").casefold()
+    status = strip_text(record.get("status") or "draft").casefold()
     if status not in WORKFLOW:
         return [f"invalid workflow status: {status}"]
     audit = record.get("audit_trail") or []
@@ -166,9 +158,9 @@ def validate_evidence_audit(record: dict[str, Any]) -> list[str]:
         if not isinstance(event, dict):
             issues.append(f"audit event {i} must be an object")
             continue
-        target = clean(event.get("to")).casefold()
-        actor = clean(event.get("actor"))
-        valid_date = valid_iso_date(clean(event.get("date")))
+        target = strip_text(event.get("to")).casefold()
+        actor = strip_text(event.get("actor"))
+        valid_date = valid_iso_date(strip_text(event.get("date")))
         if target not in WORKFLOW or target not in TRANSITIONS.get(previous, set()):
             issues.append(f"invalid workflow transition at event {i}: {previous} -> {target}")
         if not actor:
@@ -190,23 +182,23 @@ def load_evidence(path: Path, cards: set[str], as_of: date, max_age_days: int):
     queue, findings, covered = [], [], set()
     ids = set()
     for i, row in enumerate(rows):
-        claim_id, card_id = clean(row.get("claim_id")), clean(row.get("card_id"))
-        status = clean(row.get("status") or "draft").casefold()
+        claim_id, card_id = strip_text(row.get("claim_id")), strip_text(row.get("card_id"))
+        status = strip_text(row.get("status") or "draft").casefold()
         issues = []
         if not claim_id or claim_id in ids:
             issues.append("claim_id is missing or duplicated")
         ids.add(claim_id)
         if card_id not in cards:
             issues.append("claim maps to an unknown card")
-        if not clean(row.get("claim")):
+        if not strip_text(row.get("claim")):
             issues.append("claim text is missing")
-        if not clean(row.get("reference")) or not clean(row.get("source_type")):
+        if not strip_text(row.get("reference")) or not strip_text(row.get("source_type")):
             issues.append("reference and source_type are required")
         issues.extend(validate_evidence_audit(row))
         if status not in {"approved", "published"}:
             issues.append(f"release blocked: evidence status is {status}, not approved/published")
         if status in {"approved", "published"}:
-            raw_date = clean(row.get("reviewed_on"))
+            raw_date = strip_text(row.get("reviewed_on"))
             if not valid_iso_date(raw_date):
                 issues.append("approved/published evidence requires reviewed_on YYYY-MM-DD")
             else:
@@ -215,7 +207,7 @@ def load_evidence(path: Path, cards: set[str], as_of: date, max_age_days: int):
                     issues.append("reviewed_on is in the future")
                 elif (as_of - reviewed).days > max_age_days:
                     issues.append(f"evidence review is stale (>{max_age_days} days)")
-            if not clean(row.get("reviewer")):
+            if not strip_text(row.get("reviewer")):
                 issues.append("approved/published evidence requires reviewer")
         if status in {"approved", "published"} and not issues:
             covered.add(card_id)
@@ -231,7 +223,7 @@ def load_evidence(path: Path, cards: set[str], as_of: date, max_age_days: int):
 
 def validate_v11(path: Path, specialty: str, competencies: set[str]):
     progress = read_json(path)
-    if not isinstance(progress, dict) or clean(progress.get("specialty")).casefold() != specialty:
+    if not isinstance(progress, dict) or strip_text(progress.get("specialty")).casefold() != specialty:
         raise ValueError("V11 learner progress specialty does not match curriculum")
     learners = progress.get("learners")
     if not isinstance(learners, list):
@@ -242,9 +234,9 @@ def validate_v11(path: Path, specialty: str, competencies: set[str]):
         if not isinstance(learner, dict) or not isinstance(learner.get("competencies"), list):
             raise ValueError("Malformed V11 learner progress record")
         for item in learner["competencies"]:
-            if not isinstance(item, dict) or clean(item.get("competency_id")).casefold() not in competencies:
+            if not isinstance(item, dict) or strip_text(item.get("competency_id")).casefold() not in competencies:
                 raise ValueError("V11 progress references an unknown competency")
-            pairs.add((clean(learner.get("learner_id")), clean(item.get("competency_id")).casefold()))
+            pairs.add((strip_text(learner.get("learner_id")), strip_text(item.get("competency_id")).casefold()))
             rows += 1
     summary = {"active_learners": len(learners),
                "accepted_attempts": int(progress.get("accepted_attempts", 0)),
@@ -255,14 +247,14 @@ def validate_v11(path: Path, specialty: str, competencies: set[str]):
 
 def validate_cohort(path: Path, specialty: str, competencies: set[str]):
     payload = read_json(path)
-    if not isinstance(payload, dict) or clean(payload.get("specialty")).casefold() != specialty:
+    if not isinstance(payload, dict) or strip_text(payload.get("specialty")).casefold() != specialty:
         raise ValueError("V11 cohort analytics specialty does not match curriculum")
     rows = payload.get("competencies")
     if not isinstance(rows, list):
         raise ValueError("V11 cohort analytics must contain competencies")
     suppressed = 0
     for row in rows:
-        if not isinstance(row, dict) or clean(row.get("competency_id")).casefold() not in competencies:
+        if not isinstance(row, dict) or strip_text(row.get("competency_id")).casefold() not in competencies:
             raise ValueError("Cohort analytics references an unknown competency")
         if not isinstance(row.get("suppressed"), bool):
             raise ValueError("Each cohort row must declare suppressed as boolean")
@@ -284,37 +276,15 @@ def read_schedule(path: Path, competencies: set[str]):
             raise ValueError("V11 review schedule CSV is missing required columns")
         count = 0
         for row in reader:
-            if clean(row.get("competency_id")).casefold() not in competencies:
+            if strip_text(row.get("competency_id")).casefold() not in competencies:
                 raise ValueError("Review schedule references an unknown competency")
-            pairs.add((clean(row.get("learner_id")), clean(row.get("competency_id")).casefold()))
+            pairs.add((strip_text(row.get("learner_id")), strip_text(row.get("competency_id")).casefold()))
             count += 1
     return count, pairs
 
 
 def load_schedule(path: Path, competencies: set[str]):
     return read_schedule(path, competencies)[0]
-
-
-def atomic_write(path: Path, content: str):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temp = None
-    try:
-        with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as handle:
-            temp = handle.name
-            handle.write(content)
-            handle.flush()
-        Path(temp).replace(path)
-    finally:
-        if temp and Path(temp).exists():
-            Path(temp).unlink()
-
-
-def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest()
 
 
 def run(args) -> int:
@@ -399,10 +369,10 @@ def run(args) -> int:
     writer = csv.DictWriter(queue_buf, fieldnames=fields)
     writer.writeheader()
     writer.writerows([{k: csv_safe(v) for k, v in row.items()} for row in queue])
-    atomic_write(output / "platform_report.json", json.dumps(report, indent=2, ensure_ascii=False) + "\n")
-    atomic_write(output / "faculty_review_queue.csv", queue_buf.getvalue())
-    atomic_write(output / "release_checklist.json", json.dumps(checklist, indent=2) + "\n")
-    inputs = {name: {"sha256": sha256(Path(path)), "bytes": Path(path).stat().st_size}
+    atomic_write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", output / "platform_report.json")
+    atomic_write_text(queue_buf.getvalue(), output / "faculty_review_queue.csv")
+    atomic_write_text(json.dumps(checklist, indent=2) + "\n", output / "release_checklist.json")
+    inputs = {name: {"sha256": sha256_file(Path(path)), "bytes": Path(path).stat().st_size}
               for name, path in {"cards": args.cards, "curriculum": args.curriculum,
                 "mapping": args.mapping, "evidence": args.evidence,
                 "learner_progress": args.learner_progress, "cohort_analytics": args.cohort_analytics,
@@ -412,7 +382,7 @@ def run(args) -> int:
                 "source_files_modified": False,
                 "privacy": {"individual_learner_ids_exported": False,
                             "source_learner_progress_contains_sensitive_pseudonymous_records": True}}
-    atomic_write(output / "v12_manifest.json", json.dumps(manifest, indent=2) + "\n")
+    atomic_write_text(json.dumps(manifest, indent=2) + "\n", output / "v12_manifest.json")
     LOG.info("V12 generated platform report; release_ready=%s; faculty review items=%d",
              ready, len(queue))
     return 0
@@ -539,7 +509,7 @@ def run_self_test() -> int:
             with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as d:
                 p = Path(d) / "source.json"
                 p.write_text('{"a":1}')
-                self.assertEqual(sha256(p),sha256(p))
+                self.assertEqual(sha256_file(p),sha256_file(p))
         def test_no_individual_ids_in_platform_summary(self):
             # The integration summary is deliberately constructed from counts only.
             summary = {"active_learners": 2, "accepted_attempts": 10}

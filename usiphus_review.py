@@ -6,11 +6,13 @@ import argparse
 import json
 import logging
 import os
-import tempfile
 from collections.abc import Callable
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
+from usiphus_lib.errors import UsiphusError
+from usiphus_lib.files import atomic_write_text
+from usiphus_lib.files import JsonReadPolicy, read_json_file, uniform
 
 LOG = logging.getLogger("usiphus.review")
 MAX_FILE_BYTES = 50 * 1024 * 1024
@@ -18,19 +20,15 @@ EDITABLE_FIELDS = ("prompt", "answer", "learning_objective")
 DECISIONS = {"keep", "edit", "reject"}
 
 
-class ReviewError(ValueError):
+class ReviewError(UsiphusError):
     """Raised when review input or persisted decisions are invalid."""
 
 
 def read_json(path: Path) -> Any:
-    if not path.is_file():
-        raise ReviewError(f"File not found: {path}")
-    if path.stat().st_size > MAX_FILE_BYTES:
-        raise ReviewError(f"File exceeds {MAX_FILE_BYTES} bytes: {path}")
-    try:
-        return json.loads(path.read_text(encoding="utf-8-sig"))
-    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise ReviewError(f"Cannot read JSON file {path}: {exc}") from exc
+    return read_json_file(path, JsonReadPolicy(
+        error=uniform(ReviewError), missing="File not found: {path}", too_large="File exceeds {limit} bytes: {path}",
+        invalid="Cannot read JSON file {path}: {exc}",
+        invalid_on=(OSError, UnicodeDecodeError, json.JSONDecodeError), max_bytes=MAX_FILE_BYTES))
 
 
 def load_cards(path: Path) -> list[dict[str, Any]]:
@@ -68,21 +66,6 @@ def load_store(path: Path) -> dict[str, Any]:
             if not isinstance(decision, dict) or decision.get("decision") not in DECISIONS:
                 raise ReviewError(f"Malformed decision for {reviewer_id}/{card_id}")
     return payload
-
-
-def atomic_write(path: Path, text: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    temp_name = None
-    try:
-        with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=path.parent, delete=False) as handle:
-            temp_name = handle.name
-            handle.write(text)
-            handle.flush()
-            os.fsync(handle.fileno())
-        os.replace(temp_name, path)
-    finally:
-        if temp_name and os.path.exists(temp_name):
-            os.unlink(temp_name)
 
 
 def record_decision(
@@ -244,10 +227,10 @@ def run(
     store = load_store(store_path)
     profile = store.setdefault("reviewer_profiles", {}).setdefault(reviewer_id, {"decisions": {}})
     review_cards(cards, store, reviewer_id, redo=redo)
-    atomic_write(store_path, json.dumps(store, indent=2, ensure_ascii=False) + "\n")
+    atomic_write_text(json.dumps(store, indent=2, ensure_ascii=False) + "\n", store_path)
     if export_path:
         export = build_export(cards, profile, reviewer_id)
-        atomic_write(export_path, json.dumps(export, indent=2, ensure_ascii=False) + "\n")
+        atomic_write_text(json.dumps(export, indent=2, ensure_ascii=False) + "\n", export_path)
         LOG.info("Wrote %d personally selected cards to %s", len(export["cards"]), export_path)
     LOG.info("Saved review decisions for local profile %s to %s", reviewer_id, store_path)
     LOG.warning("Reviewer profiles are labels, not authenticated accounts; protect the local review file.")

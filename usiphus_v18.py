@@ -9,9 +9,6 @@ from __future__ import annotations
 
 import argparse
 import csv
-import hashlib
-import json
-import os
 import re
 import sys
 import tempfile
@@ -20,6 +17,11 @@ from datetime import UTC, date, datetime
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit, urlunsplit
+from usiphus_lib.errors import UsiphusError
+from usiphus_lib.hashing import digest_value, sha256_hex
+from usiphus_lib.text import clean
+from usiphus_lib.files import atomic_write_text, write_json
+from usiphus_lib.files import JsonReadPolicy, read_json_file, uniform
 
 VERSION = "18.0.0"
 MAX_BYTES = 50 * 1024 * 1024
@@ -39,56 +41,12 @@ CHANGE_WEIGHTS = {
 VALID_DECISIONS = {"accepted", "rejected", "deferred"}
 
 
-class V18Error(ValueError):
+class V18Error(UsiphusError):
     """Invalid V18 input or policy."""
 
 
-def clean(value: Any) -> str:
-    return " ".join(str(value or "").strip().split())
-
-
-def canonical_json(value: Any) -> str:
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
-
-
-def digest_bytes(value: bytes) -> str:
-    return hashlib.sha256(value).hexdigest()
-
-
-def digest(value: Any) -> str:
-    return digest_bytes(canonical_json(value).encode("utf-8"))
-
-
 def read_json(path: Path) -> Any:
-    path = Path(path)
-    if not path.is_file():
-        raise V18Error(f"Input file not found: {path}")
-    if path.stat().st_size > MAX_BYTES:
-        raise V18Error(f"Input exceeds {MAX_BYTES // (1024 * 1024)} MiB: {path}")
-    try:
-        return json.loads(path.read_text(encoding="utf-8-sig"))
-    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise V18Error(f"Invalid JSON in {path}: {exc}") from exc
-
-
-def write_text(text: str, destination: Path) -> None:
-    destination = Path(destination)
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    fd, name = tempfile.mkstemp(prefix="." + destination.name + ".", suffix=".tmp",
-                                dir=str(destination.parent))
-    try:
-        with os.fdopen(fd, "w", encoding="utf-8", newline="") as handle:
-            handle.write(text)
-            handle.flush()
-            os.fsync(handle.fileno())
-        os.replace(name, destination)
-    finally:
-        if os.path.exists(name):
-            os.unlink(name)
-
-
-def write_json(value: Any, destination: Path) -> None:
-    write_text(json.dumps(value, indent=2, sort_keys=True, ensure_ascii=False) + "\n", destination)
+    return read_json_file(path, JsonReadPolicy(error=uniform(V18Error), max_bytes=MAX_BYTES))
 
 
 def records(payload: Any, key: str, label: str) -> list[dict[str, Any]]:
@@ -153,7 +111,7 @@ def source_fingerprint(source: dict[str, Any], source_root: Path) -> dict[str, A
     content_path = clean(source.get("content_path"))
     if content_path:
         path = contained_file(source_root, content_path)
-        actual = digest_bytes(path.read_bytes())
+        actual = sha256_hex(path.read_bytes())
         if content_hash and content_hash != actual:
             raise V18Error(f"Provided content_sha256 does not match content_path for {source.get('source_id')}")
         content_hash = actual
@@ -526,7 +484,7 @@ def analyze(sources: list[dict[str, Any]], claims: list[dict[str, Any]], *,
                  "reviewer_label": clean(decision.get("reviewer_label")),
                  "rationale": clean(decision.get("rationale")),
                  "decided_at": clean(decision.get("decided_at"))}
-        event["event_hash"] = digest(event)
+        event["event_hash"] = digest_value(event)
         previous_hash = event["event_hash"]
         audit_events.append(event)
 
@@ -564,7 +522,7 @@ def make_queue_item(kind: str, source_id: str, impact: dict[str, list[str]],
     count = sum(len(values) for values in impact.values())
     base = CHANGE_WEIGHTS.get(kind, 100)
     score = base + min(100, count * 10)
-    return {"queue_id": digest({"kind": kind, "source_id": source_id, **details})[:16],
+    return {"queue_id": digest_value({"kind": kind, "source_id": source_id, **details})[:16],
             "event_type": kind, "source_id": source_id, "priority_score": score,
             "affected_artifacts": impact, "rationale": rationale, **details}
 
@@ -600,7 +558,7 @@ def write_outputs(report: dict[str, Any], output_dir: Path) -> None:
     lines += ["", "## Boundaries", report["policy"]["clinical_boundary"],
               report["policy"]["human_control"], report["policy"]["reviewer_identity"],
               report["policy"]["hash_chain"], ""]
-    write_text("\n".join(lines), output_dir / "v18_evidence_lifecycle_report.md")
+    atomic_write_text("\n".join(lines), output_dir / "v18_evidence_lifecycle_report.md")
     buffer = []
     for item in report["review_queue"]:
         buffer.append({"priority_score": item["priority_score"], "event_type": item["event_type"],
@@ -618,12 +576,12 @@ def write_outputs(report: dict[str, Any], output_dir: Path) -> None:
     writer = csv.DictWriter(stream, fieldnames=fields)
     writer.writeheader()
     writer.writerows(buffer)
-    write_text(stream.getvalue(), output_dir / "v18_review_queue.csv")
+    atomic_write_text(stream.getvalue(), output_dir / "v18_review_queue.csv")
     input_hashes = report.get("input_hashes", {})
     output_hashes = {}
     for path in sorted(output_dir.iterdir()):
         if path.is_file() and path.name != "v18_manifest.json":
-            output_hashes[path.name] = digest_bytes(path.read_bytes())
+            output_hashes[path.name] = sha256_hex(path.read_bytes())
     write_json({"schema_version": 1, "usiphus_version": VERSION,
                 "input_sha256": input_hashes, "output_sha256": output_hashes},
                output_dir / "v18_manifest.json")
@@ -650,7 +608,7 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     )
     inputs = [sources_path, claims_path] + [Path(p) for p in
              (args.previous_state, args.cards, args.assessments, args.osce, args.release_links, args.decisions) if p]
-    report["input_hashes"] = {str(path): digest_bytes(path.read_bytes()) for path in inputs}
+    report["input_hashes"] = {str(path): sha256_hex(path.read_bytes()) for path in inputs}
     write_outputs(report, Path(args.output_dir))
     return report
 

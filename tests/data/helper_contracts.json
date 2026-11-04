@@ -1,0 +1,754 @@
+{
+  "pure": {
+    "usiphus_generate.local_ollama_url": [
+      {
+        "ok": "http://localhost:11434"
+      },
+      {
+        "ok": "https://localhost"
+      },
+      {
+        "ok": "http://127.0.0.1:11434"
+      },
+      {
+        "ok": "http://[::1]:11434"
+      },
+      {
+        "cause": null,
+        "code": null,
+        "message": "Ollama base_url must be a local loopback URL, such as http://localhost:11434",
+        "raised": "GenerationError"
+      },
+      {
+        "cause": null,
+        "code": null,
+        "message": "Ollama base_url must be a local loopback URL, such as http://localhost:11434",
+        "raised": "GenerationError"
+      },
+      {
+        "cause": null,
+        "code": null,
+        "message": "Ollama base_url must be a local loopback URL, such as http://localhost:11434",
+        "raised": "GenerationError"
+      },
+      {
+        "cause": "ValueError",
+        "code": null,
+        "message": "Ollama base_url has an invalid port",
+        "raised": "GenerationError"
+      },
+      {
+        "cause": null,
+        "code": null,
+        "message": "Ollama base_url must be a local loopback URL, such as http://localhost:11434",
+        "raised": "GenerationError"
+      },
+      {
+        "cause": null,
+        "code": null,
+        "message": "Ollama base_url must be a local loopback URL, such as http://localhost:11434",
+        "raised": "GenerationError"
+      },
+      {
+        "cause": null,
+        "code": null,
+        "message": "Ollama base_url must be a local loopback URL, such as http://localhost:11434",
+        "raised": "GenerationError"
+      },
+      {
+        "cause": null,
+        "code": null,
+        "message": "Ollama base_url must be a local loopback URL, such as http://localhost:11434",
+        "raised": "GenerationError"
+      },
+      {
+        "cause": null,
+        "code": null,
+        "message": "Ollama base_url must be a local loopback URL, such as http://localhost:11434",
+        "raised": "GenerationError"
+      }
+    ],
+    "usiphus_migrate._clean": [
+      "",
+      "",
+      "a  b\t\nc",
+      "x y",
+      "tab\there",
+      "0",
+      "5",
+      "a\u001cb",
+      "z",
+      "['l']",
+      "False"
+    ],
+    "usiphus_resource_discovery._clean": [
+      "",
+      "",
+      "a b c",
+      "x y",
+      "tab here",
+      "",
+      "5",
+      "a b",
+      "z",
+      "['l']",
+      ""
+    ],
+    "usiphus_v10.clean": [
+      "",
+      "",
+      "a b c",
+      "x y",
+      "tab here",
+      "",
+      "5",
+      "a b",
+      "z",
+      "['l']",
+      ""
+    ],
+    "usiphus_v11.clean": [
+      "",
+      "",
+      "a  b\t\nc",
+      "x y",
+      "tab\there",
+      "",
+      "5",
+      "a\u001cb",
+      "z",
+      "['l']",
+      ""
+    ],
+    "usiphus_v12.clean": [
+      "",
+      "",
+      "a  b\t\nc",
+      "x y",
+      "tab\there",
+      "",
+      "5",
+      "a\u001cb",
+      "z",
+      "['l']",
+      ""
+    ],
+    "usiphus_v12.sha256": "4039f80785d4fd20c48a182b547865c83d25c518a7fa3fbbc1d977f382527274",
+    "usiphus_v13.sha256": "4039f80785d4fd20c48a182b547865c83d25c518a7fa3fbbc1d977f382527274",
+    "usiphus_v14.digest": "4039f80785d4fd20c48a182b547865c83d25c518a7fa3fbbc1d977f382527274",
+    "usiphus_v15.canonical_json": "{\"a\":\"ü ☃\",\"b\":[1,{\"a\":null,\"z\":\"é\"}],\"n\":1.5}",
+    "usiphus_v15.clean": [
+      "",
+      "",
+      "a b c",
+      "x y",
+      "tab here",
+      "",
+      "5",
+      "a b",
+      "z",
+      "['l']",
+      ""
+    ],
+    "usiphus_v15.digest": "cc6d39d878250c3233501ae82a1f335616084b0923a76c89322b6fc91bf45376",
+    "usiphus_v17.clean": [
+      "",
+      "",
+      "a b c",
+      "x y",
+      "tab here",
+      "",
+      "5",
+      "a b",
+      "z",
+      "['l']",
+      ""
+    ],
+    "usiphus_v17.digest": "4039f80785d4fd20c48a182b547865c83d25c518a7fa3fbbc1d977f382527274",
+    "usiphus_v18.canonical_json": "{\"a\":\"ü ☃\",\"b\":[1,{\"a\":null,\"z\":\"é\"}],\"n\":1.5}",
+    "usiphus_v18.clean": [
+      "",
+      "",
+      "a b c",
+      "x y",
+      "tab here",
+      "",
+      "5",
+      "a b",
+      "z",
+      "['l']",
+      ""
+    ],
+    "usiphus_v18.digest": "cc6d39d878250c3233501ae82a1f335616084b0923a76c89322b6fc91bf45376",
+    "usiphus_v18.digest_bytes": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+    "usiphus_v19.canonical": "{\"a\":\"ü ☃\",\"b\":[1,{\"a\":null,\"z\":\"é\"}],\"n\":1.5}",
+    "usiphus_v20.canonical": "{\"a\":\"ü ☃\",\"b\":[1,{\"a\":null,\"z\":\"é\"}],\"n\":1.5}",
+    "usiphus_v20.clean": [
+      "",
+      "",
+      "a b c",
+      "x y",
+      "tab here",
+      "",
+      "5",
+      "a b",
+      "z",
+      "['l']",
+      ""
+    ],
+    "usiphus_v20.digest": "cc6d39d878250c3233501ae82a1f335616084b0923a76c89322b6fc91bf45376"
+  },
+  "read_json": {
+    "usiphus_generate": {
+      "bad_json": {
+        "cause": "JSONDecodeError",
+        "code": null,
+        "message": "Cannot read JSON file <TMP>/bad_json.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)",
+        "raised": "GenerationError"
+      },
+      "bad_utf8": {
+        "cause": "UnicodeDecodeError",
+        "code": null,
+        "message": "Cannot read JSON file <TMP>/bad_utf8.json: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
+        "raised": "GenerationError"
+      },
+      "bom": {
+        "ok": {
+          "a": [
+            1,
+            2
+          ]
+        }
+      },
+      "directory": {
+        "cause": null,
+        "code": null,
+        "message": "File not found: <TMP>",
+        "raised": "GenerationError"
+      },
+      "empty": {
+        "cause": "JSONDecodeError",
+        "code": null,
+        "message": "Cannot read JSON file <TMP>/empty.json: Expecting value: line 1 column 1 (char 0)",
+        "raised": "GenerationError"
+      },
+      "missing": {
+        "cause": null,
+        "code": null,
+        "message": "File not found: <TMP>/absent.json",
+        "raised": "GenerationError"
+      },
+      "too_large": {
+        "cause": null,
+        "code": null,
+        "message": "JSON file exceeds 2097152 bytes: <TMP>/big.json",
+        "raised": "GenerationError"
+      },
+      "valid": {
+        "ok": {
+          "a": 1
+        }
+      }
+    },
+    "usiphus_review": {
+      "bad_json": {
+        "cause": "JSONDecodeError",
+        "code": null,
+        "message": "Cannot read JSON file <TMP>/bad_json.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)",
+        "raised": "ReviewError"
+      },
+      "bad_utf8": {
+        "cause": "UnicodeDecodeError",
+        "code": null,
+        "message": "Cannot read JSON file <TMP>/bad_utf8.json: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
+        "raised": "ReviewError"
+      },
+      "bom": {
+        "ok": {
+          "a": [
+            1,
+            2
+          ]
+        }
+      },
+      "directory": {
+        "cause": null,
+        "code": null,
+        "message": "File not found: <TMP>",
+        "raised": "ReviewError"
+      },
+      "empty": {
+        "cause": "JSONDecodeError",
+        "code": null,
+        "message": "Cannot read JSON file <TMP>/empty.json: Expecting value: line 1 column 1 (char 0)",
+        "raised": "ReviewError"
+      },
+      "missing": {
+        "cause": null,
+        "code": null,
+        "message": "File not found: <TMP>/absent.json",
+        "raised": "ReviewError"
+      },
+      "too_large": {
+        "cause": null,
+        "code": null,
+        "message": "File exceeds 52428800 bytes: <TMP>/big.json",
+        "raised": "ReviewError"
+      },
+      "valid": {
+        "ok": {
+          "a": 1
+        }
+      }
+    },
+    "usiphus_v11": {
+      "bad_json": {
+        "cause": null,
+        "code": null,
+        "message": "Expecting property name enclosed in double quotes: line 1 column 2 (char 1)",
+        "raised": "JSONDecodeError"
+      },
+      "bad_utf8": {
+        "cause": null,
+        "code": null,
+        "message": "'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
+        "raised": "UnicodeDecodeError"
+      },
+      "bom": {
+        "ok": {
+          "a": [
+            1,
+            2
+          ]
+        }
+      },
+      "directory": {
+        "cause": null,
+        "code": null,
+        "message": "Input file does not exist: <TMP>",
+        "raised": "ValueError"
+      },
+      "empty": {
+        "cause": null,
+        "code": null,
+        "message": "Expecting value: line 1 column 1 (char 0)",
+        "raised": "JSONDecodeError"
+      },
+      "missing": {
+        "cause": null,
+        "code": null,
+        "message": "Input file does not exist: <TMP>/absent.json",
+        "raised": "ValueError"
+      },
+      "too_large": {
+        "cause": null,
+        "code": null,
+        "message": "Input exceeds 50 MiB: <TMP>/big.json",
+        "raised": "ValueError"
+      },
+      "valid": {
+        "ok": {
+          "a": 1
+        }
+      }
+    },
+    "usiphus_v12": {
+      "bad_json": {
+        "cause": "JSONDecodeError",
+        "code": null,
+        "message": "Invalid JSON in <TMP>/bad_json.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)",
+        "raised": "ValueError"
+      },
+      "bad_utf8": {
+        "cause": null,
+        "code": null,
+        "message": "'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
+        "raised": "UnicodeDecodeError"
+      },
+      "bom": {
+        "ok": {
+          "a": [
+            1,
+            2
+          ]
+        }
+      },
+      "directory": {
+        "cause": null,
+        "code": null,
+        "message": "Input file does not exist: <TMP>",
+        "raised": "ValueError"
+      },
+      "empty": {
+        "cause": "JSONDecodeError",
+        "code": null,
+        "message": "Invalid JSON in <TMP>/empty.json: Expecting value: line 1 column 1 (char 0)",
+        "raised": "ValueError"
+      },
+      "missing": {
+        "cause": null,
+        "code": null,
+        "message": "Input file does not exist: <TMP>/absent.json",
+        "raised": "ValueError"
+      },
+      "too_large": {
+        "cause": null,
+        "code": null,
+        "message": "Input exceeds 50 MiB: <TMP>/big.json",
+        "raised": "ValueError"
+      },
+      "valid": {
+        "ok": {
+          "a": 1
+        }
+      }
+    },
+    "usiphus_v13": {
+      "bad_json": {
+        "cause": "JSONDecodeError",
+        "code": null,
+        "message": "Invalid UTF-8 JSON in <TMP>/bad_json.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)",
+        "raised": "ValidationError"
+      },
+      "bad_utf8": {
+        "cause": "UnicodeDecodeError",
+        "code": null,
+        "message": "Invalid UTF-8 JSON in <TMP>/bad_utf8.json: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
+        "raised": "ValidationError"
+      },
+      "bom": {
+        "ok": {
+          "a": [
+            1,
+            2
+          ]
+        }
+      },
+      "directory": {
+        "cause": null,
+        "code": null,
+        "message": "Missing required file: <TMP>",
+        "raised": "ValidationError"
+      },
+      "empty": {
+        "cause": "JSONDecodeError",
+        "code": null,
+        "message": "Invalid UTF-8 JSON in <TMP>/empty.json: Expecting value: line 1 column 1 (char 0)",
+        "raised": "ValidationError"
+      },
+      "missing": {
+        "cause": null,
+        "code": null,
+        "message": "Missing required file: <TMP>/absent.json",
+        "raised": "ValidationError"
+      },
+      "too_large": {
+        "cause": null,
+        "code": null,
+        "message": "File exceeds 50 MiB: <TMP>/big.json",
+        "raised": "ValidationError"
+      },
+      "valid": {
+        "ok": {
+          "a": 1
+        }
+      }
+    },
+    "usiphus_v15": {
+      "bad_json": {
+        "cause": "JSONDecodeError",
+        "code": null,
+        "message": "Invalid JSON in <TMP>/bad_json.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)",
+        "raised": "V15Error"
+      },
+      "bad_utf8": {
+        "cause": "UnicodeDecodeError",
+        "code": null,
+        "message": "Invalid JSON in <TMP>/bad_utf8.json: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
+        "raised": "V15Error"
+      },
+      "bom": {
+        "ok": {
+          "a": [
+            1,
+            2
+          ]
+        }
+      },
+      "directory": {
+        "cause": null,
+        "code": null,
+        "message": "Input file not found: <TMP>",
+        "raised": "V15Error"
+      },
+      "empty": {
+        "cause": "JSONDecodeError",
+        "code": null,
+        "message": "Invalid JSON in <TMP>/empty.json: Expecting value: line 1 column 1 (char 0)",
+        "raised": "V15Error"
+      },
+      "missing": {
+        "cause": null,
+        "code": null,
+        "message": "Input file not found: <TMP>/absent.json",
+        "raised": "V15Error"
+      },
+      "too_large": {
+        "cause": null,
+        "code": null,
+        "message": "Input exceeds 50 MiB: <TMP>/big.json",
+        "raised": "V15Error"
+      },
+      "valid": {
+        "ok": {
+          "a": 1
+        }
+      }
+    },
+    "usiphus_v17": {
+      "bad_json": {
+        "cause": "JSONDecodeError",
+        "code": "V17-E003",
+        "message": "Invalid JSON in <TMP>/bad_json.json at line 1, column 2",
+        "raised": "V17Error"
+      },
+      "bad_utf8": {
+        "cause": "UnicodeDecodeError",
+        "code": "V17-E004",
+        "message": "Cannot read <TMP>/bad_utf8.json: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
+        "raised": "V17Error"
+      },
+      "bom": {
+        "ok": {
+          "a": [
+            1,
+            2
+          ]
+        }
+      },
+      "directory": {
+        "cause": null,
+        "code": "V17-E001",
+        "message": "Input file does not exist: <TMP>",
+        "raised": "V17Error"
+      },
+      "empty": {
+        "cause": "JSONDecodeError",
+        "code": "V17-E003",
+        "message": "Invalid JSON in <TMP>/empty.json at line 1, column 1",
+        "raised": "V17Error"
+      },
+      "missing": {
+        "cause": null,
+        "code": "V17-E001",
+        "message": "Input file does not exist: <TMP>/absent.json",
+        "raised": "V17Error"
+      },
+      "too_large": {
+        "cause": null,
+        "code": "V17-E002",
+        "message": "Input exceeds 52428800 bytes: <TMP>/big.json",
+        "raised": "V17Error"
+      },
+      "valid": {
+        "ok": {
+          "a": 1
+        }
+      }
+    },
+    "usiphus_v18": {
+      "bad_json": {
+        "cause": "JSONDecodeError",
+        "code": null,
+        "message": "Invalid JSON in <TMP>/bad_json.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)",
+        "raised": "V18Error"
+      },
+      "bad_utf8": {
+        "cause": "UnicodeDecodeError",
+        "code": null,
+        "message": "Invalid JSON in <TMP>/bad_utf8.json: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
+        "raised": "V18Error"
+      },
+      "bom": {
+        "ok": {
+          "a": [
+            1,
+            2
+          ]
+        }
+      },
+      "directory": {
+        "cause": null,
+        "code": null,
+        "message": "Input file not found: <TMP>",
+        "raised": "V18Error"
+      },
+      "empty": {
+        "cause": "JSONDecodeError",
+        "code": null,
+        "message": "Invalid JSON in <TMP>/empty.json: Expecting value: line 1 column 1 (char 0)",
+        "raised": "V18Error"
+      },
+      "missing": {
+        "cause": null,
+        "code": null,
+        "message": "Input file not found: <TMP>/absent.json",
+        "raised": "V18Error"
+      },
+      "too_large": {
+        "cause": null,
+        "code": null,
+        "message": "Input exceeds 50 MiB: <TMP>/big.json",
+        "raised": "V18Error"
+      },
+      "valid": {
+        "ok": {
+          "a": 1
+        }
+      }
+    },
+    "usiphus_v19": {
+      "bad_json": {
+        "cause": "JSONDecodeError",
+        "code": null,
+        "message": "Invalid JSON in <TMP>/bad_json.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)",
+        "raised": "V19Error"
+      },
+      "bad_utf8": {
+        "cause": "UnicodeDecodeError",
+        "code": null,
+        "message": "Invalid JSON in <TMP>/bad_utf8.json: 'utf-8' codec can't decode byte 0xff in position 0: invalid start byte",
+        "raised": "V19Error"
+      },
+      "bom": {
+        "ok": {
+          "a": [
+            1,
+            2
+          ]
+        }
+      },
+      "directory": {
+        "cause": null,
+        "code": null,
+        "message": "Input file not found: <TMP>",
+        "raised": "V19Error"
+      },
+      "empty": {
+        "cause": "JSONDecodeError",
+        "code": null,
+        "message": "Invalid JSON in <TMP>/empty.json: Expecting value: line 1 column 1 (char 0)",
+        "raised": "V19Error"
+      },
+      "missing": {
+        "cause": null,
+        "code": null,
+        "message": "Input file not found: <TMP>/absent.json",
+        "raised": "V19Error"
+      },
+      "too_large": {
+        "cause": null,
+        "code": null,
+        "message": "Input exceeds 25 MiB: <TMP>/big.json",
+        "raised": "V19Error"
+      },
+      "valid": {
+        "ok": {
+          "a": 1
+        }
+      }
+    }
+  },
+  "writes": {
+    "usiphus_common.atomic_write_text": {
+      "bytes": "line1\nline2\r\nünïcode ☃\nx",
+      "siblings": [
+        "out.txt"
+      ]
+    },
+    "usiphus_generate.atomic_write": {
+      "bytes": "line1\nline2\r\nünïcode ☃\nx",
+      "siblings": [
+        "out.txt"
+      ]
+    },
+    "usiphus_review.atomic_write": {
+      "bytes": "line1\nline2\r\nünïcode ☃\nx",
+      "siblings": [
+        "out.txt"
+      ]
+    },
+    "usiphus_signing.write_json": {
+      "bytes": "{\n  \"a\": \"ü ☃\",\n  \"b\": [\n    1,\n    {\n      \"a\": null,\n      \"z\": \"é\"\n    }\n  ],\n  \"n\": 1.5\n}\n",
+      "siblings": [
+        "out.json"
+      ]
+    },
+    "usiphus_v11.atomic_write": {
+      "bytes": "line1\nline2\r\nünïcode ☃\nx",
+      "siblings": [
+        "out.txt"
+      ]
+    },
+    "usiphus_v12.atomic_write": {
+      "bytes": "line1\nline2\r\nünïcode ☃\nx",
+      "siblings": [
+        "out.txt"
+      ]
+    },
+    "usiphus_v13.atomic_write": {
+      "bytes": "line1\nline2\r\nünïcode ☃\nx",
+      "siblings": [
+        "out.txt"
+      ]
+    },
+    "usiphus_v14.write_json": {
+      "bytes": "{\n  \"a\": \"ü ☃\",\n  \"b\": [\n    1,\n    {\n      \"a\": null,\n      \"z\": \"é\"\n    }\n  ],\n  \"n\": 1.5\n}\n",
+      "siblings": [
+        "out.json"
+      ]
+    },
+    "usiphus_v17.write_json": {
+      "bytes": "{\n  \"a\": \"ü ☃\",\n  \"b\": [\n    1,\n    {\n      \"a\": null,\n      \"z\": \"é\"\n    }\n  ],\n  \"n\": 1.5\n}\n",
+      "siblings": [
+        "out.json"
+      ]
+    },
+    "usiphus_v18.write_json": {
+      "bytes": "{\n  \"a\": \"ü ☃\",\n  \"b\": [\n    1,\n    {\n      \"a\": null,\n      \"z\": \"é\"\n    }\n  ],\n  \"n\": 1.5\n}\n",
+      "siblings": [
+        "out.json"
+      ]
+    },
+    "usiphus_v18.write_text": {
+      "bytes": "line1\nline2\r\nünïcode ☃\nx",
+      "siblings": [
+        "out.txt"
+      ]
+    },
+    "usiphus_v19.write_json": {
+      "bytes": "{\n  \"a\": \"ü ☃\",\n  \"b\": [\n    1,\n    {\n      \"a\": null,\n      \"z\": \"é\"\n    }\n  ],\n  \"n\": 1.5\n}\n",
+      "siblings": [
+        "out.json"
+      ]
+    },
+    "usiphus_v19.write_text": {
+      "bytes": "line1\nline2\r\nünïcode ☃\nx",
+      "siblings": [
+        "out.txt"
+      ]
+    },
+    "usiphus_v20.atomic_write": {
+      "bytes": "line1\nline2\r\nünïcode ☃\nx",
+      "siblings": [
+        "out.txt"
+      ]
+    },
+    "usiphus_v20.write_json": {
+      "bytes": "{\n  \"a\": \"ü ☃\",\n  \"b\": [\n    1,\n    {\n      \"a\": null,\n      \"z\": \"é\"\n    }\n  ],\n  \"n\": 1.5\n}\n",
+      "siblings": [
+        "out.json"
+      ]
+    }
+  }
+}

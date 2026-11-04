@@ -1,0 +1,177 @@
+{
+  "clinical_accuracy_verified": false,
+  "curriculum_blueprint": {
+    "domain_count": 2,
+    "objective_count": 6,
+    "specialty": "urology",
+    "topic_count": 2
+  },
+  "error_examples": [],
+  "faculty_review_required": true,
+  "generation_coverage": {
+    "all_topics_covered": true,
+    "cards_generated": 6,
+    "clinical_accuracy_verified": false,
+    "faculty_review_required": true,
+    "notice": "Coverage and structural gates do not verify clinical accuracy, guideline currency, source quality or exam validity.",
+    "objectives_covered": 6,
+    "objectives_planned": 6,
+    "schema_version": 1,
+    "source_gap_count": 1,
+    "specialty": "urology",
+    "topic_gaps": [],
+    "topic_reports": [
+      {
+        "card_type_counts": {
+          "basic": 1,
+          "mcq": 1,
+          "osce": 1
+        },
+        "cards_generated": 3,
+        "coverage_complete": true,
+        "evidence_claims_mapped": 3,
+        "evidence_status": "evidence_mapped_unreviewed",
+        "high_risk_claim_flags": [],
+        "objective_card_counts": {
+          "Identify complications of catheterisation": 1,
+          "Outline initial management": 1,
+          "Recognise acute urinary retention": 1
+        },
+        "objective_count": 3,
+        "objectives_covered": 3,
+        "source_reference_count": 1,
+        "topic_id": "T1",
+        "topic_name": "Acute urinary retention"
+      },
+      {
+        "card_type_counts": {
+          "basic": 2,
+          "viva": 1
+        },
+        "cards_generated": 3,
+        "coverage_complete": true,
+        "evidence_status": "unreviewed_source_gap",
+        "objective_card_counts": {
+          "Counsel on analgesia and follow-up": 1,
+          "Identify indications for urgent intervention": 1,
+          "Select imaging for renal colic": 1
+        },
+        "objective_count": 3,
+        "objectives_covered": 3,
+        "source_reference_count": 0,
+        "topic_id": "T2",
+        "topic_name": "Renal colic"
+      }
+    ],
+    "topics_generated": 2,
+    "topics_planned": 2,
+    "topics_with_complete_coverage": 2
+  },
+  "results": [
+    {
+      "card_id": "OLLAMA-T1-001",
+      "findings": [
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "What is the key teaching point about acute urinary retention (item 1)?",
+      "passed": true
+    },
+    {
+      "card_id": "OLLAMA-T1-002",
+      "findings": [
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "Which synthetic option is the best first step in acute urinary retention (item 2)?",
+      "passed": true
+    },
+    {
+      "card_id": "OLLAMA-T1-003",
+      "findings": [
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "Candidate instruction: assess and explain your plan to a simulated patient with acute urinary retention (item 3):",
+      "passed": true
+    },
+    {
+      "card_id": "OLLAMA-T2-001",
+      "findings": [
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        },
+        {
+          "code": "semantic-duplicate-candidate",
+          "detail": "Possible near-duplicate prompt (lexical similarity 1.00); human review required",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "What is the key teaching point about renal colic (item 1)?",
+      "passed": true
+    },
+    {
+      "card_id": "OLLAMA-T2-002",
+      "findings": [
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        },
+        {
+          "code": "semantic-duplicate-candidate",
+          "detail": "Possible near-duplicate prompt (lexical similarity 1.00); human review required",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "What is the key teaching point about renal colic (item 2)?",
+      "passed": true
+    },
+    {
+      "card_id": "OLLAMA-T2-003",
+      "findings": [
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "Explain your structured approach to renal colic (item 3):",
+      "passed": true
+    }
+  ],
+  "schema_version": 6,
+  "summary": {
+    "cards_evaluated": 6,
+    "cards_flagged": 0,
+    "cards_passed": 6,
+    "error_count": 0,
+    "warning_count": 11
+  }
+}

@@ -42,43 +42,43 @@
       "sha256": "3322883ea56d1a10a9d6acbf254c6d57c3ba9b70f50fe135ac2da4acd649aaeb"
     },
     "review_schedule": {
-      "bytes": 1060,
+      "bytes": 1047,
       "path": "<WORK>/in/review_schedule.csv",
-      "sha256": "cf05a23d447e71d4263f16fa4f6c752392644266235fd193a36933f54e1be947"
+      "sha256": "a462d1158c8ff6e7ad03d5ad44b840d08e67aeed99c7803d9ce64bf4ea1acfaa"
     }
   },
   "note": "Hashes support integrity/change detection; timestamps vary and byte-identical bundles are not promised.",
   "outputs": {
     ".usiphus_v14_bundle": {
-      "bytes": 78,
-      "sha256": "20ff04b61fd3f07314be35364b9b14d89fca400efc36b21d64e5b405c6b95992"
+      "bytes": 79,
+      "sha256": "39d3f61db11de13a29f872284cf501ec3425a82d6c3744b7fd1b09426e1fab80"
     },
     "release_report.md": {
-      "bytes": 407,
-      "sha256": "a4bba9222b7f44c528a139065ebeb916d21b7495588d197de1021afc3c17a574"
+      "bytes": 421,
+      "sha256": "98ca5de582ba5de2846def0ba09584b970bc1b9e8ce61efa2212f06093344d96"
     },
     "release_summary.json": {
-      "bytes": 924,
+      "bytes": 960,
       "sha256": "<SHA256 of volatile release_summary.json>"
     },
-    "v12/faculty_review_queue.csv": {
-      "bytes": 455,
-      "sha256": "b4b92229a2934dd6dcb845f59bfe4c042f1b8b1ab5f5abbf30f3b1bf9295c50d"
+    "v12\\faculty_review_queue.csv": {
+      "bytes": 460,
+      "sha256": "14cfd9da1df407738dd13fac2e64566b62a24536f08c05fc606cdfc2e4fc4eef"
     },
-    "v12/platform_report.json": {
-      "bytes": 2630,
+    "v12\\platform_report.json": {
+      "bytes": 2714,
       "sha256": "<SHA256 of volatile v12/platform_report.json>"
     },
-    "v12/release_checklist.json": {
-      "bytes": 1233,
-      "sha256": "8dec60c2bfba55506b19bd35d12df4783df3fe9919bc7859ef2cb5f255ddd3f2"
+    "v12\\release_checklist.json": {
+      "bytes": 1271,
+      "sha256": "d215fb7f88aa4b99c6bc3f258e7588172accb51c23949aefb61c6afaf66c0936"
     },
-    "v12/v12_manifest.json": {
-      "bytes": 1281,
-      "sha256": "591c12c18e358a1fe332d9a568ece03e94f04afc929bfe18494233a8bf8695a7"
+    "v12\\v12_manifest.json": {
+      "bytes": 1325,
+      "sha256": "a73c7514a3f547bf1dcf1f1a1571be7490bcced6d93cbd201480fc93c6260458"
     },
     "v13_validation_report.json": {
-      "bytes": 1179,
+      "bytes": 1211,
       "sha256": "<SHA256 of volatile v13_validation_report.json>"
     }
   },
