@@ -21,7 +21,7 @@ from typing import Any
 
 
 def normalize(value: Any) -> str:
-    return re.sub(r"\\s+", " ", str(value or "").casefold()).strip()
+    return re.sub(r"\s+", " ", str(value or "").casefold()).strip()
 
 
 def compute_coverage(curriculum: dict[str, Any], generated: dict[str, Any]) -> dict[str, Any]:
