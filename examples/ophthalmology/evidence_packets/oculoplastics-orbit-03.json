@@ -1,0 +1,59 @@
+{
+  "packet_schema_version": "1.0",
+  "packet_id": "ophthalmology-oculoplastics-orbit-03-discovery-plan-v1",
+  "specialty": "ophthalmology",
+  "topic_id": "oculoplastics-orbit-03",
+  "topic_name": "Lacrimal drainage and lacrimal surgery",
+  "domain_id": "oculoplastics-orbit",
+  "packet_status": "discovery_plan_only_pending_source_selection",
+  "clinical_accuracy_verified": false,
+  "faculty_review_required": true,
+  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
+  "sources": [],
+  "snippets": [],
+  "discovery_queries": [
+    {
+      "query_id": "oculoplastics-orbit-03-LO01",
+      "objective_id": "oculoplastics-orbit-03-LO01",
+      "objective": "Describe tear production, drainage anatomy and lacrimal testing",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Describe+tear+production%2C+drainage+anatomy+and+lacrimal+testing)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Describe+tear+production%2C+drainage+anatomy+and+lacrimal+testing)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Describe+tear+production%2C+drainage+anatomy+and+lacrimal+testing)"
+      }
+    },
+    {
+      "query_id": "oculoplastics-orbit-03-LO02",
+      "objective_id": "oculoplastics-orbit-03-LO02",
+      "objective": "Differentiate epiphora, nasolacrimal obstruction and dacryocystitis",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Differentiate+epiphora%2C+nasolacrimal+obstruction+and+dacryocystitis)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Differentiate+epiphora%2C+nasolacrimal+obstruction+and+dacryocystitis)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Differentiate+epiphora%2C+nasolacrimal+obstruction+and+dacryocystitis)"
+      }
+    },
+    {
+      "query_id": "oculoplastics-orbit-03-LO03",
+      "objective_id": "oculoplastics-orbit-03-LO03",
+      "objective": "Explain principles of probing, intubation and dacryocystorhinostomy",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Explain+principles+of+probing%2C+intubation+and+dacryocystorhinostomy)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Explain+principles+of+probing%2C+intubation+and+dacryocystorhinostomy)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Explain+principles+of+probing%2C+intubation+and+dacryocystorhinostomy)"
+      }
+    }
+  ],
+  "preferred_source_families": [
+    "Current AAO PPP/BCSC or relevant national/international guidance",
+    "Cochrane Eyes and Vision; PubMed/PMC/Europe PMC systematic reviews and primary studies",
+    "AAO EyeWiki and peer-reviewed specialty reviews for orientation, not sole guideline authority",
+    "AnkiWeb, DoctorDE, Geeky Medics and TeachMeSeries as exam-practice signals only; never clinical evidence"
+  ],
+  "curator_checklist": [
+    "Verify exact source, edition, date, jurisdiction and supersession status.",
+    "Review full text through a lawful access path and record article-specific reuse rights.",
+    "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
+    "Map each snippet to the exact objective ID above.",
+    "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
+  ]
+}

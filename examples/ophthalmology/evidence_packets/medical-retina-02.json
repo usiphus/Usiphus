@@ -1,0 +1,52 @@
+{
+  "packet_schema_version": "1.0",
+  "packet_id": "ophthalmology-medical-retina-02-dr-ppp-2025-candidate",
+  "specialty": "ophthalmology",
+  "topic_id": "medical-retina-02",
+  "packet_status": "candidate_sources_pending_faculty_review",
+  "sources": [
+    {
+      "source_id": "aao-diabetic-retinopathy-ppp-2025",
+      "canonical_url": "https://www.aaojournal.org/article/S0161-6420%252824%252900784-X/fulltext",
+      "title": "Diabetic Retinopathy Preferred Practice Pattern",
+      "source_type": "professional_guideline",
+      "published_on": "2025-02-07",
+      "guideline_version": "AAO PPP 2025",
+      "licence_or_reuse_status": "rights_unknown; metadata and link only until terms are checked",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "American Academy of Ophthalmology",
+      "currency_note": "Confirm no newer revision or jurisdiction-specific guidance supersedes this edition."
+    }
+  ],
+  "snippets": [
+    {
+      "snippet_id": "dr-ppp-2025-scope-01",
+      "source_id": "aao-diabetic-retinopathy-ppp-2025",
+      "text": "Curator note for review: map the guideline's grading and classification framework for non-proliferative and proliferative diabetic retinopathy.",
+      "locator": "Highlighted Findings and Recommendations for Care; Classification",
+      "matched_objective_ids": [
+        "medical-retina-02-LO01"
+      ]
+    },
+    {
+      "snippet_id": "dr-ppp-2025-scope-02",
+      "source_id": "aao-diabetic-retinopathy-ppp-2025",
+      "text": "Curator note for review: extract criteria used to assess diabetic macular oedema and sight-threatening disease, then verify the exact terminology.",
+      "locator": "Evaluation and Management sections",
+      "matched_objective_ids": [
+        "medical-retina-02-LO02"
+      ]
+    },
+    {
+      "snippet_id": "dr-ppp-2025-scope-03",
+      "source_id": "aao-diabetic-retinopathy-ppp-2025",
+      "text": "Curator note for review: verify screening intervals and the roles and indications of laser, intravitreal therapy and systemic risk-factor management.",
+      "locator": "Screening; Treatment and Follow-up sections",
+      "matched_objective_ids": [
+        "medical-retina-02-LO03"
+      ]
+    }
+  ],
+  "curation_notice": "Candidate bibliography and curator-authored review prompts only. No source has been faculty-reviewed, rights-cleared or approved for clinical claim grounding."
+}

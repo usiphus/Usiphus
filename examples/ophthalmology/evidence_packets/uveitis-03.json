@@ -1,0 +1,87 @@
+{
+  "packet_schema_version": "1.0",
+  "packet_id": "ophthalmology-uveitis-03-discovery-plan-v1",
+  "specialty": "ophthalmology",
+  "topic_id": "uveitis-03",
+  "topic_name": "Uveitis treatment and complications",
+  "domain_id": "uveitis",
+  "packet_status": "candidate_sources_pending_faculty_review",
+  "clinical_accuracy_verified": false,
+  "faculty_review_required": true,
+  "notice": "Candidate bibliographic leads only. Full-text appraisal, source currency/supersession, lawful access, article-specific reuse rights, exact section/page locators, objective mapping and qualified faculty review remain pending. Snippets are intentionally empty; generator evidence preflight must continue to fail.",
+  "sources": [
+    {
+      "source_id": "egyptian-noninfectious-uveitis-consensus-2025",
+      "canonical_url": "https://pubmed.ncbi.nlm.nih.gov/40314690/",
+      "title": "Egyptian Consensus Guidance for Treatment of Adults with Non-Infectious Uveitis",
+      "source_type": "national_professional_consensus_guideline",
+      "published_on": "2025-05-02",
+      "guideline_version": "Egyptian expert consensus; Ocul Immunol Inflamm. 2025;33(7):1313-1318; DOI 10.1080/09273948.2025.2493362",
+      "licence_or_reuse_status": "rights_unknown; PubMed metadata/abstract only; verify lawful full text and reuse terms",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "Ocular Immunology and Inflammation / Egyptian expert panel",
+      "currency_note": "Highly relevant local adult non-infectious uveitis consensus; confirm exact recommendations in full text and local formulary updates."
+    },
+    {
+      "source_id": "jama-uveitis-adults-review-2025",
+      "canonical_url": "https://pubmed.ncbi.nlm.nih.gov/40434762/",
+      "title": "Uveitis in Adults: A Review",
+      "source_type": "peer_reviewed_clinical_review",
+      "published_on": "2025-08-05",
+      "guideline_version": "JAMA. 2025;334(5):419-434; DOI 10.1001/jama.2025.4358",
+      "licence_or_reuse_status": "rights_unknown; an author-accepted manuscript is indexed at UCL Discovery; verify its specific reuse terms",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "JAMA",
+      "currency_note": "Recent adult overview of diagnostic and treatment principles; not a substitute for disease-specific or pediatric guidance."
+    }
+  ],
+  "snippets": [],
+  "discovery_queries": [
+    {
+      "query_id": "uveitis-03-LO01",
+      "objective_id": "uveitis-03-LO01",
+      "objective": "Explain corticosteroid and steroid-sparing treatment principles and monitoring",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Explain+corticosteroid+and+steroid-sparing+treatment+principles+and+monitoring)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Explain+corticosteroid+and+steroid-sparing+treatment+principles+and+monitoring)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Explain+corticosteroid+and+steroid-sparing+treatment+principles+and+monitoring)"
+      }
+    },
+    {
+      "query_id": "uveitis-03-LO02",
+      "objective_id": "uveitis-03-LO02",
+      "objective": "Recognize treatment-related cataract, glaucoma and infection risks",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Recognize+treatment-related+cataract%2C+glaucoma+and+infection+risks)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Recognize+treatment-related+cataract%2C+glaucoma+and+infection+risks)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Recognize+treatment-related+cataract%2C+glaucoma+and+infection+risks)"
+      }
+    },
+    {
+      "query_id": "uveitis-03-LO03",
+      "objective_id": "uveitis-03-LO03",
+      "objective": "Describe referral and multidisciplinary care for complex uveitis",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Describe+referral+and+multidisciplinary+care+for+complex+uveitis)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Describe+referral+and+multidisciplinary+care+for+complex+uveitis)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Describe+referral+and+multidisciplinary+care+for+complex+uveitis)"
+      }
+    }
+  ],
+  "preferred_source_families": [
+    "Current AAO PPP/BCSC or relevant national/international guidance",
+    "Cochrane Eyes and Vision; PubMed/PMC/Europe PMC systematic reviews and primary studies",
+    "AAO EyeWiki and peer-reviewed specialty reviews for orientation, not sole guideline authority",
+    "AnkiWeb, DoctorDE, Geeky Medics and TeachMeSeries as exam-practice signals only; never clinical evidence"
+  ],
+  "curator_checklist": [
+    "Verify exact source, edition, date, jurisdiction and supersession status.",
+    "Review full text through a lawful access path and record article-specific reuse rights.",
+    "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
+    "Map each snippet to the exact objective ID above.",
+    "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
+  ],
+  "curation_notice": "Candidate bibliography only; no source has been faculty-reviewed or approved for clinical claim grounding. Do not infer rights clearance from a public link or metadata record."
+}

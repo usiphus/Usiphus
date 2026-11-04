@@ -1,0 +1,59 @@
+{
+  "packet_schema_version": "1.0",
+  "packet_id": "ophthalmology-ocular-oncology-01-discovery-plan-v1",
+  "specialty": "ophthalmology",
+  "topic_id": "ocular-oncology-01",
+  "topic_name": "Ocular surface and eyelid neoplasia",
+  "domain_id": "ocular-oncology",
+  "packet_status": "discovery_plan_only_pending_source_selection",
+  "clinical_accuracy_verified": false,
+  "faculty_review_required": true,
+  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
+  "sources": [],
+  "snippets": [],
+  "discovery_queries": [
+    {
+      "query_id": "ocular-oncology-01-LO01",
+      "objective_id": "ocular-oncology-01-LO01",
+      "objective": "Recognize benign and malignant eyelid and conjunctival lesions",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Recognize+benign+and+malignant+eyelid+and+conjunctival+lesions)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Recognize+benign+and+malignant+eyelid+and+conjunctival+lesions)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Recognize+benign+and+malignant+eyelid+and+conjunctival+lesions)"
+      }
+    },
+    {
+      "query_id": "ocular-oncology-01-LO02",
+      "objective_id": "ocular-oncology-01-LO02",
+      "objective": "Identify ocular surface squamous neoplasia and melanoma warning signs",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Identify+ocular+surface+squamous+neoplasia+and+melanoma+warning+signs)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Identify+ocular+surface+squamous+neoplasia+and+melanoma+warning+signs)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Identify+ocular+surface+squamous+neoplasia+and+melanoma+warning+signs)"
+      }
+    },
+    {
+      "query_id": "ocular-oncology-01-LO03",
+      "objective_id": "ocular-oncology-01-LO03",
+      "objective": "Explain biopsy, histopathology and referral principles",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Explain+biopsy%2C+histopathology+and+referral+principles)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Explain+biopsy%2C+histopathology+and+referral+principles)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Explain+biopsy%2C+histopathology+and+referral+principles)"
+      }
+    }
+  ],
+  "preferred_source_families": [
+    "Current AAO PPP/BCSC or relevant national/international guidance",
+    "Cochrane Eyes and Vision; PubMed/PMC/Europe PMC systematic reviews and primary studies",
+    "AAO EyeWiki and peer-reviewed specialty reviews for orientation, not sole guideline authority",
+    "AnkiWeb, DoctorDE, Geeky Medics and TeachMeSeries as exam-practice signals only; never clinical evidence"
+  ],
+  "curator_checklist": [
+    "Verify exact source, edition, date, jurisdiction and supersession status.",
+    "Review full text through a lawful access path and record article-specific reuse rights.",
+    "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
+    "Map each snippet to the exact objective ID above.",
+    "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
+  ]
+}

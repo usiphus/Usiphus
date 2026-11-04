@@ -1,0 +1,53 @@
+{
+  "packet_schema_version": "1.0",
+  "packet_id": "ophthalmology-lens-refractive-02-cataract-ppp-2021-candidate",
+  "specialty": "ophthalmology",
+  "topic_id": "lens-refractive-02",
+  "packet_status": "candidate_sources_pending_faculty_review",
+  "sources": [
+    {
+      "source_id": "aao-cataract-adult-eye-ppp-2021",
+      "canonical_url": "https://www.aaojournal.org/article/S0161-6420%252821%252900750-8/fulltext",
+      "title": "Cataract in the Adult Eye Preferred Practice Pattern",
+      "source_type": "professional_guideline",
+      "published_on": "2021-11-11",
+      "guideline_version": "AAO PPP 2021",
+      "licence_or_reuse_status": "rights_unknown; metadata and link only until terms are checked",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "American Academy of Ophthalmology",
+      "currency_note": "Older edition; explicitly check the AAO PPP catalogue for a superseding revision before clinical use."
+    }
+  ],
+  "snippets": [
+    {
+      "snippet_id": "cataract-ppp-2021-scope-01",
+      "source_id": "aao-cataract-adult-eye-ppp-2021",
+      "text": "Curator note for review: verify the evaluation and functional-disability considerations used when assessing adults with symptomatic cataract.",
+      "locator": "Evaluation of the Adult Patient with Symptomatic Cataract",
+      "matched_objective_ids": [
+        "lens-refractive-02-LO02"
+      ]
+    },
+    {
+      "snippet_id": "cataract-ppp-2021-scope-02",
+      "source_id": "aao-cataract-adult-eye-ppp-2021",
+      "text": "Curator note for review: review phacoemulsification and intraocular-lens planning content, including refractive considerations and special circumstances.",
+      "locator": "Surgical Management; Intraocular Lens Selection",
+      "matched_objective_ids": [
+        "lens-refractive-02-LO01",
+        "lens-refractive-02-LO02"
+      ]
+    },
+    {
+      "snippet_id": "cataract-ppp-2021-scope-03",
+      "source_id": "aao-cataract-adult-eye-ppp-2021",
+      "text": "Curator note for review: extract and verify the guideline's discussion of complications and postoperative care; cross-check against current local protocols.",
+      "locator": "Complications; Postoperative Care",
+      "matched_objective_ids": [
+        "lens-refractive-02-LO03"
+      ]
+    }
+  ],
+  "curation_notice": "Candidate bibliography and curator-authored review prompts only. This is an older guideline edition and may be superseded. No source has been faculty-reviewed, rights-cleared or approved for clinical claim grounding."
+}

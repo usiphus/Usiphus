@@ -1,0 +1,53 @@
+{
+  "packet_schema_version": "1.0",
+  "packet_id": "ophthalmology-trauma-emergency-01-open-globe-candidate",
+  "specialty": "ophthalmology",
+  "topic_id": "trauma-emergency-01",
+  "packet_status": "candidate_sources_pending_faculty_review",
+  "sources": [
+    {
+      "source_id": "aao-open-globe-eyenet-2020",
+      "canonical_url": "https://www.aao.org/education/disease-review/open-globe-injury",
+      "title": "Open Globe Injury: Assessment and Preoperative Management",
+      "source_type": "professional_educational_review",
+      "published_on": "2020-08-01",
+      "guideline_version": "not_applicable",
+      "licence_or_reuse_status": "rights_unknown; metadata and link only until terms are checked",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "American Academy of Ophthalmology",
+      "currency_note": "Educational review, not a current formal guideline; verify all emergency steps against current institutional and specialty guidance."
+    }
+  ],
+  "snippets": [
+    {
+      "snippet_id": "open-globe-2020-scope-01",
+      "source_id": "aao-open-globe-eyenet-2020",
+      "text": "Curator note for review: identify the clinical signs and mechanisms that raise suspicion for full-thickness eyewall injury, and verify the differential.",
+      "locator": "Etiology and Terminology; Evaluation",
+      "matched_objective_ids": [
+        "trauma-emergency-01-LO01"
+      ]
+    },
+    {
+      "snippet_id": "open-globe-2020-scope-02",
+      "source_id": "aao-open-globe-eyenet-2020",
+      "text": "Curator note for review: extract the source's precautions against pressure or manipulation when open-globe injury is suspected.",
+      "locator": "External Exam; Intraocular Pressure",
+      "matched_objective_ids": [
+        "trauma-emergency-01-LO03"
+      ]
+    },
+    {
+      "snippet_id": "open-globe-2020-scope-03",
+      "source_id": "aao-open-globe-eyenet-2020",
+      "text": "Curator note for review: compare the described open-globe pathway with current trauma protocols and verify any imaging, antibiotic or timing statements before teaching.",
+      "locator": "Diagnostic Imaging; Preoperative Management; Surgical Considerations",
+      "matched_objective_ids": [
+        "trauma-emergency-01-LO01",
+        "trauma-emergency-01-LO03"
+      ]
+    }
+  ],
+  "curation_notice": "Candidate bibliography and curator-authored review prompts only. This is a dated educational review, not a formal current guideline. No source has been faculty-reviewed, rights-cleared or approved for clinical claim grounding."
+}

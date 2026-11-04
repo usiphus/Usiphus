@@ -1,0 +1,59 @@
+{
+  "packet_schema_version": "1.0",
+  "packet_id": "ophthalmology-lens-refractive-01-discovery-plan-v1",
+  "specialty": "ophthalmology",
+  "topic_id": "lens-refractive-01",
+  "topic_name": "Lens disorders and cataract",
+  "domain_id": "lens-refractive",
+  "packet_status": "discovery_plan_only_pending_source_selection",
+  "clinical_accuracy_verified": false,
+  "faculty_review_required": true,
+  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
+  "sources": [],
+  "snippets": [],
+  "discovery_queries": [
+    {
+      "query_id": "lens-refractive-01-LO01",
+      "objective_id": "lens-refractive-01-LO01",
+      "objective": "Classify age-related, congenital, traumatic and secondary cataracts",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Classify+age-related%2C+congenital%2C+traumatic+and+secondary+cataracts)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Classify+age-related%2C+congenital%2C+traumatic+and+secondary+cataracts)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Classify+age-related%2C+congenital%2C+traumatic+and+secondary+cataracts)"
+      }
+    },
+    {
+      "query_id": "lens-refractive-01-LO02",
+      "objective_id": "lens-refractive-01-LO02",
+      "objective": "Assess cataract-related visual disability and surgical indications",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Assess+cataract-related+visual+disability+and+surgical+indications)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Assess+cataract-related+visual+disability+and+surgical+indications)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Assess+cataract-related+visual+disability+and+surgical+indications)"
+      }
+    },
+    {
+      "query_id": "lens-refractive-01-LO03",
+      "objective_id": "lens-refractive-01-LO03",
+      "objective": "Recognize lens-induced glaucoma, dislocation and postoperative complications",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Recognize+lens-induced+glaucoma%2C+dislocation+and+postoperative+complications)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Recognize+lens-induced+glaucoma%2C+dislocation+and+postoperative+complications)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Recognize+lens-induced+glaucoma%2C+dislocation+and+postoperative+complications)"
+      }
+    }
+  ],
+  "preferred_source_families": [
+    "Current AAO PPP/BCSC or relevant national/international guidance",
+    "Cochrane Eyes and Vision; PubMed/PMC/Europe PMC systematic reviews and primary studies",
+    "AAO EyeWiki and peer-reviewed specialty reviews for orientation, not sole guideline authority",
+    "AnkiWeb, DoctorDE, Geeky Medics and TeachMeSeries as exam-practice signals only; never clinical evidence"
+  ],
+  "curator_checklist": [
+    "Verify exact source, edition, date, jurisdiction and supersession status.",
+    "Review full text through a lawful access path and record article-specific reuse rights.",
+    "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
+    "Map each snippet to the exact objective ID above.",
+    "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
+  ]
+}

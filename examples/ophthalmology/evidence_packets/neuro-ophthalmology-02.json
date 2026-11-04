@@ -1,0 +1,59 @@
+{
+  "packet_schema_version": "1.0",
+  "packet_id": "ophthalmology-neuro-ophthalmology-02-discovery-plan-v1",
+  "specialty": "ophthalmology",
+  "topic_id": "neuro-ophthalmology-02",
+  "topic_name": "Pupils, eyelids and neuro-ophthalmic syndromes",
+  "domain_id": "neuro-ophthalmology",
+  "packet_status": "discovery_plan_only_pending_source_selection",
+  "clinical_accuracy_verified": false,
+  "faculty_review_required": true,
+  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
+  "sources": [],
+  "snippets": [],
+  "discovery_queries": [
+    {
+      "query_id": "neuro-ophthalmology-02-LO01",
+      "objective_id": "neuro-ophthalmology-02-LO01",
+      "objective": "Assess anisocoria, relative afferent pupillary defect and light-near dissociation",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Assess+anisocoria%2C+relative+afferent+pupillary+defect+and+light-near+dissociation)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Assess+anisocoria%2C+relative+afferent+pupillary+defect+and+light-near+dissociation)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Assess+anisocoria%2C+relative+afferent+pupillary+defect+and+light-near+dissociation)"
+      }
+    },
+    {
+      "query_id": "neuro-ophthalmology-02-LO02",
+      "objective_id": "neuro-ophthalmology-02-LO02",
+      "objective": "Recognize Horner syndrome, third nerve palsy and abnormal eyelid signs",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Recognize+Horner+syndrome%2C+third+nerve+palsy+and+abnormal+eyelid+signs)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Recognize+Horner+syndrome%2C+third+nerve+palsy+and+abnormal+eyelid+signs)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Recognize+Horner+syndrome%2C+third+nerve+palsy+and+abnormal+eyelid+signs)"
+      }
+    },
+    {
+      "query_id": "neuro-ophthalmology-02-LO03",
+      "objective_id": "neuro-ophthalmology-02-LO03",
+      "objective": "Identify neurological red flags and appropriate urgent investigation",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Identify+neurological+red+flags+and+appropriate+urgent+investigation)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Identify+neurological+red+flags+and+appropriate+urgent+investigation)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Identify+neurological+red+flags+and+appropriate+urgent+investigation)"
+      }
+    }
+  ],
+  "preferred_source_families": [
+    "Current AAO PPP/BCSC or relevant national/international guidance",
+    "Cochrane Eyes and Vision; PubMed/PMC/Europe PMC systematic reviews and primary studies",
+    "AAO EyeWiki and peer-reviewed specialty reviews for orientation, not sole guideline authority",
+    "AnkiWeb, DoctorDE, Geeky Medics and TeachMeSeries as exam-practice signals only; never clinical evidence"
+  ],
+  "curator_checklist": [
+    "Verify exact source, edition, date, jurisdiction and supersession status.",
+    "Review full text through a lawful access path and record article-specific reuse rights.",
+    "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
+    "Map each snippet to the exact objective ID above.",
+    "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
+  ]
+}

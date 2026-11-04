@@ -62,7 +62,7 @@ easy to scrape.
 
 ### How source matching should work
 
-1. Build searches from the topic name, learning objectives, exam emphasis,
+1. Search the topic phrase for broad recall, then independently search each learning objective against scholarly APIs (PubMed and Europe PMC when enabled). Keep the objective query and matched objective ID in the discovery record. Build the broad search from topic name, exam emphasis,
    coverage tags, specialty and learner level.
 2. Discover candidates through public search, official APIs/feeds where
    available, curated directories and faculty-submitted links.
@@ -178,6 +178,117 @@ This workflow makes no model request and needs no running Ollama server:
 python usiphus_auto_deck.py --cards path/to/ophthalmology_cards.json \
   --formats both --output-dir build/ophthalmology
 ```
+
+## Generation quality and coverage gates
+
+For mapped multi-domain specialty curricula, generation now performs a preflight
+before making any Ollama request. Every topic must have a stable unique ID,
+a valid domain, at least three distinct learning objectives, coverage tags,
+exam emphasis and enough planned cards to cover each objective.
+
+Each generated topic batch is checked **before it is checkpointed**. The gate
+requires the exact requested card count and exam-format mix, exact mapping to
+the supplied learning-objective wording, coverage-tag traceability, distinct
+prompts, valid difficulty/cognitive labels, and format-specific structure:
+four or five distinct MCQ options with a listed key and rationale, a
+self-contained clinical vignette, a structured viva answer, and at least three
+observable OSCE checklist items. Model-supplied references are rejected unless
+they match faculty-supplied references; when none are supplied, the generator
+must not invent any.
+
+The run writes `coverage_report.json` with planned/generated topics,
+objectives covered, actual card-format mix, missing topic IDs and topics with
+no faculty references. `quality_report.json` includes the same coverage
+summary alongside the existing structural report. A failed topic gate blocks
+the deck export rather than silently accepting an incomplete batch. Resume
+checkpoints are revalidated against the same rules before reuse.
+
+These checks make the generator more predictable and make curriculum coverage
+auditable. They are **not** a clinical fact-checker: lexical mapping, structure,
+format counts and source-reference matching cannot prove that a diagnosis,
+investigation, management recommendation, dose, MCQ key or OSCE action is
+clinically correct or current. Cards remain unreviewed drafts until qualified
+specialty faculty verify each claim against current, appropriate evidence.
+
+## Evidence-grounded generation (curation gate)
+
+The first evidence-grounding layer is implemented in `usiphus_evidence.py`.
+It validates a curator-supplied evidence packet and exposes objective-level
+evidence gaps. The packet is deliberately separate from discovery metadata:
+PubMed/Crossref records, abstracts, search links and Anki/exam-prep links are
+discovery candidates, not claim-level evidence.
+
+A packet has two arrays:
+
+- `sources`: `source_id`, canonical HTTPS URL, title, source type, publication
+  date, guideline/version identifier (when applicable), rights/access status,
+  access status and `review_status`.
+- `snippets`: stable `snippet_id`, `source_id`, exact short excerpt or
+  curator-authored faithful evidence note, page/section/paragraph locator, and
+  curator-assigned `matched_objective_ids` (for example `topic-01-LO02`).
+
+An open-access flag or abstract alone is insufficient: the source must have an eligible, reviewed full-text access path. Only faculty-reviewed sources with verified rights/access status and snippets
+with source and locator provenance are eligible. The module maps snippets to
+learning objectives and validates card `evidence_claims` against exact snippet,
+source and locator identifiers. Conservative risk flags route dose-like,
+contraindication, emergency-action, threshold and red-flag content for stricter
+review. These flags are routing heuristics, not a complete risk classifier.
+
+This is a **curation and traceability gate**, not an automated article reader,
+systematic review, guideline appraisal or medical fact-checker. It does not
+download protected text, infer guideline currency, assess study quality, or
+prove that a cited snippet entails a generated claim. Human reviewers must
+check context, applicability, jurisdiction, conflicts, publication date and
+whether the evidence supports the exact wording. A metadata-only discovery
+record cannot pass as claim-level evidence.
+
+A topic may include an `evidence_packet` object using this schema. The generator
+passes the curated packet to Ollama and validates every returned card's
+`evidence_claims` against eligible snippet IDs, source IDs and exact locators.
+A supplied packet with no eligible snippets fails closed and triggers the
+bounded quality retry path. If no packet is supplied, generation remains
+available but is explicitly reported as `unreviewed_source_gap`; it is not
+evidence-grounded. A local model pilot and faculty evaluation are still required.
+
+
+### Loading the bundled ophthalmology evidence library
+
+The example ophthalmology curriculum has a per-topic packet/worklist for all
+52 topics under `examples/ophthalmology/evidence_packets/`. See
+`INDEX.json` and `README.md` for the inventory and curation workflow.
+
+- Twenty-two files are **candidate-source packets**: five original candidate
+  packets plus seventeen topics advanced from discovery-only worklists after
+  topic-matched bibliographic leads were identified. They contain candidate
+  bibliographic metadata and curator review prompts; full-text review, rights,
+  currency and faculty validation remain pending.
+- The other 30 files are **discovery plans only**. Each contains three
+  objective-specific PubMed, Europe PMC and Google Scholar query links,
+  preferred source families and a curator checklist. They contain no sources
+  or snippets and are not evidence packets eligible for generation.
+
+Load the library with:
+
+```bash
+python usiphus_auto_deck.py --generate \
+  --curriculum examples/ophthalmology/curriculum.json \
+  --evidence-dir examples/ophthalmology/evidence_packets \
+  --formats both --output-dir build/ophthalmology
+```
+
+With the complete library attached, the generator intentionally stops before
+any Ollama request: every supplied packet is currently ineligible. This is
+expected fail-closed behavior. To proceed with evidence-grounded generation,
+a qualified reviewer must select actual sources, verify currentness and lawful
+full-text access, clear article-specific reuse rights, create concise
+independently authored evidence notes or permitted excerpts with exact
+locators, map snippets to the exact objective IDs, and record faculty review.
+Do not simply change status fields to bypass preflight.
+
+If the evidence directory is omitted, the generator can still produce
+explicitly ungrounded drafts, which must retain `unreviewed_source_gap` and
+must not be represented as evidence-grounded or clinically approved.
+Checkpoint reuse is subject to the same packet preflight.
 
 ## Curriculum and clinical governance
 

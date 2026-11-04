@@ -1,0 +1,87 @@
+{
+  "packet_schema_version": "1.0",
+  "packet_id": "ophthalmology-uveitis-02-discovery-plan-v1",
+  "specialty": "ophthalmology",
+  "topic_id": "uveitis-02",
+  "topic_name": "Systemic inflammatory and masquerade syndromes",
+  "domain_id": "uveitis",
+  "packet_status": "candidate_sources_pending_faculty_review",
+  "clinical_accuracy_verified": false,
+  "faculty_review_required": true,
+  "notice": "Candidate bibliographic leads only. Full-text appraisal, source currency/supersession, lawful access, article-specific reuse rights, exact section/page locators, objective mapping and qualified faculty review remain pending. Snippets are intentionally empty; generator evidence preflight must continue to fail.",
+  "sources": [
+    {
+      "source_id": "egyptian-noninfectious-uveitis-consensus-2025",
+      "canonical_url": "https://pubmed.ncbi.nlm.nih.gov/40314690/",
+      "title": "Egyptian Consensus Guidance for Treatment of Adults with Non-Infectious Uveitis",
+      "source_type": "national_professional_consensus_guideline",
+      "published_on": "2025-05-02",
+      "guideline_version": "Egyptian expert consensus; Ocul Immunol Inflamm. 2025;33(7):1313-1318; DOI 10.1080/09273948.2025.2493362",
+      "licence_or_reuse_status": "rights_unknown; PubMed metadata/abstract only; verify lawful full text and reuse terms",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "Ocular Immunology and Inflammation / Egyptian expert panel",
+      "currency_note": "Egypt-specific and limited to adults with non-infectious uveitis; does not replace infectious-uveitis evaluation or pediatric guidance."
+    },
+    {
+      "source_id": "uveitis-masquerade-review-2024",
+      "canonical_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11004105/",
+      "title": "Mimickers of anterior uveitis, scleritis and misdiagnoses: tips and tricks for the cornea specialist",
+      "source_type": "peer_reviewed_open_access_review",
+      "published_on": "2024-04-10",
+      "guideline_version": "Eye and Vision. 2024;14:14; DOI 10.1186/s12348-024-00396-z",
+      "licence_or_reuse_status": "rights_unknown; check article-level licence and attribution terms before reuse",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "Eye and Vision / Springer Nature",
+      "currency_note": "Focused on anterior segment mimickers and diagnostic pitfalls; not a comprehensive systemic uveitis guideline."
+    }
+  ],
+  "snippets": [],
+  "discovery_queries": [
+    {
+      "query_id": "uveitis-02-LO01",
+      "objective_id": "uveitis-02-LO01",
+      "objective": "Relate uveitis to autoimmune, inflammatory and infectious systemic disease",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Relate+uveitis+to+autoimmune%2C+inflammatory+and+infectious+systemic+disease)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Relate+uveitis+to+autoimmune%2C+inflammatory+and+infectious+systemic+disease)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Relate+uveitis+to+autoimmune%2C+inflammatory+and+infectious+systemic+disease)"
+      }
+    },
+    {
+      "query_id": "uveitis-02-LO02",
+      "objective_id": "uveitis-02-LO02",
+      "objective": "Recognize masquerade syndromes including intraocular lymphoma",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Recognize+masquerade+syndromes+including+intraocular+lymphoma)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Recognize+masquerade+syndromes+including+intraocular+lymphoma)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Recognize+masquerade+syndromes+including+intraocular+lymphoma)"
+      }
+    },
+    {
+      "query_id": "uveitis-02-LO03",
+      "objective_id": "uveitis-02-LO03",
+      "objective": "Select investigations based on phenotype rather than indiscriminate testing",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Select+investigations+based+on+phenotype+rather+than+indiscriminate+testing)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Select+investigations+based+on+phenotype+rather+than+indiscriminate+testing)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Select+investigations+based+on+phenotype+rather+than+indiscriminate+testing)"
+      }
+    }
+  ],
+  "preferred_source_families": [
+    "Current AAO PPP/BCSC or relevant national/international guidance",
+    "Cochrane Eyes and Vision; PubMed/PMC/Europe PMC systematic reviews and primary studies",
+    "AAO EyeWiki and peer-reviewed specialty reviews for orientation, not sole guideline authority",
+    "AnkiWeb, DoctorDE, Geeky Medics and TeachMeSeries as exam-practice signals only; never clinical evidence"
+  ],
+  "curator_checklist": [
+    "Verify exact source, edition, date, jurisdiction and supersession status.",
+    "Review full text through a lawful access path and record article-specific reuse rights.",
+    "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
+    "Map each snippet to the exact objective ID above.",
+    "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
+  ],
+  "curation_notice": "Candidate bibliography only; no source has been faculty-reviewed or approved for clinical claim grounding. Do not infer rights clearance from a public link or metadata record."
+}

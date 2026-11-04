@@ -1,0 +1,59 @@
+{
+  "packet_schema_version": "1.0",
+  "packet_id": "ophthalmology-ocular-oncology-02-discovery-plan-v1",
+  "specialty": "ophthalmology",
+  "topic_id": "ocular-oncology-02",
+  "topic_name": "Intraocular tumours and masquerade lesions",
+  "domain_id": "ocular-oncology",
+  "packet_status": "discovery_plan_only_pending_source_selection",
+  "clinical_accuracy_verified": false,
+  "faculty_review_required": true,
+  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
+  "sources": [],
+  "snippets": [],
+  "discovery_queries": [
+    {
+      "query_id": "ocular-oncology-02-LO01",
+      "objective_id": "ocular-oncology-02-LO01",
+      "objective": "Recognize retinoblastoma, uveal melanoma and choroidal metastasis patterns",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Recognize+retinoblastoma%2C+uveal+melanoma+and+choroidal+metastasis+patterns)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Recognize+retinoblastoma%2C+uveal+melanoma+and+choroidal+metastasis+patterns)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Recognize+retinoblastoma%2C+uveal+melanoma+and+choroidal+metastasis+patterns)"
+      }
+    },
+    {
+      "query_id": "ocular-oncology-02-LO02",
+      "objective_id": "ocular-oncology-02-LO02",
+      "objective": "Differentiate tumour from inflammatory and degenerative mimics",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Differentiate+tumour+from+inflammatory+and+degenerative+mimics)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Differentiate+tumour+from+inflammatory+and+degenerative+mimics)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Differentiate+tumour+from+inflammatory+and+degenerative+mimics)"
+      }
+    },
+    {
+      "query_id": "ocular-oncology-02-LO03",
+      "objective_id": "ocular-oncology-02-LO03",
+      "objective": "Describe imaging, staging and multidisciplinary referral principles",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Describe+imaging%2C+staging+and+multidisciplinary+referral+principles)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Describe+imaging%2C+staging+and+multidisciplinary+referral+principles)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Describe+imaging%2C+staging+and+multidisciplinary+referral+principles)"
+      }
+    }
+  ],
+  "preferred_source_families": [
+    "Current AAO PPP/BCSC or relevant national/international guidance",
+    "Cochrane Eyes and Vision; PubMed/PMC/Europe PMC systematic reviews and primary studies",
+    "AAO EyeWiki and peer-reviewed specialty reviews for orientation, not sole guideline authority",
+    "AnkiWeb, DoctorDE, Geeky Medics and TeachMeSeries as exam-practice signals only; never clinical evidence"
+  ],
+  "curator_checklist": [
+    "Verify exact source, edition, date, jurisdiction and supersession status.",
+    "Review full text through a lawful access path and record article-specific reuse rights.",
+    "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
+    "Map each snippet to the exact objective ID above.",
+    "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
+  ]
+}

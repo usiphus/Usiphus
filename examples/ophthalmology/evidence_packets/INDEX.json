@@ -1,0 +1,381 @@
+{
+  "specialty": "ophthalmology",
+  "curriculum_version": "3.0",
+  "planned_topic_count": 52,
+  "existing_candidate_source_packets": [
+    "glaucoma-02",
+    "glaucoma-03",
+    "medical-retina-02",
+    "lens-refractive-02",
+    "trauma-emergency-01"
+  ],
+  "discovery_plan_packets": [
+    {
+      "topic_id": "foundations-02",
+      "topic_name": "Ocular physiology and visual neuroscience",
+      "domain_id": "foundations",
+      "path": "examples/ophthalmology/evidence_packets/foundations-02.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "foundations-03",
+      "topic_name": "Clinical optics, refraction and low vision",
+      "domain_id": "foundations",
+      "path": "examples/ophthalmology/evidence_packets/foundations-03.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "clinical-skills-01",
+      "topic_name": "Ophthalmic history and comprehensive examination",
+      "domain_id": "clinical-skills",
+      "path": "examples/ophthalmology/evidence_packets/clinical-skills-01.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "clinical-skills-02",
+      "topic_name": "Slit-lamp, tonometry and clinical techniques",
+      "domain_id": "clinical-skills",
+      "path": "examples/ophthalmology/evidence_packets/clinical-skills-02.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "clinical-skills-03",
+      "topic_name": "Ophthalmic investigations and interpretation",
+      "domain_id": "clinical-skills",
+      "path": "examples/ophthalmology/evidence_packets/clinical-skills-03.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "ocular-surface-cornea-01",
+      "topic_name": "Lids, lashes and meibomian gland disease",
+      "domain_id": "ocular-surface-cornea",
+      "path": "examples/ophthalmology/evidence_packets/ocular-surface-cornea-01.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "ocular-surface-cornea-02",
+      "topic_name": "Conjunctiva, tear film and ocular surface",
+      "domain_id": "ocular-surface-cornea",
+      "path": "examples/ophthalmology/evidence_packets/ocular-surface-cornea-02.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "ocular-surface-cornea-03",
+      "topic_name": "Corneal disease, ectasia and dystrophies",
+      "domain_id": "ocular-surface-cornea",
+      "path": "examples/ophthalmology/evidence_packets/ocular-surface-cornea-03.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "ocular-surface-cornea-05",
+      "topic_name": "Scleral and episcleral disorders",
+      "domain_id": "ocular-surface-cornea",
+      "path": "examples/ophthalmology/evidence_packets/ocular-surface-cornea-05.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "lens-refractive-01",
+      "topic_name": "Lens disorders and cataract",
+      "domain_id": "lens-refractive",
+      "path": "examples/ophthalmology/evidence_packets/lens-refractive-01.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "lens-refractive-03",
+      "topic_name": "Refractive surgery and corneal procedures",
+      "domain_id": "lens-refractive",
+      "path": "examples/ophthalmology/evidence_packets/lens-refractive-03.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "neuro-ophthalmology-01",
+      "topic_name": "Optic nerve and afferent visual pathway",
+      "domain_id": "neuro-ophthalmology",
+      "path": "examples/ophthalmology/evidence_packets/neuro-ophthalmology-01.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "neuro-ophthalmology-02",
+      "topic_name": "Pupils, eyelids and neuro-ophthalmic syndromes",
+      "domain_id": "neuro-ophthalmology",
+      "path": "examples/ophthalmology/evidence_packets/neuro-ophthalmology-02.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "neuro-ophthalmology-03",
+      "topic_name": "Ocular motility, diplopia, nystagmus and strabismus",
+      "domain_id": "neuro-ophthalmology",
+      "path": "examples/ophthalmology/evidence_packets/neuro-ophthalmology-03.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "pediatric-01",
+      "topic_name": "Pediatric eye assessment and visual development",
+      "domain_id": "pediatric",
+      "path": "examples/ophthalmology/evidence_packets/pediatric-01.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "pediatric-03",
+      "topic_name": "Congenital, genetic and neonatal ophthalmology",
+      "domain_id": "pediatric",
+      "path": "examples/ophthalmology/evidence_packets/pediatric-03.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "oculoplastics-orbit-01",
+      "topic_name": "Oculoplastic eyelid surgery and reconstruction",
+      "domain_id": "oculoplastics-orbit",
+      "path": "examples/ophthalmology/evidence_packets/oculoplastics-orbit-01.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "oculoplastics-orbit-02",
+      "topic_name": "Orbital disease, thyroid eye disease and trauma",
+      "domain_id": "oculoplastics-orbit",
+      "path": "examples/ophthalmology/evidence_packets/oculoplastics-orbit-02.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "oculoplastics-orbit-03",
+      "topic_name": "Lacrimal drainage and lacrimal surgery",
+      "domain_id": "oculoplastics-orbit",
+      "path": "examples/ophthalmology/evidence_packets/oculoplastics-orbit-03.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "ocular-oncology-01",
+      "topic_name": "Ocular surface and eyelid neoplasia",
+      "domain_id": "ocular-oncology",
+      "path": "examples/ophthalmology/evidence_packets/ocular-oncology-01.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "ocular-oncology-02",
+      "topic_name": "Intraocular tumours and masquerade lesions",
+      "domain_id": "ocular-oncology",
+      "path": "examples/ophthalmology/evidence_packets/ocular-oncology-02.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "ocular-oncology-03",
+      "topic_name": "Ocular pathology, genetics and laboratory diagnosis",
+      "domain_id": "ocular-oncology",
+      "path": "examples/ophthalmology/evidence_packets/ocular-oncology-03.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "trauma-emergency-03",
+      "topic_name": "Ophthalmic emergency pathways and postoperative complications",
+      "domain_id": "trauma-emergency",
+      "path": "examples/ophthalmology/evidence_packets/trauma-emergency-03.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "infection-01",
+      "topic_name": "External ocular and adnexal infections",
+      "domain_id": "infection",
+      "path": "examples/ophthalmology/evidence_packets/infection-01.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "infection-03",
+      "topic_name": "Systemic infection, immunosuppression and the eye",
+      "domain_id": "infection",
+      "path": "examples/ophthalmology/evidence_packets/infection-03.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "systemic-pharmacology-02",
+      "topic_name": "Ophthalmic pharmacology and therapeutics",
+      "domain_id": "systemic-pharmacology",
+      "path": "examples/ophthalmology/evidence_packets/systemic-pharmacology-02.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "systemic-pharmacology-03",
+      "topic_name": "Ocular anaesthesia, perioperative medicine and patient safety",
+      "domain_id": "systemic-pharmacology",
+      "path": "examples/ophthalmology/evidence_packets/systemic-pharmacology-03.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "surgery-rehabilitation-02",
+      "topic_name": "Ophthalmic microsurgery and surgical skills",
+      "domain_id": "surgery-rehabilitation",
+      "path": "examples/ophthalmology/evidence_packets/surgery-rehabilitation-02.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "surgery-rehabilitation-03",
+      "topic_name": "Low vision, rehabilitation, community ophthalmology and prevention",
+      "domain_id": "surgery-rehabilitation",
+      "path": "examples/ophthalmology/evidence_packets/surgery-rehabilitation-03.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    },
+    {
+      "topic_id": "surgery-rehabilitation-04",
+      "topic_name": "Evidence-based practice, ethics, communication and research",
+      "domain_id": "surgery-rehabilitation",
+      "path": "examples/ophthalmology/evidence_packets/surgery-rehabilitation-04.json",
+      "status": "discovery_plan_only_pending_source_selection",
+      "objective_query_count": 3
+    }
+  ],
+  "total_topic_packets": 52,
+  "clinical_accuracy_verified": false,
+  "faculty_review_required": true,
+  "notice": "Inventory includes twenty-two candidate-source packets and thirty discovery-only worklists. Candidate sources are not faculty-approved, rights-cleared, or generator-eligible; no topic is currently approved for evidence-grounded generation.",
+  "newly_selected_candidate_source_packets": [
+    {
+      "topic_id": "foundations-01",
+      "topic_name": "Ocular anatomy, embryology and histology",
+      "path": "examples/ophthalmology/evidence_packets/foundations-01.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "ocular-surface-cornea-04",
+      "topic_name": "Infectious and inflammatory corneal disease",
+      "path": "examples/ophthalmology/evidence_packets/ocular-surface-cornea-04.json",
+      "candidate_source_count": 1,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "vitreoretinal-02",
+      "topic_name": "Retinal detachment and vitreoretinal emergencies",
+      "path": "examples/ophthalmology/evidence_packets/vitreoretinal-02.json",
+      "candidate_source_count": 1,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "pediatric-02",
+      "topic_name": "Amblyopia, strabismus and binocular vision",
+      "path": "examples/ophthalmology/evidence_packets/pediatric-02.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "infection-02",
+      "topic_name": "Intraocular infection and endophthalmitis",
+      "path": "examples/ophthalmology/evidence_packets/infection-02.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "glaucoma-01",
+      "topic_name": "Glaucoma mechanisms and classification",
+      "path": "examples/ophthalmology/evidence_packets/glaucoma-01.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "medical-retina-01",
+      "topic_name": "Macular disease and age-related macular degeneration",
+      "path": "examples/ophthalmology/evidence_packets/medical-retina-01.json",
+      "candidate_source_count": 1,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "uveitis-01",
+      "topic_name": "Anatomical and clinical uveitis",
+      "path": "examples/ophthalmology/evidence_packets/uveitis-01.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "trauma-emergency-02",
+      "topic_name": "Acute red eye, sudden visual loss and painful eye",
+      "path": "examples/ophthalmology/evidence_packets/trauma-emergency-02.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "systemic-pharmacology-01",
+      "topic_name": "Systemic disease and ocular manifestations",
+      "path": "examples/ophthalmology/evidence_packets/systemic-pharmacology-01.json",
+      "candidate_source_count": 1,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "surgery-rehabilitation-01",
+      "topic_name": "Ophthalmic lasers, injections and office procedures",
+      "path": "examples/ophthalmology/evidence_packets/surgery-rehabilitation-01.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "vitreoretinal-03",
+      "topic_name": "Medical and surgical vitreoretinal management",
+      "path": "examples/ophthalmology/evidence_packets/vitreoretinal-03.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "uveitis-02",
+      "topic_name": "Systemic inflammatory and masquerade syndromes",
+      "path": "examples/ophthalmology/evidence_packets/uveitis-02.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "uveitis-03",
+      "topic_name": "Uveitis treatment and complications",
+      "path": "examples/ophthalmology/evidence_packets/uveitis-03.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "medical-retina-03",
+      "topic_name": "Retinal vascular and hypertensive disorders",
+      "path": "examples/ophthalmology/evidence_packets/medical-retina-03.json",
+      "candidate_source_count": 3,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "medical-retina-04",
+      "topic_name": "Inherited, inflammatory and toxic retinal disease",
+      "path": "examples/ophthalmology/evidence_packets/medical-retina-04.json",
+      "candidate_source_count": 2,
+      "status": "candidate_sources_pending_faculty_review"
+    },
+    {
+      "topic_id": "vitreoretinal-01",
+      "topic_name": "Vitreous, posterior vitreous detachment and retinal breaks",
+      "path": "examples/ophthalmology/evidence_packets/vitreoretinal-01.json",
+      "candidate_source_count": 1,
+      "status": "candidate_sources_pending_faculty_review"
+    }
+  ],
+  "candidate_source_packet_count": 22,
+  "discovery_plan_packet_count": 30
+}

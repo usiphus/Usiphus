@@ -1,0 +1,59 @@
+{
+  "packet_schema_version": "1.0",
+  "packet_id": "ophthalmology-clinical-skills-01-discovery-plan-v1",
+  "specialty": "ophthalmology",
+  "topic_id": "clinical-skills-01",
+  "topic_name": "Ophthalmic history and comprehensive examination",
+  "domain_id": "clinical-skills",
+  "packet_status": "discovery_plan_only_pending_source_selection",
+  "clinical_accuracy_verified": false,
+  "faculty_review_required": true,
+  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
+  "sources": [],
+  "snippets": [],
+  "discovery_queries": [
+    {
+      "query_id": "clinical-skills-01-LO01",
+      "objective_id": "clinical-skills-01-LO01",
+      "objective": "Take a structured history including visual symptoms, pain, trauma, medications and systemic risks",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Take+a+structured+history+including+visual+symptoms%2C+pain%2C+trauma%2C+medications+and+systemic+risks)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Take+a+structured+history+including+visual+symptoms%2C+pain%2C+trauma%2C+medications+and+systemic+risks)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Take+a+structured+history+including+visual+symptoms%2C+pain%2C+trauma%2C+medications+and+systemic+risks)"
+      }
+    },
+    {
+      "query_id": "clinical-skills-01-LO02",
+      "objective_id": "clinical-skills-01-LO02",
+      "objective": "Perform visual acuity, pupils, fields, motility, external and red-reflex examinations",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Perform+visual+acuity%2C+pupils%2C+fields%2C+motility%2C+external+and+red-reflex+examinations)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Perform+visual+acuity%2C+pupils%2C+fields%2C+motility%2C+external+and+red-reflex+examinations)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Perform+visual+acuity%2C+pupils%2C+fields%2C+motility%2C+external+and+red-reflex+examinations)"
+      }
+    },
+    {
+      "query_id": "clinical-skills-01-LO03",
+      "objective_id": "clinical-skills-01-LO03",
+      "objective": "Document findings and identify urgent referral features",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Document+findings+and+identify+urgent+referral+features)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Document+findings+and+identify+urgent+referral+features)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Document+findings+and+identify+urgent+referral+features)"
+      }
+    }
+  ],
+  "preferred_source_families": [
+    "Current AAO PPP/BCSC or relevant national/international guidance",
+    "Cochrane Eyes and Vision; PubMed/PMC/Europe PMC systematic reviews and primary studies",
+    "AAO EyeWiki and peer-reviewed specialty reviews for orientation, not sole guideline authority",
+    "AnkiWeb, DoctorDE, Geeky Medics and TeachMeSeries as exam-practice signals only; never clinical evidence"
+  ],
+  "curator_checklist": [
+    "Verify exact source, edition, date, jurisdiction and supersession status.",
+    "Review full text through a lawful access path and record article-specific reuse rights.",
+    "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
+    "Map each snippet to the exact objective ID above.",
+    "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
+  ]
+}

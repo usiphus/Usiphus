@@ -1,0 +1,59 @@
+{
+  "packet_schema_version": "1.0",
+  "packet_id": "ophthalmology-ocular-oncology-03-discovery-plan-v1",
+  "specialty": "ophthalmology",
+  "topic_id": "ocular-oncology-03",
+  "topic_name": "Ocular pathology, genetics and laboratory diagnosis",
+  "domain_id": "ocular-oncology",
+  "packet_status": "discovery_plan_only_pending_source_selection",
+  "clinical_accuracy_verified": false,
+  "faculty_review_required": true,
+  "notice": "Discovery worklist only, not clinical evidence. No sources or snippets have been appraised or supplied. Generator evidence preflight must fail until full-text review, rights verification, exact locators, objective mapping and faculty review are completed.",
+  "sources": [],
+  "snippets": [],
+  "discovery_queries": [
+    {
+      "query_id": "ocular-oncology-03-LO01",
+      "objective_id": "ocular-oncology-03-LO01",
+      "objective": "Relate histopathology to common corneal, lens, retinal and tumour disorders",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Relate+histopathology+to+common+corneal%2C+lens%2C+retinal+and+tumour+disorders)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Relate+histopathology+to+common+corneal%2C+lens%2C+retinal+and+tumour+disorders)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Relate+histopathology+to+common+corneal%2C+lens%2C+retinal+and+tumour+disorders)"
+      }
+    },
+    {
+      "query_id": "ocular-oncology-03-LO02",
+      "objective_id": "ocular-oncology-03-LO02",
+      "objective": "Explain microbiology sampling and interpretation in ocular infection",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Explain+microbiology+sampling+and+interpretation+in+ocular+infection)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Explain+microbiology+sampling+and+interpretation+in+ocular+infection)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Explain+microbiology+sampling+and+interpretation+in+ocular+infection)"
+      }
+    },
+    {
+      "query_id": "ocular-oncology-03-LO03",
+      "objective_id": "ocular-oncology-03-LO03",
+      "objective": "Describe genetic counselling and testing principles for inherited eye disease",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Describe+genetic+counselling+and+testing+principles+for+inherited+eye+disease)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Describe+genetic+counselling+and+testing+principles+for+inherited+eye+disease)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Describe+genetic+counselling+and+testing+principles+for+inherited+eye+disease)"
+      }
+    }
+  ],
+  "preferred_source_families": [
+    "Current AAO PPP/BCSC or relevant national/international guidance",
+    "Cochrane Eyes and Vision; PubMed/PMC/Europe PMC systematic reviews and primary studies",
+    "AAO EyeWiki and peer-reviewed specialty reviews for orientation, not sole guideline authority",
+    "AnkiWeb, DoctorDE, Geeky Medics and TeachMeSeries as exam-practice signals only; never clinical evidence"
+  ],
+  "curator_checklist": [
+    "Verify exact source, edition, date, jurisdiction and supersession status.",
+    "Review full text through a lawful access path and record article-specific reuse rights.",
+    "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
+    "Map each snippet to the exact objective ID above.",
+    "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
+  ]
+}

@@ -20,6 +20,15 @@ from pathlib import Path
 from typing import Any
 
 from usiphus_core import coerce_record, evaluate_quality, report_to_dict
+from usiphus_generation_quality import (
+    build_generation_coverage_report,
+    validate_curriculum_blueprint,
+    validate_topic_cards,
+)
+from usiphus_evidence import (
+    load_topic_evidence_packets, preflight_topic_evidence,
+    validate_card_evidence, validate_evidence_packet,
+)
 from usiphus_v7 import export_apkg
 
 DEFAULT_OLLAMA_MODEL = "llama3.1:8b"
@@ -97,21 +106,28 @@ def generate_topic_cards(
         "learning_objectives": objectives,
         "exam_emphasis": topic.get("exam_emphasis", []),
         "faculty_supplied_reference_sources": source_refs,
+        "curated_evidence_packet": topic.get("evidence_packet"),
         "requested_card_count": count,
         "requested_card_mix": card_mix,
+        "quality_feedback": topic.get("_quality_feedback", ""),
     }
     system = (
         "You are an educational drafting assistant for medical faculty. "
         "Respect the supplied curriculum domain, topic ID, coverage tags and learning objectives. "
+        "Map every card to one supplied learning objective using that objective's exact wording. "
+        "Include at least one supplied coverage_tags value verbatim in each card's tags. "
         "Cover the full scope of the named topic rather than drifting into adjacent topics. "
         "Create accurate, appropriately qualified educational drafts, not clinical advice. "
         "Do not invent references, DOI values, guideline dates, statistics, or quotations. "
         "Use only faculty-supplied references; if none are supplied, return references as []. "
+        "When curated_evidence_packet is supplied, map each clinically material factual claim to exact snippet IDs using evidence_claims objects with claim_id, text, source_id, snippet_id and locator. Never cite search results or metadata as evidence. If the packet lacks support, state the gap rather than inventing a claim. "
+        "If quality_feedback is present, correct every listed issue in this attempt. "
         "Flag uncertain or guideline-dependent claims in the answer for faculty verification. "
         "Return ONLY a JSON object with a cards array. Each card must have card_id, "
         "specialty, card_type (basic, mcq, viva, osce, clinical_case), difficulty, "
         "prompt, answer, options, correct_option, learning_objective, tags, references, "
-        "cognitive_level, exam_domain, rubric, evidence_status. Exactly one correct MCQ option. "
+        "cognitive_level, exam_domain, rubric, evidence_status, evidence_claims. Every prompt must end in '?' or ':'. "
+        "Exactly one correct MCQ option. "
         "Follow requested_card_mix exactly where possible and return exactly requested_card_count cards. "
         "For MCQs use 4-5 plausible options, one unambiguous key, and explain why the key is correct "
         "and why distractors are wrong. Clinical cases must include age/context, focused findings, "
@@ -192,11 +208,12 @@ def generate_topic_cards(
                 )
 
             # If we reach here, validation succeeded!
-            prefix = re.sub(r"[^A-Za-z0-9]+", "-", str(topic_name)).strip("-").upper()
+            topic_identity = topic.get("id") or topic_name
+            prefix = re.sub(r"[^A-Za-z0-9]+", "-", str(topic_identity)).strip("-").upper()
             for index, card in enumerate(cards, 1):
                 if not isinstance(card, dict):
                     raise ValueError("Every generated card must be an object")
-                card["card_id"] = f"OLLAMA-{prefix[:20]}-{index:03d}"
+                card["card_id"] = f"OLLAMA-{prefix[:32]}-{index:03d}"
                 card["specialty"] = specialty
                 card["evidence_status"] = "unreviewed"
                 card.setdefault(
@@ -236,6 +253,78 @@ def generate_topic_cards(
         f"Last error: {last_error}. Check that Ollama is running, the model is available, "
         "and your computer has enough RAM/VRAM. Try a smaller --max-output-tokens value, "
         "a smaller card count, or a smaller model before increasing --ollama-timeout."
+    )
+
+
+
+def generate_validated_topic_cards(
+    topic: dict[str, Any],
+    *,
+    specialty: str,
+    level: str,
+    model: str,
+    ollama_url: str,
+    count: int,
+    max_output_tokens: int,
+    request_timeout: int = 300,
+    quality_attempts: int = 3,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Regenerate bounded batches with actionable feedback until topic gates pass."""
+    working_topic = dict(topic)
+    last_error: Exception | None = None
+    mix = requested_card_mix(count, topic.get("card_mix"))
+    for attempt in range(1, quality_attempts + 1):
+        cards = generate_topic_cards(
+            working_topic, specialty=specialty, level=level, model=model,
+            ollama_url=ollama_url, count=count,
+            max_output_tokens=max_output_tokens,
+            request_timeout=request_timeout, max_retries=2,
+        )
+        try:
+            report = validate_topic_cards(
+                topic, cards, specialty=specialty, requested_mix=mix
+            )
+            packet = topic.get("evidence_packet")
+            if packet is not None:
+                packet_report = validate_evidence_packet(packet)
+                if not packet_report["evidence_ready"]:
+                    raise ValueError(
+                        "Evidence packet has no eligible reviewed snippets; "
+                        "metadata/search results cannot ground clinical claims"
+                    )
+                evidence_reports = [
+                    validate_card_evidence(card, packet) for card in cards
+                ]
+                invalid = [
+                    f"card {index}: {item['errors']}"
+                    for index, item in enumerate(evidence_reports, 1)
+                    if not item["valid"]
+                ]
+                if invalid:
+                    raise ValueError("Claim-level evidence validation failed: " + "; ".join(invalid))
+                report["evidence_claims_mapped"] = sum(
+                    item["claim_count"] for item in evidence_reports
+                )
+                report["high_risk_claim_flags"] = [
+                    flag for item in evidence_reports for flag in item["high_risk_flags"]
+                ]
+                report["evidence_status"] = "evidence_mapped_unreviewed"
+                for card in cards:
+                    card["evidence_status"] = "evidence_mapped_unreviewed"
+            else:
+                report["evidence_status"] = "unreviewed_source_gap"
+            return cards, report
+        except ValueError as exc:
+            last_error = exc
+            working_topic["_quality_feedback"] = str(exc)
+            print(
+                f"[Quality retry] {topic.get('id') or topic.get('name')} "
+                f"attempt {attempt}/{quality_attempts}: {exc}",
+                file=sys.stderr,
+            )
+    raise RuntimeError(
+        f"Topic {topic.get('id') or topic.get('name')} failed quality validation "
+        f"after {quality_attempts} attempts: {last_error}"
     )
 
 
@@ -399,12 +488,31 @@ def build(args: argparse.Namespace) -> int:
             "Choose --generate with --curriculum, or --cards for existing cards"
         )
     raw_cards: list[dict[str, Any]] = []
+    coverage_report: dict[str, Any] | None = None
+    blueprint_summary: dict[str, Any] | None = None
     level = args.level
     specialty = args.specialty
     if args.generate:
         if not args.curriculum:
             raise ValueError("--curriculum is required with --generate")
         curriculum = load_curriculum(Path(args.curriculum))
+        evidence_inventory = None
+        if args.evidence_dir:
+            evidence_inventory = load_topic_evidence_packets(
+                curriculum, Path(args.evidence_dir)
+            )
+            print(
+                f"[Evidence] Loaded {evidence_inventory['packet_count']} topic packets; "
+                f"{len(evidence_inventory['topics_without_packets'])} topics have no packet"
+            )
+        # Fail before inference or checkpoint reuse when attached packets are not eligible.
+        for evidence_topic in curriculum["topics"]:
+            if evidence_topic.get("evidence_packet") is not None:
+                preflight_topic_evidence(evidence_topic)
+        blueprint_summary = (
+            validate_curriculum_blueprint(curriculum)
+            if curriculum.get("curriculum_domains") else None
+        )
         specialty = specialty or curriculum["specialty"]
         level = level or curriculum.get("learner_level", "medical students")
         topic_count = len(curriculum["topics"])
@@ -424,6 +532,7 @@ def build(args: argparse.Namespace) -> int:
         checkpoint_dir = out / ".checkpoints"
         checkpoint_dir.mkdir(parents=True, exist_ok=True)
         total_cards = 0
+        topic_quality_reports: list[dict[str, Any]] = []
         for index, topic in enumerate(curriculum["topics"], 1):
             count = (
                 args.cards_per_topic
@@ -439,6 +548,7 @@ def build(args: argparse.Namespace) -> int:
                 count=count, max_output_tokens=args.max_output_tokens,
             )
             cards = None
+            loaded_checkpoint = False
             if args.resume and checkpoint_path.exists():
                 saved = load_json(checkpoint_path)
                 if (
@@ -447,17 +557,48 @@ def build(args: argparse.Namespace) -> int:
                     and len(saved["cards"]) == count
                 ):
                     cards = saved["cards"]
+                    loaded_checkpoint = True
                     print(f"[Resume] {index}/{topic_count}: {topic.get('name') or topic.get('topic')} — loaded {len(cards)} saved cards")
                 else:
                     print(f"[Resume] {index}/{topic_count}: checkpoint changed; regenerating topic")
+            topic_quality_report = None
+            if cards is not None and curriculum.get("curriculum_domains"):
+                try:
+                    topic_quality_report = validate_topic_cards(
+                        topic, cards, specialty=specialty,
+                        requested_mix=requested_card_mix(count, topic.get("card_mix")),
+                    )
+                except ValueError as exc:
+                    print(
+                        f"[Resume] Saved topic failed current quality gates; regenerating: {exc}",
+                        file=sys.stderr,
+                    )
+                    cards = None
+                    loaded_checkpoint = False
             if cards is None:
                 print(f"[{index}/{topic_count}] Generating {count} cards: {topic.get('name') or topic.get('topic')}", flush=True)
-                cards = generate_topic_cards(
-                    topic, specialty=specialty, level=level, model=args.model,
-                    ollama_url=args.ollama_url, count=count,
-                    max_output_tokens=args.max_output_tokens,
-                    request_timeout=args.ollama_timeout,
-                )
+                if curriculum.get("curriculum_domains"):
+                    cards, topic_quality_report = generate_validated_topic_cards(
+                        topic, specialty=specialty, level=level, model=args.model,
+                        ollama_url=args.ollama_url, count=count,
+                        max_output_tokens=args.max_output_tokens,
+                        request_timeout=args.ollama_timeout,
+                    )
+                else:
+                    cards = generate_topic_cards(
+                        topic, specialty=specialty, level=level, model=args.model,
+                        ollama_url=args.ollama_url, count=count,
+                        max_output_tokens=args.max_output_tokens,
+                        request_timeout=args.ollama_timeout,
+                    )
+            if curriculum.get("curriculum_domains"):
+                if topic_quality_report is None:
+                    topic_quality_report = validate_topic_cards(
+                        topic, cards, specialty=specialty,
+                        requested_mix=requested_card_mix(count, topic.get("card_mix")),
+                    )
+                topic_quality_reports.append(topic_quality_report)
+            if not loaded_checkpoint:
                 _atomic_write_json(checkpoint_path, {
                     "signature": signature, "topic_id": topic.get("id"),
                     "topic_name": topic.get("name") or topic.get("topic"),
@@ -491,6 +632,14 @@ def build(args: argparse.Namespace) -> int:
     report = evaluate_quality(cards, require_reviewed=args.require_reviewed)
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
+    if args.generate and curriculum.get("curriculum_domains"):
+        coverage_report = build_generation_coverage_report(
+            curriculum, topic_quality_reports, raw_cards
+        )
+        _atomic_write_json(out / "coverage_report.json", coverage_report)
+        if not coverage_report["all_topics_covered"]:
+            print("Coverage gate blocked export: one or more curriculum topics are incomplete", file=sys.stderr)
+            return 2
     (out / "generated_cards.json").write_text(
         json.dumps(
             {
@@ -509,6 +658,8 @@ def build(args: argparse.Namespace) -> int:
         json.dumps(
             {
                 **report_to_dict(report),
+                "curriculum_blueprint": blueprint_summary,
+                "generation_coverage": coverage_report,
                 "faculty_review_required": True,
                 "clinical_accuracy_verified": False,
             },
@@ -554,6 +705,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     source.add_argument("--cards", help="Use an existing Usiphus card JSON file")
     p.add_argument("--curriculum", help="Curriculum JSON with specialty and topics")
+    p.add_argument("--evidence-dir", help="Optional directory of per-topic <topic-id>.json packets; attached packets must pass review and rights gates before inference")
     p.add_argument("--specialty", help="Override the specialty in the curriculum")
     p.add_argument("--level", help="Override the learner level in the curriculum")
     p.add_argument(

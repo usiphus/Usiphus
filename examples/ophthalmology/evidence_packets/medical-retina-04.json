@@ -1,0 +1,87 @@
+{
+  "packet_schema_version": "1.0",
+  "packet_id": "ophthalmology-medical-retina-04-discovery-plan-v1",
+  "specialty": "ophthalmology",
+  "topic_id": "medical-retina-04",
+  "topic_name": "Inherited, inflammatory and toxic retinal disease",
+  "domain_id": "medical-retina",
+  "packet_status": "candidate_sources_pending_faculty_review",
+  "clinical_accuracy_verified": false,
+  "faculty_review_required": true,
+  "notice": "Candidate bibliographic leads only. Full-text appraisal, source currency/supersession, lawful access, article-specific reuse rights, exact section/page locators, objective mapping and qualified faculty review remain pending. Snippets are intentionally empty; generator evidence preflight must continue to fail.",
+  "sources": [
+    {
+      "source_id": "aao-inherited-retinal-degeneration-guidelines-2022",
+      "canonical_url": "https://www.aao.org/education/clinical-statement/guidelines-on-clinical-assessment-of-patients-with",
+      "title": "Guidelines on Clinical Assessment of Patients with Inherited Retinal Degenerations",
+      "source_type": "professional_society_clinical_guideline",
+      "published_on": "2022",
+      "guideline_version": "AAO clinical statement, 2022",
+      "licence_or_reuse_status": "rights_unknown; verify current statement status and reuse terms",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "American Academy of Ophthalmology",
+      "currency_note": "Useful for phenotype assessment, imaging, electrophysiology and genetic testing; check for a newer revision and gene-therapy eligibility changes."
+    },
+    {
+      "source_id": "aao-hydroxychloroquine-retinopathy-recommendations-2026",
+      "canonical_url": "https://www.aao.org/education/clinical-statement/revised-recommendations-on-screening-chloroquine-h",
+      "title": "Recommendations on Screening for Hydroxychloroquine Retinopathy - 2026",
+      "source_type": "professional_society_clinical_recommendation",
+      "published_on": "2025-11",
+      "guideline_version": "AAO Board of Trustees revision approved October 2025; published/revised November 2025 as 2026 recommendations",
+      "licence_or_reuse_status": "rights_unknown; verify AAO statement reuse terms",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_review_required",
+      "publisher": "American Academy of Ophthalmology",
+      "currency_note": "Current candidate for HCQ toxicity screening; covers hydroxychloroquine primarily, with limited additional evidence for chloroquine."
+    }
+  ],
+  "snippets": [],
+  "discovery_queries": [
+    {
+      "query_id": "medical-retina-04-LO01",
+      "objective_id": "medical-retina-04-LO01",
+      "objective": "Recognize inherited retinal dystrophies and common phenotypes",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Recognize+inherited+retinal+dystrophies+and+common+phenotypes)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Recognize+inherited+retinal+dystrophies+and+common+phenotypes)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Recognize+inherited+retinal+dystrophies+and+common+phenotypes)"
+      }
+    },
+    {
+      "query_id": "medical-retina-04-LO02",
+      "objective_id": "medical-retina-04-LO02",
+      "objective": "Describe retinal manifestations of inflammatory, infectious and toxic disease",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Describe+retinal+manifestations+of+inflammatory%2C+infectious+and+toxic+disease)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Describe+retinal+manifestations+of+inflammatory%2C+infectious+and+toxic+disease)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Describe+retinal+manifestations+of+inflammatory%2C+infectious+and+toxic+disease)"
+      }
+    },
+    {
+      "query_id": "medical-retina-04-LO03",
+      "objective_id": "medical-retina-04-LO03",
+      "objective": "Explain indications and limitations of electrophysiology and genetic testing",
+      "discovery_links": {
+        "pubmed": "https://pubmed.ncbi.nlm.nih.gov/?term=ophthalmology+AND+(Explain+indications+and+limitations+of+electrophysiology+and+genetic+testing)",
+        "europe_pmc": "https://europepmc.org/search?query=ophthalmology+AND+(Explain+indications+and+limitations+of+electrophysiology+and+genetic+testing)",
+        "google_scholar": "https://scholar.google.com/scholar?q=ophthalmology+AND+(Explain+indications+and+limitations+of+electrophysiology+and+genetic+testing)"
+      }
+    }
+  ],
+  "preferred_source_families": [
+    "Current AAO PPP/BCSC or relevant national/international guidance",
+    "Cochrane Eyes and Vision; PubMed/PMC/Europe PMC systematic reviews and primary studies",
+    "AAO EyeWiki and peer-reviewed specialty reviews for orientation, not sole guideline authority",
+    "AnkiWeb, DoctorDE, Geeky Medics and TeachMeSeries as exam-practice signals only; never clinical evidence"
+  ],
+  "curator_checklist": [
+    "Verify exact source, edition, date, jurisdiction and supersession status.",
+    "Review full text through a lawful access path and record article-specific reuse rights.",
+    "Add concise independently authored evidence notes or permitted excerpts with exact page/section/paragraph locators.",
+    "Map each snippet to the exact objective ID above.",
+    "Obtain qualified ophthalmology faculty review; never change status fields merely to bypass preflight."
+  ],
+  "curation_notice": "Candidate bibliography only; no source has been faculty-reviewed or approved for clinical claim grounding. Do not infer rights clearance from a public link or metadata record."
+}
