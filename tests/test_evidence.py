@@ -70,6 +70,23 @@ class EvidenceTests(unittest.TestCase):
         result = evidence.validate_evidence_packet(value)
         self.assertFalse(result["evidence_ready"])
 
+    def test_malformed_https_url_is_rejected(self):
+        value = packet()
+        value["sources"][0]["canonical_url"] = "https://"
+        result = evidence.validate_evidence_packet(value)
+        self.assertFalse(result["evidence_ready"])
+        self.assertTrue(any(
+            "valid HTTPS URL" in error
+            for error in result["source_errors"]["guideline-1"]
+        ))
+
+    def test_snippet_without_objective_mapping_is_not_eligible(self):
+        value = packet()
+        value["snippets"][0]["matched_objective_ids"] = []
+        result = evidence.validate_evidence_packet(value)
+        self.assertFalse(result["evidence_ready"])
+        self.assertEqual(result["eligible_snippet_count"], 0)
+
     def test_claim_must_match_source_and_locator(self):
         card = {"prompt": "What is the principle?", "answer": "A sufficiently detailed educational answer.",
                 "evidence_claims": [{"claim_id": "c1", "text": "The stated recommendation.",
