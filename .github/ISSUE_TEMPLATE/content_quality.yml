@@ -1,0 +1,46 @@
+name: Medical content quality report
+description: Report inaccurate, unsupported, outdated, or ambiguous educational content.
+title: "[Content quality]: "
+labels: ["content-quality", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: "Use synthetic examples only. Do not include identifiable patient information. Report security issues privately."
+  - type: input
+    id: specialty
+    attributes:
+      label: Specialty / curriculum
+    validations:
+      required: true
+  - type: input
+    id: card_id
+    attributes:
+      label: Card ID and topic ID
+    validations:
+      required: true
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Concern
+      options:
+        - Incorrect clinical claim or answer
+        - Unsupported or mismatched evidence
+        - Outdated guideline or source
+        - Incorrect MCQ key or distractor
+        - Incomplete OSCE checklist or critical action
+        - Objective mapping or coverage gap
+        - Rights, attribution, or licensing concern
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Explanation and suggested correction
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Supporting references
+      description: Include title, organization, year/version, and locator or URL.
