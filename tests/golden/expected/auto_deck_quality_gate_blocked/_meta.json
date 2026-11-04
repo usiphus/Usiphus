@@ -2,8 +2,6 @@
   "exit_code": 2,
   "files": [
     "_requests.json",
-    "_stderr.txt",
-    "generated_cards.json",
-    "quality_report.json"
+    "_stderr.txt"
   ]
 }

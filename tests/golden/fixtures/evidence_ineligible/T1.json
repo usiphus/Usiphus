@@ -1,0 +1,30 @@
+{
+  "topic_id": "T1",
+  "specialty": "urology",
+  "sources": [
+    {
+      "source_id": "S-T1",
+      "canonical_url": "https://example.org/synthetic-guideline",
+      "title": "Synthetic urology guideline",
+      "source_type": "professional_guideline",
+      "published_on": "2025-01-01",
+      "guideline_version": "2025",
+      "licence_or_reuse_status": "rights_unknown; verify terms",
+      "review_status": "candidate_unreviewed",
+      "access_status": "full_text_reviewed"
+    }
+  ],
+  "snippets": [
+    {
+      "snippet_id": "SN-1",
+      "source_id": "S-T1",
+      "text": "Synthetic recommendation text about prompt catheter drainage.",
+      "locator": "Section 2.1",
+      "matched_objective_ids": [
+        "T1-LO01",
+        "T1-LO02",
+        "T1-LO03"
+      ]
+    }
+  ]
+}

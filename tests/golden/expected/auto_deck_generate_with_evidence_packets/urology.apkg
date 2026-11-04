@@ -1,0 +1,146 @@
+{
+  "deck": {
+    "id": 1140168405,
+    "name": "Usiphus::Urology"
+  },
+  "fake_genanki": "JSON stand-in for an .apkg file",
+  "model": {
+    "fields": [
+      "Prompt",
+      "Answer",
+      "Options",
+      "CorrectOption",
+      "LearningObjective",
+      "Tags",
+      "CardID",
+      "References",
+      "Rubric",
+      "EvidenceStatus"
+    ],
+    "id": 1651735619,
+    "name": "Usiphus V7 Medical Model",
+    "templates": [
+      {
+        "afmt": "{{FrontSide}}<hr id=\"answer\"><b>Answer</b><br>{{Answer}}{{#CorrectOption}}<br><b>Correct option:</b> {{CorrectOption}}{{/CorrectOption}}{{#LearningObjective}}<br><b>Learning objective:</b> {{LearningObjective}}{{/LearningObjective}}{{#References}}<br><small>{{References}}</small>{{/References}}{{#Rubric}}<br><b>Checklist</b><br>{{Rubric}}{{/Rubric}}<br><small>Evidence status: {{EvidenceStatus}}</small>",
+        "name": "Usiphus Card",
+        "qfmt": "{{Prompt}}{{#Options}}<hr><ol>{{Options}}</ol>{{/Options}}"
+      }
+    ]
+  },
+  "notes": [
+    {
+      "fields": [
+        "What is the key teaching point about acute urinary retention (item 1)?",
+        "A structured explanation of acute urinary retention covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
+        "",
+        "",
+        "Recognise acute urinary retention",
+        "emergency; basic",
+        "OLLAMA-T1-001",
+        "Synthetic faculty-supplied reference A",
+        "",
+        "unreviewed"
+      ],
+      "guid": "0ae021bff980613a755b",
+      "tags": [
+        "emergency",
+        "basic"
+      ]
+    },
+    {
+      "fields": [
+        "Which synthetic option is the best first step in acute urinary retention (item 2)?",
+        "A structured explanation of acute urinary retention covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
+        "<li>Synthetic option A describing a plausible step for acute urinary retention</li><li>Synthetic option B describing a plausible step for acute urinary retention</li><li>Synthetic option C describing a plausible step for acute urinary retention</li><li>Synthetic option D describing a plausible step for acute urinary retention</li>",
+        "Synthetic option A describing a plausible step for acute urinary retention",
+        "Outline initial management",
+        "emergency; mcq",
+        "OLLAMA-T1-002",
+        "Synthetic faculty-supplied reference A",
+        "",
+        "unreviewed"
+      ],
+      "guid": "d4e0e452d7e00f5c86b7",
+      "tags": [
+        "emergency",
+        "mcq"
+      ]
+    },
+    {
+      "fields": [
+        "Candidate instruction: assess and explain your plan to a simulated patient with acute urinary retention (item 3):",
+        "A structured explanation of acute urinary retention covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
+        "",
+        "",
+        "Identify complications of catheterisation",
+        "emergency; osce",
+        "OLLAMA-T1-003",
+        "Synthetic faculty-supplied reference A",
+        "<li>Introduces self and confirms identity</li><li>Takes a focused history</li><li>Explains findings and plan in plain language</li>",
+        "unreviewed"
+      ],
+      "guid": "27c13fb2269aca63f09b",
+      "tags": [
+        "emergency",
+        "osce"
+      ]
+    },
+    {
+      "fields": [
+        "What is the key teaching point about renal colic (item 1)?",
+        "A structured explanation of renal colic covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
+        "",
+        "",
+        "Select imaging for renal colic",
+        "stone; basic",
+        "OLLAMA-T2-001",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "59f58d4271642d20899a",
+      "tags": [
+        "stone",
+        "basic"
+      ]
+    },
+    {
+      "fields": [
+        "What is the key teaching point about renal colic (item 2)?",
+        "A structured explanation of renal colic covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
+        "",
+        "",
+        "Identify indications for urgent intervention",
+        "stone; basic",
+        "OLLAMA-T2-002",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "8f9c45a2f7ca3a77fb66",
+      "tags": [
+        "stone",
+        "basic"
+      ]
+    },
+    {
+      "fields": [
+        "Explain your structured approach to renal colic (item 3):",
+        "A structured explanation of renal colic covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
+        "",
+        "",
+        "Counsel on analgesia and follow-up",
+        "stone; viva",
+        "OLLAMA-T2-003",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "4e74c1240da22b6a1002",
+      "tags": [
+        "stone",
+        "viva"
+      ]
+    }
+  ]
+}

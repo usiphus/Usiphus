@@ -1,7 +1,9 @@
 {
   "clinical_accuracy_verified": false,
+  "curriculum_blueprint": null,
   "error_examples": [],
   "faculty_review_required": true,
+  "generation_coverage": null,
   "results": [
     {
       "card_id": "G-001",

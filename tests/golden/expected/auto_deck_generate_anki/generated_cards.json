@@ -1,36 +1,43 @@
 {
   "cards": [
     {
-      "answer": "A structured explanation of acute urinary retention covering assessment, differential and safe first steps; faculty must verify every synthetic claim.",
-      "card_id": "OLLAMA-ACUTE-URINARY-RETENT-001",
+      "answer": "A structured explanation of acute urinary retention covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
+      "card_id": "OLLAMA-T1-001",
       "card_type": "basic",
       "cognitive_level": "apply",
       "correct_option": "",
+      "curriculum_domain": "Emergency urology",
       "difficulty": "intermediate",
+      "domain_id": "emergency",
       "evidence_status": "unreviewed",
-      "exam_domain": "Synthetic domain",
-      "learning_objective": "Apply core principles of acute urinary retention",
+      "exam_domain": "Emergency urology",
+      "learning_objective": "Recognise acute urinary retention",
       "options": [],
       "prompt": "What is the key teaching point about acute urinary retention (item 1)?",
-      "references": [],
+      "references": [
+        "Synthetic faculty-supplied reference A"
+      ],
       "rubric": [],
       "source": "AI-generated draft; faculty verification required",
       "specialty": "urology",
       "tags": [
-        "synthetic",
+        "emergency",
         "basic"
-      ]
+      ],
+      "topic_id": "T1"
     },
     {
-      "answer": "Option A is correct because it addresses the underlying problem in acute urinary retention first; faculty must verify this synthetic teaching point.",
-      "card_id": "OLLAMA-ACUTE-URINARY-RETENT-002",
+      "answer": "A structured explanation of acute urinary retention covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
+      "card_id": "OLLAMA-T1-002",
       "card_type": "mcq",
       "cognitive_level": "apply",
       "correct_option": "Synthetic option A describing a plausible step for acute urinary retention",
+      "curriculum_domain": "Emergency urology",
       "difficulty": "intermediate",
+      "domain_id": "emergency",
       "evidence_status": "unreviewed",
-      "exam_domain": "Synthetic domain",
-      "learning_objective": "Apply core principles of acute urinary retention",
+      "exam_domain": "Emergency urology",
+      "learning_objective": "Outline initial management",
       "options": [
         "Synthetic option A describing a plausible step for acute urinary retention",
         "Synthetic option B describing a plausible step for acute urinary retention",
@@ -38,28 +45,35 @@
         "Synthetic option D describing a plausible step for acute urinary retention"
       ],
       "prompt": "Which synthetic option is the best first step in acute urinary retention (item 2)?",
-      "references": [],
+      "references": [
+        "Synthetic faculty-supplied reference A"
+      ],
       "rubric": [],
       "source": "AI-generated draft; faculty verification required",
       "specialty": "urology",
       "tags": [
-        "synthetic",
+        "emergency",
         "mcq"
-      ]
+      ],
+      "topic_id": "T1"
     },
     {
-      "answer": "Introduce yourself, confirm identity, take a focused history, perform a focused examination and explain the plan clearly; faculty must verify these synthetic marking points.",
-      "card_id": "OLLAMA-ACUTE-URINARY-RETENT-003",
+      "answer": "A structured explanation of acute urinary retention covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
+      "card_id": "OLLAMA-T1-003",
       "card_type": "osce",
       "cognitive_level": "apply",
       "correct_option": "",
+      "curriculum_domain": "Emergency urology",
       "difficulty": "intermediate",
+      "domain_id": "emergency",
       "evidence_status": "unreviewed",
-      "exam_domain": "Synthetic domain",
-      "learning_objective": "Apply core principles of acute urinary retention",
+      "exam_domain": "Emergency urology",
+      "learning_objective": "Identify complications of catheterisation",
       "options": [],
-      "prompt": "Candidate instruction: assess a simulated patient with acute urinary retention (item 3).",
-      "references": [],
+      "prompt": "Candidate instruction: assess and explain your plan to a simulated patient with acute urinary retention (item 3):",
+      "references": [
+        "Synthetic faculty-supplied reference A"
+      ],
       "rubric": [
         "Introduces self and confirms identity",
         "Takes a focused history",
@@ -68,20 +82,23 @@
       "source": "AI-generated draft; faculty verification required",
       "specialty": "urology",
       "tags": [
-        "synthetic",
+        "emergency",
         "osce"
-      ]
+      ],
+      "topic_id": "T1"
     },
     {
-      "answer": "A structured explanation of renal colic covering assessment, differential and safe first steps; faculty must verify every synthetic claim.",
-      "card_id": "OLLAMA-RENAL-COLIC-001",
+      "answer": "A structured explanation of renal colic covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
+      "card_id": "OLLAMA-T2-001",
       "card_type": "basic",
       "cognitive_level": "apply",
       "correct_option": "",
+      "curriculum_domain": "Stone disease",
       "difficulty": "intermediate",
+      "domain_id": "stone",
       "evidence_status": "unreviewed",
-      "exam_domain": "Synthetic domain",
-      "learning_objective": "Apply core principles of renal colic",
+      "exam_domain": "Stone disease",
+      "learning_objective": "Select imaging for renal colic",
       "options": [],
       "prompt": "What is the key teaching point about renal colic (item 1)?",
       "references": [],
@@ -89,30 +106,58 @@
       "source": "AI-generated draft; faculty verification required",
       "specialty": "urology",
       "tags": [
-        "synthetic",
+        "stone",
         "basic"
-      ]
+      ],
+      "topic_id": "T2"
     },
     {
-      "answer": "A structured explanation of renal colic covering assessment, differential and safe first steps; faculty must verify every synthetic claim.",
-      "card_id": "OLLAMA-RENAL-COLIC-002",
-      "card_type": "viva",
+      "answer": "A structured explanation of renal colic covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
+      "card_id": "OLLAMA-T2-002",
+      "card_type": "basic",
       "cognitive_level": "apply",
       "correct_option": "",
+      "curriculum_domain": "Stone disease",
       "difficulty": "intermediate",
+      "domain_id": "stone",
       "evidence_status": "unreviewed",
-      "exam_domain": "Synthetic domain",
-      "learning_objective": "Apply core principles of renal colic",
+      "exam_domain": "Stone disease",
+      "learning_objective": "Identify indications for urgent intervention",
       "options": [],
-      "prompt": "Explain your approach to renal colic (item 2).",
+      "prompt": "What is the key teaching point about renal colic (item 2)?",
       "references": [],
       "rubric": [],
       "source": "AI-generated draft; faculty verification required",
       "specialty": "urology",
       "tags": [
-        "synthetic",
+        "stone",
+        "basic"
+      ],
+      "topic_id": "T2"
+    },
+    {
+      "answer": "A structured explanation of renal colic covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
+      "card_id": "OLLAMA-T2-003",
+      "card_type": "viva",
+      "cognitive_level": "apply",
+      "correct_option": "",
+      "curriculum_domain": "Stone disease",
+      "difficulty": "intermediate",
+      "domain_id": "stone",
+      "evidence_status": "unreviewed",
+      "exam_domain": "Stone disease",
+      "learning_objective": "Counsel on analgesia and follow-up",
+      "options": [],
+      "prompt": "Explain your structured approach to renal colic (item 3):",
+      "references": [],
+      "rubric": [],
+      "source": "AI-generated draft; faculty verification required",
+      "specialty": "urology",
+      "tags": [
+        "stone",
         "viva"
-      ]
+      ],
+      "topic_id": "T2"
     }
   ],
   "generation_notice": "AI-generated draft; faculty review required",

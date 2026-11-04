@@ -1,2 +1,8 @@
-Generated 5 cards in <WORK>/out
+[1/2] Generating 3 cards: Acute urinary retention
+[1/2] Saved checkpoint (3 cards)
+[Progress] 1/2 topics complete; 3 cards ready
+[2/2] Generating 3 cards: Renal colic
+[2/2] Saved checkpoint (3 cards)
+[Progress] 2/2 topics complete; 6 cards ready
+Generated 6 cards in <WORK>/out
 Quality: 0 errors, 11 warnings

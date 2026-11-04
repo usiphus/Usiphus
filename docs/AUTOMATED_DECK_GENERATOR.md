@@ -126,11 +126,20 @@ python usiphus_auto_deck.py --generate \
   --output-dir build/ophthalmology
 ```
 
-The 52-topic example makes 52 local generation requests. The default request
-ceiling is 60 and the default output ceiling is 3,500 tokens per topic. Adjust
-them with `--max-ollama-calls` and `--max-output-tokens`. Topic count
-determines the number of model requests; total cards are controlled by topic
-card counts.
+The 52-topic example makes at least 52 local generation requests. Format and
+quality retries each send another request, so the real number can be higher.
+`--max-ollama-calls` (default 60) is a hard ceiling on **every** request,
+retries included: when it is reached the run stops with a clear error, keeps the
+topics already checkpointed, and can be continued with `--resume` and a higher
+limit (for example `--max-ollama-calls 200` for the 52-topic example). The
+default output ceiling is 3,500 tokens per request (`--max-output-tokens`).
+Total cards are controlled by topic card counts.
+
+The Ollama address comes from `--ollama-url` or `OLLAMA_HOST`; the
+`host:port` form Ollama itself uses (for example `127.0.0.1:11434`) is
+accepted. Only loopback addresses are allowed, because curriculum text and
+curated evidence packets are sent to that address. Use `--allow-remote-ollama`
+only when you deliberately want to send them to another machine.
 
 Outputs include the Anki package, PowerPoint, `generated_cards.json` and
 `quality_report.json`.

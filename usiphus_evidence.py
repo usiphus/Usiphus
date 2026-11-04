@@ -11,11 +11,26 @@ from pathlib import Path
 from urllib.parse import urlsplit
 from typing import Any
 
+_NUMBER = r"\d+(?:[.,]\d+)?"
 RISK_PATTERNS = {
-    "drug_dose": re.compile(r"\b(?:mg|mcg|µg|g|ml|mL|units?)\s*/?\s*(?:kg|day|dose|hour|hr)?\b", re.I),
+    # A number followed by a dose unit ("500mg", "5 mg/kg", "0.5 ml"), or the word dose/dosing.
+    # Bare words such as "units" or "g" with no number are deliberately not flagged.
+    "drug_dose": re.compile(
+        rf"\b{_NUMBER}\s*(?:mg|mcg|µg|μg|g|ml|iu|meq|units?|grams?|milligrams?|micrograms?"
+        rf"|millilitres?|milliliters?)\b(?:\s*/\s*(?:kg|day|dose|hour|hr|h|m2|m²)\b)?"
+        r"|\bdos(?:e|es|ing|age)\b",
+        re.I,
+    ),
     "contraindication": re.compile(r"\bcontraindicat(?:ed|ion|ions)\b", re.I),
     "emergency_action": re.compile(r"\b(?:immediate|urgent|emergency|first[- ]line|resuscitat)\b", re.I),
-    "threshold": re.compile(r"\b(?:cut[- ]?off|threshold|greater than|less than|\d+\s*(?:mmhg|mmol|cm|%) )\b", re.I),
+    # Numeric limits ("21 mmHg", "30%", "> 25") and threshold wording, including at the end of a sentence.
+    "threshold": re.compile(
+        rf"\b(?:cut[- ]?off|threshold|greater than|less than)\b"
+        rf"|[<>≥≤]=?\s*{_NUMBER}"
+        rf"|\b{_NUMBER}\s*(?:mmhg|mmol(?:/l)?|mg/dl|cm|mm)\b"
+        rf"|\b{_NUMBER}\s*%",
+        re.I,
+    ),
     "red_flag": re.compile(r"\b(?:red flag|danger sign|life[- ]threatening|must not miss)\b", re.I),
 }
 
@@ -23,6 +38,13 @@ REQUIRED_SOURCE_FIELDS = (
     "source_id", "canonical_url", "title", "source_type", "published_on",
     "guideline_version", "licence_or_reuse_status", "review_status",
 )
+# Exact (case/whitespace-insensitive) markers only. Substring matching would accept values such as
+# "no_permission_confirmed" or "permission_confirmed_pending".
+VERIFIED_RIGHTS = frozenset({
+    "permission_confirmed", "written_permission_confirmed", "public_domain_confirmed", "cc0_confirmed",
+    "cc_by_confirmed", "cc-by_confirmed", "apache-2.0_confirmed", "mit_license_confirmed",
+    "government_open_licence_confirmed", "government_open_license_confirmed",
+})
 REQUIRED_CLAIM_FIELDS = ("claim_id", "text", "source_id", "snippet_id", "locator")
 
 
@@ -50,13 +72,7 @@ def validate_evidence_source(source: dict[str, Any]) -> list[str]:
     if source.get("access_status") not in eligible_access:
         errors.append("source full text has not been reviewed through an eligible access path")
     rights = _text(source.get("licence_or_reuse_status")).casefold()
-    verified_rights_markers = (
-        "permission_confirmed", "written_permission_confirmed",
-        "public_domain_confirmed", "cc0_confirmed", "cc_by_confirmed",
-        "cc-by_confirmed", "apache-2.0_confirmed", "mit_license_confirmed",
-        "government_open_licence_confirmed", "government_open_license_confirmed",
-    )
-    if not any(marker in rights for marker in verified_rights_markers):
+    if rights not in VERIFIED_RIGHTS:
         errors.append("reuse/access rights are not explicitly verified by a recognized permission or licence marker")
     return errors
 
@@ -137,7 +153,10 @@ def load_topic_evidence_packets(
         if not path.is_file():
             missing.append(topic_id)
             continue
-        packet = json.loads(path.read_text(encoding="utf-8"))
+        try:
+            packet = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise ValueError(f"Evidence packet {path.name} is not readable JSON: {exc}") from exc
         if not isinstance(packet, dict):
             raise ValueError(f"Evidence packet for {topic_id} must be a JSON object")
         if packet.get("topic_id") != topic_id:

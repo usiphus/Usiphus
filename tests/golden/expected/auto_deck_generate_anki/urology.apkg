@@ -31,95 +31,114 @@
     {
       "fields": [
         "What is the key teaching point about acute urinary retention (item 1)?",
-        "A structured explanation of acute urinary retention covering assessment, differential and safe first steps; faculty must verify every synthetic claim.",
+        "A structured explanation of acute urinary retention covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
         "",
         "",
-        "Apply core principles of acute urinary retention",
-        "synthetic; basic",
-        "OLLAMA-ACUTE-URINARY-RETENT-001",
-        "",
+        "Recognise acute urinary retention",
+        "emergency; basic",
+        "OLLAMA-T1-001",
+        "Synthetic faculty-supplied reference A",
         "",
         "unreviewed"
       ],
-      "guid": "16c505685b4f3d954f36",
+      "guid": "0ae021bff980613a755b",
       "tags": [
-        "synthetic",
+        "emergency",
         "basic"
       ]
     },
     {
       "fields": [
         "Which synthetic option is the best first step in acute urinary retention (item 2)?",
-        "Option A is correct because it addresses the underlying problem in acute urinary retention first; faculty must verify this synthetic teaching point.",
+        "A structured explanation of acute urinary retention covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
         "<li>Synthetic option A describing a plausible step for acute urinary retention</li><li>Synthetic option B describing a plausible step for acute urinary retention</li><li>Synthetic option C describing a plausible step for acute urinary retention</li><li>Synthetic option D describing a plausible step for acute urinary retention</li>",
         "Synthetic option A describing a plausible step for acute urinary retention",
-        "Apply core principles of acute urinary retention",
-        "synthetic; mcq",
-        "OLLAMA-ACUTE-URINARY-RETENT-002",
-        "",
+        "Outline initial management",
+        "emergency; mcq",
+        "OLLAMA-T1-002",
+        "Synthetic faculty-supplied reference A",
         "",
         "unreviewed"
       ],
-      "guid": "7fa12f3eafbf67a8e4d7",
+      "guid": "d4e0e452d7e00f5c86b7",
       "tags": [
-        "synthetic",
+        "emergency",
         "mcq"
       ]
     },
     {
       "fields": [
-        "Candidate instruction: assess a simulated patient with acute urinary retention (item 3).",
-        "Introduce yourself, confirm identity, take a focused history, perform a focused examination and explain the plan clearly; faculty must verify these synthetic marking points.",
+        "Candidate instruction: assess and explain your plan to a simulated patient with acute urinary retention (item 3):",
+        "A structured explanation of acute urinary retention covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
         "",
         "",
-        "Apply core principles of acute urinary retention",
-        "synthetic; osce",
-        "OLLAMA-ACUTE-URINARY-RETENT-003",
-        "",
+        "Identify complications of catheterisation",
+        "emergency; osce",
+        "OLLAMA-T1-003",
+        "Synthetic faculty-supplied reference A",
         "<li>Introduces self and confirms identity</li><li>Takes a focused history</li><li>Explains findings and plan in plain language</li>",
         "unreviewed"
       ],
-      "guid": "893eefdaf9772ad7d3c6",
+      "guid": "27c13fb2269aca63f09b",
       "tags": [
-        "synthetic",
+        "emergency",
         "osce"
       ]
     },
     {
       "fields": [
         "What is the key teaching point about renal colic (item 1)?",
-        "A structured explanation of renal colic covering assessment, differential and safe first steps; faculty must verify every synthetic claim.",
+        "A structured explanation of renal colic covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
         "",
         "",
-        "Apply core principles of renal colic",
-        "synthetic; basic",
-        "OLLAMA-RENAL-COLIC-001",
+        "Select imaging for renal colic",
+        "stone; basic",
+        "OLLAMA-T2-001",
         "",
         "",
         "unreviewed"
       ],
-      "guid": "25374395ebf0b2208635",
+      "guid": "59f58d4271642d20899a",
       "tags": [
-        "synthetic",
+        "stone",
         "basic"
       ]
     },
     {
       "fields": [
-        "Explain your approach to renal colic (item 2).",
-        "A structured explanation of renal colic covering assessment, differential and safe first steps; faculty must verify every synthetic claim.",
+        "What is the key teaching point about renal colic (item 2)?",
+        "A structured explanation of renal colic covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
         "",
         "",
-        "Apply core principles of renal colic",
-        "synthetic; viva",
-        "OLLAMA-RENAL-COLIC-002",
+        "Identify indications for urgent intervention",
+        "stone; basic",
+        "OLLAMA-T2-002",
         "",
         "",
         "unreviewed"
       ],
-      "guid": "452baf0fda49609d91f1",
+      "guid": "8f9c45a2f7ca3a77fb66",
       "tags": [
-        "synthetic",
+        "stone",
+        "basic"
+      ]
+    },
+    {
+      "fields": [
+        "Explain your structured approach to renal colic (item 3):",
+        "A structured explanation of renal colic covering assessment, differential diagnosis, investigations and safe first steps; faculty must verify every synthetic claim before any teaching use.",
+        "",
+        "",
+        "Counsel on analgesia and follow-up",
+        "stone; viva",
+        "OLLAMA-T2-003",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "4e74c1240da22b6a1002",
+      "tags": [
+        "stone",
         "viva"
       ]
     }

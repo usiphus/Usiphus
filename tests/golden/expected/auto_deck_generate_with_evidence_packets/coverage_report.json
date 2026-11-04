@@ -1,0 +1,59 @@
+{
+  "all_topics_covered": true,
+  "cards_generated": 6,
+  "clinical_accuracy_verified": false,
+  "faculty_review_required": true,
+  "notice": "Coverage and structural gates do not verify clinical accuracy, guideline currency, source quality or exam validity.",
+  "objectives_covered": 6,
+  "objectives_planned": 6,
+  "schema_version": 1,
+  "source_gap_count": 1,
+  "specialty": "urology",
+  "topic_gaps": [],
+  "topic_reports": [
+    {
+      "card_type_counts": {
+        "basic": 1,
+        "mcq": 1,
+        "osce": 1
+      },
+      "cards_generated": 3,
+      "coverage_complete": true,
+      "evidence_claims_mapped": 3,
+      "evidence_status": "evidence_mapped_unreviewed",
+      "high_risk_claim_flags": [],
+      "objective_card_counts": {
+        "Identify complications of catheterisation": 1,
+        "Outline initial management": 1,
+        "Recognise acute urinary retention": 1
+      },
+      "objective_count": 3,
+      "objectives_covered": 3,
+      "source_reference_count": 1,
+      "topic_id": "T1",
+      "topic_name": "Acute urinary retention"
+    },
+    {
+      "card_type_counts": {
+        "basic": 2,
+        "viva": 1
+      },
+      "cards_generated": 3,
+      "coverage_complete": true,
+      "evidence_status": "unreviewed_source_gap",
+      "objective_card_counts": {
+        "Counsel on analgesia and follow-up": 1,
+        "Identify indications for urgent intervention": 1,
+        "Select imaging for renal colic": 1
+      },
+      "objective_count": 3,
+      "objectives_covered": 3,
+      "source_reference_count": 0,
+      "topic_id": "T2",
+      "topic_name": "Renal colic"
+    }
+  ],
+  "topics_generated": 2,
+  "topics_planned": 2,
+  "topics_with_complete_coverage": 2
+}

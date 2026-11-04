@@ -324,6 +324,78 @@
           }
         }
       }
+    },
+    "assessment": {
+      "type": "object",
+      "required": [
+        "item_id"
+      ],
+      "properties": {
+        "item_id": {
+          "type": "string"
+        },
+        "question": {
+          "type": "string"
+        },
+        "specialty": {
+          "type": "string"
+        },
+        "learning_objective": {
+          "type": "string"
+        },
+        "cognitive_level": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "competency_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "evidence_claim_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "releaseManifest": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "release_status"
+      ],
+      "properties": {
+        "schema_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "release_status": {
+          "type": "string"
+        },
+        "generated_at": {
+          "type": "string"
+        },
+        "inputs": {
+          "type": "object"
+        },
+        "outputs": {
+          "type": "object"
+        },
+        "release_policy": {
+          "type": "object"
+        }
+      }
     }
   },
   "$id": "https://usiphus.invalid/schemas/v17-contracts.schema.json",
@@ -350,3 +422,4 @@
     }
   ],
   "title": "Usiphus V17 versioned contract envelope"
+}

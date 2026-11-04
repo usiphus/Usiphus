@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 """Asymmetric (Ed25519) signing for Usiphus audit events and anchor files.
 
@@ -104,7 +103,6 @@ def passphrase_from_env(name: str = PASSPHRASE_ENV) -> bytes | None:
 # --------------------------------------------------------------------------
 def generate_keypair(private_path: Path, public_path: Path, passphrase: bytes | None = None) -> str:
     """Create an Ed25519 key pair. Returns the key_id. Refuses to overwrite existing files."""
-    global public_pem, private_pem
     private_path, public_path = Path(private_path), Path(public_path)
     for path in (private_path, public_path):
         if path.exists():
@@ -182,7 +180,6 @@ class Ed25519Signer:
                 os.environ.pop(k, None) if v is None else os.environ.__setitem__(k, v)
 
     def sign(self, message: str) -> str:
-        global raw
         data = message.encode("utf-8")
         if self._key is not None:
             raw = self._key.sign(data)

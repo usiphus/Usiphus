@@ -1,0 +1,1 @@
+ERROR: Ollama base_url must be a local loopback URL, such as http://localhost:11434

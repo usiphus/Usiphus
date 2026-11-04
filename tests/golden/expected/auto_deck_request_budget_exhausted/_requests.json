@@ -1,0 +1,50 @@
+[
+  {
+    "body": {
+      "keep_alive": "30m",
+      "messages": [
+        {
+          "content": "You are an educational drafting assistant for medical faculty. Respect the supplied curriculum domain, topic ID, coverage tags and learning objectives. Map every card to one supplied learning objective using that objective's exact wording. Include at least one supplied coverage_tags value verbatim in each card's tags. Cover the full scope of the named topic rather than drifting into adjacent topics. Create accurate, appropriately qualified educational drafts, not clinical advice. Do not invent references, DOI values, guideline dates, statistics, or quotations. Use only faculty-supplied references; if none are supplied, return references as []. When curated_evidence_packet is supplied, map each clinically material factual claim to exact snippet IDs using evidence_claims objects with claim_id, text, source_id, snippet_id and locator. Never cite search results or metadata as evidence. If the packet lacks support, state the gap rather than inventing a claim. If quality_feedback is present, correct every listed issue in this attempt. Flag uncertain or guideline-dependent claims in the answer for faculty verification. Return ONLY a JSON object with a cards array. Each card must have card_id, specialty, card_type (basic, mcq, viva, osce, clinical_case), difficulty, prompt, answer, options, correct_option, learning_objective, tags, references, cognitive_level, exam_domain, rubric, evidence_status, evidence_claims. Every prompt must end in '?' or ':'. Exactly one correct MCQ option. Follow requested_card_mix exactly where possible and return exactly requested_card_count cards. For MCQs use 4-5 plausible options, one unambiguous key, and explain why the key is correct and why distractors are wrong. Clinical cases must include age/context, focused findings, a reasoning question and a safe first-step approach; avoid unsupported drug doses. Viva answers should be structured and exam-ready. OSCE cards need candidate instructions, expected steps and a concise checklist rubric. Include red flags, differential diagnosis, investigations and management principles when relevant to the objective. Use original wording; do not copy textbook passages. evidence_status must be unreviewed.",
+          "role": "system"
+        },
+        {
+          "content": "{\"specialty\": \"urology\", \"learner_level\": \"medical students\", \"topic\": \"Acute urinary retention\", \"topic_id\": \"T1\", \"curriculum_domain\": \"Emergency urology\", \"domain_id\": \"emergency\", \"coverage_tags\": [\"emergency\", \"catheterisation\"], \"learning_objectives\": [\"Recognise acute urinary retention\", \"Outline initial management\", \"Identify complications of catheterisation\"], \"exam_emphasis\": [\"viva\"], \"faculty_supplied_reference_sources\": [\"Synthetic faculty-supplied reference A\"], \"curated_evidence_packet\": null, \"requested_card_count\": 3, \"requested_card_mix\": {\"basic\": 1, \"mcq\": 1, \"osce\": 1}, \"quality_feedback\": \"\"}",
+          "role": "user"
+        }
+      ],
+      "model": "llama3.1:8b",
+      "options": {
+        "num_predict": 4096,
+        "temperature": 0.2
+      },
+      "stream": true
+    },
+    "method": "POST",
+    "timeout": 300,
+    "url": "http://localhost:11434/api/chat"
+  },
+  {
+    "body": {
+      "keep_alive": "30m",
+      "messages": [
+        {
+          "content": "You are an educational drafting assistant for medical faculty. Respect the supplied curriculum domain, topic ID, coverage tags and learning objectives. Map every card to one supplied learning objective using that objective's exact wording. Include at least one supplied coverage_tags value verbatim in each card's tags. Cover the full scope of the named topic rather than drifting into adjacent topics. Create accurate, appropriately qualified educational drafts, not clinical advice. Do not invent references, DOI values, guideline dates, statistics, or quotations. Use only faculty-supplied references; if none are supplied, return references as []. When curated_evidence_packet is supplied, map each clinically material factual claim to exact snippet IDs using evidence_claims objects with claim_id, text, source_id, snippet_id and locator. Never cite search results or metadata as evidence. If the packet lacks support, state the gap rather than inventing a claim. If quality_feedback is present, correct every listed issue in this attempt. Flag uncertain or guideline-dependent claims in the answer for faculty verification. Return ONLY a JSON object with a cards array. Each card must have card_id, specialty, card_type (basic, mcq, viva, osce, clinical_case), difficulty, prompt, answer, options, correct_option, learning_objective, tags, references, cognitive_level, exam_domain, rubric, evidence_status, evidence_claims. Every prompt must end in '?' or ':'. Exactly one correct MCQ option. Follow requested_card_mix exactly where possible and return exactly requested_card_count cards. For MCQs use 4-5 plausible options, one unambiguous key, and explain why the key is correct and why distractors are wrong. Clinical cases must include age/context, focused findings, a reasoning question and a safe first-step approach; avoid unsupported drug doses. Viva answers should be structured and exam-ready. OSCE cards need candidate instructions, expected steps and a concise checklist rubric. Include red flags, differential diagnosis, investigations and management principles when relevant to the objective. Use original wording; do not copy textbook passages. evidence_status must be unreviewed.",
+          "role": "system"
+        },
+        {
+          "content": "{\"specialty\": \"urology\", \"learner_level\": \"medical students\", \"topic\": \"Acute urinary retention\", \"topic_id\": \"T1\", \"curriculum_domain\": \"Emergency urology\", \"domain_id\": \"emergency\", \"coverage_tags\": [\"emergency\", \"catheterisation\"], \"learning_objectives\": [\"Recognise acute urinary retention\", \"Outline initial management\", \"Identify complications of catheterisation\"], \"exam_emphasis\": [\"viva\"], \"faculty_supplied_reference_sources\": [\"Synthetic faculty-supplied reference A\"], \"curated_evidence_packet\": null, \"requested_card_count\": 3, \"requested_card_mix\": {\"basic\": 1, \"mcq\": 1, \"osce\": 1}, \"quality_feedback\": \"T1: duplicate prompt detected\"}",
+          "role": "user"
+        }
+      ],
+      "model": "llama3.1:8b",
+      "options": {
+        "num_predict": 4096,
+        "temperature": 0.2
+      },
+      "stream": true
+    },
+    "method": "POST",
+    "timeout": 300,
+    "url": "http://localhost:11434/api/chat"
+  }
+]

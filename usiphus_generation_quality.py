@@ -29,6 +29,15 @@ def _unique_strings(value: Any, field: str, *, required: bool = False) -> list[s
     return result
 
 
+def _reference_key(ref: Any) -> str:
+    """Normalised identity of a faculty-supplied reference given as a plain string or an object."""
+    if isinstance(ref, str):
+        return _norm(ref)
+    if isinstance(ref, dict):
+        return _norm(ref.get("url") or ref.get("reference") or ref.get("doi") or ref.get("pmid"))
+    return ""
+
+
 def validate_curriculum_blueprint(curriculum: dict[str, Any]) -> dict[str, Any]:
     """Fail before inference when a specialty blueprint cannot support coverage."""
     topics = curriculum.get("topics")
@@ -99,10 +108,7 @@ def validate_topic_cards(
     faculty_refs = topic.get("reference_sources", [])
     if not isinstance(faculty_refs, list):
         raise ValueError(f"{topic_id}: reference_sources must be a list")
-    allowed_refs = {
-        _norm(ref.get("url") or ref.get("reference") or ref.get("doi") or ref.get("pmid"))
-        for ref in faculty_refs if isinstance(ref, dict)
-    }
+    allowed_refs = {key for key in (_reference_key(ref) for ref in faculty_refs) if key}
     for index, card in enumerate(cards, 1):
         if not isinstance(card, dict):
             raise ValueError(f"{topic_id}: card {index} must be an object")
