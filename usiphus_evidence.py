@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
+from urllib.parse import urlsplit
 from typing import Any
 
 RISK_PATTERNS = {
@@ -36,9 +37,10 @@ def validate_evidence_source(source: dict[str, Any]) -> list[str]:
         if not _text(source.get(field)):
             errors.append(f"missing {field}")
     url = _text(source.get("canonical_url"))
-    if url and not url.startswith(("https://doi.org/", "https://pubmed.ncbi.nlm.nih.gov/",
-                                   "https://europepmc.org/", "https://")):
-        errors.append("canonical_url must use HTTPS")
+    if url:
+        parsed_url = urlsplit(url)
+        if parsed_url.scheme != "https" or not parsed_url.hostname:
+            errors.append("canonical_url must be a valid HTTPS URL with a hostname")
     if source.get("review_status") != "faculty_reviewed":
         errors.append("source is not faculty_reviewed")
     eligible_access = {
@@ -90,6 +92,10 @@ def validate_evidence_packet(packet: dict[str, Any]) -> dict[str, Any]:
             snippet_errors[sid] = ["unknown source_id"]
         elif not _text(snippet.get("text")) or not _text(snippet.get("locator")):
             snippet_errors[sid] = ["snippet requires text and a page/section/paragraph locator"]
+        elif (not isinstance(snippet.get("matched_objective_ids"), list)
+              or not snippet.get("matched_objective_ids")
+              or any(not _text(x) for x in snippet.get("matched_objective_ids", []))):
+            snippet_errors[sid] = ["snippet requires one or more explicit learning-objective IDs"]
     eligible = [s for s in sources if s["source_id"] not in source_errors]
     eligible_ids = {s["source_id"] for s in eligible}
     eligible_snippets = [s for s in snippets if s.get("source_id") in eligible_ids
