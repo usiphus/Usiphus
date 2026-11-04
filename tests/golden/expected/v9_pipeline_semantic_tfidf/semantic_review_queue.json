@@ -1,0 +1,69 @@
+[
+  {
+    "backend": "tfidf",
+    "card_id_a": "LEG-001",
+    "card_id_b": "LEG-002",
+    "priority": "medium",
+    "review_required": true,
+    "similarity": 0.8716,
+    "specialty_a": "urology",
+    "specialty_b": "urology",
+    "type": "possible_duplicate"
+  },
+  {
+    "card_id": "LEG-001",
+    "code": "prompt-answer-low-overlap",
+    "detail": "Only 0% of prompt content terms appear in the answer; verify relevance manually.",
+    "priority": "low",
+    "severity": "warn",
+    "type": "content_review"
+  },
+  {
+    "card_id": "LEG-002",
+    "code": "prompt-answer-low-overlap",
+    "detail": "Only 0% of prompt content terms appear in the answer; verify relevance manually.",
+    "priority": "low",
+    "severity": "warn",
+    "type": "content_review"
+  },
+  {
+    "card_id": "LEG-003",
+    "code": "prompt-answer-low-overlap",
+    "detail": "Only 0% of prompt content terms appear in the answer; verify relevance manually.",
+    "priority": "low",
+    "severity": "warn",
+    "type": "content_review"
+  },
+  {
+    "card_id": "LEG-CASE-001",
+    "code": "prompt-answer-low-overlap",
+    "detail": "Only 0% of prompt content terms appear in the answer; verify relevance manually.",
+    "priority": "low",
+    "severity": "warn",
+    "type": "content_review"
+  },
+  {
+    "card_id": "LEG-CASE-002",
+    "code": "prompt-answer-low-overlap",
+    "detail": "Only 0% of prompt content terms appear in the answer; verify relevance manually.",
+    "priority": "low",
+    "severity": "warn",
+    "type": "content_review"
+  },
+  {
+    "card_id": "bp-1d21087ed0671b48dd6c",
+    "code": "prompt-answer-low-overlap",
+    "detail": "Only 0% of prompt content terms appear in the answer; verify relevance manually.",
+    "priority": "low",
+    "severity": "warn",
+    "type": "content_review"
+  },
+  {
+    "card_id": "bp-1bffd718ca65a46efee2",
+    "code": "prompt-answer-low-overlap",
+    "detail": "Only 0% of prompt content terms appear in the answer; verify relevance manually.",
+    "priority": "low",
+    "severity": "warn",
+    "type": "content_review"
+  }
+]

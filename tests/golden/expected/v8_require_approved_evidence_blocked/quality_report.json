@@ -1,0 +1,281 @@
+{
+  "clinical_review_notice": "Automated checks assess structure and educational metadata only; they do not verify clinical truth, guideline currency, or patient safety.",
+  "error_examples": [],
+  "evidence_governance": {
+    "cards_with_evidence": 2,
+    "cards_without_evidence": [
+      "LEG-002",
+      "LEG-CASE-001",
+      "LEG-CASE-002",
+      "bp-1bffd718ca65a46efee2",
+      "bp-1d21087ed0671b48dd6c",
+      "bp-9c506c0ca792c788eb85"
+    ],
+    "claims_count": 2,
+    "contradiction_candidates": [],
+    "error_count": 7,
+    "findings": [
+      {
+        "card_id": "LEG-003",
+        "claim_id": "LC2",
+        "issues": [
+          "release blocked: status is draft, not approved/published"
+        ],
+        "severity": "error"
+      },
+      {
+        "card_id": "LEG-002",
+        "claim_id": "",
+        "issues": [
+          "release blocked: no mapped evidence claims"
+        ],
+        "severity": "error"
+      },
+      {
+        "card_id": "LEG-CASE-001",
+        "claim_id": "",
+        "issues": [
+          "release blocked: no mapped evidence claims"
+        ],
+        "severity": "error"
+      },
+      {
+        "card_id": "LEG-CASE-002",
+        "claim_id": "",
+        "issues": [
+          "release blocked: no mapped evidence claims"
+        ],
+        "severity": "error"
+      },
+      {
+        "card_id": "bp-1bffd718ca65a46efee2",
+        "claim_id": "",
+        "issues": [
+          "release blocked: no mapped evidence claims"
+        ],
+        "severity": "error"
+      },
+      {
+        "card_id": "bp-1d21087ed0671b48dd6c",
+        "claim_id": "",
+        "issues": [
+          "release blocked: no mapped evidence claims"
+        ],
+        "severity": "error"
+      },
+      {
+        "card_id": "bp-9c506c0ca792c788eb85",
+        "claim_id": "",
+        "issues": [
+          "release blocked: no mapped evidence claims"
+        ],
+        "severity": "error"
+      }
+    ],
+    "notice": "Automated governance checks validate metadata and workflow only; they do not establish source quality or clinical truth.",
+    "release_ready": false,
+    "schema_version": 1
+  },
+  "near_duplicate_candidates": [
+    {
+      "card_id_a": "LEG-001",
+      "card_id_b": "LEG-002",
+      "lexical_similarity": 0.833,
+      "review_required": true
+    }
+  ],
+  "quality_score": {
+    "components": {
+      "learning_objective_coverage": 0.625,
+      "osce_rubric_coverage": 1.0,
+      "reference_coverage": 0.25,
+      "reviewed_evidence_coverage": 0.25,
+      "source_provenance_coverage": 1.0,
+      "structural_integrity": 1.0
+    },
+    "label": "metadata-completeness-and-structure-only",
+    "score": 61,
+    "warning": "This score is not a clinical accuracy or educational effectiveness score."
+  },
+  "results": [
+    {
+      "card_id": "LEG-001",
+      "findings": [
+        {
+          "code": "exam-domain-missing",
+          "detail": "No exam domain supplied (e.g. anatomy, diagnosis, management)",
+          "severity": "warn"
+        },
+        {
+          "code": "prompt-not-question",
+          "detail": "Prompt does not end with '?' or ':'",
+          "severity": "warn"
+        },
+        {
+          "code": "semantic-duplicate-candidate",
+          "detail": "Possible near-duplicate prompt (lexical similarity 0.83); human review required",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "Which finding indicates acute urinary retention",
+      "passed": true
+    },
+    {
+      "card_id": "LEG-002",
+      "findings": [
+        {
+          "code": "exam-domain-missing",
+          "detail": "No exam domain supplied (e.g. anatomy, diagnosis, management)",
+          "severity": "warn"
+        },
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        },
+        {
+          "code": "semantic-duplicate-candidate",
+          "detail": "Possible near-duplicate prompt (lexical similarity 0.83); human review required",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "Which finding indicates acute urinary retention in adults?",
+      "passed": true
+    },
+    {
+      "card_id": "LEG-003",
+      "findings": [
+        {
+          "code": "exam-domain-missing",
+          "detail": "No exam domain supplied (e.g. anatomy, diagnosis, management)",
+          "severity": "warn"
+        },
+        {
+          "code": "review-stale",
+          "detail": "Evidence review is older than 730 days",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "What imaging is first line for suspected renal colic?",
+      "passed": true
+    },
+    {
+      "card_id": "LEG-CASE-001",
+      "findings": [
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "A synthetic 70 year old man cannot void and has suprapubic pain; what is your first step?",
+      "passed": true
+    },
+    {
+      "card_id": "LEG-CASE-002",
+      "findings": [
+        {
+          "code": "exam-domain-missing",
+          "detail": "No exam domain supplied (e.g. anatomy, diagnosis, management)",
+          "severity": "warn"
+        },
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "Station: counsel a simulated patient about catheter care.",
+      "passed": true
+    },
+    {
+      "card_id": "bp-1d21087ed0671b48dd6c",
+      "findings": [
+        {
+          "code": "objective-missing",
+          "detail": "No explicit learning objective supplied",
+          "severity": "warn"
+        },
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "[Emergency] Priapism — what is it?",
+      "passed": true
+    },
+    {
+      "card_id": "bp-9c506c0ca792c788eb85",
+      "findings": [
+        {
+          "code": "objective-missing",
+          "detail": "No explicit learning objective supplied",
+          "severity": "warn"
+        },
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "[Stone] Staghorn calculus — what is it?",
+      "passed": true
+    },
+    {
+      "card_id": "bp-1bffd718ca65a46efee2",
+      "findings": [
+        {
+          "code": "objective-missing",
+          "detail": "No explicit learning objective supplied",
+          "severity": "warn"
+        },
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "[Stone] Hydronephrosis — what is it?",
+      "passed": true
+    }
+  ],
+  "schema_version": 5,
+  "summary": {
+    "cards_evaluated": 8,
+    "cards_flagged": 0,
+    "cards_passed": 8,
+    "error_count": 0,
+    "warning_count": 23
+  }
+}

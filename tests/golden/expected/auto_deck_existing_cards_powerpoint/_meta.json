@@ -1,0 +1,10 @@
+{
+  "exit_code": 0,
+  "files": [
+    "_requests.json",
+    "_stdout.txt",
+    "generated_cards.json",
+    "quality_report.json",
+    "urology.pptx"
+  ]
+}

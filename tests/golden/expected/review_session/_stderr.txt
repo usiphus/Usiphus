@@ -1,0 +1,3 @@
+INFO | Wrote 2 personally selected cards to <WORK>/out/personal_deck.json
+INFO | Saved review decisions for local profile synthetic-reviewer to <WORK>/out/reviews.json
+WARNING | Reviewer profiles are labels, not authenticated accounts; protect the local review file.

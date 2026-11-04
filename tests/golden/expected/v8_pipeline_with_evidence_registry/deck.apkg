@@ -1,0 +1,180 @@
+{
+  "deck": {
+    "id": 1101903836,
+    "name": "Synthetic Deck"
+  },
+  "fake_genanki": "JSON stand-in for an .apkg file",
+  "model": {
+    "fields": [
+      "Prompt",
+      "Answer",
+      "Options",
+      "CorrectOption",
+      "LearningObjective",
+      "Tags",
+      "CardID",
+      "References",
+      "Rubric",
+      "EvidenceStatus"
+    ],
+    "id": 616644840,
+    "name": "Usiphus V8 Medical Model",
+    "templates": [
+      {
+        "afmt": "{{FrontSide}}<hr id=\"answer\"><b>Answer</b><br>{{Answer}}{{#CorrectOption}}<br><b>Correct option:</b> {{CorrectOption}}{{/CorrectOption}}{{#LearningObjective}}<br><b>Learning objective:</b> {{LearningObjective}}{{/LearningObjective}}{{#References}}<br><small>{{References}}</small>{{/References}}{{#Rubric}}<br><b>Checklist</b><br>{{Rubric}}{{/Rubric}}<br><small>Evidence status: {{EvidenceStatus}}</small>",
+        "name": "Usiphus Card",
+        "qfmt": "{{Prompt}}{{#Options}}<hr><ol>{{Options}}</ol>{{/Options}}"
+      }
+    ]
+  },
+  "notes": [
+    {
+      "fields": [
+        "Which finding indicates acute urinary retention",
+        "Painful inability to void with a palpable bladder.",
+        "",
+        "",
+        "Recognise acute urinary retention",
+        "emergency",
+        "LEG-001",
+        "Synthetic reference one",
+        "",
+        "reviewed"
+      ],
+      "guid": "5b763cd51629387b8b2f",
+      "tags": [
+        "emergency"
+      ]
+    },
+    {
+      "fields": [
+        "Which finding indicates acute urinary retention in adults?",
+        "Painful inability to void with a palpable bladder.",
+        "",
+        "",
+        "Recognise acute urinary retention",
+        "emergency",
+        "LEG-002",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "7f1c56a922b47b4e37d3",
+      "tags": [
+        "emergency"
+      ]
+    },
+    {
+      "fields": [
+        "What imaging is first line for suspected renal colic?",
+        "Non-contrast CT or ultrasound depending on the local pathway.",
+        "<li>Non-contrast CT or ultrasound by pathway</li><li>Plain chest radiograph only</li><li>Nuclear bone scan routinely</li>",
+        "Non-contrast CT or ultrasound by pathway",
+        "Select imaging for renal colic",
+        "stone; renal colic",
+        "LEG-003",
+        "Synthetic reference two",
+        "",
+        "reviewed"
+      ],
+      "guid": "e9b390f335e3e4fa47c9",
+      "tags": [
+        "stone",
+        "renal colic"
+      ]
+    },
+    {
+      "fields": [
+        "A synthetic 70 year old man cannot void and has suprapubic pain; what is your first step?",
+        "Confirm retention with a bladder scan and arrange urethral catheter drainage while assessing for a cause.",
+        "",
+        "",
+        "Manage acute retention",
+        "case",
+        "LEG-CASE-001",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "c74489d31a7ac69b7700",
+      "tags": [
+        "case"
+      ]
+    },
+    {
+      "fields": [
+        "Station: counsel a simulated patient about catheter care.",
+        "Explain purpose, hygiene, warning signs and who to contact.",
+        "",
+        "",
+        "Counsel on catheter care",
+        "case",
+        "LEG-CASE-002",
+        "",
+        "<li>Introduces self</li><li>Explains catheter purpose</li><li>Gives warning signs</li><li>Checks understanding</li>",
+        "unreviewed"
+      ],
+      "guid": "e8d985c9e5b595a0e03a",
+      "tags": [
+        "case"
+      ]
+    },
+    {
+      "fields": [
+        "[Emergency] Priapism — what is it?",
+        "A prolonged erection unrelated to sexual stimulation requiring urgent assessment.",
+        "",
+        "",
+        "",
+        "blueprint; Emergency",
+        "bp-1d21087ed0671b48dd6c",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "efa23ae4070cc93f4788",
+      "tags": [
+        "blueprint",
+        "Emergency"
+      ]
+    },
+    {
+      "fields": [
+        "[Stone] Staghorn calculus — what is it?",
+        "A branching renal stone that fills much of the collecting system.",
+        "",
+        "",
+        "",
+        "blueprint; Stone",
+        "bp-9c506c0ca792c788eb85",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "0a68ffaf6f77dcf984f1",
+      "tags": [
+        "blueprint",
+        "Stone"
+      ]
+    },
+    {
+      "fields": [
+        "[Stone] Hydronephrosis — what is it?",
+        "Dilatation of the renal collecting system usually due to obstruction.",
+        "",
+        "",
+        "",
+        "blueprint; Stone",
+        "bp-1bffd718ca65a46efee2",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "46d3da8db79222054c80",
+      "tags": [
+        "blueprint",
+        "Stone"
+      ]
+    }
+  ]
+}

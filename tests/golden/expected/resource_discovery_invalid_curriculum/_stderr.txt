@@ -1,0 +1,1 @@
+Discovery failed: Curriculum must contain a non-empty topics array

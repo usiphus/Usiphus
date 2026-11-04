@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "reviewer_profiles": {
+    "x": {
+      "decisions": {
+        "R1": {
+          "decision": "maybe"
+        }
+      }
+    }
+  }
+}

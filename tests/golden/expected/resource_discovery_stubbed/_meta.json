@@ -1,0 +1,9 @@
+{
+  "exit_code": 0,
+  "files": [
+    "_requests.json",
+    "_stdout.txt",
+    "coverage_report.json",
+    "resources.json"
+  ]
+}

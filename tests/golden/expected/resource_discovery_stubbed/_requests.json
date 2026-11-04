@@ -1,0 +1,56 @@
+[
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=Acute+urinary+retention&retmode=json&retmax=3&sort=relevance"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=101%2C102&retmode=json"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=OPEN_ACCESS%3AY+AND+%28Acute+urinary+retention%29&format=json&pageSize=3&resultType=core"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=JOURNAL%3A%22Cureus%22+AND+%28Acute+urinary+retention%29&format=json&pageSize=3&resultType=core"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://api.crossref.org/works?query.bibliographic=Acute+urinary+retention&rows=3&select=DOI%2Ctitle%2Cauthor%2Cpublished%2Ccontainer-title%2Ctype%2CURL"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=Renal+colic&retmode=json&retmax=3&sort=relevance"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=OPEN_ACCESS%3AY+AND+%28Renal+colic%29&format=json&pageSize=3&resultType=core"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=JOURNAL%3A%22Cureus%22+AND+%28Renal+colic%29&format=json&pageSize=3&resultType=core"
+  },
+  {
+    "body": null,
+    "method": "GET",
+    "timeout": 20,
+    "url": "https://api.crossref.org/works?query.bibliographic=Renal+colic&rows=3&select=DOI%2Ctitle%2Cauthor%2Cpublished%2Ccontainer-title%2Ctype%2CURL"
+  }
+]

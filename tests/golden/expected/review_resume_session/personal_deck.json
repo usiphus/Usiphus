@@ -1,0 +1,35 @@
+{
+  "cards": [
+    {
+      "answer": "Painful inability to void with a palpable bladder.",
+      "card_id": "R1",
+      "personal_review_status": "keep",
+      "prompt": "Which finding indicates acute urinary retention?",
+      "references": [
+        "Synthetic reference one"
+      ]
+    },
+    {
+      "answer": "Non-contrast CT or ultrasound by local pathway.",
+      "card_id": "R2",
+      "learning_objective": "New objective",
+      "personal_review_status": "edit",
+      "prompt": "New prompt text"
+    },
+    {
+      "card_id": "R4",
+      "explanation": "Inspection and palpation.",
+      "personal_review_status": "keep",
+      "question": "What does a scrotal examination include?"
+    },
+    {
+      "answer": "Dilatation of the collecting system.",
+      "card_id": "R5",
+      "personal_review_status": "keep",
+      "prompt": "Define hydronephrosis."
+    }
+  ],
+  "review_notice": "Personal study selection only. This profile is not authenticated, and keep/edit decisions do not constitute clinical, evidence, or faculty approval.",
+  "reviewer_profile": "synthetic-reviewer",
+  "schema_version": 1
+}

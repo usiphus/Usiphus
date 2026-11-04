@@ -1,0 +1,24 @@
+{
+  "specialty": "urology",
+  "learner_level": "medical students",
+  "curriculum_version": "1.0-synthetic",
+  "curriculum_domains": [
+    {"id": "emergency", "name": "Emergency urology"},
+    {"id": "stone", "name": "Stone disease"}
+  ],
+  "topics": [
+    {"id": "T1", "domain_id": "emergency", "name": "Acute urinary retention",
+     "coverage_tags": ["emergency", "catheterisation"],
+     "learning_objectives": ["Recognise acute urinary retention", "Outline initial management"],
+     "exam_emphasis": ["viva"],
+     "source_types_to_discover": ["pubmed", "pubmed_central", "cureus_open_access", "crossref", "anki_shared_decks"],
+     "card_count": 3, "card_mix": {"basic": 1, "mcq": 1, "osce": 1},
+     "reference_sources": ["Synthetic faculty-supplied reference A"]},
+    {"id": "T2", "domain_id": "stone", "name": "Renal colic",
+     "coverage_tags": ["stone"],
+     "learning_objectives": ["Select imaging for renal colic"],
+     "exam_emphasis": ["mcq"],
+     "source_types_to_discover": ["pubmed", "pubmed_central", "cureus_open_access", "crossref"],
+     "card_count": 2, "card_mix": {"basic": 1, "viva": 1}}
+  ]
+}

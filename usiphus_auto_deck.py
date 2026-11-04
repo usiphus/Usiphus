@@ -157,7 +157,7 @@ def generate_topic_cards(
             # long generations do not need to wait for one giant response body.
             "keep_alive": "30m",
             "stream": True,
-            "format": "json",
+            # "format": "json", removed to prevent hangs/timeouts with 8B models
             "options": {"temperature": 0.2, "num_predict": max_output_tokens},
             "messages": [
                 {"role": "system", "content": system},

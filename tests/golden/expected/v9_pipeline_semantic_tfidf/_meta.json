@@ -1,0 +1,13 @@
+{
+  "exit_code": 0,
+  "files": [
+    "_requests.json",
+    "build_manifest.json",
+    "deck.apkg",
+    "deck.tsv",
+    "evidence_governance_report.json",
+    "quality_report.json",
+    "semantic_review_queue.json",
+    "study_guide.md"
+  ]
+}

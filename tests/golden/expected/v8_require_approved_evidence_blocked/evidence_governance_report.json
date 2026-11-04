@@ -1,0 +1,75 @@
+{
+  "cards_with_evidence": 2,
+  "cards_without_evidence": [
+    "LEG-002",
+    "LEG-CASE-001",
+    "LEG-CASE-002",
+    "bp-1bffd718ca65a46efee2",
+    "bp-1d21087ed0671b48dd6c",
+    "bp-9c506c0ca792c788eb85"
+  ],
+  "claims_count": 2,
+  "contradiction_candidates": [],
+  "error_count": 7,
+  "findings": [
+    {
+      "card_id": "LEG-003",
+      "claim_id": "LC2",
+      "issues": [
+        "release blocked: status is draft, not approved/published"
+      ],
+      "severity": "error"
+    },
+    {
+      "card_id": "LEG-002",
+      "claim_id": "",
+      "issues": [
+        "release blocked: no mapped evidence claims"
+      ],
+      "severity": "error"
+    },
+    {
+      "card_id": "LEG-CASE-001",
+      "claim_id": "",
+      "issues": [
+        "release blocked: no mapped evidence claims"
+      ],
+      "severity": "error"
+    },
+    {
+      "card_id": "LEG-CASE-002",
+      "claim_id": "",
+      "issues": [
+        "release blocked: no mapped evidence claims"
+      ],
+      "severity": "error"
+    },
+    {
+      "card_id": "bp-1bffd718ca65a46efee2",
+      "claim_id": "",
+      "issues": [
+        "release blocked: no mapped evidence claims"
+      ],
+      "severity": "error"
+    },
+    {
+      "card_id": "bp-1d21087ed0671b48dd6c",
+      "claim_id": "",
+      "issues": [
+        "release blocked: no mapped evidence claims"
+      ],
+      "severity": "error"
+    },
+    {
+      "card_id": "bp-9c506c0ca792c788eb85",
+      "claim_id": "",
+      "issues": [
+        "release blocked: no mapped evidence claims"
+      ],
+      "severity": "error"
+    }
+  ],
+  "notice": "Automated governance checks validate metadata and workflow only; they do not establish source quality or clinical truth.",
+  "release_ready": false,
+  "schema_version": 1
+}

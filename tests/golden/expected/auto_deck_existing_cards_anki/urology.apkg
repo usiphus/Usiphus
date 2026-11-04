@@ -1,0 +1,122 @@
+{
+  "deck": {
+    "id": 1140168405,
+    "name": "Usiphus::Urology"
+  },
+  "fake_genanki": "JSON stand-in for an .apkg file",
+  "model": {
+    "fields": [
+      "Prompt",
+      "Answer",
+      "Options",
+      "CorrectOption",
+      "LearningObjective",
+      "Tags",
+      "CardID",
+      "References",
+      "Rubric",
+      "EvidenceStatus"
+    ],
+    "id": 1651735619,
+    "name": "Usiphus V7 Medical Model",
+    "templates": [
+      {
+        "afmt": "{{FrontSide}}<hr id=\"answer\"><b>Answer</b><br>{{Answer}}{{#CorrectOption}}<br><b>Correct option:</b> {{CorrectOption}}{{/CorrectOption}}{{#LearningObjective}}<br><b>Learning objective:</b> {{LearningObjective}}{{/LearningObjective}}{{#References}}<br><small>{{References}}</small>{{/References}}{{#Rubric}}<br><b>Checklist</b><br>{{Rubric}}{{/Rubric}}<br><small>Evidence status: {{EvidenceStatus}}</small>",
+        "name": "Usiphus Card",
+        "qfmt": "{{Prompt}}{{#Options}}<hr><ol>{{Options}}</ol>{{/Options}}"
+      }
+    ]
+  },
+  "notes": [
+    {
+      "fields": [
+        "Which finding indicates acute urinary retention?",
+        "Painful inability to void with a palpable bladder.",
+        "",
+        "",
+        "Recognise acute urinary retention",
+        "emergency",
+        "G-001",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "f061eb95216a7303ae87",
+      "tags": [
+        "emergency"
+      ]
+    },
+    {
+      "fields": [
+        "Which finding indicates acute urinary retention in an adult?",
+        "Painful inability to void with a palpable bladder.",
+        "",
+        "",
+        "Recognise acute urinary retention",
+        "emergency",
+        "G-002",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "82f2bf7a60d13f818942",
+      "tags": [
+        "emergency"
+      ]
+    },
+    {
+      "fields": [
+        "What imaging is typically first line for suspected renal colic?",
+        "Non-contrast CT or ultrasound depending on local pathway.",
+        "",
+        "",
+        "Select imaging for renal colic",
+        "stone",
+        "G-003",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "44e47325e53508a00a41",
+      "tags": [
+        "stone"
+      ]
+    },
+    {
+      "fields": [
+        "List the components of a focused scrotal examination.",
+        "Inspection, palpation, transillumination, cremasteric reflex.",
+        "",
+        "",
+        "Examine the scrotum",
+        "examination",
+        "G-004",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "c5207e6387ccc7b3c90e",
+      "tags": [
+        "examination"
+      ]
+    },
+    {
+      "fields": [
+        "Describe the role of prostate specific antigen testing in the assessment of older men",
+        "Digital rectal examination plus informed PSA discussion.",
+        "",
+        "",
+        "Assess the prostate",
+        "oncology",
+        "G-006",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "8565cc8113fb115416be",
+      "tags": [
+        "oncology"
+      ]
+    }
+  ]
+}

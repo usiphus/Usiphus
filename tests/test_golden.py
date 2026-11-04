@@ -34,6 +34,9 @@ class Determinism(unittest.TestCase):
 
 def _make_golden_test(scenario: h.Scenario):
     def test(self: unittest.TestCase) -> None:
+        missing = h.unmet_requirements(scenario)
+        if missing:
+            self.skipTest("requires " + "; ".join(missing))
         result = result_for(scenario)
         if h.update_requested():
             self.assertEqual(result.exit_code, scenario.expected_exit,
@@ -50,6 +53,9 @@ def _make_golden_test(scenario: h.Scenario):
 
 def _make_determinism_test(scenario: h.Scenario):
     def test(self: unittest.TestCase) -> None:
+        missing = h.unmet_requirements(scenario)
+        if missing:
+            self.skipTest("requires " + "; ".join(missing))
         first, second = result_for(scenario, "1"), result_for(scenario, "2")
         self.assertEqual(first.exit_code, second.exit_code)
         self.assertEqual(sorted(first.files), sorted(second.files))
@@ -63,6 +69,24 @@ def _make_determinism_test(scenario: h.Scenario):
 for _scenario in h.SCENARIOS:
     setattr(GoldenOutputs, f"test_{_scenario.name}", _make_golden_test(_scenario))
     setattr(Determinism, f"test_{_scenario.name}", _make_determinism_test(_scenario))
+
+
+class StubSafety(unittest.TestCase):
+    def test_stubbed_scenarios_record_requests_and_block_the_network(self) -> None:
+        stubbed = [s for s in h.SCENARIOS if s.stub]
+        self.assertGreaterEqual(len(stubbed), 10)
+        probe = h.GOLDEN / "stubs" / "runner.py"
+        # a stubbed engine that tries a real connection must fail loudly, not reach the internet
+        import subprocess, sys
+        code = ("import urllib.request; import socket; "
+                "socket.create_connection(('example.org', 80), timeout=2)")
+        with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp:
+            script = Path(tmp) / "probe_engine.py"
+            script.write_text(code, encoding="utf-8")
+            proc = subprocess.run([sys.executable, str(probe), "discovery", str(script)],
+                                  capture_output=True, text=True, timeout=60)
+        self.assertNotEqual(proc.returncode, 0)
+        self.assertIn("network access is blocked", proc.stderr)
 
 
 class SnapshotInventory(unittest.TestCase):

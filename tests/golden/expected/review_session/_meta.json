@@ -1,0 +1,9 @@
+{
+  "exit_code": 0,
+  "files": [
+    "_stderr.txt",
+    "_stdout.txt",
+    "personal_deck.json",
+    "reviews.json"
+  ]
+}

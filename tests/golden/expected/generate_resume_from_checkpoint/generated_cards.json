@@ -1,0 +1,167 @@
+{
+  "cards": [
+    {
+      "answer": "Acute urinary retention is the sudden inability to pass urine and is usually painful for the patient.",
+      "card_id": "GEN-U1-0001",
+      "card_type": "basic",
+      "cognitive_level": "remember",
+      "competency_ids": [
+        "U1"
+      ],
+      "difficulty": "beginner",
+      "evidence_excerpt": "Acute urinary retention is the sudden inability to pass urine and is usually painful.",
+      "evidence_source_ids": [
+        "SRC-001"
+      ],
+      "evidence_status": "unreviewed",
+      "exam_domain": "Emergency",
+      "generator": {
+        "competency_id": "U1",
+        "provider": "ollama"
+      },
+      "learning_objective": "Recognise acute urinary retention",
+      "prompt": "How does acute urinary retention typically present?",
+      "references": [
+        "https://example.org/synthetic-guideline"
+      ],
+      "review_status": "draft",
+      "source": "Generated draft from: Synthetic urology guideline",
+      "specialty": "urology",
+      "tags": [
+        "urology",
+        "emergency"
+      ]
+    },
+    {
+      "answer": "Immediate bladder drainage by urethral catheter relieves symptoms and allows assessment of residual volume.\n\nRationale: The source states that catheter drainage relieves symptoms and allows residual volume assessment.",
+      "card_id": "GEN-U1-0002",
+      "card_type": "mcq",
+      "cognitive_level": "apply",
+      "competency_ids": [
+        "U1"
+      ],
+      "correct_option": "Bladder drainage using a urethral catheter",
+      "difficulty": "intermediate",
+      "evidence_excerpt": "Immediate bladder drainage by urethral catheter relieves symptoms",
+      "evidence_source_ids": [
+        "SRC-001"
+      ],
+      "evidence_status": "unreviewed",
+      "exam_domain": "Emergency",
+      "generator": {
+        "competency_id": "U1",
+        "provider": "ollama"
+      },
+      "learning_objective": "Outline immediate drainage",
+      "options": [
+        "Bladder drainage using a urethral catheter",
+        "Observation at home without any drainage",
+        "Immediate referral for elective scheduled surgery",
+        "Increasing oral fluids over several days"
+      ],
+      "prompt": "Which immediate step relieves the symptoms of acute urinary retention?",
+      "references": [
+        "https://example.org/synthetic-guideline"
+      ],
+      "review_status": "draft",
+      "source": "Generated draft from: Synthetic urology guideline",
+      "specialty": "urology",
+      "tags": [
+        "urology",
+        "emergency",
+        "catheter"
+      ]
+    },
+    {
+      "answer": "Renal colic typically causes severe loin pain that radiates toward the groin, and imaging may confirm a ureteric stone.",
+      "card_id": "GEN-U2-0001",
+      "card_type": "osce",
+      "cognitive_level": "apply",
+      "competency_ids": [
+        "U2"
+      ],
+      "difficulty": "intermediate",
+      "evidence_excerpt": "Renal colic typically causes severe loin pain that radiates toward the groin.",
+      "evidence_source_ids": [
+        "SRC-001"
+      ],
+      "evidence_status": "unreviewed",
+      "exam_domain": "Stone",
+      "generator": {
+        "competency_id": "U2",
+        "provider": "ollama"
+      },
+      "learning_objective": "Select imaging for renal colic",
+      "prompt": "Station task: explain the pain and imaging plan to a simulated patient with renal colic:",
+      "references": [
+        "https://example.org/synthetic-guideline"
+      ],
+      "review_status": "draft",
+      "rubric": [
+        "Describes loin pain radiating toward the groin",
+        "Mentions imaging to confirm a ureteric stone",
+        "Checks the patient understanding of the plan"
+      ],
+      "source": "Generated draft from: Synthetic urology guideline",
+      "specialty": "urology",
+      "tags": [
+        "urology",
+        "stone"
+      ]
+    },
+    {
+      "answer": "Non-contrast computed tomography is commonly used to confirm a ureteric stone when imaging is required by the clinician.",
+      "card_id": "GEN-U2-0002",
+      "card_type": "basic",
+      "cognitive_level": "understand",
+      "competency_ids": [
+        "U2"
+      ],
+      "difficulty": "beginner",
+      "evidence_excerpt": "Non-contrast computed tomography is commonly used to confirm a ureteric stone",
+      "evidence_source_ids": [
+        "SRC-001"
+      ],
+      "evidence_status": "unreviewed",
+      "exam_domain": "Stone",
+      "generator": {
+        "competency_id": "U2",
+        "provider": "ollama"
+      },
+      "learning_objective": "Select imaging for renal colic",
+      "prompt": "When is non-contrast computed tomography commonly used for suspected ureteric stones?",
+      "references": [
+        "https://example.org/synthetic-guideline"
+      ],
+      "review_status": "draft",
+      "source": "Generated draft from: Synthetic urology guideline",
+      "specialty": "urology",
+      "tags": [
+        "urology",
+        "stone",
+        "imaging"
+      ]
+    }
+  ],
+  "generation_status": "draft_unreviewed",
+  "generator": {
+    "batch_size": 3,
+    "cards_by_type": {
+      "basic": 2,
+      "mcq": 1,
+      "osce": 1
+    },
+    "cards_generated": 4,
+    "format_mix_target_percent": {
+      "basic": 33.333333333333336,
+      "mcq": 33.333333333333336,
+      "osce": 33.333333333333336
+    },
+    "local_only": true,
+    "model": "synthetic-model:1b",
+    "provider": "ollama"
+  },
+  "review_notice": "Generated cards are unreviewed drafts. Verify every clinical statement against the cited source and obtain qualified review before use.",
+  "schema_version": 1,
+  "specialty": "urology"
+}

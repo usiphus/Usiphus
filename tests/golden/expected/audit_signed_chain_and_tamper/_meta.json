@@ -1,0 +1,11 @@
+{
+  "exit_code": 1,
+  "files": [
+    "_transcript.txt",
+    "anchors.json",
+    "claims.1.json",
+    "claims.2.json",
+    "claims.tampered.json",
+    "trusted_keys.json"
+  ]
+}

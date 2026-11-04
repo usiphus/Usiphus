@@ -1,0 +1,17 @@
+{
+  "card_count": 8,
+  "card_ids": [
+    "LEG-001",
+    "LEG-002",
+    "LEG-003",
+    "LEG-CASE-001",
+    "LEG-CASE-002",
+    "bp-1d21087ed0671b48dd6c",
+    "bp-9c506c0ca792c788eb85",
+    "bp-1bffd718ca65a46efee2"
+  ],
+  "created_unix": "<VOLATILE>",
+  "deck_name": "Synthetic Deck",
+  "specialty": "urology",
+  "usiphus_version": "9.0.0"
+}

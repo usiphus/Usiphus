@@ -1,0 +1,34 @@
+{
+  "claims": [
+    {
+      "claim_id": "LC1",
+      "card_id": "LEG-001",
+      "claim": "Synthetic claim one",
+      "reference": "Synthetic reference one",
+      "source_type": "guideline",
+      "status": "approved",
+      "reviewed_on": "2026-10-01",
+      "reviewer": "synthetic-reviewer",
+      "audit_trail": [
+        {
+          "to": "in_review",
+          "actor": "synthetic-reviewer",
+          "date": "2026-09-30"
+        },
+        {
+          "to": "approved",
+          "actor": "synthetic-reviewer",
+          "date": "2026-10-01"
+        }
+      ]
+    },
+    {
+      "claim_id": "LC2",
+      "card_id": "LEG-003",
+      "claim": "Synthetic claim two",
+      "reference": "Synthetic reference two",
+      "source_type": "guideline",
+      "status": "draft"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "topics_processed": 2,
+  "topics_with_resources": 1,
+  "topics_with_no_resources": 1,
+  "unique_resources": 6,
+  "provider_errors": 2
+}
+Resources: <WORK>/out/resources.json
+Coverage: <WORK>/out/coverage_report.json

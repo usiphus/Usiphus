@@ -1,0 +1,24 @@
+[
+  {
+    "card_id": "LEG-CASE-001",
+    "card_type": "clinical_case",
+    "prompt": "A synthetic 70 year old man cannot void and has suprapubic pain; what is your first step?",
+    "answer": "Confirm retention with a bladder scan and arrange urethral catheter drainage while assessing for a cause.",
+    "learning_objective": "Manage acute retention",
+    "exam_domain": "emergency",
+    "difficulty": "intermediate"
+  },
+  {
+    "card_id": "LEG-CASE-002",
+    "card_type": "osce",
+    "prompt": "Station: counsel a simulated patient about catheter care.",
+    "answer": "Explain purpose, hygiene, warning signs and who to contact.",
+    "rubric": [
+      "Introduces self",
+      "Explains catheter purpose",
+      "Gives warning signs",
+      "Checks understanding"
+    ],
+    "learning_objective": "Counsel on catheter care"
+  }
+]

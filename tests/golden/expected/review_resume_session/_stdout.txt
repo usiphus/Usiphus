@@ -1,0 +1,7 @@
+
+[R4] What does a scrotal examination include?
+Answer: Inspection and palpation.
+Decision [k]eep, [e]dit, [r]eject, [s]kip, [q]uit: 
+[R5] Define hydronephrosis.
+Answer: Dilatation of the collecting system.
+Decision [k]eep, [e]dit, [r]eject, [s]kip, [q]uit: 

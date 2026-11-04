@@ -1,0 +1,2 @@
+WARNING | Rejected generated batch for U1; retrying once after quality failure: Generated card 0 evidence_quote 'A sentence that does not appear anywhere in the supplied source material.' is not an exact excerpt from its cited source material
+ERROR | Model failed card validation after two attempts for U1: Generated card 0 evidence_quote 'A sentence that does not appear anywhere in the supplied source material.' is not an exact excerpt from its cited source material

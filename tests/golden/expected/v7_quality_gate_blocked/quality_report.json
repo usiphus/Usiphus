@@ -1,0 +1,98 @@
+{
+  "clinical_review_notice": "Automated checks assess structure and educational metadata only; they do not verify clinical truth, guideline currency, or patient safety.",
+  "error_examples": [
+    {
+      "card_id": "LEG-004",
+      "code": "answer-too-short",
+      "detail": "5 chars < 15"
+    },
+    {
+      "card_id": "LEG-004",
+      "code": "mcq-correct-option-missing",
+      "detail": "MCQ correct_option is missing"
+    }
+  ],
+  "near_duplicate_candidates": [],
+  "quality_score": {
+    "components": {
+      "learning_objective_coverage": 0.5,
+      "osce_rubric_coverage": 1.0,
+      "reference_coverage": 0.5,
+      "reviewed_evidence_coverage": 0.5,
+      "source_provenance_coverage": 1.0,
+      "structural_integrity": 0.667
+    },
+    "label": "metadata-completeness-and-structure-only",
+    "score": 63,
+    "warning": "This score is not a clinical accuracy or educational effectiveness score."
+  },
+  "results": [
+    {
+      "card_id": "LEG-001",
+      "findings": [
+        {
+          "code": "exam-domain-missing",
+          "detail": "No exam domain supplied (e.g. anatomy, diagnosis, management)",
+          "severity": "warn"
+        },
+        {
+          "code": "prompt-not-question",
+          "detail": "Prompt does not end with '?' or ':'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "Which finding indicates acute urinary retention",
+      "passed": true
+    },
+    {
+      "card_id": "LEG-004",
+      "findings": [
+        {
+          "code": "exam-domain-missing",
+          "detail": "No exam domain supplied (e.g. anatomy, diagnosis, management)",
+          "severity": "warn"
+        },
+        {
+          "code": "objective-missing",
+          "detail": "No explicit learning objective supplied",
+          "severity": "warn"
+        },
+        {
+          "code": "answer-too-short",
+          "detail": "5 chars < 15",
+          "severity": "error"
+        },
+        {
+          "code": "mcq-correct-option-missing",
+          "detail": "MCQ correct_option is missing",
+          "severity": "error"
+        },
+        {
+          "code": "mcq-explanation-missing",
+          "detail": "Provide a rationale explaining why the correct answer is best",
+          "severity": "warn"
+        },
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "Which option is correct?",
+      "passed": false
+    }
+  ],
+  "schema_version": 4,
+  "summary": {
+    "cards_evaluated": 2,
+    "cards_flagged": 1,
+    "cards_passed": 1,
+    "error_count": 2,
+    "warning_count": 7
+  }
+}

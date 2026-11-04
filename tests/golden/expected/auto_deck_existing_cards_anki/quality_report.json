@@ -1,0 +1,145 @@
+{
+  "clinical_accuracy_verified": false,
+  "error_examples": [],
+  "faculty_review_required": true,
+  "results": [
+    {
+      "card_id": "G-001",
+      "findings": [
+        {
+          "code": "exam-domain-missing",
+          "detail": "No exam domain supplied (e.g. anatomy, diagnosis, management)",
+          "severity": "warn"
+        },
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        },
+        {
+          "code": "semantic-duplicate-candidate",
+          "detail": "Possible near-duplicate prompt (lexical similarity 0.83); human review required",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "Which finding indicates acute urinary retention?",
+      "passed": true
+    },
+    {
+      "card_id": "G-002",
+      "findings": [
+        {
+          "code": "exam-domain-missing",
+          "detail": "No exam domain supplied (e.g. anatomy, diagnosis, management)",
+          "severity": "warn"
+        },
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        },
+        {
+          "code": "semantic-duplicate-candidate",
+          "detail": "Possible near-duplicate prompt (lexical similarity 0.83); human review required",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "Which finding indicates acute urinary retention in an adult?",
+      "passed": true
+    },
+    {
+      "card_id": "G-003",
+      "findings": [
+        {
+          "code": "exam-domain-missing",
+          "detail": "No exam domain supplied (e.g. anatomy, diagnosis, management)",
+          "severity": "warn"
+        },
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "What imaging is typically first line for suspected renal colic?",
+      "passed": true
+    },
+    {
+      "card_id": "G-004",
+      "findings": [
+        {
+          "code": "exam-domain-missing",
+          "detail": "No exam domain supplied (e.g. anatomy, diagnosis, management)",
+          "severity": "warn"
+        },
+        {
+          "code": "prompt-not-question",
+          "detail": "Prompt does not end with '?' or ':'",
+          "severity": "warn"
+        },
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "List the components of a focused scrotal examination.",
+      "passed": true
+    },
+    {
+      "card_id": "G-006",
+      "findings": [
+        {
+          "code": "exam-domain-missing",
+          "detail": "No exam domain supplied (e.g. anatomy, diagnosis, management)",
+          "severity": "warn"
+        },
+        {
+          "code": "prompt-not-question",
+          "detail": "Prompt does not end with '?' or ':'",
+          "severity": "warn"
+        },
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "Describe the role of prostate specific antigen testing in the assessment of older men",
+      "passed": true
+    }
+  ],
+  "schema_version": 6,
+  "summary": {
+    "cards_evaluated": 5,
+    "cards_flagged": 0,
+    "cards_passed": 5,
+    "error_count": 0,
+    "warning_count": 19
+  }
+}

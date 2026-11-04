@@ -1,0 +1,30 @@
+{
+  "reviewer_profiles": {
+    "synthetic-reviewer": {
+      "decisions": {
+        "R1": {
+          "decision": "keep",
+          "edited_fields": {},
+          "notes": "",
+          "updated_at": "<VOLATILE>"
+        },
+        "R2": {
+          "decision": "edit",
+          "edited_fields": {
+            "learning_objective": "New objective",
+            "prompt": "New prompt text"
+          },
+          "notes": "",
+          "updated_at": "<VOLATILE>"
+        },
+        "R3": {
+          "decision": "reject",
+          "edited_fields": {},
+          "notes": "",
+          "updated_at": "<VOLATILE>"
+        }
+      }
+    }
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,33 @@
+{
+  "cards": [
+    {
+      "card_id": "R1",
+      "prompt": "Which finding indicates acute urinary retention?",
+      "answer": "Painful inability to void with a palpable bladder.",
+      "references": [
+        "Synthetic reference one"
+      ]
+    },
+    {
+      "card_id": "R2",
+      "prompt": "What imaging is first line for renal colic?",
+      "answer": "Non-contrast CT or ultrasound by local pathway.",
+      "learning_objective": "Select imaging"
+    },
+    {
+      "card_id": "R3",
+      "prompt": "Name one cause of urinary retention.",
+      "answer": "Benign prostatic enlargement."
+    },
+    {
+      "card_id": "R4",
+      "question": "What does a scrotal examination include?",
+      "explanation": "Inspection and palpation."
+    },
+    {
+      "card_id": "R5",
+      "prompt": "Define hydronephrosis.",
+      "answer": "Dilatation of the collecting system."
+    }
+  ]
+}

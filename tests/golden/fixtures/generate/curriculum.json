@@ -1,0 +1,9 @@
+{
+  "specialty": "urology",
+  "competencies": [
+    {"id": "U1", "title": "Acute urinary retention", "domain": "Emergency", "description": "Recognise and manage retention.",
+     "learning_objectives": ["Recognise acute urinary retention", "Outline immediate drainage"]},
+    {"id": "U2", "title": "Renal colic", "domain": "Stone", "description": "Assess suspected stones.",
+     "learning_objectives": ["Select imaging for renal colic"]}
+  ]
+}

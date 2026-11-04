@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "reviewer_profiles": {
+    "synthetic-reviewer": {
+      "decisions": {
+        "R1": {
+          "decision": "keep",
+          "updated_at": "2026-11-02T21:26:03.649036Z",
+          "edited_fields": {},
+          "notes": ""
+        },
+        "R2": {
+          "decision": "edit",
+          "updated_at": "2026-11-02T21:26:03.649077Z",
+          "edited_fields": {
+            "prompt": "New prompt text",
+            "learning_objective": "New objective"
+          },
+          "notes": ""
+        },
+        "R3": {
+          "decision": "reject",
+          "updated_at": "2026-11-02T21:26:03.649088Z",
+          "edited_fields": {},
+          "notes": ""
+        }
+      }
+    }
+  }
+}

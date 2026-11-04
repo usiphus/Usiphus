@@ -1,0 +1,127 @@
+{
+  "deck": {
+    "id": 1140168405,
+    "name": "Usiphus::Urology"
+  },
+  "fake_genanki": "JSON stand-in for an .apkg file",
+  "model": {
+    "fields": [
+      "Prompt",
+      "Answer",
+      "Options",
+      "CorrectOption",
+      "LearningObjective",
+      "Tags",
+      "CardID",
+      "References",
+      "Rubric",
+      "EvidenceStatus"
+    ],
+    "id": 1651735619,
+    "name": "Usiphus V7 Medical Model",
+    "templates": [
+      {
+        "afmt": "{{FrontSide}}<hr id=\"answer\"><b>Answer</b><br>{{Answer}}{{#CorrectOption}}<br><b>Correct option:</b> {{CorrectOption}}{{/CorrectOption}}{{#LearningObjective}}<br><b>Learning objective:</b> {{LearningObjective}}{{/LearningObjective}}{{#References}}<br><small>{{References}}</small>{{/References}}{{#Rubric}}<br><b>Checklist</b><br>{{Rubric}}{{/Rubric}}<br><small>Evidence status: {{EvidenceStatus}}</small>",
+        "name": "Usiphus Card",
+        "qfmt": "{{Prompt}}{{#Options}}<hr><ol>{{Options}}</ol>{{/Options}}"
+      }
+    ]
+  },
+  "notes": [
+    {
+      "fields": [
+        "What is the key teaching point about acute urinary retention (item 1)?",
+        "A structured explanation of acute urinary retention covering assessment, differential and safe first steps; faculty must verify every synthetic claim.",
+        "",
+        "",
+        "Apply core principles of acute urinary retention",
+        "synthetic; basic",
+        "OLLAMA-ACUTE-URINARY-RETENT-001",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "16c505685b4f3d954f36",
+      "tags": [
+        "synthetic",
+        "basic"
+      ]
+    },
+    {
+      "fields": [
+        "Which synthetic option is the best first step in acute urinary retention (item 2)?",
+        "Option A is correct because it addresses the underlying problem in acute urinary retention first; faculty must verify this synthetic teaching point.",
+        "<li>Synthetic option A describing a plausible step for acute urinary retention</li><li>Synthetic option B describing a plausible step for acute urinary retention</li><li>Synthetic option C describing a plausible step for acute urinary retention</li><li>Synthetic option D describing a plausible step for acute urinary retention</li>",
+        "Synthetic option A describing a plausible step for acute urinary retention",
+        "Apply core principles of acute urinary retention",
+        "synthetic; mcq",
+        "OLLAMA-ACUTE-URINARY-RETENT-002",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "7fa12f3eafbf67a8e4d7",
+      "tags": [
+        "synthetic",
+        "mcq"
+      ]
+    },
+    {
+      "fields": [
+        "Candidate instruction: assess a simulated patient with acute urinary retention (item 3).",
+        "Introduce yourself, confirm identity, take a focused history, perform a focused examination and explain the plan clearly; faculty must verify these synthetic marking points.",
+        "",
+        "",
+        "Apply core principles of acute urinary retention",
+        "synthetic; osce",
+        "OLLAMA-ACUTE-URINARY-RETENT-003",
+        "",
+        "<li>Introduces self and confirms identity</li><li>Takes a focused history</li><li>Explains findings and plan in plain language</li>",
+        "unreviewed"
+      ],
+      "guid": "893eefdaf9772ad7d3c6",
+      "tags": [
+        "synthetic",
+        "osce"
+      ]
+    },
+    {
+      "fields": [
+        "What is the key teaching point about renal colic (item 1)?",
+        "A structured explanation of renal colic covering assessment, differential and safe first steps; faculty must verify every synthetic claim.",
+        "",
+        "",
+        "Apply core principles of renal colic",
+        "synthetic; basic",
+        "OLLAMA-RENAL-COLIC-001",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "25374395ebf0b2208635",
+      "tags": [
+        "synthetic",
+        "basic"
+      ]
+    },
+    {
+      "fields": [
+        "Explain your approach to renal colic (item 2).",
+        "A structured explanation of renal colic covering assessment, differential and safe first steps; faculty must verify every synthetic claim.",
+        "",
+        "",
+        "Apply core principles of renal colic",
+        "synthetic; viva",
+        "OLLAMA-RENAL-COLIC-002",
+        "",
+        "",
+        "unreviewed"
+      ],
+      "guid": "452baf0fda49609d91f1",
+      "tags": [
+        "synthetic",
+        "viva"
+      ]
+    }
+  ]
+}

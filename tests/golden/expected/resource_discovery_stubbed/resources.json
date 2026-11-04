@@ -1,0 +1,208 @@
+{
+  "resources": [
+    {
+      "abstract": "Initial management of acute urinary retention including catheterisation.",
+      "access_status": "open_access_flag_article_licence_check_required",
+      "article_type": "review",
+      "authors": [
+        "Open Author"
+      ],
+      "canonical_url": "https://europepmc.org/articles/PMC9000001",
+      "discovery_provider": "Europe PMC REST",
+      "doi": "10.0000/synthetic.pmc1",
+      "evidence_role": "clinical_evidence",
+      "licence_or_reuse_status": "cc by",
+      "matched_objective_ids": [
+        "T1-LO01",
+        "T1-LO02"
+      ],
+      "matched_terms": [
+        "acute",
+        "catheterisation",
+        "initial",
+        "management",
+        "retention",
+        "urinary"
+      ],
+      "matched_topic_ids": [
+        "T1"
+      ],
+      "pmcid": "PMC9000001",
+      "pmid": "9000001",
+      "published_on": "2025-01-15",
+      "publisher": "Synthetic Open Access",
+      "relevance_score": 0.575,
+      "resource_id": "PUBMED_CENTRAL-49425b49ed20758e",
+      "retrieved_at": "<VOLATILE>",
+      "review_status": "unreviewed",
+      "source_id": "pubmed_central",
+      "source_type": "pubmed_central",
+      "title": "Open synthetic review: acute urinary retention initial management"
+    },
+    {
+      "abstract": "",
+      "access_status": "metadata_only",
+      "article_type": "Journal Article",
+      "authors": [
+        "Example A",
+        "Sample B"
+      ],
+      "canonical_url": "https://pubmed.ncbi.nlm.nih.gov/101",
+      "discovery_provider": "NCBI E-utilities",
+      "doi": "10.0000/synthetic.101",
+      "evidence_role": "clinical_evidence",
+      "licence_or_reuse_status": "not_verified",
+      "matched_objective_ids": [
+        "T1-LO01",
+        "T1-LO02"
+      ],
+      "matched_terms": [
+        "acute",
+        "management",
+        "retention",
+        "urinary"
+      ],
+      "matched_topic_ids": [
+        "T1"
+      ],
+      "pmcid": "",
+      "pmid": "101",
+      "published_on": "2025 Mar",
+      "publisher": "Journal of Synthetic Urology",
+      "relevance_score": 0.4,
+      "resource_id": "PUBMED-80c99264f9234568",
+      "retrieved_at": "<VOLATILE>",
+      "review_status": "unreviewed",
+      "source_id": "pubmed",
+      "source_type": "pubmed",
+      "title": "Synthetic cohort study of acute urinary retention management"
+    },
+    {
+      "abstract": "",
+      "access_status": "search_link_only",
+      "article_type": "",
+      "authors": [],
+      "canonical_url": "https://ankiweb.net/shared/decks?search=Acute+urinary+retention",
+      "discovery_provider": "curated public search link",
+      "doi": "",
+      "evidence_role": "exam_practice_signal",
+      "licence_or_reuse_status": "not_applicable_to_search_link; destination rights vary",
+      "matched_objective_ids": [
+        "T1-LO01"
+      ],
+      "matched_terms": [
+        "acute",
+        "retention",
+        "urinary"
+      ],
+      "matched_topic_ids": [
+        "T1"
+      ],
+      "pmcid": "",
+      "pmid": "",
+      "published_on": "",
+      "publisher": "AnkiWeb shared decks",
+      "relevance_score": 0.3,
+      "resource_id": "ANKI_SHARED_DECKS-1b6095486fb9e4e5",
+      "retrieved_at": "<VOLATILE>",
+      "review_status": "unreviewed",
+      "source_id": "anki_shared_decks",
+      "source_type": "anki_shared_decks",
+      "title": "Search AnkiWeb shared decks: Acute urinary retention"
+    },
+    {
+      "abstract": "",
+      "access_status": "search_link_only",
+      "article_type": "",
+      "authors": [],
+      "canonical_url": "https://ankiweb.net/shared/decks?search=Renal+colic",
+      "discovery_provider": "curated public search link",
+      "doi": "",
+      "evidence_role": "exam_practice_signal",
+      "licence_or_reuse_status": "not_applicable_to_search_link; destination rights vary",
+      "matched_objective_ids": [
+        "T2-LO01"
+      ],
+      "matched_terms": [
+        "colic",
+        "renal"
+      ],
+      "matched_topic_ids": [
+        "T2"
+      ],
+      "pmcid": "",
+      "pmid": "",
+      "published_on": "",
+      "publisher": "AnkiWeb shared decks",
+      "relevance_score": 0.2857,
+      "resource_id": "ANKI_SHARED_DECKS-85a34cf1576dfc59",
+      "retrieved_at": "<VOLATILE>",
+      "review_status": "unreviewed",
+      "source_id": "anki_shared_decks",
+      "source_type": "anki_shared_decks",
+      "title": "Search AnkiWeb shared decks: Renal colic"
+    },
+    {
+      "abstract": "",
+      "access_status": "metadata_only",
+      "article_type": "journal-article",
+      "authors": [
+        "Cross Ref"
+      ],
+      "canonical_url": "https://doi.org/10.0000/synthetic.cr1",
+      "discovery_provider": "Crossref REST",
+      "doi": "10.0000/synthetic.cr1",
+      "evidence_role": "clinical_evidence",
+      "licence_or_reuse_status": "not_verified",
+      "matched_objective_ids": [
+        "T1-LO01"
+      ],
+      "matched_terms": [
+        "retention",
+        "urinary"
+      ],
+      "matched_topic_ids": [
+        "T1"
+      ],
+      "pmcid": "",
+      "pmid": "",
+      "published_on": "2023-6",
+      "publisher": "Synthetic Proceedings",
+      "relevance_score": 0.2,
+      "resource_id": "CROSSREF-44c01b34bb9a47c8",
+      "retrieved_at": "<VOLATILE>",
+      "review_status": "unreviewed",
+      "source_id": "crossref",
+      "source_type": "crossref",
+      "title": "Synthetic crossref entry on urinary retention"
+    },
+    {
+      "abstract": "",
+      "access_status": "metadata_only",
+      "article_type": "",
+      "authors": [],
+      "canonical_url": "https://pubmed.ncbi.nlm.nih.gov/102",
+      "discovery_provider": "NCBI E-utilities",
+      "doi": "",
+      "evidence_role": "clinical_evidence",
+      "licence_or_reuse_status": "not_verified",
+      "matched_objective_ids": [],
+      "matched_terms": [],
+      "matched_topic_ids": [
+        "T1"
+      ],
+      "pmcid": "",
+      "pmid": "102",
+      "published_on": "2024",
+      "publisher": "Synthetic Logistics Review",
+      "relevance_score": 0.0,
+      "resource_id": "PUBMED-c3a8c3fd21fd9f9b",
+      "retrieved_at": "<VOLATILE>",
+      "review_status": "unreviewed",
+      "source_id": "pubmed",
+      "source_type": "pubmed",
+      "title": "Unrelated synthetic note on equipment procurement"
+    }
+  ],
+  "schema_version": 1
+}

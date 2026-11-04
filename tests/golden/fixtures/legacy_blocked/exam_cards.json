@@ -1,0 +1,30 @@
+{
+  "cards": [
+    {
+      "card_id": "LEG-001",
+      "prompt": "Which finding indicates acute urinary retention",
+      "answer": "Painful inability to void with a palpable bladder.",
+      "learning_objective": "Recognise acute urinary retention",
+      "tags": [
+        "emergency"
+      ],
+      "difficulty": "beginner",
+      "evidence_status": "reviewed",
+      "reviewed_on": "2026-10-01",
+      "reviewer": "synthetic-reviewer",
+      "references": [
+        "Synthetic reference one"
+      ]
+    },
+    {
+      "card_id": "LEG-004",
+      "card_type": "mcq",
+      "prompt": "Which option is correct?",
+      "options": [
+        "A",
+        "B"
+      ],
+      "answer": "short"
+    }
+  ]
+}

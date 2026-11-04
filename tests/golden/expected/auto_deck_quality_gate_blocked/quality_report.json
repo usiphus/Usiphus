@@ -1,0 +1,171 @@
+{
+  "clinical_accuracy_verified": false,
+  "error_examples": [
+    {
+      "card_id": "OLLAMA-ACUTE-URINARY-RETENT-001",
+      "code": "prompt-duplicate",
+      "detail": "Exact prompt duplicate after normalization"
+    },
+    {
+      "card_id": "OLLAMA-ACUTE-URINARY-RETENT-002",
+      "code": "prompt-duplicate",
+      "detail": "Exact prompt duplicate after normalization"
+    },
+    {
+      "card_id": "OLLAMA-ACUTE-URINARY-RETENT-003",
+      "code": "prompt-duplicate",
+      "detail": "Exact prompt duplicate after normalization"
+    },
+    {
+      "card_id": "OLLAMA-ACUTE-URINARY-RETENT-003",
+      "code": "answer-empty",
+      "detail": "Answer is empty"
+    },
+    {
+      "card_id": "OLLAMA-RENAL-COLIC-001",
+      "code": "prompt-duplicate",
+      "detail": "Exact prompt duplicate after normalization"
+    },
+    {
+      "card_id": "OLLAMA-RENAL-COLIC-002",
+      "code": "prompt-duplicate",
+      "detail": "Exact prompt duplicate after normalization"
+    },
+    {
+      "card_id": "OLLAMA-RENAL-COLIC-002",
+      "code": "answer-empty",
+      "detail": "Answer is empty"
+    }
+  ],
+  "faculty_review_required": true,
+  "results": [
+    {
+      "card_id": "OLLAMA-ACUTE-URINARY-RETENT-001",
+      "findings": [
+        {
+          "code": "prompt-duplicate",
+          "detail": "Exact prompt duplicate after normalization",
+          "severity": "error"
+        },
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "What is the key teaching point about acute urinary retention (item 1)?",
+      "passed": false
+    },
+    {
+      "card_id": "OLLAMA-ACUTE-URINARY-RETENT-002",
+      "findings": [
+        {
+          "code": "prompt-duplicate",
+          "detail": "Exact prompt duplicate after normalization",
+          "severity": "error"
+        },
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "What is the key teaching point about acute urinary retention (item 1)?",
+      "passed": false
+    },
+    {
+      "card_id": "OLLAMA-ACUTE-URINARY-RETENT-003",
+      "findings": [
+        {
+          "code": "prompt-duplicate",
+          "detail": "Exact prompt duplicate after normalization",
+          "severity": "error"
+        },
+        {
+          "code": "answer-empty",
+          "detail": "Answer is empty",
+          "severity": "error"
+        },
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "What is the key teaching point about acute urinary retention (item 1)?",
+      "passed": false
+    },
+    {
+      "card_id": "OLLAMA-RENAL-COLIC-001",
+      "findings": [
+        {
+          "code": "prompt-duplicate",
+          "detail": "Exact prompt duplicate after normalization",
+          "severity": "error"
+        },
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "What is the key teaching point about renal colic (item 1)?",
+      "passed": false
+    },
+    {
+      "card_id": "OLLAMA-RENAL-COLIC-002",
+      "findings": [
+        {
+          "code": "prompt-duplicate",
+          "detail": "Exact prompt duplicate after normalization",
+          "severity": "error"
+        },
+        {
+          "code": "answer-empty",
+          "detail": "Answer is empty",
+          "severity": "error"
+        },
+        {
+          "code": "reference-missing",
+          "detail": "No medical reference supplied; factual accuracy is unverified",
+          "severity": "warn"
+        },
+        {
+          "code": "evidence-not-reviewed",
+          "detail": "Evidence status is 'unreviewed'",
+          "severity": "warn"
+        }
+      ],
+      "normalized_prompt": "What is the key teaching point about renal colic (item 1)?",
+      "passed": false
+    }
+  ],
+  "schema_version": 6,
+  "summary": {
+    "cards_evaluated": 5,
+    "cards_flagged": 5,
+    "cards_passed": 0,
+    "error_count": 7,
+    "warning_count": 10
+  }
+}

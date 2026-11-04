@@ -1,0 +1,50 @@
+{
+  "claims": [
+    {
+      "audit_events": [
+        {
+          "action": "submit",
+          "actor": "mallory",
+          "details": {
+            "to": "in_review"
+          },
+          "event_hash": "7334789522c4ddca8815b417f5d2c4e021431bb9ddd680f01c2992b53fede688",
+          "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "signature": "ed25519:5a9eb426393f998d:VeAsmy9jwCVqRo/D/uHkEjNHmT74NaE3o7bBns0DCRpkorJrdtnthZOMDS7GA57bXAlMe/Eb8KjjDKNRrsnaBQ==",
+          "timestamp": "2026-10-30T10:00:00Z"
+        },
+        {
+          "action": "approve",
+          "actor": "alice",
+          "details": {
+            "to": "approved"
+          },
+          "event_hash": "0ee630e304f035b80c0e878b7c5802bfce853ed5eab7820da7934f1fef471547",
+          "previous_hash": "7334789522c4ddca8815b417f5d2c4e021431bb9ddd680f01c2992b53fede688",
+          "signature": "ed25519:5a9eb426393f998d:LbiszuQvE6/z2Cf0tZackdGksHuuvE++mh6B8OnltHI/i3WKGkMFoz3Xa4wJkvNiCO8zn4Yc4bY/Gceb/oBGBQ==",
+          "timestamp": "2026-10-31T10:00:00Z"
+        }
+      ],
+      "card_id": "K1",
+      "claim": "Synthetic claim",
+      "claim_id": "C1",
+      "references": [
+        {
+          "source_id": "S1"
+        }
+      ],
+      "status": "approved"
+    },
+    {
+      "card_id": "K2",
+      "claim": "Untouched claim",
+      "claim_id": "C2",
+      "references": [
+        {
+          "source_id": "S1"
+        }
+      ],
+      "status": "draft"
+    }
+  ]
+}

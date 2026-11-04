@@ -1,0 +1,52 @@
+{
+  "cards": [
+    {
+      "card_id": "LEG-001",
+      "prompt": "Which finding indicates acute urinary retention",
+      "answer": "Painful inability to void with a palpable bladder.",
+      "learning_objective": "Recognise acute urinary retention",
+      "tags": [
+        "emergency"
+      ],
+      "difficulty": "beginner",
+      "evidence_status": "reviewed",
+      "reviewed_on": "2026-10-01",
+      "reviewer": "synthetic-reviewer",
+      "references": [
+        "Synthetic reference one"
+      ]
+    },
+    {
+      "card_id": "LEG-002",
+      "prompt": "Which finding indicates acute urinary retention in adults?",
+      "answer": "Painful inability to void with a palpable bladder.",
+      "learning_objective": "Recognise acute urinary retention",
+      "tags": [
+        "emergency"
+      ]
+    },
+    {
+      "card_id": "LEG-003",
+      "card_type": "mcq",
+      "prompt": "What imaging is first line for suspected renal colic?",
+      "options": [
+        "Non-contrast CT or ultrasound by pathway",
+        "Plain chest radiograph only",
+        "Nuclear bone scan routinely"
+      ],
+      "correct_option": "Non-contrast CT or ultrasound by pathway",
+      "answer": "Non-contrast CT or ultrasound depending on the local pathway.",
+      "learning_objective": "Select imaging for renal colic",
+      "tags": [
+        "stone",
+        "renal colic"
+      ],
+      "evidence_status": "reviewed",
+      "reviewed_on": "2022-01-15",
+      "reviewer": "synthetic-reviewer",
+      "references": [
+        "Synthetic reference two"
+      ]
+    }
+  ]
+}

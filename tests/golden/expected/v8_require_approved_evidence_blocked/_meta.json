@@ -1,0 +1,9 @@
+{
+  "exit_code": 1,
+  "files": [
+    "_requests.json",
+    "_stderr.txt",
+    "evidence_governance_report.json",
+    "quality_report.json"
+  ]
+}

@@ -1,0 +1,261 @@
+[
+  {
+    "body": {
+      "action": "canAddNotes",
+      "params": {
+        "notes": [
+          {
+            "deckName": "Synthetic Deck",
+            "fields": {
+              "Back": "Painful inability to void with a palpable bladder.<br><b>Learning objective:</b> Recognise acute urinary retention<br><small>Synthetic reference one</small>",
+              "Front": "Which finding indicates acute urinary retention"
+            },
+            "modelName": "Basic",
+            "options": {
+              "allowDuplicate": false
+            },
+            "tags": [
+              "emergency",
+              "usiphus_id_5b763cd51629387b"
+            ]
+          },
+          {
+            "deckName": "Synthetic Deck",
+            "fields": {
+              "Back": "Painful inability to void with a palpable bladder.<br><b>Learning objective:</b> Recognise acute urinary retention",
+              "Front": "Which finding indicates acute urinary retention in adults?"
+            },
+            "modelName": "Basic",
+            "options": {
+              "allowDuplicate": false
+            },
+            "tags": [
+              "emergency",
+              "usiphus_id_7f1c56a922b47b4e"
+            ]
+          },
+          {
+            "deckName": "Synthetic Deck",
+            "fields": {
+              "Back": "Non-contrast CT or ultrasound depending on the local pathway.<br><b>Correct option:</b> Non-contrast CT or ultrasound by pathway<br><b>Learning objective:</b> Select imaging for renal colic<br><small>Synthetic reference two</small>",
+              "Front": "What imaging is first line for suspected renal colic?<hr><ol><li>Non-contrast CT or ultrasound by pathway</li><li>Plain chest radiograph only</li><li>Nuclear bone scan routinely</li></ol>"
+            },
+            "modelName": "Basic",
+            "options": {
+              "allowDuplicate": false
+            },
+            "tags": [
+              "stone",
+              "renal_colic",
+              "usiphus_id_e9b390f335e3e4fa"
+            ]
+          },
+          {
+            "deckName": "Synthetic Deck",
+            "fields": {
+              "Back": "Confirm retention with a bladder scan and arrange urethral catheter drainage while assessing for a cause.<br><b>Learning objective:</b> Manage acute retention",
+              "Front": "A synthetic 70 year old man cannot void and has suprapubic pain; what is your first step?"
+            },
+            "modelName": "Basic",
+            "options": {
+              "allowDuplicate": false
+            },
+            "tags": [
+              "case",
+              "usiphus_id_c74489d31a7ac69b"
+            ]
+          },
+          {
+            "deckName": "Synthetic Deck",
+            "fields": {
+              "Back": "Explain purpose, hygiene, warning signs and who to contact.<br><b>Learning objective:</b> Counsel on catheter care<br><b>Checklist</b><ul><li>Introduces self</li><li>Explains catheter purpose</li><li>Gives warning signs</li><li>Checks understanding</li></ul>",
+              "Front": "Station: counsel a simulated patient about catheter care."
+            },
+            "modelName": "Basic",
+            "options": {
+              "allowDuplicate": false
+            },
+            "tags": [
+              "case",
+              "usiphus_id_e8d985c9e5b595a0"
+            ]
+          },
+          {
+            "deckName": "Synthetic Deck",
+            "fields": {
+              "Back": "A prolonged erection unrelated to sexual stimulation requiring urgent assessment.",
+              "Front": "[Emergency] Priapism — what is it?"
+            },
+            "modelName": "Basic",
+            "options": {
+              "allowDuplicate": false
+            },
+            "tags": [
+              "blueprint",
+              "Emergency",
+              "usiphus_id_efa23ae4070cc93f"
+            ]
+          },
+          {
+            "deckName": "Synthetic Deck",
+            "fields": {
+              "Back": "A branching renal stone that fills much of the collecting system.",
+              "Front": "[Stone] Staghorn calculus — what is it?"
+            },
+            "modelName": "Basic",
+            "options": {
+              "allowDuplicate": false
+            },
+            "tags": [
+              "blueprint",
+              "Stone",
+              "usiphus_id_0a68ffaf6f77dcf9"
+            ]
+          },
+          {
+            "deckName": "Synthetic Deck",
+            "fields": {
+              "Back": "Dilatation of the renal collecting system usually due to obstruction.",
+              "Front": "[Stone] Hydronephrosis — what is it?"
+            },
+            "modelName": "Basic",
+            "options": {
+              "allowDuplicate": false
+            },
+            "tags": [
+              "blueprint",
+              "Stone",
+              "usiphus_id_46d3da8db7922205"
+            ]
+          }
+        ]
+      },
+      "version": 6
+    },
+    "method": "POST",
+    "timeout": 10,
+    "url": "http://localhost:8765"
+  },
+  {
+    "body": {
+      "action": "addNotes",
+      "params": {
+        "notes": [
+          {
+            "deckName": "Synthetic Deck",
+            "fields": {
+              "Back": "Painful inability to void with a palpable bladder.<br><b>Learning objective:</b> Recognise acute urinary retention",
+              "Front": "Which finding indicates acute urinary retention in adults?"
+            },
+            "modelName": "Basic",
+            "options": {
+              "allowDuplicate": false
+            },
+            "tags": [
+              "emergency",
+              "usiphus_id_7f1c56a922b47b4e"
+            ]
+          },
+          {
+            "deckName": "Synthetic Deck",
+            "fields": {
+              "Back": "Non-contrast CT or ultrasound depending on the local pathway.<br><b>Correct option:</b> Non-contrast CT or ultrasound by pathway<br><b>Learning objective:</b> Select imaging for renal colic<br><small>Synthetic reference two</small>",
+              "Front": "What imaging is first line for suspected renal colic?<hr><ol><li>Non-contrast CT or ultrasound by pathway</li><li>Plain chest radiograph only</li><li>Nuclear bone scan routinely</li></ol>"
+            },
+            "modelName": "Basic",
+            "options": {
+              "allowDuplicate": false
+            },
+            "tags": [
+              "stone",
+              "renal_colic",
+              "usiphus_id_e9b390f335e3e4fa"
+            ]
+          },
+          {
+            "deckName": "Synthetic Deck",
+            "fields": {
+              "Back": "Confirm retention with a bladder scan and arrange urethral catheter drainage while assessing for a cause.<br><b>Learning objective:</b> Manage acute retention",
+              "Front": "A synthetic 70 year old man cannot void and has suprapubic pain; what is your first step?"
+            },
+            "modelName": "Basic",
+            "options": {
+              "allowDuplicate": false
+            },
+            "tags": [
+              "case",
+              "usiphus_id_c74489d31a7ac69b"
+            ]
+          },
+          {
+            "deckName": "Synthetic Deck",
+            "fields": {
+              "Back": "Explain purpose, hygiene, warning signs and who to contact.<br><b>Learning objective:</b> Counsel on catheter care<br><b>Checklist</b><ul><li>Introduces self</li><li>Explains catheter purpose</li><li>Gives warning signs</li><li>Checks understanding</li></ul>",
+              "Front": "Station: counsel a simulated patient about catheter care."
+            },
+            "modelName": "Basic",
+            "options": {
+              "allowDuplicate": false
+            },
+            "tags": [
+              "case",
+              "usiphus_id_e8d985c9e5b595a0"
+            ]
+          },
+          {
+            "deckName": "Synthetic Deck",
+            "fields": {
+              "Back": "A prolonged erection unrelated to sexual stimulation requiring urgent assessment.",
+              "Front": "[Emergency] Priapism — what is it?"
+            },
+            "modelName": "Basic",
+            "options": {
+              "allowDuplicate": false
+            },
+            "tags": [
+              "blueprint",
+              "Emergency",
+              "usiphus_id_efa23ae4070cc93f"
+            ]
+          },
+          {
+            "deckName": "Synthetic Deck",
+            "fields": {
+              "Back": "A branching renal stone that fills much of the collecting system.",
+              "Front": "[Stone] Staghorn calculus — what is it?"
+            },
+            "modelName": "Basic",
+            "options": {
+              "allowDuplicate": false
+            },
+            "tags": [
+              "blueprint",
+              "Stone",
+              "usiphus_id_0a68ffaf6f77dcf9"
+            ]
+          },
+          {
+            "deckName": "Synthetic Deck",
+            "fields": {
+              "Back": "Dilatation of the renal collecting system usually due to obstruction.",
+              "Front": "[Stone] Hydronephrosis — what is it?"
+            },
+            "modelName": "Basic",
+            "options": {
+              "allowDuplicate": false
+            },
+            "tags": [
+              "blueprint",
+              "Stone",
+              "usiphus_id_46d3da8db7922205"
+            ]
+          }
+        ]
+      },
+      "version": 6
+    },
+    "method": "POST",
+    "timeout": 10,
+    "url": "http://localhost:8765"
+  }
+]

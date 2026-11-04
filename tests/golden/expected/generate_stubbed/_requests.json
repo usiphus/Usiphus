@@ -1,0 +1,546 @@
+[
+  {
+    "body": {
+      "format": {
+        "additionalProperties": false,
+        "properties": {
+          "cards": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "answer": {
+                  "maxLength": 5000,
+                  "minLength": 50,
+                  "type": "string"
+                },
+                "card_type": {
+                  "enum": [
+                    "basic",
+                    "mcq",
+                    "osce"
+                  ],
+                  "type": "string"
+                },
+                "cognitive_level": {
+                  "enum": [
+                    "analyze",
+                    "apply",
+                    "create",
+                    "evaluate",
+                    "remember",
+                    "understand"
+                  ],
+                  "type": "string"
+                },
+                "correct_option": {
+                  "type": "string"
+                },
+                "difficulty": {
+                  "enum": [
+                    "beginner",
+                    "intermediate",
+                    "advanced"
+                  ],
+                  "type": "string"
+                },
+                "evidence_quote": {
+                  "enum": [
+                    "Acute urinary retention is the sudden inability to pass urine and is usually painful.",
+                    "Immediate bladder drainage by urethral catheter relieves symptoms and allows assessment of residual volume.",
+                    "Renal colic typically causes severe loin pain that radiates toward the groin.",
+                    "Non-contrast computed tomography is commonly used to confirm a ureteric stone when imaging is required."
+                  ],
+                  "maxLength": 500,
+                  "minLength": 20,
+                  "type": "string"
+                },
+                "learning_objective": {
+                  "minLength": 10,
+                  "type": "string"
+                },
+                "options": {
+                  "items": {
+                    "maxLength": 500,
+                    "minLength": 10,
+                    "type": "string"
+                  },
+                  "maxItems": 4,
+                  "minItems": 4,
+                  "type": "array",
+                  "uniqueItems": true
+                },
+                "prompt": {
+                  "maxLength": 500,
+                  "minLength": 10,
+                  "type": "string"
+                },
+                "rationale": {
+                  "minLength": 20,
+                  "type": "string"
+                },
+                "rubric": {
+                  "items": {
+                    "minLength": 10,
+                    "type": "string"
+                  },
+                  "minItems": 3,
+                  "type": "array"
+                },
+                "source_ids": {
+                  "items": {
+                    "enum": [
+                      "SRC-001"
+                    ],
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "type": "array"
+                },
+                "tags": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "prompt",
+                "answer",
+                "learning_objective",
+                "card_type",
+                "difficulty",
+                "cognitive_level",
+                "tags",
+                "source_ids",
+                "evidence_quote"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "cards"
+        ],
+        "type": "object"
+      },
+      "model": "synthetic-model:1b",
+      "options": {
+        "temperature": 0.0
+      },
+      "prompt": "Create up to 3 concise draft medical education flashcards.\nSpecialty: urology\nCurriculum competency: U1 — Acute urinary retention\nDescription: Recognise and manage retention.\nSpecialty domain: Emergency\nLearning objectives: [\"Recognise acute urinary retention\", \"Outline immediate drainage\"]\n\nUse only facts directly supported by the source material below. Do not infer missing\nclinical recommendations, dosages, thresholds, or emergency actions. If the source\ndoes not support enough distinct cards, return fewer cards rather than inventing or\nrepeating facts. Use varied, non-duplicate prompts and vary the cognitive task and\nformat across the batch. Select card_type from: basic, mcq, osce.\nTarget layout mix for this batch (adjust downward or return fewer cards when a\nformat is not supported by the sources):\n- basic: 1\n- mcq: 1\n- osce: 1\nVary decision-making, recall, interpretation, explanation and practical\ncommunication tasks as supported by the source and learning objective. Avoid\ngeneric questions that could apply to any specialty. A case must be fictional,\nde-identified, clinically coherent, and limited to evidence in the sources.\nReturn a JSON object with one key \"cards\", an array of objects.\nAvoid creating a card that repeats any of these existing prompts:\n(none yet)\nEach object must contain: prompt, answer, learning_objective, card_type, difficulty\n(\"beginner\", \"intermediate\", or \"advanced\"), cognitive_level (\"remember\",\n\"understand\", \"apply\", \"analyze\", \"evaluate\", or \"create\"), tags (array of strings),\nand source_ids (array containing one or more source IDs shown below).\nAlso include evidence_quote: a short, exact, verbatim excerpt from one cited\nsource that directly supports the answer. Preserve its wording; do not invent or\njoin separate source fragments.\nFor MCQ cards, include four plausible, distinct options, exactly one defensible\ncorrect_option (one exact option string), and a rationale grounded in the cited\nsource. Include explanations for distractors only when they are also source-based.\nFor clinical_case cards, include a self-contained fictional case in prompt and a\nstructured answer that identifies the key problem, reasoning, and source-supported\nnext step; do not add patient-identifying details or unsupported management.\nFor viva cards, phrase prompt as an oral-exam question and provide a structured\nspoken-answer outline.\nFor OSCE cards, phrase prompt as a timed station task, include a clear candidate\ninstruction and at least three distinct, observable, source-supported marking\npoints. End each answer with sentence punctuation.\nWrite every answer as a complete, grammatical explanation of at least eight\nwords. Never return a bare label, list fragment, leading punctuation, or\nrepeated word. Write clean, single-sentence questions or clear task instructions.\nDo not include markdown or commentary.\n\nSOURCE MATERIAL:\n[SRC-001] Synthetic urology guideline\nAcute urinary retention is the sudden inability to pass urine and is usually painful. Immediate bladder drainage by urethral catheter relieves symptoms and allows assessment of residual volume.\n\nRenal colic typically causes severe loin pain that radiates toward the groin. Non-contrast computed tomography is commonly used to confirm a ureteric stone when imaging is required.\n",
+      "stream": false
+    },
+    "method": "POST",
+    "timeout": 30,
+    "url": "http://localhost:11434/api/generate"
+  },
+  {
+    "body": {
+      "format": {
+        "additionalProperties": false,
+        "properties": {
+          "cards": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "answer": {
+                  "maxLength": 5000,
+                  "minLength": 50,
+                  "type": "string"
+                },
+                "card_type": {
+                  "enum": [
+                    "basic",
+                    "mcq",
+                    "osce"
+                  ],
+                  "type": "string"
+                },
+                "cognitive_level": {
+                  "enum": [
+                    "analyze",
+                    "apply",
+                    "create",
+                    "evaluate",
+                    "remember",
+                    "understand"
+                  ],
+                  "type": "string"
+                },
+                "correct_option": {
+                  "type": "string"
+                },
+                "difficulty": {
+                  "enum": [
+                    "beginner",
+                    "intermediate",
+                    "advanced"
+                  ],
+                  "type": "string"
+                },
+                "evidence_quote": {
+                  "enum": [
+                    "Acute urinary retention is the sudden inability to pass urine and is usually painful.",
+                    "Immediate bladder drainage by urethral catheter relieves symptoms and allows assessment of residual volume.",
+                    "Renal colic typically causes severe loin pain that radiates toward the groin.",
+                    "Non-contrast computed tomography is commonly used to confirm a ureteric stone when imaging is required."
+                  ],
+                  "maxLength": 500,
+                  "minLength": 20,
+                  "type": "string"
+                },
+                "learning_objective": {
+                  "minLength": 10,
+                  "type": "string"
+                },
+                "options": {
+                  "items": {
+                    "maxLength": 500,
+                    "minLength": 10,
+                    "type": "string"
+                  },
+                  "maxItems": 4,
+                  "minItems": 4,
+                  "type": "array",
+                  "uniqueItems": true
+                },
+                "prompt": {
+                  "maxLength": 500,
+                  "minLength": 10,
+                  "type": "string"
+                },
+                "rationale": {
+                  "minLength": 20,
+                  "type": "string"
+                },
+                "rubric": {
+                  "items": {
+                    "minLength": 10,
+                    "type": "string"
+                  },
+                  "minItems": 3,
+                  "type": "array"
+                },
+                "source_ids": {
+                  "items": {
+                    "enum": [
+                      "SRC-001"
+                    ],
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "type": "array"
+                },
+                "tags": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "prompt",
+                "answer",
+                "learning_objective",
+                "card_type",
+                "difficulty",
+                "cognitive_level",
+                "tags",
+                "source_ids",
+                "evidence_quote"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "cards"
+        ],
+        "type": "object"
+      },
+      "model": "synthetic-model:1b",
+      "options": {
+        "temperature": 0.0
+      },
+      "prompt": "Create up to 3 concise draft medical education flashcards.\nSpecialty: urology\nCurriculum competency: U2 — Renal colic\nDescription: Assess suspected stones.\nSpecialty domain: Stone\nLearning objectives: [\"Select imaging for renal colic\"]\n\nUse only facts directly supported by the source material below. Do not infer missing\nclinical recommendations, dosages, thresholds, or emergency actions. If the source\ndoes not support enough distinct cards, return fewer cards rather than inventing or\nrepeating facts. Use varied, non-duplicate prompts and vary the cognitive task and\nformat across the batch. Select card_type from: basic, mcq, osce.\nTarget layout mix for this batch (adjust downward or return fewer cards when a\nformat is not supported by the sources):\n- basic: 1\n- mcq: 1\n- osce: 1\nVary decision-making, recall, interpretation, explanation and practical\ncommunication tasks as supported by the source and learning objective. Avoid\ngeneric questions that could apply to any specialty. A case must be fictional,\nde-identified, clinically coherent, and limited to evidence in the sources.\nReturn a JSON object with one key \"cards\", an array of objects.\nAvoid creating a card that repeats any of these existing prompts:\n(none yet)\nEach object must contain: prompt, answer, learning_objective, card_type, difficulty\n(\"beginner\", \"intermediate\", or \"advanced\"), cognitive_level (\"remember\",\n\"understand\", \"apply\", \"analyze\", \"evaluate\", or \"create\"), tags (array of strings),\nand source_ids (array containing one or more source IDs shown below).\nAlso include evidence_quote: a short, exact, verbatim excerpt from one cited\nsource that directly supports the answer. Preserve its wording; do not invent or\njoin separate source fragments.\nFor MCQ cards, include four plausible, distinct options, exactly one defensible\ncorrect_option (one exact option string), and a rationale grounded in the cited\nsource. Include explanations for distractors only when they are also source-based.\nFor clinical_case cards, include a self-contained fictional case in prompt and a\nstructured answer that identifies the key problem, reasoning, and source-supported\nnext step; do not add patient-identifying details or unsupported management.\nFor viva cards, phrase prompt as an oral-exam question and provide a structured\nspoken-answer outline.\nFor OSCE cards, phrase prompt as a timed station task, include a clear candidate\ninstruction and at least three distinct, observable, source-supported marking\npoints. End each answer with sentence punctuation.\nWrite every answer as a complete, grammatical explanation of at least eight\nwords. Never return a bare label, list fragment, leading punctuation, or\nrepeated word. Write clean, single-sentence questions or clear task instructions.\nDo not include markdown or commentary.\n\nSOURCE MATERIAL:\n[SRC-001] Synthetic urology guideline\nAcute urinary retention is the sudden inability to pass urine and is usually painful. Immediate bladder drainage by urethral catheter relieves symptoms and allows assessment of residual volume.\n\nRenal colic typically causes severe loin pain that radiates toward the groin. Non-contrast computed tomography is commonly used to confirm a ureteric stone when imaging is required.\n",
+      "stream": false
+    },
+    "method": "POST",
+    "timeout": 30,
+    "url": "http://localhost:11434/api/generate"
+  },
+  {
+    "body": {
+      "format": {
+        "additionalProperties": false,
+        "properties": {
+          "cards": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "answer": {
+                  "maxLength": 5000,
+                  "minLength": 50,
+                  "type": "string"
+                },
+                "card_type": {
+                  "enum": [
+                    "basic",
+                    "mcq",
+                    "osce"
+                  ],
+                  "type": "string"
+                },
+                "cognitive_level": {
+                  "enum": [
+                    "analyze",
+                    "apply",
+                    "create",
+                    "evaluate",
+                    "remember",
+                    "understand"
+                  ],
+                  "type": "string"
+                },
+                "correct_option": {
+                  "type": "string"
+                },
+                "difficulty": {
+                  "enum": [
+                    "beginner",
+                    "intermediate",
+                    "advanced"
+                  ],
+                  "type": "string"
+                },
+                "evidence_quote": {
+                  "enum": [
+                    "Acute urinary retention is the sudden inability to pass urine and is usually painful.",
+                    "Immediate bladder drainage by urethral catheter relieves symptoms and allows assessment of residual volume.",
+                    "Renal colic typically causes severe loin pain that radiates toward the groin.",
+                    "Non-contrast computed tomography is commonly used to confirm a ureteric stone when imaging is required."
+                  ],
+                  "maxLength": 500,
+                  "minLength": 20,
+                  "type": "string"
+                },
+                "learning_objective": {
+                  "minLength": 10,
+                  "type": "string"
+                },
+                "options": {
+                  "items": {
+                    "maxLength": 500,
+                    "minLength": 10,
+                    "type": "string"
+                  },
+                  "maxItems": 4,
+                  "minItems": 4,
+                  "type": "array",
+                  "uniqueItems": true
+                },
+                "prompt": {
+                  "maxLength": 500,
+                  "minLength": 10,
+                  "type": "string"
+                },
+                "rationale": {
+                  "minLength": 20,
+                  "type": "string"
+                },
+                "rubric": {
+                  "items": {
+                    "minLength": 10,
+                    "type": "string"
+                  },
+                  "minItems": 3,
+                  "type": "array"
+                },
+                "source_ids": {
+                  "items": {
+                    "enum": [
+                      "SRC-001"
+                    ],
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "type": "array"
+                },
+                "tags": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "prompt",
+                "answer",
+                "learning_objective",
+                "card_type",
+                "difficulty",
+                "cognitive_level",
+                "tags",
+                "source_ids",
+                "evidence_quote"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "cards"
+        ],
+        "type": "object"
+      },
+      "model": "synthetic-model:1b",
+      "options": {
+        "temperature": 0.0
+      },
+      "prompt": "Create up to 3 concise draft medical education flashcards.\nSpecialty: urology\nCurriculum competency: U1 — Acute urinary retention\nDescription: Recognise and manage retention.\nSpecialty domain: Emergency\nLearning objectives: [\"Recognise acute urinary retention\", \"Outline immediate drainage\"]\n\nUse only facts directly supported by the source material below. Do not infer missing\nclinical recommendations, dosages, thresholds, or emergency actions. If the source\ndoes not support enough distinct cards, return fewer cards rather than inventing or\nrepeating facts. Use varied, non-duplicate prompts and vary the cognitive task and\nformat across the batch. Select card_type from: basic, mcq, osce.\nTarget layout mix for this batch (adjust downward or return fewer cards when a\nformat is not supported by the sources):\n- basic: 1\n- mcq: 1\n- osce: 1\nVary decision-making, recall, interpretation, explanation and practical\ncommunication tasks as supported by the source and learning objective. Avoid\ngeneric questions that could apply to any specialty. A case must be fictional,\nde-identified, clinically coherent, and limited to evidence in the sources.\nReturn a JSON object with one key \"cards\", an array of objects.\nAvoid creating a card that repeats any of these existing prompts:\n- How does acute urinary retention typically present?\n- Which immediate step relieves the symptoms of acute urinary retention?\nEach object must contain: prompt, answer, learning_objective, card_type, difficulty\n(\"beginner\", \"intermediate\", or \"advanced\"), cognitive_level (\"remember\",\n\"understand\", \"apply\", \"analyze\", \"evaluate\", or \"create\"), tags (array of strings),\nand source_ids (array containing one or more source IDs shown below).\nAlso include evidence_quote: a short, exact, verbatim excerpt from one cited\nsource that directly supports the answer. Preserve its wording; do not invent or\njoin separate source fragments.\nFor MCQ cards, include four plausible, distinct options, exactly one defensible\ncorrect_option (one exact option string), and a rationale grounded in the cited\nsource. Include explanations for distractors only when they are also source-based.\nFor clinical_case cards, include a self-contained fictional case in prompt and a\nstructured answer that identifies the key problem, reasoning, and source-supported\nnext step; do not add patient-identifying details or unsupported management.\nFor viva cards, phrase prompt as an oral-exam question and provide a structured\nspoken-answer outline.\nFor OSCE cards, phrase prompt as a timed station task, include a clear candidate\ninstruction and at least three distinct, observable, source-supported marking\npoints. End each answer with sentence punctuation.\nWrite every answer as a complete, grammatical explanation of at least eight\nwords. Never return a bare label, list fragment, leading punctuation, or\nrepeated word. Write clean, single-sentence questions or clear task instructions.\nDo not include markdown or commentary.\n\nSOURCE MATERIAL:\n[SRC-001] Synthetic urology guideline\nAcute urinary retention is the sudden inability to pass urine and is usually painful. Immediate bladder drainage by urethral catheter relieves symptoms and allows assessment of residual volume.\n\nRenal colic typically causes severe loin pain that radiates toward the groin. Non-contrast computed tomography is commonly used to confirm a ureteric stone when imaging is required.\n",
+      "stream": false
+    },
+    "method": "POST",
+    "timeout": 30,
+    "url": "http://localhost:11434/api/generate"
+  },
+  {
+    "body": {
+      "format": {
+        "additionalProperties": false,
+        "properties": {
+          "cards": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "answer": {
+                  "maxLength": 5000,
+                  "minLength": 50,
+                  "type": "string"
+                },
+                "card_type": {
+                  "enum": [
+                    "basic",
+                    "mcq",
+                    "osce"
+                  ],
+                  "type": "string"
+                },
+                "cognitive_level": {
+                  "enum": [
+                    "analyze",
+                    "apply",
+                    "create",
+                    "evaluate",
+                    "remember",
+                    "understand"
+                  ],
+                  "type": "string"
+                },
+                "correct_option": {
+                  "type": "string"
+                },
+                "difficulty": {
+                  "enum": [
+                    "beginner",
+                    "intermediate",
+                    "advanced"
+                  ],
+                  "type": "string"
+                },
+                "evidence_quote": {
+                  "enum": [
+                    "Acute urinary retention is the sudden inability to pass urine and is usually painful.",
+                    "Immediate bladder drainage by urethral catheter relieves symptoms and allows assessment of residual volume.",
+                    "Renal colic typically causes severe loin pain that radiates toward the groin.",
+                    "Non-contrast computed tomography is commonly used to confirm a ureteric stone when imaging is required."
+                  ],
+                  "maxLength": 500,
+                  "minLength": 20,
+                  "type": "string"
+                },
+                "learning_objective": {
+                  "minLength": 10,
+                  "type": "string"
+                },
+                "options": {
+                  "items": {
+                    "maxLength": 500,
+                    "minLength": 10,
+                    "type": "string"
+                  },
+                  "maxItems": 4,
+                  "minItems": 4,
+                  "type": "array",
+                  "uniqueItems": true
+                },
+                "prompt": {
+                  "maxLength": 500,
+                  "minLength": 10,
+                  "type": "string"
+                },
+                "rationale": {
+                  "minLength": 20,
+                  "type": "string"
+                },
+                "rubric": {
+                  "items": {
+                    "minLength": 10,
+                    "type": "string"
+                  },
+                  "minItems": 3,
+                  "type": "array"
+                },
+                "source_ids": {
+                  "items": {
+                    "enum": [
+                      "SRC-001"
+                    ],
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "type": "array"
+                },
+                "tags": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "prompt",
+                "answer",
+                "learning_objective",
+                "card_type",
+                "difficulty",
+                "cognitive_level",
+                "tags",
+                "source_ids",
+                "evidence_quote"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "cards"
+        ],
+        "type": "object"
+      },
+      "model": "synthetic-model:1b",
+      "options": {
+        "temperature": 0.0
+      },
+      "prompt": "Create up to 3 concise draft medical education flashcards.\nSpecialty: urology\nCurriculum competency: U2 — Renal colic\nDescription: Assess suspected stones.\nSpecialty domain: Stone\nLearning objectives: [\"Select imaging for renal colic\"]\n\nUse only facts directly supported by the source material below. Do not infer missing\nclinical recommendations, dosages, thresholds, or emergency actions. If the source\ndoes not support enough distinct cards, return fewer cards rather than inventing or\nrepeating facts. Use varied, non-duplicate prompts and vary the cognitive task and\nformat across the batch. Select card_type from: basic, mcq, osce.\nTarget layout mix for this batch (adjust downward or return fewer cards when a\nformat is not supported by the sources):\n- basic: 1\n- mcq: 2\nVary decision-making, recall, interpretation, explanation and practical\ncommunication tasks as supported by the source and learning objective. Avoid\ngeneric questions that could apply to any specialty. A case must be fictional,\nde-identified, clinically coherent, and limited to evidence in the sources.\nReturn a JSON object with one key \"cards\", an array of objects.\nAvoid creating a card that repeats any of these existing prompts:\n- Station task: explain the pain and imaging plan to a simulated patient with renal colic:\n- When is non-contrast computed tomography commonly used for suspected ureteric stones?\nEach object must contain: prompt, answer, learning_objective, card_type, difficulty\n(\"beginner\", \"intermediate\", or \"advanced\"), cognitive_level (\"remember\",\n\"understand\", \"apply\", \"analyze\", \"evaluate\", or \"create\"), tags (array of strings),\nand source_ids (array containing one or more source IDs shown below).\nAlso include evidence_quote: a short, exact, verbatim excerpt from one cited\nsource that directly supports the answer. Preserve its wording; do not invent or\njoin separate source fragments.\nFor MCQ cards, include four plausible, distinct options, exactly one defensible\ncorrect_option (one exact option string), and a rationale grounded in the cited\nsource. Include explanations for distractors only when they are also source-based.\nFor clinical_case cards, include a self-contained fictional case in prompt and a\nstructured answer that identifies the key problem, reasoning, and source-supported\nnext step; do not add patient-identifying details or unsupported management.\nFor viva cards, phrase prompt as an oral-exam question and provide a structured\nspoken-answer outline.\nFor OSCE cards, phrase prompt as a timed station task, include a clear candidate\ninstruction and at least three distinct, observable, source-supported marking\npoints. End each answer with sentence punctuation.\nWrite every answer as a complete, grammatical explanation of at least eight\nwords. Never return a bare label, list fragment, leading punctuation, or\nrepeated word. Write clean, single-sentence questions or clear task instructions.\nDo not include markdown or commentary.\n\nSOURCE MATERIAL:\n[SRC-001] Synthetic urology guideline\nAcute urinary retention is the sudden inability to pass urine and is usually painful. Immediate bladder drainage by urethral catheter relieves symptoms and allows assessment of residual volume.\n\nRenal colic typically causes severe loin pain that radiates toward the groin. Non-contrast computed tomography is commonly used to confirm a ureteric stone when imaging is required.\n",
+      "stream": false
+    },
+    "method": "POST",
+    "timeout": 30,
+    "url": "http://localhost:11434/api/generate"
+  }
+]

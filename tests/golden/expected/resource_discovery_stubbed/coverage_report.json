@@ -1,0 +1,99 @@
+{
+  "coverage_summary": {
+    "provider_errors": 2,
+    "topics_processed": 2,
+    "topics_with_no_resources": 1,
+    "topics_with_resources": 1,
+    "unique_resources": 6
+  },
+  "curriculum_version": "1.0-synthetic",
+  "discovery_scope": {
+    "max_results_per_provider_topic": 3,
+    "providers": [
+      "pubmed",
+      "pubmed_central",
+      "cureus_open_access",
+      "crossref",
+      "anki_shared_decks"
+    ],
+    "topics_processed": 2,
+    "topics_requested": 2
+  },
+  "engine_version": "1.0.0",
+  "generated_at": "<VOLATILE>",
+  "governance": {
+    "clinical_approval": "not_assessed",
+    "content_downloaded": false,
+    "faculty_review_required": true,
+    "ranking_warning": "Relevance ranking is not evidence quality or clinical authority.",
+    "rights_policy": "Metadata and links only; verify item-level licence before reuse.",
+    "third_party_text_reproduced": false
+  },
+  "provider_errors": [
+    {
+      "message": "Provider request failed: <urlopen error stub-provider-down>",
+      "provider": "pubmed_central",
+      "topic_id": "T2"
+    },
+    {
+      "message": "Provider returned invalid JSON",
+      "provider": "crossref",
+      "topic_id": "T2"
+    }
+  ],
+  "schema_version": 1,
+  "specialty": "urology",
+  "topic_coverage": [
+    {
+      "coverage_status": "resources_found",
+      "domain_id": "emergency",
+      "learning_objectives": 2,
+      "learning_objectives_with_matched_resources": 2,
+      "metadata_result_counts_by_source": {
+        "crossref": 1,
+        "pubmed": 2,
+        "pubmed_central": 1
+      },
+      "resources_found": 4,
+      "search_links_generated": 1,
+      "source_counts_including_search_links": {
+        "anki_shared_decks": 1,
+        "crossref": 1,
+        "pubmed": 2,
+        "pubmed_central": 1
+      },
+      "source_families_with_metadata_results": [
+        "crossref",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "source_families_without_metadata_results": [
+        "anki_shared_decks",
+        "cureus_open_access"
+      ],
+      "topic_id": "T1",
+      "topic_name": "Acute urinary retention"
+    },
+    {
+      "coverage_status": "gap",
+      "domain_id": "stone",
+      "learning_objectives": 1,
+      "learning_objectives_with_matched_resources": 0,
+      "metadata_result_counts_by_source": {},
+      "resources_found": 0,
+      "search_links_generated": 1,
+      "source_counts_including_search_links": {
+        "anki_shared_decks": 1
+      },
+      "source_families_with_metadata_results": [],
+      "source_families_without_metadata_results": [
+        "crossref",
+        "cureus_open_access",
+        "pubmed",
+        "pubmed_central"
+      ],
+      "topic_id": "T2",
+      "topic_name": "Renal colic"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "cards": [],
+  "generation_status": "draft_unreviewed",
+  "generator": {
+    "batch_size": 3,
+    "cards_by_type": {},
+    "cards_generated": 0,
+    "format_mix_target_percent": {
+      "basic": 33.333333333333336,
+      "mcq": 33.333333333333336,
+      "osce": 33.333333333333336
+    },
+    "local_only": true,
+    "model": "synthetic-model:1b",
+    "provider": "ollama"
+  },
+  "review_notice": "Generated cards are unreviewed drafts. Verify every clinical statement against the cited source and obtain qualified review before use.",
+  "schema_version": 1,
+  "specialty": "urology"
+}

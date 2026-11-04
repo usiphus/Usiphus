@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "generator": {"provider": "ollama", "base_url": "http://localhost:11434", "model": "synthetic-model:1b",
+                "timeout_seconds": 30, "temperature": 0.0},
+  "specialty": "urology",
+  "curriculum": "curriculum.json",
+  "source_material": [
+    {"title": "Synthetic urology guideline", "path": "guideline.txt", "reference": "https://example.org/synthetic-guideline"}
+  ],
+  "batch_size": 3,
+  "max_no_progress_batches": 1,
+  "max_batches": 6,
+  "card_types": ["basic", "mcq", "osce"],
+  "output": "../out/generated_cards.json"
+}

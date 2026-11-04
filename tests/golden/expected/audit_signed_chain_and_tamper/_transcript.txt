@@ -1,0 +1,89 @@
+$ trust (new key)
+exit=0
+--- stdout ---
+{
+  "added": true,
+  "actor": "alice",
+  "key_id": "5a9eb426393f998d"
+}
+--- stderr ---
+
+$ trust (already trusted)
+exit=0
+--- stdout ---
+{
+  "added": false,
+  "key_id": "5a9eb426393f998d",
+  "note": "Already trusted"
+}
+--- stderr ---
+
+$ append submit
+exit=0
+--- stdout ---
+{
+  "claim_id": "C1",
+  "event_hash": "7334789522c4ddca8815b417f5d2c4e021431bb9ddd680f01c2992b53fede688",
+  "events_in_chain": 1,
+  "status": "in_review",
+  "key_id": "5a9eb426393f998d"
+}
+--- stderr ---
+
+$ append approve
+exit=0
+--- stdout ---
+{
+  "claim_id": "C1",
+  "event_hash": "0ee630e304f035b80c0e878b7c5802bfce853ed5eab7820da7934f1fef471547",
+  "events_in_chain": 2,
+  "status": "approved",
+  "key_id": "5a9eb426393f998d"
+}
+--- stderr ---
+
+$ append invalid transition
+exit=2
+--- stdout ---
+--- stderr ---
+ERROR: Refusing to append: invalid workflow transition at audit event 0: draft -> approved
+
+$ anchors
+exit=0
+--- stdout ---
+{
+  "anchors": 1,
+  "output": "<WORK>/out/anchors.json",
+  "next_step": "Store this file where the claims editors cannot alter it (signed git tag, auditor email, WORM storage, RFC 3161 timestamp)."
+}
+--- stderr ---
+
+$ verify clean
+exit=0
+--- stdout ---
+{
+  "claims_checked": 1,
+  "claims_with_problems": 0,
+  "problems": [],
+  "anchored": true
+}
+--- stderr ---
+
+$ verify tampered
+exit=1
+--- stdout ---
+{
+  "claims_checked": 1,
+  "claims_with_problems": 1,
+  "problems": [
+    {
+      "claim_id": "C1",
+      "issues": [
+        "event 0 event_hash is invalid",
+        "event 0 signature is missing, invalid, or not from a trusted key for actor 'mallory'"
+      ]
+    }
+  ],
+  "anchored": true
+}
+--- stderr ---

@@ -1,0 +1,4 @@
+<TS> | INFO | usiphus | Quality: 1/2 passed; 2 errors; 7 warnings
+<TS> | ERROR | usiphus | Export aborted due to quality errors. Use --force to override.
+<TS> | ERROR | usiphus | LEG-004 [answer-too-short] 5 chars < 15
+<TS> | ERROR | usiphus | LEG-004 [mcq-correct-option-missing] MCQ correct_option is missing

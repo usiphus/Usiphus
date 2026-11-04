@@ -1,0 +1,2 @@
+Generated 5 cards in <WORK>/out
+Quality: 0 errors, 11 warnings

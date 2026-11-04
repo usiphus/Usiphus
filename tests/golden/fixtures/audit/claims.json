@@ -1,0 +1,26 @@
+{
+  "claims": [
+    {
+      "claim_id": "C1",
+      "card_id": "K1",
+      "claim": "Synthetic claim",
+      "references": [
+        {
+          "source_id": "S1"
+        }
+      ],
+      "status": "draft"
+    },
+    {
+      "claim_id": "C2",
+      "card_id": "K2",
+      "claim": "Untouched claim",
+      "references": [
+        {
+          "source_id": "S1"
+        }
+      ],
+      "status": "draft"
+    }
+  ]
+}
