@@ -31,6 +31,7 @@ from usiphus_evidence import (
     load_topic_evidence_packets, preflight_topic_evidence,
     validate_card_evidence, validate_evidence_packet,
 )
+from usiphus_generate import local_ollama_url
 from usiphus_v7 import export_apkg
 from usiphus_lib.ollama import local_ollama_url
 
